@@ -1,0 +1,17 @@
+Source: xfce4-settings
+Section: x11
+Priority: optional
+Maintainer: Debian Xfce Maintainers <pkg-xfce-devel@lists.alioth.debian.org>
+Uploaders: Emanuele Rocca <ema@debian.org>, Simon Huggins <huggie@earth.li>, Yves-Alexis Perez <corsac@debian.org>
+Build-Depends: debhelper (>= 7.0.13), libxfce4util-dev (>= 4.5.80), libexo-0.3-dev (>= 0.3.80), libglade2-dev, libxfconf-0-dev
+Standards-Version: 3.8.0
+Homepage: http://www.xfce.org
+Vcs-Svn: svn://svn.debian.org/pkg-xfce/desktop/trunk/xfconf
+Vcs-Browser: http://svn.debian.org/wsvn/pkg-xfce/desktop/trunk/xfconf/
+
+Package: xfce4-settings
+Architecture: any
+Depends: ${shlibs:Depends}
+Replaces: xfce-mcs-manager
+Description: Xfce settings daemon
+  Xfce settings management daemon.
