@@ -14,4 +14,4 @@ Architecture: any
 Depends: ${shlibs:Depends}
 Replaces: xfce-mcs-manager
 Description: Xfce settings daemon
-  Xfce settings management daemon.
+ Xfce settings management daemon.
