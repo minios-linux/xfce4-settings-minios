@@ -1,3 +1,13 @@
 #!/usr/bin/make -f
+build: build-stamp
+
+build-stamp:
+	dh build --before configure
+	dh_auto_configure -- --enable-libnotify --enable-xcursor \
+		--enable-libxklavier --enable-xsettings-daemon --disable-sound-settings
+	dh build --after configure
+	touch build-stamp
+
+
 %:
 	dh $@
