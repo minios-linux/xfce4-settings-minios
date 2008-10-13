@@ -3,10 +3,10 @@ xfce4-settings (4.5.91-1) UNRELEASED; urgency=low
   [ Xfce 4.6 Alpha “Pinkie”]
   * Initial release.                                            closes: #000000
 
-  [ Xfce 4.6 Beta 1 “Tucu-Tuco”]
+  [ Xfce 4.6 Beta 1 “Tuco-Tuco”]
   * New upstream beta release.
   * debian/control:
-    - update build-deps for tucu-tuco.
+    - update build-deps for tuco-tuco.
     - add build-dep on libwnck-dev, libxklavier12-dev, libnotify-dev.
   * debian/rules:
     - explicit enable flags for libnotify, xcursor, xklavier.
