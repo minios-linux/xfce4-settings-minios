@@ -8,8 +8,9 @@ xfce4-settings (4.5.91-1) UNRELEASED; urgency=low
   * debian/control:
     - update build-deps for Fuzzy.
     - add build-dep on libwnck-dev, libxklavier12-dev, libnotify-dev.
+    - add dep on xfconf, or the settings can segfault when run.
   * debian/rules:
     - explicit enable flags for libnotify, xcursor, xklavier.
     - disabled sound settings (canberra) support for now.
 
- -- Yves-Alexis Perez <corsac@debian.org>  Mon, 13 Oct 2008 12:47:44 +0200
+ -- Yves-Alexis Perez <corsac@debian.org>  Wed, 22 Oct 2008 23:09:07 +0200
