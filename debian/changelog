@@ -1,4 +1,4 @@
-xfce4-settings (4.5.91-1) UNRELEASED; urgency=low
+xfce4-settings (4.5.92-1) UNRELEASED; urgency=low
 
   [ Xfce 4.6 Alpha “Pinkie”]
   * Initial release.                                            closes: #000000
@@ -13,4 +13,9 @@ xfce4-settings (4.5.91-1) UNRELEASED; urgency=low
     - explicit enable flags for libnotify, xcursor, xklavier.
     - disabled sound settings (canberra) support for now.
 
- -- Yves-Alexis Perez <corsac@debian.org>  Wed, 22 Oct 2008 23:09:07 +0200
+  [ Xfce 4.6 Beta 2 “Hopper”]
+  * New upstream beta release.
+  * debian/control:
+    - bump build-deps for “Hopper”.
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Mon, 10 Nov 2008 14:04:51 +0100
