@@ -13,7 +13,7 @@ Vcs-Browser: http://svn.debian.org/wsvn/pkg-xfce/desktop/trunk/xfconf/
 
 Package: xfce4-settings
 Architecture: any
-Depends: ${shlibs:Depends}, xfconf
+Depends: ${shlibs:Depends}, xfconf, ${misc:Depends}
 Conflicts: xfce4-mcs-plugins
 Replaces: xfce4-mcs-manager, xfce4-mcs-plugins
 Description: graphical application for managing Xfce settings

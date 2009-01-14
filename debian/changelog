@@ -23,5 +23,6 @@ xfce4-settings (4.5.93-1) UNRELEASED; urgency=low
   * debian/control:
     - update build-deps for “Tuco-Tuco”.
     - add build-dep on intltool.
+    - add ${misc:Depends} to Depends: line. 
 
- -- Yves-Alexis Perez <corsac@debian.org>  Mon, 12 Jan 2009 22:51:41 +0100
+ -- Yves-Alexis Perez <corsac@debian.org>  Wed, 14 Jan 2009 10:46:35 +0100
