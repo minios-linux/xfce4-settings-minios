@@ -1,4 +1,4 @@
-xfce4-settings (4.5.93-1) UNRELEASED; urgency=low
+xfce4-settings (4.5.99.1-1) UNRELEASED; urgency=low
 
   [ Xfce 4.6 Alpha “Pinkie”]
   * Initial release.                                            closes: #000000
@@ -25,4 +25,10 @@ xfce4-settings (4.5.93-1) UNRELEASED; urgency=low
     - add build-dep on intltool.
     - add ${misc:Depends} to Depends: line. 
 
- -- Yves-Alexis Perez <corsac@debian.org>  Wed, 14 Jan 2009 10:46:35 +0100
+  [ Xfce 4.6 RC1 “Capybara” ]
+  * new upstream release candidate.
+  * debian/control:
+    - update build-deps for “Capybara”.
+    - add build-dep on libxfcegui4.
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Mon, 26 Jan 2009 11:33:25 +0100
