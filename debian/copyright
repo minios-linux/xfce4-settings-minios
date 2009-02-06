@@ -5,7 +5,65 @@ It was downloaded from http://www.xfce.org
 
 Upstream Author are:
 
-TODO
+Stephan Arts <stephan@xfce.org>
+Brian J. Tarricone <bjt23@cornell.edu>
+Jannis Pohlmann <jannis@xfce.org>
+
+
+dialogs/*:
+  License: GPL-2+
+dialogs/accessibility-settings/*:
+  © 2008 Stephan Arts <stephan@xfce.org>
+dialogs/appearance-settings/*:
+  © 2008 Stephan Arts <stephan@xfce.org>
+  © 2008 Jannis Pohlmann <jannis@xfce.org>
+dialogs/appearance-settings/images.h:
+dialogs/display-settings/*:
+dialogs/mouse-settings/*:
+  © 2008 Nick Schermer <nick@xfce.org>
+dialogs/keyboard-settings/*:
+  © 2008 Jannis Pohlmann <jannis@xfce.org>
+dialogs/keyboard-settings/xfce-keyboard-settings.c:
+  © 2008 Jannis Pohlmann <jannis@xfce.org>
+  © 2007 Gauvain Pocentek <gauvainpocentek@gmail.com>
+
+xfce4-settings-editor/*:
+  © 2008 Stephan Arts <stephan@xfce.org>
+  License: GPL-2+
+
+xfce4-settings-helper/*:
+  License: GPL-2+
+xfce4-settings-helper/keyboard-shortcuts.[ch]:
+  © 2008 Jannis Pohlmann <jannis@xfce.org>
+xfce4-settings-helper/{displays,pointers}.[ch]:
+  © 2008 Nick Schermer <nick@xfce.org>
+xfce4-settings-helper/{accessbility,keyboards}.[ch]:
+  © 2008 Stephan Arts <stephan@xfce.org>
+xfce4-settings-helper/keyboard-layout.[ch]:
+  © 2008 Olivier Fourdan <olivier@xfce.org>
+xfce4-settings-helper/main.c:
+  © 2008 Stephan Arts <stephan@xfce.org>
+  © 2008 Nick Schermer <nick@xfce.org>
+  © 2008 Jannis Pohlmann <jannis@xfce.org>
+xfce4-settings-helper/workspaces.[ch]:
+  © 2008 Brian Tarricone <bjt23@cornell.edu>
+  License: GPL-2
+
+xfce4-settings-manager/*:
+  License: GPL-2
+xfce4-settings-manager/main.c:
+xfce4-settings-manager/xfce-settings-manager-dialog.[ch]:
+  © 2008 Brian Tarricone <bjt23@cornell.edu>
+xfce4-settings-manager/xfce-text-renderer.[ch]:
+  © 2005-2006 Benedikt Meurer <benny@xfce.org>
+  © 2008 Jannis Pohlmann <jannis@xfce.org>
+  License: GPL-2+
+
+xfsettingsd/*:
+  © 2008 Stephan Arts <stephan@xfce.org>
+  License: GPL-2+
+xfsettingsd/registry.c:
+  © 2001 Red Hat, Inc.
 
 On Debian systems, the complete text of the GNU General Public License (version
 2) can be found in the file `/usr/share/common-licenses/GPL-2'.
