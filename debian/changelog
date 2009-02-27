@@ -1,7 +1,7 @@
-xfce4-settings (4.5.99.1-1) UNRELEASED; urgency=low
+xfce4-settings (4.6.0-1) UNRELEASED; urgency=low
 
   [ Xfce 4.6 Alpha “Pinkie”]
-  * Initial release.                                            closes: #000000
+  * Initial release.                                            closes: #516878
 
   [ Xfce 4.6 Beta 1 “Fuzzy”]
   * New upstream beta release.
@@ -31,10 +31,15 @@ xfce4-settings (4.5.99.1-1) UNRELEASED; urgency=low
     - update build-deps for “Capybara”.
     - add build-dep on libxfcegui4.
 
+  [ Xfce 4.6 ]
+  * new upstream release.
+  * debian/control:
+    - update build-deps for 4.6.
+
   [ Michael Casadevall ]
   * debian/watch:
     - Added to track new releases
   * debian/copyright:
     - Applied patch from Lionel Le Folgoc filling it out
 
- -- Michael Casadevall <sonicmctails@gmail.com>  Fri, 06 Feb 2009 17:15:01 -0500
+ -- Yves-Alexis Perez <corsac@debian.org>  Wed, 25 Feb 2009 22:01:42 +0100
