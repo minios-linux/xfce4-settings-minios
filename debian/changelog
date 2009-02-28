@@ -1,4 +1,4 @@
-xfce4-settings (4.6.0-1) UNRELEASED; urgency=low
+xfce4-settings (4.6.0-1) experimental; urgency=low
 
   [ Xfce 4.6 Alpha “Pinkie”]
   * Initial release.                                            closes: #516878
@@ -42,4 +42,4 @@ xfce4-settings (4.6.0-1) UNRELEASED; urgency=low
   * debian/copyright:
     - Applied patch from Lionel Le Folgoc filling it out
 
- -- Yves-Alexis Perez <corsac@debian.org>  Wed, 25 Feb 2009 22:01:42 +0100
+ -- Yves-Alexis Perez <corsac@debian.org>  Sat, 28 Feb 2009 12:30:43 +0100
