@@ -1,3 +1,17 @@
+xfce4-settings (4.6.0-2) UNRELEASED; urgency=low
+
+  * debian/control:
+    - add build-dep on libcanberra-dev.
+    - add build-dep on quilt.
+  * debian/rules:
+    - enable sound settings.
+    - enable pluggable dialogs. 
+    - include quilt rule, add patch/unpatch targets.
+  * debian/patches/
+    - 01_fix-display-settings added, fix display settings application.
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Wed, 11 Mar 2009 23:38:34 +0100
+
 xfce4-settings (4.6.0-1) experimental; urgency=low
 
   [ Xfce 4.6 Alpha “Pinkie”]
