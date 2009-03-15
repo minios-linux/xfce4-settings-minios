@@ -1,19 +1,19 @@
 #!/usr/bin/make -f
 include /usr/share/quilt/quilt.make
 
-build: build-stamp patch
+build: patch
+	echo .pc >> po/POTFILES.skip 
 
 clean: unpatch
 	dh clean
 
-build-stamp:
-	dh build --before configure
+override_dh_auto_configure:
 	dh_auto_configure -- --enable-libnotify --enable-xcursor \
 		--enable-libxklavier --enable-xsettings-daemon --enable-sound-settings\
     --enable-pluggable-dialogs
-	dh build --after configure
-	touch build-stamp
 
+override_dh_installman:
+	dh_installman debian/*.1
 
 %:
 	dh $@

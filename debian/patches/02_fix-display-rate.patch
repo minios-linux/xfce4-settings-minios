@@ -1,0 +1,32 @@
+From 8af8c9763d4acde859c1c565a87a2812a6bf4408 Mon Sep 17 00:00:00 2001
+From: nick <nick@a0aa69c2-05f4-0310-b83c-d5d913b14636>
+Date: Sun, 15 Mar 2009 11:55:41 +0000
+Subject: [PATCH 3/3] Select the correct refresh rate in the display dialog
+ on startup (bug #4966).
+
+git-svn-id: http://svn.xfce.org/svn/xfce/xfce4-settings/trunk@29667 a0aa69c2-05f4-0310-b83c-d5d913b14636
+---
+ NEWS                            |    2 +-
+ dialogs/display-settings/main.c |    4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/dialogs/display-settings/main.c b/dialogs/display-settings/main.c
+index 908f255..f30cd37 100644
+--- a/dialogs/display-settings/main.c
++++ b/dialogs/display-settings/main.c
+@@ -296,10 +296,10 @@ display_setting_refresh_rates_populate (GladeXML *gxml)
+             /* get the active rate closest to the current diff */
+             diff = ABS (rates[n] - XFCE_RANDR_LEGACY_RATE (xfce_randr_legacy));
+ 
+-            /* store active*/
++            /* store active */
+             if (active_diff > diff)
+             {
+-                active = n;
++                active = nrates - n - 1;
+                 active_diff = diff;
+             }
+         }
+-- 
+1.6.2
+

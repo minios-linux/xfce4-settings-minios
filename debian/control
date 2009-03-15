@@ -3,11 +3,11 @@ Section: x11
 Priority: optional
 Maintainer: Debian Xfce Maintainers <pkg-xfce-devel@lists.alioth.debian.org>
 Uploaders: Emanuele Rocca <ema@debian.org>, Simon Huggins <huggie@earth.li>, Yves-Alexis Perez <corsac@debian.org>
-Build-Depends: debhelper (>= 7.0.13), libxfce4util-dev (>= 4.6.0),
+Build-Depends: debhelper (>= 7.0.50), libxfce4util-dev (>= 4.6.0),
  libxfcegui4-dev, libexo-0.3-dev (>= 0.3.100), libglade2-dev,
  libxfconf-0-dev, libwnck-dev, libxklavier12-dev, libnotify-dev, 
  intltool (>= 0.31), libcanberra-dev, quilt
-Standards-Version: 3.8.0
+Standards-Version: 3.8.1
 Homepage: http://www.xfce.org
 Vcs-Svn: svn://svn.debian.org/pkg-xfce/desktop/trunk/xfconf
 Vcs-Browser: http://svn.debian.org/wsvn/pkg-xfce/desktop/trunk/xfconf/

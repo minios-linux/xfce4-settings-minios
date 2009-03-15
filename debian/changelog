@@ -1,16 +1,21 @@
 xfce4-settings (4.6.0-2) UNRELEASED; urgency=low
 
+  * Upload to unstable!
   * debian/control:
     - add build-dep on libcanberra-dev.
     - add build-dep on quilt.
+    - update standards version to 3.8.1.
+    - bump build-dep on debhelper 7.0.50 now we use overrides.
   * debian/rules:
     - enable sound settings.
     - enable pluggable dialogs. 
     - include quilt rule, add patch/unpatch targets.
   * debian/patches/
     - 01_fix-display-settings added, fix display settings application.
+    - 02_fix-display-rate added, select the correct display rate. 
+  * Add manpages for all binaries.
 
- -- Yves-Alexis Perez <corsac@debian.org>  Wed, 11 Mar 2009 23:38:34 +0100
+ -- Yves-Alexis Perez <corsac@debian.org>  Sun, 15 Mar 2009 13:57:22 +0100
 
 xfce4-settings (4.6.0-1) experimental; urgency=low
 
