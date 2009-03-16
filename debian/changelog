@@ -6,6 +6,7 @@ xfce4-settings (4.6.0-2) UNRELEASED; urgency=low
     - add build-dep on quilt.
     - update standards version to 3.8.1.
     - bump build-dep on debhelper 7.0.50 now we use overrides.
+    - move to xfce section.
   * debian/rules:
     - enable sound settings.
     - enable pluggable dialogs. 
@@ -15,7 +16,7 @@ xfce4-settings (4.6.0-2) UNRELEASED; urgency=low
     - 02_fix-display-rate added, select the correct display rate. 
   * Add manpages for all binaries.
 
- -- Yves-Alexis Perez <corsac@debian.org>  Sun, 15 Mar 2009 13:57:22 +0100
+ -- Yves-Alexis Perez <corsac@debian.org>  Mon, 16 Mar 2009 22:42:21 +0100
 
 xfce4-settings (4.6.0-1) experimental; urgency=low
 

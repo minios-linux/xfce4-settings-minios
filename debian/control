@@ -1,5 +1,5 @@
 Source: xfce4-settings
-Section: x11
+Section: xfce
 Priority: optional
 Maintainer: Debian Xfce Maintainers <pkg-xfce-devel@lists.alioth.debian.org>
 Uploaders: Emanuele Rocca <ema@debian.org>, Simon Huggins <huggie@earth.li>, Yves-Alexis Perez <corsac@debian.org>
@@ -13,6 +13,7 @@ Vcs-Svn: svn://svn.debian.org/pkg-xfce/desktop/trunk/xfconf
 Vcs-Browser: http://svn.debian.org/wsvn/pkg-xfce/desktop/trunk/xfconf/
 
 Package: xfce4-settings
+Section: xfce
 Architecture: any
 Depends: ${shlibs:Depends}, xfconf, ${misc:Depends}
 Recommends: aumix, x11-utils
