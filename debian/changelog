@@ -7,6 +7,7 @@ xfce4-settings (4.6.0-2) UNRELEASED; urgency=low
     - update standards version to 3.8.1.
     - bump build-dep on debhelper 7.0.50 now we use overrides.
     - move to xfce section.
+    - version the build-dep on libxfcegui4 to 4.6.              closes: #522020
   * debian/rules:
     - enable sound settings.
     - enable pluggable dialogs. 
@@ -16,7 +17,7 @@ xfce4-settings (4.6.0-2) UNRELEASED; urgency=low
     - 02_fix-display-rate added, select the correct display rate. 
   * Add manpages for all binaries.
 
- -- Yves-Alexis Perez <corsac@debian.org>  Mon, 16 Mar 2009 22:42:21 +0100
+ -- Yves-Alexis Perez <corsac@debian.org>  Tue, 31 Mar 2009 21:06:31 +0200
 
 xfce4-settings (4.6.0-1) experimental; urgency=low
 
