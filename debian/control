@@ -6,7 +6,7 @@ Uploaders: Emanuele Rocca <ema@debian.org>, Simon Huggins <huggie@earth.li>, Yve
 Build-Depends: debhelper (>= 7.0.50), libxfce4util-dev (>= 4.6.0),
  libxfcegui4-dev (>= 4.6.0), libexo-0.3-dev (>= 0.3.100), libglade2-dev,
  libxfconf-0-dev, libwnck-dev, libxklavier12-dev, libnotify-dev, 
- intltool (>= 0.31), libcanberra-dev, quilt
+ intltool (>= 0.31)
 Standards-Version: 3.8.1
 Homepage: http://www.xfce.org
 Vcs-Svn: svn://svn.debian.org/pkg-xfce/desktop/trunk/xfconf
@@ -20,7 +20,7 @@ Recommends: aumix, x11-utils
 Conflicts: xfce4-mcs-plugins
 Replaces: xfce4-mcs-manager, xfce4-mcs-plugins
 Description: graphical application for managing Xfce settings
- xfce4-settings is the fXfce settings manager front-end. It comes
+ xfce4-settings is the Xfce settings manager front-end. It comes
  with several different components for configuring application-independent
  settings inside xfconf.
  It contains multiple tools:
@@ -31,3 +31,4 @@ Description: graphical application for managing Xfce settings
     mouse-pointer data
   - xfce4-settings-editor, a tool for editing ALL settings within xfconf, the
     graphical counterpart of xfconf-query. 
+  - xfsettingsd, a daemon for exporting XSettings to applications.

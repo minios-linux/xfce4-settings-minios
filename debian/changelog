@@ -1,3 +1,18 @@
+xfce4-settings (4.6.1-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+  * debian/control:
+    - remove build-dep on libcanberra as it's useless anyway
+    - add xfsettings to long description. 
+    - drop build-dep on quilt.
+  * debian/rules:
+    - remove quilt rules.
+  * debian/patches:
+    - 01_fix-display-settings dropped, included upstream.
+    - 02_fix-display-rate as well.
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Sat, 18 Apr 2009 17:21:05 +0200
+
 xfce4-settings (4.6.0-2) unstable; urgency=low
 
   * Upload to unstable!
