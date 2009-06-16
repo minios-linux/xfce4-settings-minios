@@ -1,3 +1,13 @@
+xfce4-settings (4.6.1-2) UNRELEASED; urgency=low
+
+  * debian/patches:
+    - 01_fix-timeout-startup: avoid timeouting at startup. (Xfce Bug #5040,
+      Xfce Svn r29991)
+    - 02_fix-keyrepeat-typo: fix typo in KeyRepeart property name so the
+      settings is correctly applied. Thanks Sven Marnach!       closes: #527238 
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Tue, 16 Jun 2009 21:27:41 +0200
+
 xfce4-settings (4.6.1-1) unstable; urgency=low
 
   * New upstream release.
