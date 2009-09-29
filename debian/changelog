@@ -1,3 +1,16 @@
+xfce4-settings (4.6.3-1) UNRELEASED; urgency=low
+
+  * New upstream bugfix release.
+  * debian/control:
+    - update standards version to 3.8.3.
+    - drop quilt, now useless.
+  * debian/patches/
+    - 01_fix-timeout-startup dropped, included upstream.
+    - 02_fix-keyrepeat-typo as well.
+    - 10_pc too, useless now.
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Tue, 29 Sep 2009 08:29:06 +0200
+
 xfce4-settings (4.6.1-2) unstable; urgency=low
 
   * debian/patches:

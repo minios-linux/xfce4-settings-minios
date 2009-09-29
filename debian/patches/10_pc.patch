@@ -1,8 +1,0 @@
-diff --git a/po/POTFILES.skip b/po/POTFILES.skip
-new file mode 100644
-index 0000000..7d4b0ca
---- /dev/null
-+++ b/po/POTFILES.skip
-@@ -0,0 +1,2 @@
-+.pc/01_fix-timeout-startup.patch/xfce4-settings-helper/main.c
-+.pc/02_fix-keyrepeat-typo.patch/dialogs/keyboard-settings/xfce-keyboard-settings.c

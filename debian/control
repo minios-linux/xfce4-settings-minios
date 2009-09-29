@@ -6,8 +6,8 @@ Uploaders: Emanuele Rocca <ema@debian.org>, Simon Huggins <huggie@earth.li>, Yve
 Build-Depends: debhelper (>= 7.0.50), libxfce4util-dev (>= 4.6.0),
  libxfcegui4-dev (>= 4.6.0), libexo-0.3-dev (>= 0.3.100), libglade2-dev,
  libxfconf-0-dev, libwnck-dev, libxklavier12-dev, libnotify-dev, 
- intltool (>= 0.31), quilt
-Standards-Version: 3.8.1
+ intltool (>= 0.31)
+Standards-Version: 3.8.3
 Homepage: http://www.xfce.org
 Vcs-Svn: svn://svn.debian.org/pkg-xfce/desktop/trunk/xfconf
 Vcs-Browser: http://svn.debian.org/wsvn/pkg-xfce/desktop/trunk/xfconf/
