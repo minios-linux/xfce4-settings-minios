@@ -1,3 +1,14 @@
+xfce4-settings (4.6.3-2) UNRELEASED; urgency=low
+
+  * debian/patches:
+    - 01_xi2-support added, add support for Xi2 extension for mouse settings.
+  * debian/control:
+    - add build-dep on quilt.
+  * debian/rules:
+    - add --with quilt argument to dh.
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Sun, 11 Oct 2009 13:53:15 +0200
+
 xfce4-settings (4.6.3-1) unstable; urgency=low
 
   * New upstream bugfix release.
