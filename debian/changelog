@@ -1,10 +1,10 @@
-xfce4-settings (4.6.3-3) UNRELEASED; urgency=low
+xfce4-settings (4.6.3-3) unstable; urgency=low
 
   * debian/control:
     - update libklavier build-dep to libxklavier-dev to end the transition.
   * debian/README.source added.
 
- -- Yves-Alexis Perez <corsac@debian.org>  Sat, 24 Oct 2009 20:45:07 +0200
+ -- Yves-Alexis Perez <corsac@debian.org>  Sat, 24 Oct 2009 20:47:02 +0200
 
 xfce4-settings (4.6.3-2) unstable; urgency=low
 
