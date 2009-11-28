@@ -9,8 +9,8 @@ Build-Depends: debhelper (>= 7.0.50), libxfce4util-dev (>= 4.6.0),
  intltool (>= 0.31), quilt
 Standards-Version: 3.8.3
 Homepage: http://www.xfce.org
-Vcs-Svn: svn://svn.debian.org/pkg-xfce/desktop/trunk/xfconf
-Vcs-Browser: http://svn.debian.org/wsvn/pkg-xfce/desktop/trunk/xfconf/
+Vcs-Svn: svn://svn.debian.org/pkg-xfce/desktop/trunk/xfce4-settings
+Vcs-Browser: http://svn.debian.org/wsvn/pkg-xfce/desktop/trunk/xfce4-settings/
 
 Package: xfce4-settings
 Section: xfce

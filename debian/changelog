@@ -1,3 +1,9 @@
+xfce4-settings (4.6.3-4) UNRELEASED; urgency=low
+
+  * debian/control: fix typo in Vcs-* fields.
+
+ -- Lionel Le Folgoc <mrpouit@gmail.com>  Sat, 28 Nov 2009 21:14:34 +0100
+
 xfce4-settings (4.6.3-3) unstable; urgency=low
 
   * debian/control:
