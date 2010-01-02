@@ -1,4 +1,4 @@
-xfce4-settings (4.6.4-1) UNRELEASED; urgency=low
+xfce4-settings (4.6.4-1) unstable; urgency=low
 
   [ Lionel Le Folgoc ]
   * debian/control: fix typo in Vcs-* fields.
@@ -12,7 +12,7 @@ xfce4-settings (4.6.4-1) UNRELEASED; urgency=low
   * debian/rules:
     - dump quilt addon.
 
- -- Yves-Alexis Perez <corsac@debian.org>  Sat, 02 Jan 2010 15:36:46 +0100
+ -- Yves-Alexis Perez <corsac@debian.org>  Sat, 02 Jan 2010 16:20:25 +0100
 
 xfce4-settings (4.6.3-3) unstable; urgency=low
 
