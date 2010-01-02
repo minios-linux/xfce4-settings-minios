@@ -1,8 +1,18 @@
-xfce4-settings (4.6.3-4) UNRELEASED; urgency=low
+xfce4-settings (4.6.4-1) UNRELEASED; urgency=low
 
+  [ Lionel Le Folgoc ]
   * debian/control: fix typo in Vcs-* fields.
 
- -- Lionel Le Folgoc <mrpouit@gmail.com>  Sat, 28 Nov 2009 21:14:34 +0100
+  [ Yves-Alexis Perez ]
+  * New upstream release.
+  * debian/patches:
+    - 01_xi2-support dropped, included upstream.
+  * debian/control:
+    - dump quilt build-dep.
+  * debian/rules:
+    - dump quilt addon.
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Sat, 02 Jan 2010 15:36:46 +0100
 
 xfce4-settings (4.6.3-3) unstable; urgency=low
 
