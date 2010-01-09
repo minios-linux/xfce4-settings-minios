@@ -1,3 +1,15 @@
+xfce4-settings (4.7.0-1) UNRELEASED; urgency=low
+
+  * New upstream development release.
+  * debian/patches:
+    - 01_xi2-support dropped.
+  * drop quilt support.
+  * debian/control:
+    - bump exo build-dep to exo-1 0.5.1.
+    - switch libxfcegui4 build-dep to libxfce4ui. 
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Sat, 09 Jan 2010 17:40:40 +0100
+
 xfce4-settings (4.6.3-3) unstable; urgency=low
 
   * debian/control:
