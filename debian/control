@@ -2,12 +2,13 @@ Source: xfce4-settings
 Section: xfce
 Priority: optional
 Maintainer: Debian Xfce Maintainers <pkg-xfce-devel@lists.alioth.debian.org>
-Uploaders: Emanuele Rocca <ema@debian.org>, Simon Huggins <huggie@earth.li>, Yves-Alexis Perez <corsac@debian.org>
+Uploaders: Emanuele Rocca <ema@debian.org>, Simon Huggins <huggie@earth.li>,
+ Yves-Alexis Perez <corsac@debian.org>, Lionel Le Folgoc <mrpouit@gmail.com>
 Build-Depends: debhelper (>= 7.0.50), libxfce4util-dev (>= 4.6.0),
  libxfcegui4-dev (>= 4.6.0), libexo-0.3-dev (>= 0.3.100), libglade2-dev,
  libxfconf-0-dev, libwnck-dev, libxklavier-dev (>= 5.0), libnotify-dev, 
  intltool (>= 0.31), quilt (>= 0.46-7)
-Standards-Version: 3.8.3
+Standards-Version: 3.8.4
 Homepage: http://www.xfce.org
 Vcs-Svn: svn://svn.debian.org/pkg-xfce/desktop/trunk/xfce4-settings
 Vcs-Browser: http://svn.debian.org/wsvn/pkg-xfce/desktop/trunk/xfce4-settings/

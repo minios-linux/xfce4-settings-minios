@@ -3,8 +3,9 @@ xfce4-settings (4.6.4-2) UNRELEASED; urgency=low
   * debian/patches/0001-Port-to-libxklavier-5.0-API.patch added.
   * debian/patches/series: enable this patch.
   * debian/control: b-dep on quilt (>= 0.46-7), bump libxklavier-dev b-dep
-    to >= 5.0.
+    to >= 5.0, add myself to Uploaders.
   * debian/rules: pass --with quilt.
+  * bump Standards-Version to 3.8.4, no changes.
 
  -- Lionel Le Folgoc <mrpouit@gmail.com>  Sat, 27 Mar 2010 23:12:59 +0100
 
