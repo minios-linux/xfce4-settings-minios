@@ -13,7 +13,7 @@ diff --git a/dialogs/keyboard-settings/xfce-keyboard-settings.c b/dialogs/keyboa
 index 631dc69..0e36375 100644
 --- a/dialogs/keyboard-settings/xfce-keyboard-settings.c
 +++ b/dialogs/keyboard-settings/xfce-keyboard-settings.c
-@@ -395,7 +395,7 @@ xfce_keyboard_settings_finalize (GObject *object)
+@@ -457,7 +457,7 @@ xfce_keyboard_settings_finalize (GObject *object)
  
  #ifdef HAVE_LIBXKLAVIER
    /* Stop xklavier engine */
@@ -21,7 +21,7 @@ index 631dc69..0e36375 100644
 +  xkl_engine_stop_listen (settings->priv->xkl_engine, XKLL_TRACK_KEYBOARD_STATE);
  #endif /* HAVE_LIBXKLAVIER */
  
-   g_object_unref (G_OBJECT (settings->priv->provider));
+   g_object_unref (settings->priv->provider);
 diff --git a/po/POTFILES.skip b/po/POTFILES.skip
 new file mode 100644
 index 0000000..0e36375
