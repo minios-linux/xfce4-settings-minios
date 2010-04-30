@@ -1,0 +1,26 @@
+commit 9f638c08207ace0ebc224b0d2d313748bf6c416d
+Author: Nick Schermer <nick@xfce.org>
+Date:   Thu Apr 29 21:48:03 2010 +0200
+
+    Fix pluggable dialogs (bug #6138).
+
+diff --git a/xfce4-settings-manager/xfce-settings-manager-dialog.c b/xfce4-settings-manager/xfce-settings-manager-dialog.c
+index 43d06c4..62920d8 100644
+--- a/xfce4-settings-manager/xfce-settings-manager-dialog.c
++++ b/xfce4-settings-manager/xfce-settings-manager-dialog.c
+@@ -587,7 +587,7 @@ xfce_settings_manager_dialog_item_activated(ExoIconView *iconview,
+ 
+         /* Try to spawn the dialog */
+         if(!xfce_spawn_command_line_on_screen(gtk_widget_get_screen(GTK_WIDGET(iconview)),
+-                                              exec, FALSE, snotify, &error))
++                                              command, FALSE, snotify, &error))
+         {
+             /* Spawning failed, go back to the overview */
+             xfce_settings_manager_dialog_recreate_socket(dialog);
+diff --git a/po/POTFILES.skip b/po/POTFILES.skip
+new file mode 100644
+index 0000000..0557097
+--- /dev/null
++++ b/po/POTFILES.skip
+@@ -0,0 +1 @@
++.pc/01_fix-pluggable-dialogs.patch/xfce4-settings-manager/xfce-settings-manager-dialog.c
