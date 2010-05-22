@@ -6,8 +6,10 @@ xfce4-settings (4.6.5-1) UNRELEASED; urgency=low
     - drop quilt build-dep.
   * debian/rules:
     - drop quilt addon.
+  * debian/patches:
+    - 0001-Port-to-libxklavier-5.0-API dropped, included upstream.
 
- -- Yves-Alexis Perez <corsac@debian.org>  Sat, 22 May 2010 15:07:13 +0200
+ -- Yves-Alexis Perez <corsac@debian.org>  Sat, 22 May 2010 15:08:31 +0200
 
 xfce4-settings (4.6.4-2) unstable; urgency=low
 
