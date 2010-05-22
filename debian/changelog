@@ -1,8 +1,9 @@
 xfce4-settings (4.6.5-1) UNRELEASED; urgency=low
 
   * New upstream release.
+  * Switch to 3.0 (quilt) format.
 
- -- Yves-Alexis Perez <corsac@debian.org>  Sat, 22 May 2010 15:05:34 +0200
+ -- Yves-Alexis Perez <corsac@debian.org>  Sat, 22 May 2010 15:06:13 +0200
 
 xfce4-settings (4.6.4-2) unstable; urgency=low
 
