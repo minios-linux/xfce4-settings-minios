@@ -1,6 +1,7 @@
 xfce4-settings (4.6.5-1) UNRELEASED; urgency=low
 
-  * New upstream release.
+  * New upstream release:
+    - fix FTBFS with binutils-gold.                             closes: #556701
   * Switch to 3.0 (quilt) format.
   * debian/control:
     - drop quilt build-dep.
