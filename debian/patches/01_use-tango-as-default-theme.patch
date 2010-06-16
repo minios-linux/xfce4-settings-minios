@@ -1,0 +1,13 @@
+diff --git a/xfsettingsd/xsettings.xml b/xfsettingsd/xsettings.xml
+index 049b4ed..0b72294 100644
+--- a/xfsettingsd/xsettings.xml
++++ b/xfsettingsd/xsettings.xml
+@@ -3,7 +3,7 @@
+ <channel name="xsettings" version="1.0">
+   <property name="Net" type="empty">
+     <property name="ThemeName" type="string" value="Xfce"/>
+-    <property name="IconThemeName" type="string" value="Rodent"/>
++    <property name="IconThemeName" type="string" value="Tango"/>
+   </property>
+   <property name="Xft" type="empty">
+     <property name="DPI" type="int" value="-1"/>

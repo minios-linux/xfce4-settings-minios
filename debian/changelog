@@ -1,3 +1,13 @@
+xfce4-settings (4.6.5-2) UNRELEASED; urgency=low
+
+  * debian/patches:
+    - 01_use-tango-as-default-theme added. switch default theme from Rodent to
+      Tango, thanks Jordan Metzmeier.                           closes: #586032
+  * debian/control:
+    - add recommends on tango-icon-theme for that.
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Wed, 16 Jun 2010 06:53:57 +0200
+
 xfce4-settings (4.6.5-1) unstable; urgency=low
 
   * New upstream release:
