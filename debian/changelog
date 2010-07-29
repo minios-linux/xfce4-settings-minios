@@ -1,11 +1,20 @@
 xfce4-settings (4.7.1-1) UNRELEASED; urgency=low
 
+  [ Yves-Alexis Perez ]
   * New upstream development release.
   * debian/patches:
     - 01_fix-pluggable-dialogs added, fix pluggable dialogs.
   * debian/control:
     - bump exo build-dep to exo-1 0.5.1.
     - switch libxfcegui4 build-dep to libxfce4ui.
+
+  [ Lionel Le Folgoc ]
+  * debian/control:
+    - bumped Standards-Version to 3.9.1, no further change
+    - removed some trailing spaces.
+  * debian/rules:
+    - call dpkg-buildflags
+    - link with --as-needed.
 
  -- Yves-Alexis Perez <corsac@debian.org>  Thu, 29 Apr 2010 22:26:34 +0200
 
