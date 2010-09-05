@@ -1,9 +1,9 @@
-xfce4-settings (4.7.1-1) UNRELEASED; urgency=low
+xfce4-settings (4.7.2-1) UNRELEASED; urgency=low
 
   [ Yves-Alexis Perez ]
   * New upstream development release.
   * debian/patches:
-    - 01_fix-pluggable-dialogs added, fix pluggable dialogs.
+    - 02-Port-to-libxklavier-5.0-API dropped, included upstream.
   * debian/control:
     - bump exo build-dep to exo-1 0.5.1.
     - switch libxfcegui4 build-dep to libxfce4ui.
@@ -16,7 +16,7 @@ xfce4-settings (4.7.1-1) UNRELEASED; urgency=low
     - call dpkg-buildflags
     - link with --as-needed.
 
- -- Yves-Alexis Perez <corsac@debian.org>  Thu, 29 Apr 2010 22:26:34 +0200
+ -- Yves-Alexis Perez <corsac@debian.org>  Sun, 05 Sep 2010 15:35:02 +0200
 
 xfce4-settings (4.6.4-2) unstable; urgency=low
 
