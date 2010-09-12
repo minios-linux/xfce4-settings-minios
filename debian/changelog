@@ -2,6 +2,7 @@ xfce4-settings (4.7.2-1) UNRELEASED; urgency=low
 
   [ Yves-Alexis Perez ]
   * New upstream development release.
+    - add xrandr 1.2 support                                    Closes: #529212
   * debian/patches:
     - 02-Port-to-libxklavier-5.0-API dropped, included upstream.
   * debian/control:
