@@ -8,6 +8,8 @@ xfce4-settings (4.7.3-1) UNRELEASED; urgency=low
   * debian/control:
     - bump exo build-dep to exo-1 0.5.1.
     - switch libxfcegui4 build-dep to libxfce4ui.
+    - build-conflicts with libxfcegui4-dev to be sure to pick kbd headers from
+      libxfce4ui-dev.
 
   [ Lionel Le Folgoc ]
   * debian/control:
@@ -17,7 +19,7 @@ xfce4-settings (4.7.3-1) UNRELEASED; urgency=low
     - call dpkg-buildflags
     - link with --as-needed.
 
- -- Yves-Alexis Perez <corsac@debian.org>  Sun, 05 Sep 2010 15:35:02 +0200
+ -- Yves-Alexis Perez <corsac@debian.org>  Thu, 04 Nov 2010 10:24:32 +0100
 
 xfce4-settings (4.6.4-2) unstable; urgency=low
 
