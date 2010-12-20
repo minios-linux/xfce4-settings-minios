@@ -7,6 +7,8 @@ LDFLAGS=$(shell dpkg-buildflags --get LDFLAGS)
 LDFLAGS+=$(HARDENING_LDFLAGS) -Wl,-z,defs -Wl,--as-needed -Wl,-O1
 CFLAGS+=$(HARDENING_CFLAGS)
 
+export CFLAGS LDFLAGS
+
 
 override_dh_auto_configure:
 	dh_auto_configure -- --enable-libnotify --enable-xcursor \
