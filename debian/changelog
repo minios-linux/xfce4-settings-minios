@@ -1,4 +1,4 @@
-xfce4-settings (4.8.0-1) UNRELEASED; urgency=low
+xfce4-settings (4.8.1-1) UNRELEASED; urgency=low
 
   [ Yves-Alexis Perez ]
   * New upstream development release.
@@ -15,6 +15,7 @@ xfce4-settings (4.8.0-1) UNRELEASED; urgency=low
     - add hardening flags to {C,LD}FLAGS.
 
   [ Lionel Le Folgoc ]
+  * New upstream bugfix release.
   * debian/control:
     - bumped Standards-Version to 3.9.1, no further change
     - removed some trailing spaces.
