@@ -13,6 +13,7 @@ xfce4-settings (4.8.1-1) UNRELEASED; urgency=low
     - add build-dep on hardening-includes
   * debian/rules:
     - add hardening flags to {C,LD}FLAGS.
+  * debian/copyright updated for new release.
 
   [ Lionel Le Folgoc ]
   * New upstream bugfix release.
@@ -23,7 +24,7 @@ xfce4-settings (4.8.1-1) UNRELEASED; urgency=low
     - call dpkg-buildflags
     - link with --as-needed.
 
- -- Yves-Alexis Perez <corsac@debian.org>  Mon, 17 Jan 2011 11:22:58 +0100
+ -- Yves-Alexis Perez <corsac@debian.org>  Sat, 05 Feb 2011 20:32:07 +0100
 
 xfce4-settings (4.6.4-2) unstable; urgency=low
 
