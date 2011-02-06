@@ -1,4 +1,4 @@
-xfce4-settings (4.8.1-1) UNRELEASED; urgency=low
+xfce4-settings (4.8.1-1) experimental; urgency=low
 
   [ Yves-Alexis Perez ]
   * New upstream development release.
@@ -24,7 +24,7 @@ xfce4-settings (4.8.1-1) UNRELEASED; urgency=low
     - call dpkg-buildflags
     - link with --as-needed.
 
- -- Yves-Alexis Perez <corsac@debian.org>  Sat, 05 Feb 2011 20:32:07 +0100
+ -- Yves-Alexis Perez <corsac@debian.org>  Sun, 06 Feb 2011 17:06:23 +0100
 
 xfce4-settings (4.6.4-2) unstable; urgency=low
 
