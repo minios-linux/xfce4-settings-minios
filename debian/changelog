@@ -1,3 +1,10 @@
+xfce4-settings (4.8.1-2) UNRELEASED; urgency=low
+
+  * debian/control: recommends xfce4-volumed instead of aumix (not in the
+    default keyboard shortcuts anymore).
+
+ -- Lionel Le Folgoc <mrpouit@gmail.com>  Sun, 06 Mar 2011 16:12:50 +0100
+
 xfce4-settings (4.8.1-1) experimental; urgency=low
 
   [ Yves-Alexis Perez ]
