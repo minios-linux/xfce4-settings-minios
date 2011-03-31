@@ -95,34 +95,6 @@ xfce4-settings (4.6.4-1) unstable; urgency=low
 
  -- Yves-Alexis Perez <corsac@debian.org>  Sat, 02 Jan 2010 16:20:25 +0100
 
-
-xfce4-settings (4.6.4-2) unstable; urgency=low
-
-  * debian/patches/0001-Port-to-libxklavier-5.0-API.patch added.
-  * debian/patches/series: enable this patch.
-  * debian/control: b-dep on quilt (>= 0.46-7), bump libxklavier-dev b-dep
-    to >= 5.0, add myself to Uploaders.
-  * debian/rules: pass --with quilt.
-  * bump Standards-Version to 3.8.4, no changes.
-
- -- Lionel Le Folgoc <mrpouit@gmail.com>  Sat, 10 Apr 2010 17:39:38 +0100
-
-xfce4-settings (4.6.4-1) unstable; urgency=low
-
-  [ Lionel Le Folgoc ]
-  * debian/control: fix typo in Vcs-* fields.
-
-  [ Yves-Alexis Perez ]
-  * New upstream release.
-  * debian/patches:
-    - 01_xi2-support dropped, included upstream.
-  * debian/control:
-    - dump quilt build-dep.
-  * debian/rules:
-    - dump quilt addon.
-
- -- Yves-Alexis Perez <corsac@debian.org>  Sat, 02 Jan 2010 16:20:25 +0100
-
 xfce4-settings (4.6.3-3) unstable; urgency=low
 
   * debian/control:
