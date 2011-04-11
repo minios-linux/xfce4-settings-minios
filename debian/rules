@@ -9,11 +9,15 @@ CFLAGS+=$(HARDENING_CFLAGS)
 
 export CFLAGS LDFLAGS
 
-
 override_dh_auto_configure:
+	find .pc -type f -name '*.c' -exec echo '{}' >> po/POTFILES.skip \;
 	dh_auto_configure -- --enable-libnotify --enable-xcursor \
 		--enable-libxklavier --enable-xsettings-daemon --enable-sound-settings\
     --enable-pluggable-dialogs
+
+override_dh_auto_clean:
+	rm -f po/POTFILES.skip
+	dh_auto_clean
 
 override_dh_installman:
 	dh_installman debian/*.1
