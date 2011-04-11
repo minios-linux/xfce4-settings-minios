@@ -4,8 +4,8 @@ xfce4-settings (4.8.1-3) UNRELEASED; urgency=low
   * debian/control:
     - drop Emanuele and Simon from uploaders, thanks to them.
   * debian/patches:
-    - 01_fix-sticky-slow-bounce-mouse-keys-expiration added, backported from
-      master.                                                   closes: #614939
+    - 01_fix-sticky-slow-bounce-mouse-keys-expiration cherry-picked from 
+      upstream.                                                 closes: #614939
   * debian/rules:
     - add quilt files to POTFILES.skip and remove them at clean time.
 

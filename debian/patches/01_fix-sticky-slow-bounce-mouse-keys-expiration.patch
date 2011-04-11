@@ -1,8 +1,14 @@
+commit 6bf6121de8f8d0564d0be9354f7e0e93e3629549
+Author: Amcnabb <amcnabb-xfce@mcnabbs.org>
+Date:   Thu Mar 31 23:22:31 2011 +0200
+
+    Fix expiration of sticky, slow, bounce and mouse keys (bug #6305).
+
 diff --git a/xfce4-settings-helper/accessibility.c b/xfce4-settings-helper/accessibility.c
-index b21d3d4..a53c93c 100644
+index a559607..51bb32e 100644
 --- a/xfce4-settings-helper/accessibility.c
 +++ b/xfce4-settings-helper/accessibility.c
-@@ -192,6 +192,13 @@ xfce_accessibility_helper_set_xkb (XfceAccessibilityHelper *helper,
+@@ -186,6 +186,13 @@ xfce_accessibility_helper_set_xkb (XfceAccessibilityHelper *helper,
          /* we always change this, so add it to the mask */
          SET_FLAG (mask, XkbControlsEnabledMask);
          
@@ -11,12 +17,12 @@ index b21d3d4..a53c93c 100644
 +                HAS_FLAG (mask, XkbSlowKeysMask) ||
 +                HAS_FLAG (mask, XkbBounceKeysMask) ||
 +                HAS_FLAG (mask, XkbMouseKeysMask))
-+          SET_FLAG (mask, XkbAccessXTimeoutMask);
++            SET_FLAG (mask, XkbAccessXTimeoutMask);
 +
          /* add the mouse keys values mask if needed */
          if (HAS_FLAG (mask, XkbMouseKeysMask))
              SET_FLAG (mask, XkbMouseKeysAccelMask);
-@@ -205,6 +212,8 @@ xfce_accessibility_helper_set_xkb (XfceAccessibilityHelper *helper,
+@@ -199,6 +206,8 @@ xfce_accessibility_helper_set_xkb (XfceAccessibilityHelper *helper,
              if (xfconf_channel_get_bool (helper->channel, "/StickyKeys", FALSE))
              {
                  SET_FLAG (xkb->ctrls->enabled_ctrls, XkbStickyKeysMask);
@@ -25,7 +31,7 @@ index b21d3d4..a53c93c 100644
  
                  if (xfconf_channel_get_bool (helper->channel, "/StickyKeys/LatchToLock", FALSE))
                      SET_FLAG (xkb->ctrls->ax_options, XkbAX_LatchToLockMask);
-@@ -219,6 +228,8 @@ xfce_accessibility_helper_set_xkb (XfceAccessibilityHelper *helper,
+@@ -213,6 +222,8 @@ xfce_accessibility_helper_set_xkb (XfceAccessibilityHelper *helper,
              else
              {
                  UNSET_FLAG (xkb->ctrls->enabled_ctrls, XkbStickyKeysMask);
@@ -34,16 +40,17 @@ index b21d3d4..a53c93c 100644
              }
          }
          
-@@ -228,6 +239,8 @@ xfce_accessibility_helper_set_xkb (XfceAccessibilityHelper *helper,
+@@ -222,13 +233,17 @@ xfce_accessibility_helper_set_xkb (XfceAccessibilityHelper *helper,
              if (xfconf_channel_get_bool (helper->channel, "/SlowKeys", FALSE))
              {
                  SET_FLAG (xkb->ctrls->enabled_ctrls, XkbSlowKeysMask);
+-                
 +                UNSET_FLAG (xkb->ctrls->axt_ctrls_mask, XkbSlowKeysMask);
 +                UNSET_FLAG (xkb->ctrls->axt_ctrls_values, XkbSlowKeysMask);
-                 
++
                  delay = xfconf_channel_get_int (helper->channel, "/SlowKeys/Delay", 100);
                  xkb->ctrls->slow_keys_delay = CLAMP (delay, 1, G_MAXUSHORT);
-@@ -235,6 +248,8 @@ xfce_accessibility_helper_set_xkb (XfceAccessibilityHelper *helper,
+             }
              else
              {
                  UNSET_FLAG (xkb->ctrls->enabled_ctrls, XkbSlowKeysMask);
@@ -52,16 +59,17 @@ index b21d3d4..a53c93c 100644
              }
          }
          
-@@ -244,6 +259,8 @@ xfce_accessibility_helper_set_xkb (XfceAccessibilityHelper *helper,
+@@ -238,13 +253,17 @@ xfce_accessibility_helper_set_xkb (XfceAccessibilityHelper *helper,
              if (xfconf_channel_get_bool (helper->channel, "/BounceKeys", FALSE))
              {
                  SET_FLAG (xkb->ctrls->enabled_ctrls, XkbBounceKeysMask);
+-                
 +                UNSET_FLAG (xkb->ctrls->axt_ctrls_mask, XkbBounceKeysMask);
 +                UNSET_FLAG (xkb->ctrls->axt_ctrls_values, XkbBounceKeysMask);
-                 
++
                  delay = xfconf_channel_get_int (helper->channel, "/BounceKeys/Delay", 100);
                  xkb->ctrls->debounce_delay = CLAMP (delay, 1, G_MAXUSHORT);
-@@ -251,6 +268,8 @@ xfce_accessibility_helper_set_xkb (XfceAccessibilityHelper *helper,
+             }
              else
              {
                  UNSET_FLAG (xkb->ctrls->enabled_ctrls, XkbBounceKeysMask);
@@ -70,16 +78,18 @@ index b21d3d4..a53c93c 100644
              }
          }
          
-@@ -260,6 +279,8 @@ xfce_accessibility_helper_set_xkb (XfceAccessibilityHelper *helper,
+@@ -254,7 +273,9 @@ xfce_accessibility_helper_set_xkb (XfceAccessibilityHelper *helper,
              if (xfconf_channel_get_bool (helper->channel, "/MouseKeys", FALSE))
              {
                  SET_FLAG (xkb->ctrls->enabled_ctrls, XkbMouseKeysMask);
+-                
 +                UNSET_FLAG (xkb->ctrls->axt_ctrls_mask, XkbMouseKeysMask);
 +                UNSET_FLAG (xkb->ctrls->axt_ctrls_values, XkbMouseKeysMask);
-                 
++
                  /* get values */
                  delay = xfconf_channel_get_int (helper->channel, "/MouseKeys/Delay", 160);
-@@ -288,6 +309,8 @@ xfce_accessibility_helper_set_xkb (XfceAccessibilityHelper *helper,
+                 interval = xfconf_channel_get_int (helper->channel, "/MouseKeys/Interval", 20);
+@@ -282,6 +303,8 @@ xfce_accessibility_helper_set_xkb (XfceAccessibilityHelper *helper,
              else
              {
                  UNSET_FLAG (xkb->ctrls->enabled_ctrls, XkbMouseKeysMask);
