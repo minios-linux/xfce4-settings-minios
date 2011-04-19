@@ -9,7 +9,7 @@ Build-Depends: debhelper (>= 7.0.50~), libxfce4util-dev (>= 4.8.0),
  libxfconf-0-dev (>= 4.8.0), libwnck-dev, libxklavier-dev (>= 5.0), 
  libnotify-dev, intltool (>= 0.31), hardening-includes
 Build-Conflicts: libxfcegui4-dev (<< 4.7.0)
-Standards-Version: 3.9.1
+Standards-Version: 3.9.2
 Homepage: http://www.xfce.org
 Vcs-Svn: svn://svn.debian.org/pkg-xfce/desktop/trunk/xfce4-settings
 Vcs-Browser: http://svn.debian.org/wsvn/pkg-xfce/desktop/trunk/xfce4-settings/

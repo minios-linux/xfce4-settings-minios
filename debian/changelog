@@ -3,13 +3,14 @@ xfce4-settings (4.8.1-3) UNRELEASED; urgency=low
   * Upload to unstable.
   * debian/control:
     - drop Emanuele and Simon from uploaders, thanks to them.
+    - update standards version to 3.9.2.
   * debian/patches:
     - 01_fix-sticky-slow-bounce-mouse-keys-expiration cherry-picked from 
       upstream.                                                 closes: #614939
   * debian/rules:
     - add quilt files to POTFILES.skip and remove them at clean time.
 
- -- Yves-Alexis Perez <corsac@debian.org>  Mon, 11 Apr 2011 11:18:53 +0200
+ -- Yves-Alexis Perez <corsac@debian.org>  Tue, 19 Apr 2011 16:13:04 +0200
 
 xfce4-settings (4.8.1-2) experimental; urgency=low
 
