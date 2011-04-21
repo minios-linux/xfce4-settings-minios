@@ -1,0 +1,32 @@
+diff --git a/xfce4-settings-manager/xfce-settings-manager-dialog.c b/xfce4-settings-manager/xfce-settings-manager-dialog.c
+index 90d34c8..12bccfa 100644
+--- a/xfce4-settings-manager/xfce-settings-manager-dialog.c
++++ b/xfce4-settings-manager/xfce-settings-manager-dialog.c
+@@ -384,7 +384,7 @@ xfce_settings_manager_dialog_sort_icons(GtkTreeModel *model,
+ static void
+ xfce_settings_manager_dialog_create_liststore(XfceSettingsManagerDialog *dialog)
+ {
+-    gchar **dirs, buf[PATH_MAX];
++    gchar **dirs, *buf;
+     gint i, icon_size;
+     GList *dialog_name_list = NULL;
+ 
+@@ -424,10 +424,16 @@ xfce_settings_manager_dialog_create_liststore(XfceSettingsManagerDialog *dialog)
+             if(!g_str_has_suffix(file, ".desktop"))
+                 continue;
+ 
+-            g_snprintf(buf, sizeof(buf), "%s/%s", dirs[i], file);
++            buf = g_strdup_printf("%s/%s", dirs[i], file);
++            if(!buf)
++                continue;
++
+             rcfile = xfce_rc_simple_open(buf, TRUE);
+-            if(!rcfile)
++            if(!rcfile) {
++                g_free(buf);
+                 continue;
++            }
++            g_free(buf);
+ 
+             if(!xfce_rc_has_group(rcfile, "Desktop Entry")) {
+                 xfce_rc_close(rcfile);
