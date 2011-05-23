@@ -1,12 +1,12 @@
-xfce4-settings (4.8.2-1) UNRELEASED; urgency=low
+xfce4-settings (4.8.2-1) unstable; urgency=low
 
   * New upstream release.
   * debian/patches:
     - 01_fix-sticky-slow-bounce-mouse-keys-expiration dropped, included
       upstream.
-  	- 02_fix-path_max-undefined-hurd as well. 
+    - 02_fix-path_max-undefined-hurd as well. 
 
- -- Yves-Alexis Perez <corsac@debian.org>  Mon, 23 May 2011 14:04:37 +0200
+ -- Yves-Alexis Perez <corsac@debian.org>  Mon, 23 May 2011 23:18:56 +0200
 
 xfce4-settings (4.8.1-4) unstable; urgency=low
 
