@@ -12,6 +12,7 @@ xfce4-settings (4.9.0-1) UNRELEASED; urgency=low
   * debian/patches/01_use-tango-icon-theme.patch: update to apply cleanly.
   * debian/postinst,debian/preinst,debian/postrm: handle removal of
     xfce4-settings-helper's autostart desktop file.
+  * debian/xfsettingsd.1: refreshed for the new options.
 
  -- Lionel Le Folgoc <mrpouit@gmail.com>  Thu, 18 Aug 2011 12:53:37 +0200
 
