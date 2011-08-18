@@ -2,14 +2,14 @@ Source: xfce4-settings
 Section: xfce
 Priority: optional
 Maintainer: Debian Xfce Maintainers <pkg-xfce-devel@lists.alioth.debian.org>
-Uploaders: Emanuele Rocca <ema@debian.org>, Simon Huggins <huggie@earth.li>,
- Yves-Alexis Perez <corsac@debian.org>, Lionel Le Folgoc <mrpouit@gmail.com>
+Uploaders: Yves-Alexis Perez <corsac@debian.org>,
+ Lionel Le Folgoc <mrpouit@gmail.com>
 Build-Depends: debhelper (>= 7.0.50~), libxfce4util-dev (>= 4.8.0),
  libxfce4ui-1-dev (>= 4.8.0), libexo-1-dev (>= 0.6.0),
  libxfconf-0-dev (>= 4.8.0), libwnck-dev, libxklavier-dev (>= 5.0), 
  libnotify-dev, intltool (>= 0.31), hardening-includes
 Build-Conflicts: libxfcegui4-dev (<< 4.7.0)
-Standards-Version: 3.9.1
+Standards-Version: 3.9.2
 Homepage: http://www.xfce.org
 Vcs-Svn: svn://svn.debian.org/pkg-xfce/desktop/trunk/xfce4-settings
 Vcs-Browser: http://svn.debian.org/wsvn/pkg-xfce/desktop/trunk/xfce4-settings/
@@ -28,9 +28,8 @@ Description: graphical application for managing Xfce settings
  It contains multiple tools:
   - xfce4-settings-manager (which replaces the old mcs settings manager),
     which executes the various (provided) settings dialogs
-  - xfce4-settings-helper: a daemon which provides special features, like
-    keyboard shortcuts,  AccessX notification and update of keyboard and
-    mouse-pointer data
   - xfce4-settings-editor, a tool for editing ALL settings within xfconf, the
     graphical counterpart of xfconf-query.
-  - xfsettingsd, a daemon for exporting XSettings to applications.
+  - xfsettingsd, a daemon for exporting XSettings to applications, and
+    providing special features like keyboard shortcuts, AccessX notification
+    and update of keyboard and mouse-pointer data.
