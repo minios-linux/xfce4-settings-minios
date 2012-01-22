@@ -1,4 +1,4 @@
-xfce4-settings (4.9.0-1) UNRELEASED; urgency=low
+xfce4-settings (4.9.1-1) UNRELEASED; urgency=low
 
   * New upstream development release, including:
     - Merge xfce4-settings-helper into xfsettingsd.
@@ -7,7 +7,11 @@ xfce4-settings (4.9.0-1) UNRELEASED; urgency=low
       and wacom settings.
     - Add option to enable assistive technologies during login.
     - Add fontconfig monitoring.
-  * debian/control: remove xfce4-settings-helper from the long desc.
+    - Add theme dnd-installation by dropping in a treeview.
+    - Add new MIME Type editor.
+  * debian/control:
+    - bump libxfce4ui-1-dev b-dep to >= 4.9.0.
+    - remove xfce4-settings-helper from the long desc.
   * debian/xfce4-settings-helper.1: dropped.
   * debian/patches/01_use-tango-icon-theme.patch: update to apply cleanly.
   * debian/postinst,debian/preinst,debian/postrm: handle removal of
