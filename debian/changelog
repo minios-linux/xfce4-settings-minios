@@ -1,3 +1,12 @@
+xfce4-settings (4.8.3-2) UNRELEASED; urgency=low
+
+  * debian/patches:
+    - 02_fix-error-in-italian-translation.patch: added, because translating
+      %i to %s isn't a really good idea (fix crash in the confirmation dialog
+      of xfce4-display-settings).
+
+ -- Lionel Le Folgoc <mrpouit@gmail.com>  Thu, 02 Feb 2012 21:15:20 +0100
+
 xfce4-settings (4.8.3-1) unstable; urgency=low
 
   [ Lionel Le Folgoc ]

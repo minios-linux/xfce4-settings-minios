@@ -1,0 +1,21 @@
+From 4d1006c82d063f0ce12c0afc2f80f087e3d21127 Mon Sep 17 00:00:00 2001
+From: Stephan Arts <stephan@xfce.org>
+Date: Thu, 02 Feb 2012 20:08:55 +0000
+Subject: Fix error in italian translation
+
+---
+diff --git a/po/it.po b/po/it.po
+index 6424518..bf3d0af 100644
+--- a/po/it.po
++++ b/po/it.po
+@@ -620,7 +620,7 @@ msgid ""
+ "The previous configuration will be restored in %i seconds if you do not "
+ "reply to this question."
+ msgstr ""
+-"La configurazione precedente verrà ripristinata in %s secondi se non si "
++"La configurazione precedente verrà ripristinata in %i secondi se non si "
+ "risponde a questa domanda."
+ 
+ #. Insert the mode
+--
+cgit v0.9.0.2
