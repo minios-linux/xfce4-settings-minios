@@ -1,4 +1,4 @@
-xfce4-settings (4.8.3-2) UNRELEASED; urgency=low
+xfce4-settings (4.8.3-2) unstable; urgency=low
 
   [ Lionel Le Folgoc ]
   * debian/patches:
@@ -10,7 +10,7 @@ xfce4-settings (4.8.3-2) UNRELEASED; urgency=low
   * debian/control:
     - update debhelper build-dep to 9.
 
- -- Lionel Le Folgoc <mrpouit@gmail.com>  Thu, 02 Feb 2012 21:15:20 +0100
+ -- Lionel Le Folgoc <mrpouit@gmail.com>  Tue, 07 Feb 2012 23:00:45 +0100
 
 xfce4-settings (4.8.3-1) unstable; urgency=low
 
