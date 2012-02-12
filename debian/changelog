@@ -3,6 +3,7 @@ xfce4-settings (4.9.2-1) UNRELEASED; urgency=low
   * New upstream development release.
   * debian/control:
     - bump libxfce4ui-1-dev b-dep to >= 4.9.0 and libexo-1-dev to >= 0.7.1.
+    - depends on libgarcon-common >= 0.1.10 for the new categories.
     - remove xfce4-settings-helper from the long desc.
   * debian/xfce4-settings-helper.1: dropped.
   * debian/patches:

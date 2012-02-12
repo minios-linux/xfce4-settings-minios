@@ -18,7 +18,7 @@ Vcs-Browser: http://svn.debian.org/wsvn/pkg-xfce/desktop/trunk/xfce4-settings/
 Package: xfce4-settings
 Section: xfce
 Architecture: any
-Depends: ${shlibs:Depends}, xfconf, ${misc:Depends}
+Depends: ${shlibs:Depends}, xfconf, libgarcon-common (>= 0.1.10), ${misc:Depends}
 Recommends: xfce4-volumed, x11-utils
 Conflicts: xfce4-mcs-plugins
 Replaces: xfce4-mcs-manager, xfce4-mcs-plugins
