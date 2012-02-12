@@ -1,24 +1,49 @@
-xfce4-settings (4.9.1-1) UNRELEASED; urgency=low
+xfce4-settings (4.9.2-1) UNRELEASED; urgency=low
 
-  * New upstream development release, including:
-    - Merge xfce4-settings-helper into xfsettingsd.
-    - Add support to xfsettingsd for pointing device properties.
-    - Rework the mouse dialog and add support for basic synaptics
-      and wacom settings.
-    - Add option to enable assistive technologies during login.
-    - Add fontconfig monitoring.
-    - Add theme dnd-installation by dropping in a treeview.
-    - Add new MIME Type editor.
+  * New upstream development release.
   * debian/control:
-    - bump libxfce4ui-1-dev b-dep to >= 4.9.0.
+    - bump libxfce4ui-1-dev b-dep to >= 4.9.0 and libexo-1-dev to >= 0.7.1.
     - remove xfce4-settings-helper from the long desc.
   * debian/xfce4-settings-helper.1: dropped.
-  * debian/patches/01_use-tango-icon-theme.patch: update to apply cleanly.
+  * debian/patches:
+    - 01_use-tango-icon-theme.patch: update to apply cleanly.
+    - 02_fix-error-in-italian-translation.patch: dropped, included upstream.
   * debian/postinst,debian/preinst,debian/postrm: handle removal of
     xfce4-settings-helper's autostart desktop file.
   * debian/xfsettingsd.1: refreshed for the new options.
 
  -- Lionel Le Folgoc <mrpouit@gmail.com>  Thu, 18 Aug 2011 12:53:37 +0200
+
+xfce4-settings (4.8.3-2) unstable; urgency=low
+
+  [ Lionel Le Folgoc ]
+  * debian/patches:
+    - 02_fix-error-in-italian-translation.patch: added, because translating
+      %i to %s isn't a really good idea (fix crash in the confirmation dialog
+      of xfce4-display-settings).                                   lp: #782634
+
+  [ Yves-Alexis Perez ]
+  * debian/control:
+    - update debhelper build-dep to 9.
+
+ -- Lionel Le Folgoc <mrpouit@gmail.com>  Tue, 07 Feb 2012 23:00:45 +0100
+
+xfce4-settings (4.8.3-1) unstable; urgency=low
+
+  [ Lionel Le Folgoc ]
+  * New upstream release.
+  * debian/watch: only consider stable releases.
+
+  [ Yves-Alexis Perez ]
+  * debian/rules:
+    - use dpkg-dev 1.16.1 and debhelper 9 hardening support
+  * debian/control:
+    - drop hardening-includes build-dep.
+    - update debhelper build-dep to 8.9.4 for dpkg-buildflags support
+    - add dpkg-dev 1.16.1 build-dep for hardening support
+  * debian/compat bumped to 9.
+
+ -- Lionel Le Folgoc <mrpouit@gmail.com>  Thu, 27 Oct 2011 21:50:31 +0200
 
 xfce4-settings (4.8.2-2) unstable; urgency=low
 
