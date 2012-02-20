@@ -1,3 +1,9 @@
+xfce4-settings (4.8.3-3) UNRELEASED; urgency=low
+
+  * debian/patches: add missing DEP3 headers.
+
+ -- Lionel Le Folgoc <mrpouit@gmail.com>  Mon, 20 Feb 2012 21:44:10 +0100
+
 xfce4-settings (4.8.3-2) unstable; urgency=low
 
   [ Lionel Le Folgoc ]

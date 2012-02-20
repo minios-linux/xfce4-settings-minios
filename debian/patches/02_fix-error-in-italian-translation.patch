@@ -3,6 +3,7 @@ From: Stephan Arts <stephan@xfce.org>
 Date: Thu, 02 Feb 2012 20:08:55 +0000
 Subject: Fix error in italian translation
 
+Origin: upstream: http://git.xfce.org/xfce/xfce4-settings/commit/?h=xfce-4.8&id=4d1006c82d063f0ce12c0afc2f80f087e3d21127
 ---
 diff --git a/po/it.po b/po/it.po
 index 6424518..bf3d0af 100644
