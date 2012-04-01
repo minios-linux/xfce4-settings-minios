@@ -1,4 +1,4 @@
-xfce4-settings (4.9.3-1) UNRELEASED; urgency=low
+xfce4-settings (4.9.4-1) UNRELEASED; urgency=low
 
   * New upstream development release.
   * debian/control:
@@ -15,6 +15,7 @@ xfce4-settings (4.9.3-1) UNRELEASED; urgency=low
   * debian/xfsettingsd.1: refreshed for the new options.
   * debian/rules:
     - drop obsolete --enable-xsettings-daemon configure option.
+  * debian/xfce4-mime-settings.1: added, for the new binary.
 
  -- Lionel Le Folgoc <mrpouit@gmail.com>  Thu, 18 Aug 2011 12:53:37 +0200
 
