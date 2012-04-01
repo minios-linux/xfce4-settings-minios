@@ -1,8 +1,9 @@
-xfce4-settings (4.9.2-1) UNRELEASED; urgency=low
+xfce4-settings (4.9.3-1) UNRELEASED; urgency=low
 
   * New upstream development release.
   * debian/control:
     - bump libxfce4ui-1-dev b-dep to >= 4.9.0 and libexo-1-dev to >= 0.7.1.
+    - switch to libxfce4util6-dev for the new api.
     - depends on libgarcon-common >= 0.1.10 for the new categories.
     - remove xfce4-settings-helper from the long desc.
   * debian/xfce4-settings-helper.1: dropped.
@@ -12,6 +13,8 @@ xfce4-settings (4.9.2-1) UNRELEASED; urgency=low
   * debian/postinst,debian/preinst,debian/postrm: handle removal of
     xfce4-settings-helper's autostart desktop file.
   * debian/xfsettingsd.1: refreshed for the new options.
+  * debian/rules:
+    - drop obsolete --enable-xsettings-daemon configure option.
 
  -- Lionel Le Folgoc <mrpouit@gmail.com>  Thu, 18 Aug 2011 12:53:37 +0200
 
