@@ -1,5 +1,6 @@
 xfce4-settings (4.9.4-1) UNRELEASED; urgency=low
 
+  [ Lionel Le Folgoc ]
   * New upstream development release.
   * debian/control:
     - bump libxfce4ui-1-dev b-dep to >= 4.9.0 and libexo-1-dev to >= 0.7.1.
@@ -16,6 +17,9 @@ xfce4-settings (4.9.4-1) UNRELEASED; urgency=low
   * debian/rules:
     - drop obsolete --enable-xsettings-daemon configure option.
   * debian/xfce4-mime-settings.1: added, for the new binary.
+
+  [ Yves-Alexis Perez ]
+  * debian/watch updated to track all releases.
 
  -- Lionel Le Folgoc <mrpouit@gmail.com>  Thu, 18 Aug 2011 12:53:37 +0200
 
