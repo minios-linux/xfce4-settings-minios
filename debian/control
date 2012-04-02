@@ -7,7 +7,7 @@ Uploaders: Yves-Alexis Perez <corsac@debian.org>,
 Build-Depends: debhelper (>= 9), dpkg-dev (>= 1.16.1),
  libxfce4util6-dev, libxfce4ui-1-dev (>= 4.9.0), libexo-1-dev (>= 0.7.1),
  libxfconf-0-dev (>= 4.8.0), libwnck-dev, libxklavier-dev (>= 5.0), 
- libnotify-dev, intltool (>= 0.31)
+ libnotify-dev, intltool (>= 0.31), libgarcon-1-0-dev (>= 0.1.10)
 Build-Conflicts: libxfcegui4-dev (<< 4.7.0)
 Standards-Version: 3.9.3
 Homepage: http://www.xfce.org

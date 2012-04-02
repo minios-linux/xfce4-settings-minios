@@ -22,6 +22,7 @@ xfce4-settings (4.9.4-1) UNRELEASED; urgency=low
   * debian/watch updated to track all releases.
   * debian/control:
     - update standards version to 3.9.3.
+    - add build-dep on garcon. 
 
  -- Lionel Le Folgoc <mrpouit@gmail.com>  Thu, 18 Aug 2011 12:53:37 +0200
 
