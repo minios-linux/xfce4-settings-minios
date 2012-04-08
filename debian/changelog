@@ -1,4 +1,4 @@
-xfce4-settings (4.9.4-1) UNRELEASED; urgency=low
+xfce4-settings (4.9.4-1) experimental; urgency=low
 
   [ Lionel Le Folgoc ]
   * New upstream development release.
@@ -26,7 +26,7 @@ xfce4-settings (4.9.4-1) UNRELEASED; urgency=low
   * debian/rules:
     - build with --parallel.
 
- -- Lionel Le Folgoc <mrpouit@gmail.com>  Thu, 18 Aug 2011 12:53:37 +0200
+ -- Lionel Le Folgoc <mrpouit@gmail.com>  Sun, 08 Apr 2012 16:30:17 +0200
 
 xfce4-settings (4.8.3-2) unstable; urgency=low
 
