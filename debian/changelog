@@ -23,6 +23,8 @@ xfce4-settings (4.9.4-1) UNRELEASED; urgency=low
   * debian/control:
     - update standards version to 3.9.3.
     - add build-dep on garcon. 
+  * debian/rules:
+    - build with --parallel.
 
  -- Lionel Le Folgoc <mrpouit@gmail.com>  Thu, 18 Aug 2011 12:53:37 +0200
 
