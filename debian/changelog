@@ -1,9 +1,9 @@
-xfce4-settings (4.9.5-1) UNRELEASED; urgency=low
+xfce4-settings (4.9.5-1) experimental; urgency=low
 
   * New upstream development release.
   * debian/rules: drop po/POTFILES.skip handling, unneeded.
 
- -- Lionel Le Folgoc <mrpouit@gmail.com>  Sat, 14 Apr 2012 13:06:16 +0200
+ -- Lionel Le Folgoc <mrpouit@gmail.com>  Sun, 15 Apr 2012 15:40:11 +0200
 
 xfce4-settings (4.9.4-1) experimental; urgency=low
 
