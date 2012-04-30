@@ -1,3 +1,11 @@
+xfce4-settings (4.10.0-1) UNRELEASED; urgency=low
+
+  * New upstream stable release.
+  * debian/control: revert to unversioned libxfce4util-dev, bump required
+    versions for Xfce 4.10.
+
+ -- Lionel Le Folgoc <mrpouit@gmail.com>  Mon, 30 Apr 2012 15:53:07 +0200
+
 xfce4-settings (4.9.5-1) experimental; urgency=low
 
   * New upstream development release.
