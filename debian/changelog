@@ -1,3 +1,48 @@
+xfce4-settings (4.10.0-1) experimental; urgency=low
+
+  * New upstream stable release.
+  * debian/control: revert to unversioned libxfce4util-dev, bump required
+    versions for Xfce 4.10.
+
+ -- Lionel Le Folgoc <mrpouit@gmail.com>  Sat, 05 May 2012 09:48:01 +0200
+
+xfce4-settings (4.9.5-1) experimental; urgency=low
+
+  * New upstream development release.
+  * debian/rules: drop po/POTFILES.skip handling, unneeded.
+
+ -- Lionel Le Folgoc <mrpouit@gmail.com>  Sun, 15 Apr 2012 15:40:11 +0200
+
+xfce4-settings (4.9.4-1) experimental; urgency=low
+
+  [ Lionel Le Folgoc ]
+  * New upstream development release.
+  * debian/control:
+    - bump libxfce4ui-1-dev b-dep to >= 4.9.0 and libexo-1-dev to >= 0.7.1.
+    - switch to libxfce4util6-dev for the new api.
+    - depends on libgarcon-common >= 0.1.10 for the new categories.
+    - remove xfce4-settings-helper from the long desc.
+  * debian/xfce4-settings-helper.1: dropped.
+  * debian/patches:
+    - 01_use-tango-icon-theme.patch: update to apply cleanly.
+    - 02_fix-error-in-italian-translation.patch: dropped, included upstream.
+  * debian/postinst,debian/preinst,debian/postrm: handle removal of
+    xfce4-settings-helper's autostart desktop file.
+  * debian/xfsettingsd.1: refreshed for the new options.
+  * debian/rules:
+    - drop obsolete --enable-xsettings-daemon configure option.
+  * debian/xfce4-mime-settings.1: added, for the new binary.
+
+  [ Yves-Alexis Perez ]
+  * debian/watch updated to track all releases.
+  * debian/control:
+    - update standards version to 3.9.3.
+    - add build-dep on garcon. 
+  * debian/rules:
+    - build with --parallel.
+
+ -- Lionel Le Folgoc <mrpouit@gmail.com>  Sun, 08 Apr 2012 16:30:17 +0200
+
 xfce4-settings (4.8.3-3) UNRELEASED; urgency=low
 
   * debian/patches: add missing DEP3 headers.
