@@ -1,3 +1,9 @@
+xfce4-settings (4.10.1-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Tue, 21 May 2013 22:21:51 +0200
+
 xfce4-settings (4.10.0-1) experimental; urgency=low
 
   * New upstream stable release.
