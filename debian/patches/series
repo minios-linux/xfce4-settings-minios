@@ -1,1 +1,2 @@
 01_use-tango-icon-theme.patch
+02-Xfsettingsd-Check-for-NoSuchExtension-bug-9390.patch
