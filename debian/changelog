@@ -1,4 +1,4 @@
-xfce4-settings (4.10.1-2) UNRELEASED; urgency=low
+xfce4-settings (4.10.1-2) unstable; urgency=low
 
   * debian/patches:
     - 02-Xfsettingsd-Check-for-NoSuchExtension-bug-9390 added, fix segfault
@@ -6,7 +6,7 @@ xfce4-settings (4.10.1-2) UNRELEASED; urgency=low
   * debian/control:
     - update standards version to 3.9.4.
 
- -- Yves-Alexis Perez <corsac@debian.org>  Thu, 20 Jun 2013 22:10:17 +0200
+ -- Yves-Alexis Perez <corsac@debian.org>  Thu, 20 Jun 2013 22:30:59 +0200
 
 xfce4-settings (4.10.1-1) unstable; urgency=low
 
