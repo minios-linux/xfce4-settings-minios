@@ -2,6 +2,9 @@ xfce4-settings (4.10.1-3) UNRELEASED; urgency=low
 
   [ Evgeni Golov ]
   * Correct Vcs-* URLs to point to anonscm.debian.org
+  
+  [ Jackson Doak ]
+  * Remove redandant "Section" category from debian/control
 
  -- Jackson Doak <noskcaj@ubuntu.com>  Sun, 18 Aug 2013 08:36:10 +1000
 

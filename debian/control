@@ -16,7 +16,6 @@ Vcs-Svn: svn://anonscm.debian.org/pkg-xfce/desktop/trunk/xfce4-settings
 Vcs-Browser: http://anonscm.debian.org/viewvc/pkg-xfce/desktop/trunk/xfce4-settings/
 
 Package: xfce4-settings
-Section: xfce
 Architecture: any
 Depends: ${shlibs:Depends}, xfconf, libgarcon-common (>= 0.2.0), ${misc:Depends}
 Recommends: xfce4-volumed, x11-utils
