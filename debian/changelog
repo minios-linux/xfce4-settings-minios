@@ -3,9 +3,6 @@ xfce4-settings (4.10.1-3) UNRELEASED; urgency=low
   [ Evgeni Golov ]
   * Correct Vcs-* URLs to point to anonscm.debian.org
 
-  [ Jackson Doak ]
-  * Update debian/watch to allow more file formats and the 4.11 release
-
  -- Jackson Doak <noskcaj@ubuntu.com>  Sun, 18 Aug 2013 08:36:10 +1000
 
 xfce4-settings (4.10.1-2) unstable; urgency=low
