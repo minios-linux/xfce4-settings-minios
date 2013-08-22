@@ -1,3 +1,34 @@
+xfce4-settings (4.11.0-1) UNRELEASED; urgency=low
+
+  [ Evgeni Golov ]
+  * Correct Vcs-* URLs to point to anonscm.debian.org
+  
+  [ Jackson Doak ]
+  * Remove redandant "Section" category from debian/control
+  * New upstream release
+  * 02-Xfsettingsd-Check-for-NoSuchExtension-bug-9390 fixed upstream
+
+ -- Jackson Doak <noskcaj@ubuntu.com>  Thu, 22 Aug 2013 18:50:00 +1000
+
+xfce4-settings (4.10.1-2) unstable; urgency=low
+
+  * debian/patches:
+    - 02-Xfsettingsd-Check-for-NoSuchExtension-bug-9390 added, fix segfault
+      when running under VNC.                                   closes: #712868
+  * debian/control:
+    - update standards version to 3.9.4.
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Thu, 20 Jun 2013 22:30:59 +0200
+
+xfce4-settings (4.10.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * Upload to unstable.
+  * debian/rules:
+    - enable all hardening flags.
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Tue, 21 May 2013 22:24:47 +0200
+
 xfce4-settings (4.10.0-1) experimental; urgency=low
 
   * New upstream stable release.
