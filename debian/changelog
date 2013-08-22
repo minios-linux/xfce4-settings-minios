@@ -7,6 +7,8 @@ xfce4-settings (4.11.0-1) UNRELEASED; urgency=low
   * Remove redandant "Section" category from debian/control
   * New upstream release
   * 02-Xfsettingsd-Check-for-NoSuchExtension-bug-9390 fixed upstream
+  * debian/changelog: Convert to debian machine readable format
+  * Refresh remaining patch 
 
  -- Jackson Doak <noskcaj@ubuntu.com>  Thu, 22 Aug 2013 18:50:00 +1000
 
