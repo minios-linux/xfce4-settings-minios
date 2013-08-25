@@ -1,4 +1,4 @@
-xfce4-settings (4.11.0-1) UNRELEASED; urgency=low
+xfce4-settings (4.11.0-1) experimental; urgency=low
 
   [ Evgeni Golov ]
   * Correct Vcs-* URLs to point to anonscm.debian.org
@@ -10,7 +10,7 @@ xfce4-settings (4.11.0-1) UNRELEASED; urgency=low
   * debian/changelog: Convert to debian machine readable format
   * Refresh remaining patch 
 
- -- Jackson Doak <noskcaj@ubuntu.com>  Thu, 22 Aug 2013 18:50:00 +1000
+ -- Yves-Alexis Perez <corsac@debian.org>  Sun, 25 Aug 2013 10:43:02 +0200
 
 xfce4-settings (4.10.1-2) unstable; urgency=low
 
