@@ -9,6 +9,7 @@ xfce4-settings (4.11.1-1) UNRELEASED; urgency=low
   * 02-Xfsettingsd-Check-for-NoSuchExtension-bug-9390 fixed upstream
   * debian/changelog: Convert to debian machine readable format
   * Refresh remaining patch 
+  * Update all manpages
 
   [ Yves-Alexis Perez ]
   * debian/control:
