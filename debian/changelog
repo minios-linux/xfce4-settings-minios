@@ -1,16 +1,20 @@
-xfce4-settings (4.11.0-1) UNRELEASED; urgency=low
+xfce4-settings (4.11.1-1) UNRELEASED; urgency=low
 
   [ Evgeni Golov ]
   * Correct Vcs-* URLs to point to anonscm.debian.org
   
   [ Jackson Doak ]
   * Remove redandant "Section" category from debian/control
-  * New upstream release
+  * New upstream developpment release.
   * 02-Xfsettingsd-Check-for-NoSuchExtension-bug-9390 fixed upstream
   * debian/changelog: Convert to debian machine readable format
   * Refresh remaining patch 
 
- -- Yves-Alexis Perez <corsac@debian.org>  Sun, 25 Aug 2013 10:43:02 +0200
+  [ Yves-Alexis Perez ]
+  * debian/control:
+    - add build-dep on libupower-glib-dev for upower support.
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Sun, 29 Sep 2013 15:53:16 +0200
 
 xfce4-settings (4.10.1-2) unstable; urgency=low
 
