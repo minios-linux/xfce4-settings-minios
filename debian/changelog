@@ -8,9 +8,12 @@ xfce4-settings (4.11.1-1) UNRELEASED; urgency=low
   * New upstream development release.
   * 02-Xfsettingsd-Check-for-NoSuchExtension-bug-9390 fixed upstream
   * debian/changelog: Convert to debian machine readable format
+  * debian/control: B-dep on dh-autoreconf
   * Refresh remaining patch 
   * Update all manpages
-  * debian/rules: Use --disable-silent-rules
+  * debian/rules: 
+    - Use --disable-silent-rules
+    - Use dh_autoreconf
 
   [ Yves-Alexis Perez ]
   * debian/control:
