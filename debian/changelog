@@ -8,17 +8,17 @@ xfce4-settings (4.11.1-1) UNRELEASED; urgency=low
   * New upstream development release.
   * 02-Xfsettingsd-Check-for-NoSuchExtension-bug-9390 fixed upstream
   * debian/changelog: Convert to debian machine readable format
-  * debian/control: B-dep on dh-autoreconf
   * Refresh remaining patch 
   * Update all manpages
   * debian/rules: 
     - Use --disable-silent-rules
-    - Use dh_autoreconf
 
   [ Yves-Alexis Perez ]
   * debian/control:
     - add build-dep on libupower-glib-dev for upower support.
     - update standards version to 3.9.5. 
+  * debian/rules:
+    - drop call to xdt-autogen, not needed anymore.
 
   [ Lionel Le Folgoc ]
   * debian/control: bump libxfce4ui-1-dev b-dep to >= 4.11.0.
