@@ -1,9 +1,10 @@
-xfce4-settings (4.11.2-1) UNRELEASED; urgency=medium
+xfce4-settings (4.11.2-1) experimental; urgency=medium
 
+  [ Jackson Doak ]
   * New upstream release
     - Change double click time. LP: #1004400
 
- -- Jackson Doak <noskcaj@ubuntu.com>  Sun, 23 Feb 2014 10:46:58 +1100
+ -- Yves-Alexis Perez <corsac@debian.org>  Sun, 23 Feb 2014 21:07:58 +0100
 
 xfce4-settings (4.11.1-1) experimental; urgency=low
 
