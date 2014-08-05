@@ -1,9 +1,10 @@
-From 5247716c9105dc68a737757da5a2b260538945a9 Mon Sep 17 00:00:00 2001
+From 4b89e20c97a3cf526aca831fe384f53db1c1691c Mon Sep 17 00:00:00 2001
 From: Eric Koegel <eric.koegel@gmail.com>
 Date: Wed, 28 May 2014 07:55:39 +0300
-Subject: [PATCH] Update for Upower 0.99
+Subject: [PATCH] Add support for upower 0.99 (bug #10918)
 
-Upower changed a singal handler.
+Amend the signal handler for the changing of display properties to work
+with upower 0.99.
 ---
  xfsettingsd/displays-upower.c | 21 ++++++++++++++++++++-
  1 file changed, 20 insertions(+), 1 deletion(-)
@@ -62,3 +63,6 @@ index bbb3028..e1fab38 100644
  {
      gboolean lid_is_closed;
  
+-- 
+2.0.1
+
