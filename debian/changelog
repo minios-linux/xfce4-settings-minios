@@ -1,6 +1,8 @@
 xfce4-settings (4.11.3-1) UNRELEASED; urgency=medium
 
   * New upstream development release.
+  * debian/patches:
+    - 02_upower_0.99.patch dropped, included upstream.
 
  -- Yves-Alexis Perez <corsac@debian.org>  Mon, 25 Aug 2014 21:22:42 +0200
 
