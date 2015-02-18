@@ -1,6 +1,8 @@
 xfce4-settings (4.11.4-1) UNRELEASED; urgency=medium
 
   * New upstream development release.
+  * debian/control:
+    - update standards version to 3.9.6
 
  -- Mateusz Łukasik <mati75@linuxmint.pl>  Wed, 18 Feb 2015 21:14:07 +0100
 
