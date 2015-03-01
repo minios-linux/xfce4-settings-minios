@@ -1,6 +1,6 @@
-xfce4-settings (4.11.4-1) UNRELEASED; urgency=medium
+xfce4-settings (4.12.0-1) UNRELEASED; urgency=medium
 
-  * New upstream development release.
+  * New upstream release.
   * debian/control:
     - update standards version to 3.9.6
 
