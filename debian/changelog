@@ -1,10 +1,11 @@
-xfce4-settings (4.12.0-1) UNRELEASED; urgency=medium
+xfce4-settings (4.12.0-1) experimental; urgency=medium
 
+  [ Mateusz Łukasik ]
   * New upstream release.
   * debian/control:
     - update standards version to 3.9.6
 
- -- Mateusz Łukasik <mati75@linuxmint.pl>  Wed, 18 Feb 2015 21:14:07 +0100
+ -- Yves-Alexis Perez <corsac@debian.org>  Sun, 08 Mar 2015 20:24:39 +0100
 
 xfce4-settings (4.11.3-1) experimental; urgency=medium
 
