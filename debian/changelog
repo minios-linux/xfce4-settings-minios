@@ -1,3 +1,9 @@
+xfce4-settings (4.12.0-2) unstable; urgency=medium
+
+  * Upload to unstable.
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Wed, 06 May 2015 15:55:42 +0200
+
 xfce4-settings (4.12.0-1) experimental; urgency=medium
 
   [ Mateusz Łukasik ]
