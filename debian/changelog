@@ -1,3 +1,10 @@
+xfce4-settings (4.12.0-3) UNRELEASED; urgency=medium
+
+  * debian/patches:
+    - 02_enable-crtc added, re-enable CRTC after resume.        closes: #785622
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Sun, 22 May 2016 08:51:12 +0200
+
 xfce4-settings (4.12.0-2) unstable; urgency=medium
 
   * Upload to unstable.
