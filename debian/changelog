@@ -1,6 +1,8 @@
 xfce4-settings (4.12.1-1) UNRELEASED; urgency=medium
 
   * New upstream release.
+  * debian/patches:
+    - 02_enable-crtc - drop included upstream.
 
  -- Mateusz Łukasik <mati75@linuxmint.pl>  Thu, 15 Sep 2016 14:53:41 +0200
 
