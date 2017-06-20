@@ -12,10 +12,13 @@ Build-Depends: debhelper (>= 9),
                libgtk-3-dev,
                libnotify-dev,
                libupower-glib-dev (>= 0.99),
+               libxcursor-dev,
                libxfce4ui-2-dev (>= 4.13.0),
                libxfce4util-dev (>= 4.10.0),
                libxfconf-0-dev (>= 4.13.0),
-               libxklavier-dev (>= 5.0)
+               libxklavier-dev (>= 5.0),
+               libxrandr-dev,
+               xserver-xorg-input-libinput-dev
 Build-Conflicts: libxfcegui4-dev (<< 4.7.0)
 Standards-Version: 4.0.0
 Homepage: http://www.xfce.org
