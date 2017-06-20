@@ -17,7 +17,7 @@ Build-Depends: debhelper (>= 9),
                libxfconf-0-dev (>= 4.10.0),
                libxklavier-dev (>= 5.0)
 Build-Conflicts: libxfcegui4-dev (<< 4.7.0)
-Standards-Version: 3.9.8
+Standards-Version: 4.0.0
 Homepage: http://www.xfce.org
 Vcs-Svn: svn://anonscm.debian.org/pkg-xfce/desktop/trunk/xfce4-settings
 Vcs-Browser: http://anonscm.debian.org/viewvc/pkg-xfce/desktop/trunk/xfce4-settings/
