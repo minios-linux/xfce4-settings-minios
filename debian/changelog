@@ -1,11 +1,20 @@
 xfce4-settings (4.13.1-1) UNRELEASED; urgency=medium
 
+  [ Yves-Alexis Perez ]
   * debian/watch:
     - allow development releases
   * New upstream development release.
   * Run wrap-and-sort.
   * debian/control:
     - update standards version to 4.0.0
+
+  [ Unit 193 ]
+  * d/control:
+    - Update build-depends for GTK3:
+      + libexo-1-dev → libexo-2-dev
+      + libxfce4ui-1-dev → libxfce4ui-2-dev
+      + Add build-depend on libgtk-3-dev.
+      + Drop build-depend on libwnck-dev.
 
  -- Yves-Alexis Perez <corsac@debian.org>  Tue, 20 Jun 2017 08:20:17 +0200
 
