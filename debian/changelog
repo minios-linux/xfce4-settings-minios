@@ -6,7 +6,7 @@ xfce4-settings (4.13.1-1) UNRELEASED; urgency=medium
   * New upstream development release.
   * Run wrap-and-sort.
   * debian/control:
-    - update standards version to 4.0.0
+    - update standards version to 4.1.1.
     - add build-dep on libdbus-glib-1-dev
 
   [ Unit 193 ]
