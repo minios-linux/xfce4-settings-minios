@@ -1,4 +1,4 @@
-xfce4-settings (4.13.1-1) UNRELEASED; urgency=medium
+xfce4-settings (4.13.1-1) experimental; urgency=medium
 
   [ Yves-Alexis Perez ]
   * debian/watch:
@@ -20,7 +20,7 @@ xfce4-settings (4.13.1-1) UNRELEASED; urgency=medium
     - Build-depend on xserver-xorg-input-libinput-dev, libxrandr-dev,
       and libxcursor-dev.
 
- -- Yves-Alexis Perez <corsac@debian.org>  Tue, 20 Jun 2017 08:20:17 +0200
+ -- Yves-Alexis Perez <corsac@debian.org>  Sat, 11 Nov 2017 15:50:21 +0100
 
 xfce4-settings (4.12.1-1) unstable; urgency=medium
 
