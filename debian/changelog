@@ -1,3 +1,10 @@
+xfce4-settings (4.12.1-2) UNRELEASED; urgency=medium
+
+  * Moved the package to git on salsa.debian.org
+  * Updated the maintainer address to debian-xfce@lists.debian.org
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Sun, 11 Mar 2018 15:05:24 +0100
+
 xfce4-settings (4.12.1-1) unstable; urgency=medium
 
   [ Mateusz Łukasik ]
