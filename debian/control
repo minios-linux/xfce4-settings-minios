@@ -19,7 +19,8 @@ Build-Depends: debhelper (>= 10),
                libxfconf-0-dev (>= 4.13.0),
                libxklavier-dev (>= 5.0),
                libxrandr-dev,
-               xserver-xorg-input-libinput-dev
+               xserver-xorg-input-libinput-dev,
+               xfce4-dev-tools
 Build-Conflicts: libxfcegui4-dev (<< 4.7.0)
 Standards-Version: 4.1.1
 Homepage: http://www.xfce.org
