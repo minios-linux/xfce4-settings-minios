@@ -12,4 +12,4 @@ override_dh_installman:
 	dh_installman debian/*.1
 
 %:
-	dh $@ --parallel
+	dh $@
