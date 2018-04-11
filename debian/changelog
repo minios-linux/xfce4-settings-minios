@@ -1,4 +1,4 @@
-xfce4-settings (4.13.2-1) UNRELEASED; urgency=medium
+xfce4-settings (4.13.2-1) experimental; urgency=medium
 
   * update standards version to 4.1.1.
   * d/gbp.conf added, following DEP-14
@@ -9,7 +9,7 @@ xfce4-settings (4.13.2-1) UNRELEASED; urgency=medium
   * Moved the package to git on salsa.debian.org
   * Updated the maintainer address to debian-xfce@lists.debian.org
 
- -- Yves-Alexis Perez <corsac@debian.org>  Wed, 11 Apr 2018 14:43:18 +0200
+ -- Yves-Alexis Perez <corsac@debian.org>  Wed, 11 Apr 2018 14:43:55 +0200
 
 xfce4-settings (4.13.1-1) experimental; urgency=medium
 
