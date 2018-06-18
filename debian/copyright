@@ -9,10 +9,10 @@ License: GPL-2+
 Files: dialogs/accessibility-settings/main.c
  xfce4-settings-editor/main.c
  xfce4-settings-editor/main_window.h
- xfce4-settings-helper/accessibility.c
- xfce4-settings-helper/accessibility.h
- xfce4-settings-helper/keyboards.c
- xfce4-settings-helper/keyboards.h
+ xfsettingsd/accessibility.c
+ xfsettingsd/accessibility.h
+ xfsettingsd/keyboards.c
+ xfsettingsd/keyboards.h
  xfsettingsd/main.c
  xfsettingsd/registry.h
 Copyright: 2008, Stephan Arts <stephan@xfce.org>
@@ -22,13 +22,13 @@ Files: dialogs/keyboard-settings/command-dialog.c
  dialogs/keyboard-settings/command-dialog.h
  dialogs/keyboard-settings/main.c
  dialogs/keyboard-settings/xfce-keyboard-settings.h
- xfce4-settings-helper/keyboard-shortcuts.c
- xfce4-settings-helper/keyboard-shortcuts.h
+ xfsettingsd/keyboard-shortcuts.c
+ xfsettingsd/keyboard-shortcuts.h
 Copyright: 2008, Jannis Pohlmann <jannis@xfce.org>
 License: GPL-2+
 
-Files: xfce4-settings-helper/workspaces.c
- xfce4-settings-helper/workspaces.h
+Files: xfsettingsd/workspaces.c
+ xfsettingsd/workspaces.h
  xfce4-settings-manager/main.c
  xfce4-settings-manager/xfce-settings-manager-dialog.c
  xfce4-settings-manager/xfce-settings-manager-dialog.h
@@ -37,16 +37,16 @@ License: GPL-2+
 
 Files: dialogs/appearance-settings/images.h
  dialogs/mouse-settings/main.c
- xfce4-settings-helper/displays.h
- xfce4-settings-helper/pointers.c
- xfce4-settings-helper/pointers.h
+ xfsettingsd/displays.h
+ xfsettingsd/pointers.c
+ xfsettingsd/pointers.h
 Copyright: 2008, Nick Schermer <nick@xfce.org>
 License: GPL-2+
 
 Files: dialogs/display-settings/main.c
  dialogs/display-settings/xfce-randr.c
  dialogs/display-settings/xfce-randr.h
- xfce4-settings-helper/displays.c
+ xfsettingsd/displays.c
 Copyright: 2008, Nick Schermer <nick@xfce.org>
  2010, Lionel Le Folgoc <lionel@lefolgoc.net>
 License: GPL-2+
@@ -58,8 +58,8 @@ Copyright: 2005, Benedikt Meurer <benny@xfce.org>
  2008, Jannis Pohlmann <jannis@xfce.org>
 License: GPL-2+
 
-Files: xfce4-settings-helper/keyboard-layout.c
- xfce4-settings-helper/keyboard-layout.h
+Files: xfsettingsd/keyboard-layout.c
+ xfsettingsd/keyboard-layout.h
 Copyright: 2008, Olivier Fourdan <olivier@xfce.org>
 License: GPL-2+
 
@@ -68,7 +68,7 @@ Files: dialogs/display-settings/display-name.c
 Copyright: 2007, Red Hat, Inc
 License: MIT/X11
 
-Files: xfce4-settings-helper/clipboard-manager.c
+Files: xfsettingsd/clipboard-manager.c
 Copyright: 2007, Anders Carlsson
  2007, Matthias Clasen
  2007, Rodrigo Moya
@@ -81,7 +81,7 @@ Copyright: 2007, Gauvain Pocentek <gauvainpocentek@gmail.com>
  2008, Jannis Pohlmann <jannis@xfce.org>
 License: GPL-2+
 
-Files: xfce4-settings-helper/main.c
+Files: xfsettingsd/main.c
 Copyright: 2008, Jannis Pohlmann <jannis@xfce.org>
  2008, Nick Schermer <nick@xfce.org>
  2008, Stephan Arts <stephan@xfce.org>
@@ -101,7 +101,7 @@ Files: xfsettingsd/registry.c
 Copyright: 2001, Red Hat, Inc
 License: GPL-2+
 
-Files: xfce4-settings-helper/clipboard-manager.h
+Files: xfsettingsd/clipboard-manager.h
 Copyright: 2007, William Jon McCann <mccann@jhu.edu>
 License: GPL-2+
 

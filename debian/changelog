@@ -5,6 +5,7 @@ xfce4-settings (4.13.3-1) UNRELEASED; urgency=medium
   * d/control:
     - Drop versioned dpkg-dev build-depend.
     - Drop build-depend on libdbus-glib-1-dev.
+  * d/copyright: Fix some paths: xfce4-settings-helper → xsettingsd.
   * d/rules: Drop --disable-silent-rules, dh default now.
   * d/*.1, d/control, d/copyright, d/watch: Use https where possible.
 
