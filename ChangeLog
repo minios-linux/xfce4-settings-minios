@@ -1,3 +1,401 @@
+commit aa3ff1a0a4046a2f25eb0400fa6e92386fda1aad
+Author: Sean Davis <smd.seandavis@gmail.com>
+Date:   Sun Jun 17 09:08:17 2018 -0400
+
+    Update NEWS and --help copyrights
+
+commit 49ba2fc6e51e1dc1848c5f920231e6d5ece2a4d6
+Author: Sean Davis <smd.seandavis@gmail.com>
+Date:   Sun Jun 17 08:59:30 2018 -0400
+
+    Add exceptions for Coverity Scan to .gitignore
+
+commit 98d5098c6338d31e823c5a0164d3522446fb53d0
+Author: Sean Davis <smd.seandavis@gmail.com>
+Date:   Sun Jun 17 08:29:41 2018 -0400
+
+    Add scaling to release note
+
+commit 00a2c585af059f48ff5293c07c52100ae53712c6
+Author: Sean Davis <smd.seandavis@gmail.com>
+Date:   Sun Jun 17 08:27:56 2018 -0400
+
+    Updated laptop detection to include eDP in XfceRandr
+
+commit 6138979657fa7d9e4a9e66872db5050bd61a4a83
+Author: Jason Zaman <jason@perfinion.com>
+Date:   Tue Apr 17 22:59:00 2018 +0800
+
+    xfsettingsd/displays: support xrandr display scaling
+    
+    Equivalent to xrandr --scale to scale the entire display area
+    
+    The scale values are stored in xfconf under /Default/<name>/Scale/{X,Y}
+    similar to Position.
+    
+    A value of 1.0 is the default with no scaling. Values below 1 will
+    "zoom in", above 1 will "zoom out". Eg a 1080p monitor and scaling set
+    to 2x2 will have the same realestate as a 4k panel.
+    
+    Bug: https://bugzilla.xfce.org/show_bug.cgi?id=14346
+    
+    Signed-off-by: Jason Zaman <jason@perfinion.com>
+    Signed-off-by: Sean Davis <smd.seandavis@gmail.com>
+
+commit 192bc192cb8847edc4e4c25514888b145006e487
+Author: Sean Davis <smd.seandavis@gmail.com>
+Date:   Sun Jun 17 07:40:14 2018 -0400
+
+    Fix -Wcast-function-type (GCC 8)
+
+commit 47d53acbbc64c27a8067e2456df5397fe3a5a47c
+Author: Sean Davis <smd.seandavis@gmail.com>
+Date:   Fri Jun 15 22:53:36 2018 -0400
+
+    WIP release notes
+
+commit 4cb62e2eee1fb35326fffa98c1261575568eac1d
+Author: Sean Davis <smd.seandavis@gmail.com>
+Date:   Fri Jun 15 22:43:30 2018 -0400
+
+    Add VBX (VirtualBox)
+
+commit 39151d8ded72ccfd67017680f9f9502801ca22c8
+Author: Sean Davis <smd.seandavis@gmail.com>
+Date:   Fri Jun 15 22:40:25 2018 -0400
+
+    Increase max vendor name length to 78
+
+commit ee6c3beb8305524754a99641d028e0d8ea1cf252
+Author: Sean Davis <smd.seandavis@gmail.com>
+Date:   Fri Jun 15 22:29:20 2018 -0400
+
+    Add more monitor manufacturers
+
+commit 081e423cbe89d71b87616936cdeedc223026449c
+Author: Sean Davis <smd.seandavis@gmail.com>
+Date:   Fri Jun 15 22:03:34 2018 -0400
+
+    Standardized and shorted hardware manufacturer names
+
+commit 72a99006cd1f1ce2137d0cb4b374bb086e3181f7
+Author: Sean Davis <smd.seandavis@gmail.com>
+Date:   Thu Jun 14 23:31:37 2018 -0400
+
+    Map SDC to Laptop
+
+commit ebe86e3124d3c7f5d96b42b67602f17c60cb9a69
+Author: Sean Davis <smd.seandavis@gmail.com>
+Date:   Thu Jun 14 23:28:17 2018 -0400
+
+    Refresh display names from hwdata, reorganize and select most likely options for shared codes
+
+commit 63760919e9cbaf176eef84c497f376d50d9d9a64
+Author: Ali Abdallah <ali@xfce.org>
+Date:   Sun Jun 10 20:47:45 2018 +0200
+
+    Load settings only when we acquire the bus name
+    
+    If we don't wait to acquire the bus name to load various settings we
+    might mess up with the current running instance of xfsettingsd. So
+    do all settings task only when we acquire the bus name.
+
+commit 0f148daf570bedb649f2dde6f5bafd163aa7a8cb
+Author: Daniel Muñiz Fontoira <dani@damufo.com>
+Date:   Sun Jun 10 06:31:41 2018 +0200
+
+    I18n: Update translation gl (100%).
+    
+    376 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 61abc86e2b485e6653d51e7aaec204eb3811eafa
+Author: Daniel Muñiz Fontoira <dani@damufo.com>
+Date:   Sun Jun 10 00:31:03 2018 +0200
+
+    I18n: Update translation gl (94%).
+    
+    356 translated messages, 20 untranslated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 6a11628370dcba5d40acaa80f6306fc9a0074232
+Author: Daniel Muñiz Fontoira <dani@damufo.com>
+Date:   Sat Jun 9 18:32:19 2018 +0200
+
+    I18n: Update translation gl (89%).
+    
+    335 translated messages, 41 untranslated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 7d79ee4be75ac990c6f0c01eaf0509a77991d8d3
+Author: Sean Davis <smd.seandavis@gmail.com>
+Date:   Sat Jun 9 12:03:15 2018 -0400
+
+    Fix CID 292062, 292063: Uninitialized scalar variable(s)
+
+commit 0b3e226dbf01774df196127adb095a95e476fd15
+Author: Daniel Muñiz Fontoira <dani@damufo.com>
+Date:   Sat Jun 9 12:32:08 2018 +0200
+
+    I18n: Update translation gl (85%).
+    
+    320 translated messages, 56 untranslated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 6aacb9673b13c7e3f86885010b7fabe955abac4e
+Author: Ali Abdallah <ali@xfce.org>
+Date:   Mon Jun 4 08:50:01 2018 +0200
+
+    Set the G_BUS_NAME_OWNER_FLAGS_ALLOW_REPLACEMENT flag on name acquired
+    
+    Set the G_BUS_NAME_OWNER_FLAGS_ALLOW_REPLACEMENT only when we acquire
+    the bus name, otherwise D-Bus might queue us, ending with multiple
+    xfsettingsd instances running each one waiting for the other to exit
+    to acquire its role.
+    
+    This seems to be the correct way to do it with gdbus, as there is
+    no DBUS_NAME_FLAG_DO_NOT_QUEUE equivalent in gdbus.
+
+commit 6298f07ae1eaa499caf9b267df6c7fd74809f806
+Author: Ali Abdallah <ali@xfce.org>
+Date:   Sun Jun 3 17:49:52 2018 +0200
+
+    Remove dbus-glib and use gdbus instead (Bug #14426)
+    
+    Original patch attached to the bug report has been modified to avoid the
+    dbus queue on bus name request when --replace is specified.
+    D-Bus has a flag to avoid this, which is DBUS_NAME_FLAG_DO_NOT_QUEUE. No
+    equivalent in gdbus, but using always the flag for the name request to
+    G_BUS_NAME_OWNER_FLAGS_ALLOW_REPLACEMENT |
+    G_BUS_NAME_OWNER_FLAGS_REPLACE, has the same effect and bus does not
+    queue us waiting for the current owner to unown the name.
+
+commit 6e3d9c56704334b1c2ed07516e90ffa38570ea62
+Author: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>
+Date:   Mon May 14 12:31:52 2018 +0200
+
+    I18n: Update translation ca (100%).
+    
+    376 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 4fdd74e6d4e7ab66a9f01007e194ecc4a56174f3
+Author: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>
+Date:   Mon May 14 06:31:05 2018 +0200
+
+    I18n: Update translation ca (100%).
+    
+    376 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 72882765ba8cfc68aae53ce23ca36919fa4114c5
+Author: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>
+Date:   Wed May 9 18:32:07 2018 +0200
+
+    I18n: Update translation ca (100%).
+    
+    376 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit f872cab58e99f77b0fd1a45aad5767306055de4d
+Author: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>
+Date:   Sun May 6 00:31:28 2018 +0200
+
+    I18n: Update translation ca (100%).
+    
+    376 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 1956b538961a330fad6b97d1f7f94a0940985ffd
+Author: Balázs Meskó <meskobalazs@gmail.com>
+Date:   Sat Apr 28 18:31:13 2018 +0200
+
+    I18n: Update translation hu (100%).
+    
+    376 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 8d3495aee50691801199665b410facc468c3c1bb
+Author: John Humphrys <john.humphrys@protonmail.com>
+Date:   Fri Apr 6 06:32:02 2018 +0200
+
+    I18n: Update translation en_AU (100%).
+    
+    376 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit d0332813a661a71823dade092791b870fa4f52ba
+Author: Pablo Lezaeta Reyes [pˈaβ̞lo lˌe̞θaˈeta rˈejɛ] <prflr88@gmail.com>
+Date:   Fri Mar 30 12:31:10 2018 +0200
+
+    I18n: Update translation es (100%).
+    
+    376 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 40494f2f28ac6b9c62f88732e08660c2dde353d8
+Author: Påvel Nicklasson <pavel2@frimix.se>
+Date:   Thu Mar 29 18:31:34 2018 +0200
+
+    I18n: Update translation sv (100%).
+    
+    376 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 45816fd448aebbee4b8606e6ccaaaf2c580bf738
+Author: Elishai Eliyahu <e1907@mm.st>
+Date:   Sat Mar 24 18:31:02 2018 +0100
+
+    I18n: Update translation he (100%).
+    
+    376 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit fc87af4f5b39c84f11f48c30f6bcf796f62fc5fd
+Author: Zmicer Turok <zmicerturok@gmail.com>
+Date:   Sat Mar 24 12:31:01 2018 +0100
+
+    I18n: Update translation be (100%).
+    
+    376 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 606dd12908ab6672fe8dec2b84d0c03c206f5421
+Author: Yarema aka Knedlyk <yupadmin@gmail.com>
+Date:   Fri Mar 23 18:31:38 2018 +0100
+
+    I18n: Update translation uk (100%).
+    
+    376 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 457fd56a8bb1b0afa2732e31a1ab48b8ed6d535a
+Author: Daniel Muñiz Fontoira <dani@damufo.com>
+Date:   Fri Mar 23 12:31:06 2018 +0100
+
+    I18n: Update translation gl (81%).
+    
+    308 translated messages, 68 untranslated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit b439f51d556d804a108d2dd8f95b4e77915dd78e
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 23 00:30:54 2018 +0100
+
+    I18n: Update translation el (100%).
+    
+    376 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit dd22116194cb8abfc8205d58c6327868a00dfc80
+Author: Baurzhan Muftakhidinov <baurthefirst@gmail.com>
+Date:   Thu Mar 22 18:30:58 2018 +0100
+
+    I18n: Update translation kk (100%).
+    
+    376 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit f047042b43f53aa8b9f4378a288ad700eece9e74
+Author: Anonymous <noreply@xfce.org>
+Date:   Thu Mar 22 18:30:58 2018 +0100
+
+    I18n: Update translation el (100%).
+    
+    376 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 6559f0ed5fa9460785d26c85df75133f510f697a
+Author: Michael Martins <michaelfm21@gmail.com>
+Date:   Wed Mar 21 18:31:39 2018 +0100
+
+    I18n: Update translation pt_BR (100%).
+    
+    376 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 0c2040e5b60dd65d988f9cfb921f3b53aabea6d9
+Author: Сяргей Снапкоўскі <sirozass@outlook.com>
+Date:   Wed Mar 21 18:31:39 2018 +0100
+
+    I18n: Update translation be (99%).
+    
+    374 translated messages, 2 untranslated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit b0ed900a2219efb008b0af7bd2de5e7c963ad096
+Author: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>
+Date:   Wed Mar 21 12:31:22 2018 +0100
+
+    I18n: Update translation ca (100%).
+    
+    376 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit e68999e095f59116be79abe6f1ce05a8f758ed30
+Author: Andre Miranda <andre42m@gmail.com>
+Date:   Tue Mar 20 00:31:19 2018 +0100
+
+    I18n: Update translation pt_BR (100%).
+    
+    376 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit d6f8df2ae44c0f3f6f45fdc51c90f34792349d8a
+Author: José Vieira <jvieira33@sapo.pt>
+Date:   Mon Mar 19 18:31:05 2018 +0100
+
+    I18n: Update translation pt (100%).
+    
+    376 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit db9b095ae42a8c00b01c014821e1e26fa1386917
+Author: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
+Date:   Mon Mar 19 00:30:59 2018 +0100
+
+    I18n: Update translation ja (100%).
+    
+    376 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 297137d81b7a11a7e7b26df1eca4fdfca31f65b8
+Author: Sean Davis <smd.seandavis@gmail.com>
+Date:   Sun Mar 18 17:27:58 2018 -0400
+
+    Post release tag bump
+
+commit 869838e7e1612d5c30cfdeb6f8a6c9e0854a1d8f
+Author: Sean Davis <smd.seandavis@gmail.com>
+Date:   Sun Mar 18 17:23:13 2018 -0400
+
+    Updates for release
+
 commit 6149b4089bbaa5fc81e258e6abf6f6ab5a8a7998
 Author: Sean Davis <smd.seandavis@gmail.com>
 Date:   Sun Mar 18 17:01:17 2018 -0400
