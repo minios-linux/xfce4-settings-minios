@@ -6,6 +6,7 @@ xfce4-settings (4.13.3-1) UNRELEASED; urgency=medium
     - Drop versioned dpkg-dev build-depend.
     - Drop build-depend on libdbus-glib-1-dev.
   * d/rules: Drop --disable-silent-rules, dh default now.
+  * d/*.1, d/control, d/copyright, d/watch: Use https where possible.
 
  -- Unit 193 <unit193@ubuntu.com>  Mon, 18 Jun 2018 16:44:05 -0400
 
