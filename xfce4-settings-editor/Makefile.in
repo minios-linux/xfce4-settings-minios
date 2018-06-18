@@ -112,7 +112,7 @@ xfce4_settings_editor_OBJECTS = $(am_xfce4_settings_editor_OBJECTS)
 am__DEPENDENCIES_1 =
 xfce4_settings_editor_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
@@ -229,10 +229,6 @@ CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DATADIRNAME = @DATADIRNAME@
-DBUS_GLIB_CFLAGS = @DBUS_GLIB_CFLAGS@
-DBUS_GLIB_LIBS = @DBUS_GLIB_LIBS@
-DBUS_GLIB_REQUIRED_VERSION = @DBUS_GLIB_REQUIRED_VERSION@
-DBUS_GLIB_VERSION = @DBUS_GLIB_VERSION@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
@@ -508,8 +504,7 @@ xfce4_settings_editor_LDADD = \
 	$(GTK_LIBS) \
 	$(LIBXFCE4UTIL_LIBS) \
 	$(LIBXFCE4UI_LIBS) \
-	$(XFCONF_LIBS) \
-	$(DBUS_GLIB_LIBS)
+	$(XFCONF_LIBS)
 
 desktopdir = $(datadir)/applications
 desktop_in_files = xfce4-settings-editor.desktop.in

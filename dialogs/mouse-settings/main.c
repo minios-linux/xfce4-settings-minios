@@ -203,7 +203,7 @@ mouse_settings_themes_pixbuf_from_filename (const gchar *filename,
         pixbuf = gdk_pixbuf_new_from_data (buffer, GDK_COLORSPACE_RGB, TRUE,
                                            8, image->width, image->height,
                                            4 * image->width,
-                                           (GdkPixbufDestroyNotify) g_free, NULL);
+                                           (GdkPixbufDestroyNotify) (void (*)(void)) g_free, NULL);
 
         /* don't leak when creating the pixbuf failed */
         if (G_UNLIKELY (pixbuf == NULL))
@@ -1886,7 +1886,7 @@ main (gint argc, gchar **argv)
     if (G_UNLIKELY (opt_version))
     {
         g_print ("%s %s (Xfce %s)\n\n", G_LOG_DOMAIN, PACKAGE_VERSION, xfce_version_string ());
-        g_print ("%s\n", "Copyright (c) 2004-2011");
+        g_print ("%s\n", "Copyright (c) 2004-2018");
         g_print ("\t%s\n\n", _("The Xfce development team. All rights reserved."));
         g_print (_("Please report bugs to <%s>."), PACKAGE_BUGREPORT);
         g_print ("\n");
