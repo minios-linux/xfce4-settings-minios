@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Debian Xfce Maintainers <debian-xfce@lists.debian.org>
 Uploaders: Yves-Alexis Perez <corsac@debian.org>,
            Lionel Le Folgoc <lionel@lefolgoc.net>
-Build-Depends: debhelper (>= 10),
+Build-Depends: debhelper (>= 11),
                dpkg-dev (>= 1.16.1),
                intltool (>= 0.31),
                libdbus-glib-1-dev (>= 0.84),

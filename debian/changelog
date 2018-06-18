@@ -1,3 +1,10 @@
+xfce4-settings (4.13.3-1) UNRELEASED; urgency=medium
+
+  * New upstream version 4.13.3
+  * d/compat, d/control: Bump dh compat to 11.
+
+ -- Unit 193 <unit193@ubuntu.com>  Mon, 18 Jun 2018 16:44:05 -0400
+
 xfce4-settings (4.13.2-1) experimental; urgency=medium
 
   * update standards version to 4.1.1.
