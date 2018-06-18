@@ -6,7 +6,6 @@ Uploaders: Yves-Alexis Perez <corsac@debian.org>,
            Lionel Le Folgoc <lionel@lefolgoc.net>
 Build-Depends: debhelper (>= 11),
                intltool (>= 0.31),
-               libdbus-glib-1-dev (>= 0.84),
                libexo-2-dev,
                libgarcon-1-0-dev (>= 0.2.0),
                libgtk-3-dev,
