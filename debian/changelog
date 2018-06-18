@@ -8,6 +8,7 @@ xfce4-settings (4.13.3-1) UNRELEASED; urgency=medium
   * d/copyright: Fix some paths: xfce4-settings-helper → xsettingsd.
   * d/rules: Drop --disable-silent-rules, dh default now.
   * d/*.1, d/control, d/copyright, d/watch: Use https where possible.
+  * Remove trailing spaces from previous entries.
 
  -- Unit 193 <unit193@ubuntu.com>  Mon, 18 Jun 2018 16:44:05 -0400
 
@@ -117,21 +118,21 @@ xfce4-settings (4.11.1-1) experimental; urgency=low
 
   [ Evgeni Golov ]
   * Correct Vcs-* URLs to point to anonscm.debian.org
-  
+
   [ Jackson Doak ]
   * Remove redandant "Section" category from debian/control
   * New upstream development release.
   * 02-Xfsettingsd-Check-for-NoSuchExtension-bug-9390 fixed upstream
   * debian/changelog: Convert to debian machine readable format
-  * Refresh remaining patch 
+  * Refresh remaining patch
   * Update all manpages
-  * debian/rules: 
+  * debian/rules:
     - Use --disable-silent-rules
 
   [ Yves-Alexis Perez ]
   * debian/control:
     - add build-dep on libupower-glib-dev for upower support.
-    - update standards version to 3.9.5. 
+    - update standards version to 3.9.5.
   * debian/rules:
     - drop call to xdt-autogen, not needed anymore.
 
@@ -144,7 +145,7 @@ xfce4-settings (4.10.1-3) UNRELEASED; urgency=low
 
   [ Evgeni Golov ]
   * Correct Vcs-* URLs to point to anonscm.debian.org
-  
+
   [ Jackson Doak ]
   * Remove redandant "Section" category from debian/control
 
@@ -208,7 +209,7 @@ xfce4-settings (4.9.4-1) experimental; urgency=low
   * debian/watch updated to track all releases.
   * debian/control:
     - update standards version to 3.9.3.
-    - add build-dep on garcon. 
+    - add build-dep on garcon.
   * debian/rules:
     - build with --parallel.
 
@@ -258,7 +259,7 @@ xfce4-settings (4.8.2-1) unstable; urgency=low
   * debian/patches:
     - 01_fix-sticky-slow-bounce-mouse-keys-expiration dropped, included
       upstream.
-    - 02_fix-path_max-undefined-hurd as well. 
+    - 02_fix-path_max-undefined-hurd as well.
 
  -- Yves-Alexis Perez <corsac@debian.org>  Mon, 23 May 2011 23:18:56 +0200
 
@@ -277,7 +278,7 @@ xfce4-settings (4.8.1-3) unstable; urgency=low
     - drop Emanuele and Simon from uploaders, thanks to them.
     - update standards version to 3.9.2.
   * debian/patches:
-    - 01_fix-sticky-slow-bounce-mouse-keys-expiration cherry-picked from 
+    - 01_fix-sticky-slow-bounce-mouse-keys-expiration cherry-picked from
       upstream.                                                 closes: #614939
   * debian/rules:
     - add quilt files to POTFILES.skip and remove them at clean time.
@@ -415,7 +416,7 @@ xfce4-settings (4.6.1-2) unstable; urgency=low
     - 01_fix-timeout-startup: avoid timeouting at startup. (Xfce Bug #5040,
       Xfce Svn r29991)
     - 02_fix-keyrepeat-typo: fix typo in KeyRepeart property name so the
-      settings is correctly applied. Thanks Sven Marnach!       closes: #527238 
+      settings is correctly applied. Thanks Sven Marnach!       closes: #527238
 
  -- Yves-Alexis Perez <corsac@debian.org>  Tue, 16 Jun 2009 22:13:49 +0200
 
@@ -424,7 +425,7 @@ xfce4-settings (4.6.1-1) unstable; urgency=low
   * New upstream release.
   * debian/control:
     - remove build-dep on libcanberra as it's useless anyway
-    - add xfsettings to long description. 
+    - add xfsettings to long description.
     - drop build-dep on quilt.
   * debian/rules:
     - remove quilt rules.
@@ -446,11 +447,11 @@ xfce4-settings (4.6.0-2) unstable; urgency=low
     - version the build-dep on libxfcegui4 to 4.6.              closes: #522020
   * debian/rules:
     - enable sound settings.
-    - enable pluggable dialogs. 
+    - enable pluggable dialogs.
     - include quilt rule, add patch/unpatch targets.
   * debian/patches/
     - 01_fix-display-settings added, fix display settings application.
-    - 02_fix-display-rate added, select the correct display rate. 
+    - 02_fix-display-rate added, select the correct display rate.
   * Add manpages for all binaries.
 
  -- Yves-Alexis Perez <corsac@debian.org>  Sat, 04 Apr 2009 01:09:17 +0200
@@ -480,7 +481,7 @@ xfce4-settings (4.6.0-1) experimental; urgency=low
   * debian/control:
     - update build-deps for “Tuco-Tuco”.
     - add build-dep on intltool.
-    - add ${misc:Depends} to Depends: line. 
+    - add ${misc:Depends} to Depends: line.
 
   [ Xfce 4.6 RC1 “Capybara” ]
   * new upstream release candidate.
