@@ -9,6 +9,7 @@ xfce4-settings (4.13.3-1) UNRELEASED; urgency=medium
   * d/rules: Drop --disable-silent-rules, dh default now.
   * d/*.1, d/control, d/copyright, d/watch: Use https where possible.
   * Remove trailing spaces from previous entries.
+  * Update Standards-Version to 4.1.4.
 
  -- Unit 193 <unit193@ubuntu.com>  Mon, 18 Jun 2018 16:44:05 -0400
 
