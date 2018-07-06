@@ -1,5 +1,6 @@
-xfce4-settings (4.13.3-1) UNRELEASED; urgency=medium
+xfce4-settings (4.13.3-1) experimental; urgency=medium
 
+  [ Unit 193 ]
   * New upstream version 4.13.3
   * d/compat, d/control: Bump dh compat to 11.
   * d/control:
@@ -11,7 +12,7 @@ xfce4-settings (4.13.3-1) UNRELEASED; urgency=medium
   * Remove trailing spaces from previous entries.
   * Update Standards-Version to 4.1.4.
 
- -- Unit 193 <unit193@ubuntu.com>  Mon, 18 Jun 2018 16:44:05 -0400
+ -- Yves-Alexis Perez <corsac@debian.org>  Fri, 06 Jul 2018 23:05:06 +0200
 
 xfce4-settings (4.13.2-1) experimental; urgency=medium
 
