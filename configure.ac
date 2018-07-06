@@ -16,9 +16,9 @@ dnl *** Version information ***
 dnl ***************************
 m4_define([xfce4_settings_version_major], [4])
 m4_define([xfce4_settings_version_minor], [13])
-m4_define([xfce4_settings_version_micro], [3])
+m4_define([xfce4_settings_version_micro], [4])
 m4_define([xfce4_settings_version_nano], [])
-m4_define([xfce4_settings_version_build], [aa3ff1a])
+m4_define([xfce4_settings_version_build], [9a1203d])
 m4_define([xfce4_settings_version_tag], []) # Leave empty for releases
 m4_define([xfce4_settings_version], [xfce4_settings_version_major().xfce4_settings_version_minor().xfce4_settings_version_micro()ifelse(xfce4_settings_version_nano(), [], [], [.xfce4_settings_version_nano()])ifelse(xfce4_settings_version_tag(), [git], [xfce4_settings_version_tag()-xfce4_settings_version_build()], [xfce4_settings_version_tag()])])
 
@@ -41,8 +41,8 @@ AC_COPYRIGHT([Copyright (c) 2008-2015
         The Xfce development team. All rights reserved.])
 AC_INIT([xfce4-settings], [xfce4_settings_version], [http://bugzilla.xfce.org/])
 AC_PREREQ([2.60])
-AC_CONFIG_MACRO_DIR([m4])
-AC_REVISION([aa3ff1a])
+AC_CONFIG_MACRO_DIRS([m4])
+AC_REVISION([9a1203d])
 
 dnl ***************************
 dnl *** Initialize automake ***
