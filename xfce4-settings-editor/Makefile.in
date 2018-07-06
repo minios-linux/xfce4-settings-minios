@@ -509,11 +509,12 @@ xfce4_settings_editor_LDADD = \
 desktopdir = $(datadir)/applications
 desktop_in_files = xfce4-settings-editor.desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
-@MAINTAINER_MODE_TRUE@DISTCLEANFILES = \
-@MAINTAINER_MODE_TRUE@	$(xfce4_settings_editor_built_sources)
+@MAINTAINER_MODE_FALSE@DISTCLEANFILES = \
+@MAINTAINER_MODE_FALSE@	$(desktop_DATA)
 
-DISTCLEANFILES = \
-	$(desktop_DATA)
+@MAINTAINER_MODE_TRUE@DISTCLEANFILES = \
+@MAINTAINER_MODE_TRUE@	$(xfce4_settings_editor_built_sources) \
+@MAINTAINER_MODE_TRUE@	$(desktop_DATA)
 
 @MAINTAINER_MODE_TRUE@BUILT_SOURCES = \
 @MAINTAINER_MODE_TRUE@	$(xfce4_settings_editor_built_sources)
