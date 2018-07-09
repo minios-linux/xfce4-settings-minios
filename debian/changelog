@@ -1,8 +1,8 @@
-xfce4-settings (4.13.4-1) UNRELEASED; urgency=medium
+xfce4-settings (4.13.4-1) experimental; urgency=medium
 
   * New upstream version 4.13.4
 
- -- Yves-Alexis Perez <corsac@debian.org>  Fri, 06 Jul 2018 23:13:40 +0200
+ -- Yves-Alexis Perez <corsac@debian.org>  Mon, 09 Jul 2018 21:59:21 +0200
 
 xfce4-settings (4.13.3-1) experimental; urgency=medium
 
