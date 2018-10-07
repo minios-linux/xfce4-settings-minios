@@ -2,8 +2,7 @@ Source: xfce4-settings
 Section: xfce
 Priority: optional
 Maintainer: Debian Xfce Maintainers <debian-xfce@lists.debian.org>
-Uploaders: Yves-Alexis Perez <corsac@debian.org>,
-           Lionel Le Folgoc <lionel@lefolgoc.net>
+Uploaders: Yves-Alexis Perez <corsac@debian.org>
 Build-Depends: debhelper (>= 11),
                intltool (>= 0.31),
                libexo-2-dev,
