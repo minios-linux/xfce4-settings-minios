@@ -1,3 +1,14 @@
+xfce4-settings (4.13.5-1) UNRELEASED; urgency=medium
+
+  * New upstream version 4.13.5
+  * d/control: drop Lionel from uploaders, thanks!
+  * reorder/wrap configure options
+  * d/rules: drop manual call to xdt-autogen
+  * d/control: update standards version to 4.2.1
+  * d/control: drop build-conflict, that libxfcegui4-dev version is long gone
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Sun, 07 Oct 2018 14:18:16 +0200
+
 xfce4-settings (4.13.4-1) experimental; urgency=medium
 
   * New upstream version 4.13.4
