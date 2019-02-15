@@ -3,19 +3,26 @@ Upstream-Name: xfce4-settings
 Source: https://www.xfce.org
 
 Files: *
-Copyright: 2008, Stephan Arts <stephan@xfce.org>
+Copyright: Xfce development team
 License: GPL-2+
 
-Files: dialogs/accessibility-settings/main.c
- xfce4-settings-editor/main.c
- xfce4-settings-editor/main_window.h
- xfsettingsd/accessibility.c
- xfsettingsd/accessibility.h
- xfsettingsd/keyboards.c
- xfsettingsd/keyboards.h
- xfsettingsd/main.c
- xfsettingsd/registry.h
-Copyright: 2008, Stephan Arts <stephan@xfce.org>
+Files: dialogs/appearance-settings/appearance-install-theme
+ dialogs/appearance-settings/images.h
+ dialogs/mime-settings/main.c
+ dialogs/mime-settings/xfce-mime-chooser.c
+ dialogs/mime-settings/xfce-mime-chooser.h
+ dialogs/mime-settings/xfce-mime-window.c
+ dialogs/mime-settings/xfce-mime-window.h
+ xfsettingsd/debug.c
+ xfsettingsd/debug.h
+ xfsettingsd/displays.h
+ xfsettingsd/pointers-defines.h
+ xfsettingsd/pointers.c
+ xfsettingsd/pointers.h
+Copyright: 2008, Nick Schermer <nick@xfce.org>
+  2008-2011, Nick Schermer <nick@xfce.org>
+  2011, Nick Schermer <nick@xfce.org>
+  2012, Nick Schermer <nick@xfce.org>
 License: GPL-2+
 
 Files: dialogs/keyboard-settings/command-dialog.c
@@ -25,6 +32,14 @@ Files: dialogs/keyboard-settings/command-dialog.c
  xfsettingsd/keyboard-shortcuts.c
  xfsettingsd/keyboard-shortcuts.h
 Copyright: 2008, Jannis Pohlmann <jannis@xfce.org>
+License: GPL-2+
+
+Files: dialogs/accessibility-settings/main.c
+ xfsettingsd/accessibility.c
+ xfsettingsd/accessibility.h
+ xfsettingsd/keyboards.c
+ xfsettingsd/keyboards.h
+Copyright: 2008, Stephan Arts <stephan@xfce.org>
 License: GPL-2+
 
 Files: xfsettingsd/workspaces.c
@@ -48,14 +63,21 @@ Files: dialogs/display-settings/main.c
  dialogs/display-settings/xfce-randr.h
  xfsettingsd/displays.c
 Copyright: 2008, Nick Schermer <nick@xfce.org>
- 2010, Lionel Le Folgoc <lionel@lefolgoc.net>
+  2010-2012, Lionel Le Folgoc <lionel@lefolgoc.net>
 License: GPL-2+
 
-Files: xfce4-settings-manager/xfce-text-renderer.c
- xfce4-settings-manager/xfce-text-renderer.h
-Copyright: 2005, Benedikt Meurer <benny@xfce.org>
- 2005-2006, Benedikt Meurer <benny@xfce.org>
- 2008, Jannis Pohlmann <jannis@xfce.org>
+Files: xfce4-settings-editor/xfce-settings-editor-box.c
+ xfce4-settings-editor/xfce-settings-editor-box.h
+Copyright: 2008, Brian Tarricone <bjt23@cornell.edu>
+  2008, Stephan Arts <stephan@xfce.org>
+  2009-2010, Jérôme Guelfucci <jeromeg@xfce.org>
+  2012, Nick Schermer <nick@xfce.org>
+  2015, Ali Abdallah <ali@aliov.org>
+License: GPL-2+
+
+Files: xfsettingsd/gtk-decorations.c
+ xfsettingsd/gtk-decorations.h
+Copyright: 2014, Olivier Fourdan <fourdan@xfce.org>
 License: GPL-2+
 
 Files: xfsettingsd/keyboard-layout.c
@@ -63,42 +85,61 @@ Files: xfsettingsd/keyboard-layout.c
 Copyright: 2008, Olivier Fourdan <olivier@xfce.org>
 License: GPL-2+
 
+Files: dialogs/display-settings/scrollarea.c
+ dialogs/display-settings/scrollarea.h
+Copyright: 2006-2008, Soren Sandmann <sandmann@daimi.au.dk>
+License: LGPL-2+
+
 Files: dialogs/display-settings/display-name.c
  dialogs/display-settings/edid-parse.c
 Copyright: 2007, Red Hat, Inc
 License: MIT/X11
 
+Files: xfce4-settings-manager/xfce-settings-manager-dialog.c
+Copyright: 2008, Brian Tarricone <bjt23@cornell.edu>
+  2012, Nick Schermer <nick@xfce.org>
+License: GPL-2+
+
+Files: xfce4-settings-editor/main.c
+Copyright: 2008, Stephan Arts <stephan@xfce.org>
+  2015, Ali Abdallah <ali@aliov.org>
+License: GPL-2+
+
 Files: xfsettingsd/clipboard-manager.c
 Copyright: 2007, Anders Carlsson
- 2007, Matthias Clasen
- 2007, Rodrigo Moya
- 2007, William Jon McCann <mccann@jhu.edu>
- 2009-2011, Mike Massonnet <mmassonnet@xfce.org>
+  2007, Matthias Clasen
+  2007, Rodrigo Moya
+  2007, William Jon McCann <mccann@jhu.edu>
+  2011, Nick Schermer <nick@xfce.org>
+License: GPL-2+
+
+Files: ltmain.sh
+Copyright: 1996-2015, Free Software Foundation, Inc.
 License: GPL-2+
 
 Files: dialogs/keyboard-settings/xfce-keyboard-settings.c
 Copyright: 2007, Gauvain Pocentek <gauvainpocentek@gmail.com>
- 2008, Jannis Pohlmann <jannis@xfce.org>
+  2008, Jannis Pohlmann <jannis@xfce.org>
+License: GPL-2+
+
+Files: dialogs/mouse-settings/main.c
+Copyright: 2008, Jannis Pohlmann <jannis@xfce.org>
+  2008-2011, Nick Schermer <nick@xfce.org>
 License: GPL-2+
 
 Files: xfsettingsd/main.c
 Copyright: 2008, Jannis Pohlmann <jannis@xfce.org>
- 2008, Nick Schermer <nick@xfce.org>
- 2008, Stephan Arts <stephan@xfce.org>
+  2008, Nick Schermer <nick@xfce.org>
+  2008, Stephan Arts <stephan@xfce.org>
 License: GPL-2+
 
 Files: dialogs/appearance-settings/main.c
 Copyright: 2008, Jannis Pohlmann <jannis@xfce.org>
- 2008, Stephan Arts <stephan@xfce.org>
+  2008, Stephan Arts <stephan@xfce.org>
 License: GPL-2+
 
-Files: xfce4-settings-editor/main_window.c
-Copyright: 2008, Stephan Arts <stephan@xfce.org>
- 2009-2010, JÃrôme Guelfucci <jeromeg@xfce.org>
-License: GPL-2+
-
-Files: xfsettingsd/registry.c
-Copyright: 2001, Red Hat, Inc
+Files: dialogs/accessibility-settings/find-cursor.c
+Copyright: 2018, Simon Steinbeiß <simon@xfce.org>
 License: GPL-2+
 
 Files: xfsettingsd/clipboard-manager.h
@@ -106,7 +147,7 @@ Copyright: 2007, William Jon McCann <mccann@jhu.edu>
 License: GPL-2+
 
 Files: dialogs/display-settings/edid.h
-Copyright: 2007-2008, Red Hat, Inc
+Copyright: 2007-2008, Red Hat, Inc.
 License: LGPL-2+
 
 Files: debian/*
