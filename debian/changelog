@@ -6,8 +6,11 @@ xfce4-settings (4.13.5-1) UNRELEASED; urgency=medium
   * d/rules: drop manual call to xdt-autogen
   * d/control: update standards version to 4.2.1
   * d/control: drop build-conflict, that libxfcegui4-dev version is long gone
+  * d/control: update standards version to 4.3.0
+  * maintscripts: drop rm_conffile, 4.9.0 is long gone
+  * d/copyright updated
 
- -- Yves-Alexis Perez <corsac@debian.org>  Sun, 07 Oct 2018 14:18:16 +0200
+ -- Yves-Alexis Perez <corsac@debian.org>  Sat, 16 Feb 2019 16:22:20 +0100
 
 xfce4-settings (4.13.4-1) experimental; urgency=medium
 
