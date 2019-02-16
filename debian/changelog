@@ -1,4 +1,4 @@
-xfce4-settings (4.13.5-1) UNRELEASED; urgency=medium
+xfce4-settings (4.13.5-1) experimental; urgency=medium
 
   * New upstream version 4.13.5
   * d/control: drop Lionel from uploaders, thanks!
@@ -10,7 +10,7 @@ xfce4-settings (4.13.5-1) UNRELEASED; urgency=medium
   * maintscripts: drop rm_conffile, 4.9.0 is long gone
   * d/copyright updated
 
- -- Yves-Alexis Perez <corsac@debian.org>  Sat, 16 Feb 2019 16:22:20 +0100
+ -- Yves-Alexis Perez <corsac@debian.org>  Sat, 16 Feb 2019 16:22:34 +0100
 
 xfce4-settings (4.13.4-1) experimental; urgency=medium
 
