@@ -87,6 +87,10 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+@HAVE_COLORD_TRUE@am__append_1 = \
+@HAVE_COLORD_TRUE@	icons
+
+distuninstallcheck_listfiles = find . -type f -print
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -156,7 +160,8 @@ am__define_uniq_tagged_files = \
 ETAGS = etags
 CTAGS = ctags
 CSCOPE = cscope
-DIST_SUBDIRS = $(SUBDIRS)
+DIST_SUBDIRS = common dialogs xfce4-settings-manager \
+	xfce4-settings-editor xfsettingsd po icons
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/config.h.in AUTHORS \
 	COPYING ChangeLog INSTALL NEWS README TODO compile \
 	config.guess config.sub install-sh ltmain.sh missing
@@ -198,7 +203,6 @@ am__relativize = \
 GZIP_ENV = --best
 DIST_ARCHIVES = $(distdir).tar.bz2
 DIST_TARGETS = dist-bzip2
-distuninstallcheck_listfiles = find . -type f -print
 am__distuninstallcheck_listfiles = $(distuninstallcheck_listfiles) \
   | sed 's|^\./|$(prefix)/|' | grep -v '$(infodir)/dir$$'
 distcleancheck_listfiles = find . -type f -print
@@ -216,6 +220,10 @@ CATOBJEXT = @CATOBJEXT@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
+COLORD_CFLAGS = @COLORD_CFLAGS@
+COLORD_LIBS = @COLORD_LIBS@
+COLORD_REQUIRED_VERSION = @COLORD_REQUIRED_VERSION@
+COLORD_VERSION = @COLORD_VERSION@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CYGPATH_W = @CYGPATH_W@
@@ -455,12 +463,10 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
-SUBDIRS = \
-	dialogs \
-	xfce4-settings-manager \
-	xfce4-settings-editor \
-	xfsettingsd \
-	po
+SUBDIRS = common dialogs xfce4-settings-manager xfce4-settings-editor \
+	xfsettingsd po $(am__append_1)
+@HAVE_COLORD_TRUE@distuninstallcheck_listfiles = \
+@HAVE_COLORD_TRUE@	find . -type f -print | grep -v ./share/icons/hicolor/icon-theme.cache
 
 EXTRA_DIST = \
 	intltool-extract.in \

@@ -90,6 +90,14 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS = xfce4-display-settings$(EXEEXT)
+
+# Optional support for colord
+@HAVE_COLORD_TRUE@am__append_1 = \
+@HAVE_COLORD_TRUE@	$(COLORD_CFLAGS)
+
+@HAVE_COLORD_TRUE@am__append_2 = \
+@HAVE_COLORD_TRUE@	$(COLORD_LIBS)
+
 subdir = dialogs/display-settings
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -105,17 +113,17 @@ am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(desktopdir)" \
 PROGRAMS = $(bin_PROGRAMS)
 am_xfce4_display_settings_OBJECTS =  \
 	xfce4_display_settings-main.$(OBJEXT) \
-	xfce4_display_settings-xfce-randr.$(OBJEXT) \
-	xfce4_display_settings-display-name.$(OBJEXT) \
-	xfce4_display_settings-edid-parse.$(OBJEXT) \
 	xfce4_display_settings-scrollarea.$(OBJEXT) \
 	xfce4_display_settings-foo-marshal.$(OBJEXT)
 xfce4_display_settings_OBJECTS = $(am_xfce4_display_settings_OBJECTS)
 am__DEPENDENCIES_1 =
+@HAVE_COLORD_TRUE@am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1)
 xfce4_display_settings_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(top_builddir)/common/libxfce4-settings.la \
+	$(am__DEPENDENCIES_2)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
@@ -140,12 +148,9 @@ DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade =  \
-	./$(DEPDIR)/xfce4_display_settings-display-name.Po \
-	./$(DEPDIR)/xfce4_display_settings-edid-parse.Po \
 	./$(DEPDIR)/xfce4_display_settings-foo-marshal.Po \
 	./$(DEPDIR)/xfce4_display_settings-main.Po \
-	./$(DEPDIR)/xfce4_display_settings-scrollarea.Po \
-	./$(DEPDIR)/xfce4_display_settings-xfce-randr.Po
+	./$(DEPDIR)/xfce4_display_settings-scrollarea.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -235,6 +240,10 @@ CATOBJEXT = @CATOBJEXT@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
+COLORD_CFLAGS = @COLORD_CFLAGS@
+COLORD_LIBS = @COLORD_LIBS@
+COLORD_REQUIRED_VERSION = @COLORD_REQUIRED_VERSION@
+COLORD_VERSION = @COLORD_VERSION@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CYGPATH_W = @CYGPATH_W@
@@ -479,51 +488,36 @@ AM_CPPFLAGS = \
 	-DSRCDIR=\"$(top_srcdir)\" \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DG_LOG_DOMAIN=\"xfce4-display-settings\" \
-	-DPNP_IDS=\"$(PNP_IDS)\" \
 	$(PLATFORM_CPPFLAGS)
 
 xfce4_display_settings_SOURCES = \
 	main.c \
-	xfce-randr.c \
-	xfce-randr.h \
 	confirmation-dialog_ui.h \
 	display-dialog_ui.h \
 	minimal-display-dialog_ui.h \
+	profile-changed-dialog_ui.h \
 	identity-popup_ui.h \
-	display-name.c \
-	edid-parse.c \
-	edid.h \
 	scrollarea.c \
 	scrollarea.h \
 	foo-marshal.c \
 	foo-marshal.h
 
-xfce4_display_settings_CFLAGS = \
-	$(GTK_CFLAGS) \
-	$(LIBXFCE4UI_CFLAGS) \
-	$(XFCONF_CFLAGS) \
-	$(EXO_CFLAGS) \
-	$(XRANDR_CFLAGS) \
-	$(LIBX11_CFLAGS) \
-	$(PLATFORM_CFLAGS)
-
+xfce4_display_settings_CFLAGS = $(GTK_CFLAGS) $(LIBXFCE4UI_CFLAGS) \
+	$(XFCONF_CFLAGS) $(EXO_CFLAGS) $(XRANDR_CFLAGS) \
+	$(LIBX11_CFLAGS) $(PLATFORM_CFLAGS) $(am__append_1)
 xfce4_display_settings_LDFLAGS = \
 	-no-undefined \
 	$(PLATFORM_LDFLAGS)
 
-xfce4_display_settings_LDADD = \
-	$(GTK_LIBS) \
-	$(LIBXFCE4UI_LIBS) \
-	$(XFCONF_LIBS) \
-	$(EXO_LIBS) \
-	$(LIBX11_LIBS) -lm \
-	$(XRANDR_LIBS) \
-	$(GLIB_LIBS)
-
+xfce4_display_settings_LDADD = $(GTK_LIBS) $(LIBXFCE4UI_LIBS) \
+	$(XFCONF_LIBS) $(EXO_LIBS) $(LIBX11_LIBS) -lm $(XRANDR_LIBS) \
+	$(GLIB_LIBS) $(top_builddir)/common/libxfce4-settings.la \
+	$(am__append_2)
 @MAINTAINER_MODE_TRUE@BUILT_SOURCES = \
 @MAINTAINER_MODE_TRUE@	confirmation-dialog_ui.h \
 @MAINTAINER_MODE_TRUE@	display-dialog_ui.h \
 @MAINTAINER_MODE_TRUE@	minimal-display-dialog_ui.h \
+@MAINTAINER_MODE_TRUE@	profile-changed-dialog_ui.h \
 @MAINTAINER_MODE_TRUE@	identity-popup_ui.h
 
 desktopdir = $(datadir)/applications
@@ -543,6 +537,7 @@ EXTRA_DIST = \
 	confirmation-dialog.glade \
 	display-dialog.glade \
 	minimal-display-dialog.glade \
+	profile-changed-dialog.glade \
 	identity-popup.glade
 
 DISTCLEANFILES = \
@@ -642,12 +637,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfce4_display_settings-display-name.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfce4_display_settings-edid-parse.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfce4_display_settings-foo-marshal.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfce4_display_settings-main.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfce4_display_settings-scrollarea.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfce4_display_settings-xfce-randr.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -689,48 +681,6 @@ xfce4_display_settings-main.obj: main.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='main.c' object='xfce4_display_settings-main.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -c -o xfce4_display_settings-main.obj `if test -f 'main.c'; then $(CYGPATH_W) 'main.c'; else $(CYGPATH_W) '$(srcdir)/main.c'; fi`
-
-xfce4_display_settings-xfce-randr.o: xfce-randr.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -MT xfce4_display_settings-xfce-randr.o -MD -MP -MF $(DEPDIR)/xfce4_display_settings-xfce-randr.Tpo -c -o xfce4_display_settings-xfce-randr.o `test -f 'xfce-randr.c' || echo '$(srcdir)/'`xfce-randr.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfce4_display_settings-xfce-randr.Tpo $(DEPDIR)/xfce4_display_settings-xfce-randr.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='xfce-randr.c' object='xfce4_display_settings-xfce-randr.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -c -o xfce4_display_settings-xfce-randr.o `test -f 'xfce-randr.c' || echo '$(srcdir)/'`xfce-randr.c
-
-xfce4_display_settings-xfce-randr.obj: xfce-randr.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -MT xfce4_display_settings-xfce-randr.obj -MD -MP -MF $(DEPDIR)/xfce4_display_settings-xfce-randr.Tpo -c -o xfce4_display_settings-xfce-randr.obj `if test -f 'xfce-randr.c'; then $(CYGPATH_W) 'xfce-randr.c'; else $(CYGPATH_W) '$(srcdir)/xfce-randr.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfce4_display_settings-xfce-randr.Tpo $(DEPDIR)/xfce4_display_settings-xfce-randr.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='xfce-randr.c' object='xfce4_display_settings-xfce-randr.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -c -o xfce4_display_settings-xfce-randr.obj `if test -f 'xfce-randr.c'; then $(CYGPATH_W) 'xfce-randr.c'; else $(CYGPATH_W) '$(srcdir)/xfce-randr.c'; fi`
-
-xfce4_display_settings-display-name.o: display-name.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -MT xfce4_display_settings-display-name.o -MD -MP -MF $(DEPDIR)/xfce4_display_settings-display-name.Tpo -c -o xfce4_display_settings-display-name.o `test -f 'display-name.c' || echo '$(srcdir)/'`display-name.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfce4_display_settings-display-name.Tpo $(DEPDIR)/xfce4_display_settings-display-name.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='display-name.c' object='xfce4_display_settings-display-name.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -c -o xfce4_display_settings-display-name.o `test -f 'display-name.c' || echo '$(srcdir)/'`display-name.c
-
-xfce4_display_settings-display-name.obj: display-name.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -MT xfce4_display_settings-display-name.obj -MD -MP -MF $(DEPDIR)/xfce4_display_settings-display-name.Tpo -c -o xfce4_display_settings-display-name.obj `if test -f 'display-name.c'; then $(CYGPATH_W) 'display-name.c'; else $(CYGPATH_W) '$(srcdir)/display-name.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfce4_display_settings-display-name.Tpo $(DEPDIR)/xfce4_display_settings-display-name.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='display-name.c' object='xfce4_display_settings-display-name.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -c -o xfce4_display_settings-display-name.obj `if test -f 'display-name.c'; then $(CYGPATH_W) 'display-name.c'; else $(CYGPATH_W) '$(srcdir)/display-name.c'; fi`
-
-xfce4_display_settings-edid-parse.o: edid-parse.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -MT xfce4_display_settings-edid-parse.o -MD -MP -MF $(DEPDIR)/xfce4_display_settings-edid-parse.Tpo -c -o xfce4_display_settings-edid-parse.o `test -f 'edid-parse.c' || echo '$(srcdir)/'`edid-parse.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfce4_display_settings-edid-parse.Tpo $(DEPDIR)/xfce4_display_settings-edid-parse.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='edid-parse.c' object='xfce4_display_settings-edid-parse.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -c -o xfce4_display_settings-edid-parse.o `test -f 'edid-parse.c' || echo '$(srcdir)/'`edid-parse.c
-
-xfce4_display_settings-edid-parse.obj: edid-parse.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -MT xfce4_display_settings-edid-parse.obj -MD -MP -MF $(DEPDIR)/xfce4_display_settings-edid-parse.Tpo -c -o xfce4_display_settings-edid-parse.obj `if test -f 'edid-parse.c'; then $(CYGPATH_W) 'edid-parse.c'; else $(CYGPATH_W) '$(srcdir)/edid-parse.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfce4_display_settings-edid-parse.Tpo $(DEPDIR)/xfce4_display_settings-edid-parse.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='edid-parse.c' object='xfce4_display_settings-edid-parse.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -c -o xfce4_display_settings-edid-parse.obj `if test -f 'edid-parse.c'; then $(CYGPATH_W) 'edid-parse.c'; else $(CYGPATH_W) '$(srcdir)/edid-parse.c'; fi`
 
 xfce4_display_settings-scrollarea.o: scrollarea.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -MT xfce4_display_settings-scrollarea.o -MD -MP -MF $(DEPDIR)/xfce4_display_settings-scrollarea.Tpo -c -o xfce4_display_settings-scrollarea.o `test -f 'scrollarea.c' || echo '$(srcdir)/'`scrollarea.c
@@ -939,12 +889,9 @@ clean: clean-am
 clean-am: clean-binPROGRAMS clean-generic clean-libtool mostlyclean-am
 
 distclean: distclean-am
-		-rm -f ./$(DEPDIR)/xfce4_display_settings-display-name.Po
-	-rm -f ./$(DEPDIR)/xfce4_display_settings-edid-parse.Po
-	-rm -f ./$(DEPDIR)/xfce4_display_settings-foo-marshal.Po
+		-rm -f ./$(DEPDIR)/xfce4_display_settings-foo-marshal.Po
 	-rm -f ./$(DEPDIR)/xfce4_display_settings-main.Po
 	-rm -f ./$(DEPDIR)/xfce4_display_settings-scrollarea.Po
-	-rm -f ./$(DEPDIR)/xfce4_display_settings-xfce-randr.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -990,12 +937,9 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-		-rm -f ./$(DEPDIR)/xfce4_display_settings-display-name.Po
-	-rm -f ./$(DEPDIR)/xfce4_display_settings-edid-parse.Po
-	-rm -f ./$(DEPDIR)/xfce4_display_settings-foo-marshal.Po
+		-rm -f ./$(DEPDIR)/xfce4_display_settings-foo-marshal.Po
 	-rm -f ./$(DEPDIR)/xfce4_display_settings-main.Po
 	-rm -f ./$(DEPDIR)/xfce4_display_settings-scrollarea.Po
-	-rm -f ./$(DEPDIR)/xfce4_display_settings-xfce-randr.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -1044,6 +988,9 @@ uninstall-am: uninstall-binPROGRAMS uninstall-desktopDATA \
 
 @MAINTAINER_MODE_TRUE@minimal-display-dialog_ui.h: minimal-display-dialog.glade
 @MAINTAINER_MODE_TRUE@	exo-csource --static --strip-comments --strip-content --name=minimal_display_dialog_ui $< >$@
+
+@MAINTAINER_MODE_TRUE@profile-changed-dialog_ui.h: profile-changed-dialog.glade
+@MAINTAINER_MODE_TRUE@	exo-csource --static --strip-comments --strip-content --name=profile_changed_dialog_ui $< >$@
 
 @MAINTAINER_MODE_TRUE@identity-popup_ui.h: identity-popup.glade
 @MAINTAINER_MODE_TRUE@	exo-csource --static --strip-comments --strip-content --name=identity_popup_ui $< >$@

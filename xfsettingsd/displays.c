@@ -36,6 +36,9 @@
 
 #include <X11/extensions/Xrandr.h>
 
+#include "common/display-profiles.h"
+#include "common/xfce-randr.h"
+
 #include "debug.h"
 #include "displays.h"
 #ifdef HAVE_UPOWERGLIB
@@ -50,20 +53,22 @@
 #endif
 
 /* Xfconf properties */
-#define APPLY_SCHEME_PROP   "/Schemes/Apply"
-#define DEFAULT_SCHEME_NAME "Default"
-#define OUTPUT_FMT          "/%s/%s"
-#define PRIMARY_PROP        OUTPUT_FMT "/Primary"
-#define ACTIVE_PROP         OUTPUT_FMT "/Active"
-#define ROTATION_PROP       OUTPUT_FMT "/Rotation"
-#define REFLECTION_PROP     OUTPUT_FMT "/Reflection"
-#define RESOLUTION_PROP     OUTPUT_FMT "/Resolution"
-#define SCALEX_PROP         OUTPUT_FMT "/Scale/X"
-#define SCALEY_PROP         OUTPUT_FMT "/Scale/Y"
-#define RRATE_PROP          OUTPUT_FMT "/RefreshRate"
-#define POSX_PROP           OUTPUT_FMT "/Position/X"
-#define POSY_PROP           OUTPUT_FMT "/Position/Y"
-#define NOTIFY_PROP         "/Notify"
+#define APPLY_SCHEME_PROP    "/Schemes/Apply"
+#define DEFAULT_SCHEME_NAME  "Default"
+#define ACTIVE_PROFILE       "/ActiveProfile"
+#define AUTO_ENABLE_PROFILES "/AutoEnableProfiles"
+#define OUTPUT_FMT           "/%s/%s"
+#define PRIMARY_PROP         OUTPUT_FMT "/Primary"
+#define ACTIVE_PROP          OUTPUT_FMT "/Active"
+#define ROTATION_PROP        OUTPUT_FMT "/Rotation"
+#define REFLECTION_PROP      OUTPUT_FMT "/Reflection"
+#define RESOLUTION_PROP      OUTPUT_FMT "/Resolution"
+#define SCALEX_PROP          OUTPUT_FMT "/Scale/X"
+#define SCALEY_PROP          OUTPUT_FMT "/Scale/Y"
+#define RRATE_PROP           OUTPUT_FMT "/RefreshRate"
+#define POSX_PROP            OUTPUT_FMT "/Position/X"
+#define POSY_PROP            OUTPUT_FMT "/Position/Y"
+#define NOTIFY_PROP          "/Notify"
 
 
 
@@ -76,6 +81,7 @@ typedef struct _XfceRROutput XfceRROutput;
 static void             xfce_displays_helper_dispose                        (GObject                 *object);
 static void             xfce_displays_helper_finalize                       (GObject                 *object);
 static void             xfce_displays_helper_reload                         (XfceDisplaysHelper      *helper);
+static gchar           *xfce_displays_helper_get_matching_profile           (XfceDisplaysHelper      *helper);
 static GdkFilterReturn  xfce_displays_helper_screen_on_event                (GdkXEvent               *xevent,
                                                                              GdkEvent                *event,
                                                                              gpointer                 data);
@@ -274,6 +280,7 @@ xfce_displays_helper_init (XfceDisplaysHelper *helper)
 
             /* remove any leftover apply property before setting the monitor */
             xfconf_channel_reset_property (helper->channel, APPLY_SCHEME_PROP, FALSE);
+            xfconf_channel_set_string (helper->channel, ACTIVE_PROFILE, DEFAULT_SCHEME_NAME);
 
             /* monitor channel changes */
             helper->handler = g_signal_connect (G_OBJECT (helper->channel),
@@ -284,8 +291,21 @@ xfce_displays_helper_init (XfceDisplaysHelper *helper)
 #ifdef HAS_RANDR_ONE_POINT_THREE
             helper->has_1_3 = (major > 1 || (major == 1 && minor >= 3));
 #endif
+
+            /*  check if we can auto-enable a profile */
+            if (xfconf_channel_get_bool (helper->channel, AUTO_ENABLE_PROFILES, TRUE))
+            {
+                gchar *matching_profile = NULL;
+
+                matching_profile = xfce_displays_helper_get_matching_profile (helper);
+                if (matching_profile)
+                {
+                    xfce_displays_helper_channel_apply (helper, matching_profile);
+                }
+            }
             /* restore the default scheme */
-            xfce_displays_helper_channel_apply (helper, DEFAULT_SCHEME_NAME);
+            else
+                xfce_displays_helper_channel_apply (helper, DEFAULT_SCHEME_NAME);
         }
         else
         {
@@ -410,6 +430,48 @@ xfce_displays_helper_reload (XfceDisplaysHelper *helper)
 
 
 
+static gchar *
+xfce_displays_helper_get_matching_profile (XfceDisplaysHelper *helper)
+{
+    GList              *profiles = NULL;
+    GdkDisplay         *display;
+    GError             *error = NULL;
+    gpointer           *profile;
+    XfceRandr          *xfce_randr;
+    gchar              *profile_name;
+    gchar              *property;
+
+    display = gdk_display_get_default ();
+    xfce_randr = xfce_randr_new (display, &error);
+    if (xfce_randr)
+    {
+        profiles = display_settings_get_profiles (xfce_randr, helper->channel);
+        xfce_randr_free (xfce_randr);
+    }
+
+    if (profiles == NULL)
+    {
+        xfsettings_dbg (XFSD_DEBUG_DISPLAYS, "No matching display profiles found.");
+    }
+    else if (g_list_length (profiles) == 1)
+    {
+        profile = g_list_nth_data (profiles, 0);
+        property = g_strdup_printf ("/%s", (gchar *) profile);
+        profile_name = xfconf_channel_get_string (helper->channel, property, NULL);
+        xfsettings_dbg (XFSD_DEBUG_DISPLAYS, "Applied the only matching display profile: %s", profile_name);
+        g_free (profile_name);
+        g_free (property);
+        return (gchar *)profile;
+    }
+    else
+    {
+        xfsettings_dbg (XFSD_DEBUG_DISPLAYS, "Found %d matching display profiles.", g_list_length (profiles));
+    }
+    return NULL;
+}
+
+
+
 static GdkFilterReturn
 xfce_displays_helper_screen_on_event (GdkXEvent *xevent,
                                       GdkEvent  *event,
@@ -439,6 +501,25 @@ xfce_displays_helper_screen_on_event (GdkXEvent *xevent,
 
         xfsettings_dbg (XFSD_DEBUG_DISPLAYS, "Noutput: before = %d, after = %d.",
                         old_outputs->len, helper->outputs->len);
+
+        /* Check if we have different amount of outputs and a matching profile and
+           apply it if there's only one */
+        if (old_outputs->len > helper->outputs->len ||
+            old_outputs->len < helper->outputs->len)
+        {
+            if (xfconf_channel_get_bool (helper->channel, AUTO_ENABLE_PROFILES, TRUE))
+            {
+                gchar *matching_profile = NULL;
+
+                matching_profile = xfce_displays_helper_get_matching_profile (helper);
+                if (matching_profile)
+                {
+                    xfce_displays_helper_channel_apply (helper, matching_profile);
+                    return GDK_FILTER_CONTINUE;
+                }
+            }
+            xfconf_channel_set_string (helper->channel, ACTIVE_PROFILE, DEFAULT_SCHEME_NAME);
+        }
 
         if (old_outputs->len > helper->outputs->len)
         {
@@ -575,7 +656,12 @@ G_GNUC_BEGIN_IGNORE_DEPRECATIONS
                     gdk_screen_height (), gdk_screen_width (), gdk_screen_height_mm (),
                     gdk_screen_width_mm (), helper->height, helper->width, helper->mm_height,
                     helper->mm_width);
-
+    if (helper->width > max_width || helper->height > max_height)
+    {
+        g_warning ("Your screen can't handle the requested size. "
+                   "%dx%d exceeds the maximum: %dx%d",
+                   helper->width, helper->height, max_width, max_height);
+    }
     /* set the screen size only if it's really needed and valid */
     if (helper->width >= min_width && helper->width <= max_width
         && helper->height >= min_height && helper->height <= max_height
@@ -1362,6 +1448,8 @@ xfce_displays_helper_channel_apply (XfceDisplaysHelper *helper,
 #ifdef HAS_RANDR_ONE_POINT_THREE
     helper->primary = None;
 #endif
+
+    xfconf_channel_set_string (helper->channel, ACTIVE_PROFILE, scheme);
 
     /* finally the list of saved outputs from xfconf */
     g_snprintf (property, sizeof (property), "/%s", scheme);
