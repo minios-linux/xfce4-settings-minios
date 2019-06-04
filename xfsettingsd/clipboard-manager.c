@@ -99,7 +99,7 @@ static Atom XA_TIMESTAMP = None;
 
 
 
-G_DEFINE_TYPE (GsdClipboardManager, gsd_clipboard_manager, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (GsdClipboardManager, gsd_clipboard_manager, G_TYPE_OBJECT)
 
 
 
@@ -109,8 +109,6 @@ gsd_clipboard_manager_class_init (GsdClipboardManagerClass *klass)
         GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
         object_class->finalize = gsd_clipboard_manager_finalize;
-
-        g_type_class_add_private (klass, sizeof (GsdClipboardManagerPrivate));
 }
 
 static void
@@ -438,6 +436,8 @@ send_incrementally (GsdClipboardManager *manager,
                          data, items);
 
         if (length == 0) {
+                clipboard_manager_watch_cb (manager, rdata->requestor, False,
+                                            PropertyChangeMask, NULL);
                 manager->priv->conversions = g_slist_remove (manager->priv->conversions, rdata);
                 conversion_free (rdata);
         }
@@ -595,6 +595,11 @@ convert_clipboard_target (IncrConversion      *rdata,
                         gdk_x11_display_error_trap_push (gdk_display_get_default ());
 
                         XGetWindowAttributes (manager->priv->display, rdata->requestor, &atts);
+
+                        clipboard_manager_watch_cb (manager, rdata->requestor,
+                                                    True, PropertyChangeMask,
+                                                    NULL);
+
                         XSelectInput (manager->priv->display, rdata->requestor,
                                       atts.your_event_mask | PropertyChangeMask);
 

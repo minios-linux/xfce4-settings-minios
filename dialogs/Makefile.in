@@ -93,6 +93,9 @@ host_triplet = @host@
 @HAVE_GIO_UNIX_TRUE@am__append_2 = \
 @HAVE_GIO_UNIX_TRUE@	mime-settings
 
+@HAVE_COLORD_TRUE@am__append_3 = \
+@HAVE_COLORD_TRUE@	color-settings
+
 subdir = dialogs
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -159,7 +162,7 @@ ETAGS = etags
 CTAGS = ctags
 DIST_SUBDIRS = appearance-settings accessibility-settings \
 	keyboard-settings mouse-settings display-settings \
-	mime-settings
+	mime-settings color-settings
 am__DIST_COMMON = $(srcdir)/Makefile.in
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 am__relativize = \
@@ -201,6 +204,10 @@ CATOBJEXT = @CATOBJEXT@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
+COLORD_CFLAGS = @COLORD_CFLAGS@
+COLORD_LIBS = @COLORD_LIBS@
+COLORD_REQUIRED_VERSION = @COLORD_REQUIRED_VERSION@
+COLORD_VERSION = @COLORD_VERSION@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CYGPATH_W = @CYGPATH_W@
@@ -440,7 +447,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = appearance-settings accessibility-settings keyboard-settings \
-	mouse-settings $(am__append_1) $(am__append_2)
+	mouse-settings $(am__append_1) $(am__append_2) $(am__append_3)
 all: all-recursive
 
 .SUFFIXES:

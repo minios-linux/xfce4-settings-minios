@@ -1,11 +1,20 @@
 ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
 
 SUBDIRS = \
+	common \
 	dialogs \
 	xfce4-settings-manager \
 	xfce4-settings-editor \
 	xfsettingsd \
 	po
+
+if HAVE_COLORD
+SUBDIRS += \
+	icons
+
+distuninstallcheck_listfiles = 						\
+	find . -type f -print | grep -v ./share/icons/hicolor/icon-theme.cache
+endif
 
 EXTRA_DIST = \
 	intltool-extract.in \

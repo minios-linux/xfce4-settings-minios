@@ -29,6 +29,9 @@
    the CoreFoundation framework. */
 #undef HAVE_CFPREFERENCESCOPYAPPVALUE
 
+/* Define if colord >= 1.0.2 present */
+#undef HAVE_COLORD
+
 /* Define to 1 if you have the `daemon' function. */
 #undef HAVE_DAEMON
 

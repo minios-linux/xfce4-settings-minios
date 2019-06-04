@@ -4,7 +4,7 @@ dnl Edit that file instead!
 dnl
 
 dnl
-dnl Copyright (c) 2006 - 2015
+dnl Copyright (c) 2006 - 2019
 dnl         The Xfce development team. All rights reserved.
 dnl
 dnl Originally written for Xfce by Benedikt Meurer <benny@xfce.org>
@@ -16,9 +16,9 @@ dnl *** Version information ***
 dnl ***************************
 m4_define([xfce4_settings_version_major], [4])
 m4_define([xfce4_settings_version_minor], [13])
-m4_define([xfce4_settings_version_micro], [5])
+m4_define([xfce4_settings_version_micro], [6])
 m4_define([xfce4_settings_version_nano], [])
-m4_define([xfce4_settings_version_build], [5d124a6d])
+m4_define([xfce4_settings_version_build], [f3ad7b6e])
 m4_define([xfce4_settings_version_tag], []) # Leave empty for releases
 m4_define([xfce4_settings_version], [xfce4_settings_version_major().xfce4_settings_version_minor().xfce4_settings_version_micro()ifelse(xfce4_settings_version_nano(), [], [], [.xfce4_settings_version_nano()])ifelse(xfce4_settings_version_tag(), [git], [xfce4_settings_version_tag()-xfce4_settings_version_build()], [xfce4_settings_version_tag()])])
 
@@ -32,17 +32,17 @@ m4_append([xfce4_settings_version_short], ["])
 dnl *******************************************
 dnl *** Debugging support for GIT snapshots ***
 dnl *******************************************
-m4_define([xfce4_settings_debug_default], [ifelse(xfce4_settings_version_tag(), [git], [full], [minimum])])
+m4_define([xfce4_settings_debug_default], [ifelse(xfce4_settings_version_tag(), [git], [yes], [minimum])])
 
 dnl ***************************
 dnl *** Initialize autoconf ***
 dnl ***************************
 AC_COPYRIGHT([Copyright (c) 2008-2015
         The Xfce development team. All rights reserved.])
-AC_INIT([xfce4-settings], [xfce4_settings_version], [http://bugzilla.xfce.org/])
+AC_INIT([xfce4-settings], [xfce4_settings_version], [https://bugzilla.xfce.org/])
 AC_PREREQ([2.60])
 AC_CONFIG_MACRO_DIRS([m4])
-AC_REVISION([5d124a6d])
+AC_REVISION([f3ad7b6e])
 
 dnl ***************************
 dnl *** Initialize automake ***
@@ -83,7 +83,7 @@ AC_CHECK_FUNCS([daemon setsid])
 dnl ******************************
 dnl *** Check for i18n support ***
 dnl ******************************
-XDT_I18N([am ar ast be bg bn ca cs da de el en_AU en_GB es eu fi fr gl he hr hu id is it ja kk ko lt lv ms nb nl nn oc pa pl pt_BR pt ro ru si sk sl sq sr sv te th tr ug uk ur_PK ur zh_CN zh_HK zh_TW ])
+XDT_I18N([am ar ast be bg bn ca cs da de el en_AU en_GB es eu fi fr gl he hr hu id ie is it ja kk ko lt lv ms nb nl nn oc pa pl pt_BR pt ro ru si sk sl sq sr sv te th tr ug uk ur_PK ur zh_CN zh_HK zh_TW ])
 
 dnl ***********************************
 dnl *** Version string for the docs ***
@@ -162,6 +162,13 @@ dnl *** Optional support for Libnotify ***
 dnl **************************************
 XDT_CHECK_OPTIONAL_PACKAGE([LIBNOTIFY], [libnotify], [0.1.3],
                            [libnotify], [Notification support])
+
+dnl **************************************
+dnl *** Optional support for colord ***
+dnl **************************************
+XDT_CHECK_OPTIONAL_PACKAGE([COLORD], [colord], [1.0.2],
+                          [colord], [colord support])
+
 
 dnl *********************
 dnl *** Mime settings ***
@@ -255,13 +262,20 @@ AC_SUBST([PLATFORM_LDFLAGS])
 AC_OUTPUT([
 Makefile
 po/Makefile.in
+common/Makefile
 dialogs/Makefile
 dialogs/appearance-settings/Makefile
 dialogs/accessibility-settings/Makefile
+dialogs/color-settings/Makefile
 dialogs/display-settings/Makefile
 dialogs/keyboard-settings/Makefile
 dialogs/mime-settings/Makefile
 dialogs/mouse-settings/Makefile
+icons/Makefile
+icons/24x24/Makefile
+icons/48x48/Makefile
+icons/64x64/Makefile
+icons/scalable/Makefile
 xfsettingsd/Makefile
 xfce4-settings-manager/Makefile
 xfce4-settings-editor/Makefile
@@ -289,6 +303,11 @@ if test x"$LIBNOTIFY_FOUND" = x"yes"; then
 echo "* Libnotify support:         yes"
 else
 echo "* Libnotify support:         no"
+fi
+if test x"$COLORD_FOUND" = x"yes"; then
+echo "* colord support:            yes"
+else
+echo "* colord support:            no"
 fi
 if test x"$XCURSOR_FOUND" = x"yes"; then
 echo "* Xcursor support:           yes"
