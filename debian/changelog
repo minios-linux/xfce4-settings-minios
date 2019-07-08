@@ -1,6 +1,7 @@
-xfce4-settings (4.13.6-1) UNRELEASED; urgency=medium
+xfce4-settings (4.13.7-1) UNRELEASED; urgency=medium
 
   * New upstream version 4.13.6.
+  * New upstream version 4.13.7.
 
  -- Mateusz Łukasik <mati75@linuxmint.pl>  Tue, 04 Jun 2019 15:30:43 +0200
 
