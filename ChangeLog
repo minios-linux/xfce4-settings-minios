@@ -1,3 +1,466 @@
+commit 682c5d83a24ccc450d6efc07058f4747a5c01181
+Author: Kjell Cato Heskjestad <cato@heskjestad.xyz>
+Date:   Sun Aug 11 12:31:19 2019 +0200
+
+    I18n: Update translation nb (100%).
+    
+    452 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit d2ad11761ca984a0035026c1cb59e8f934f17114
+Author: Emanuele Petriglia <transifex@emanuelepetriglia.com>
+Date:   Thu Aug 8 18:32:17 2019 +0200
+
+    I18n: Update translation it (100%).
+    
+    452 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 09bdf5d1118b9ba8ce48fb8cf4528f024b218be2
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Mon Aug 5 09:37:41 2019 +0200
+
+    display: Fix settings retention (Bug #15437)
+    
+    While this is a rather big commit, at the core it's simply replacing a
+    misguided call to xfce_randr_new. This led to xfsettingsd asking X for
+    the default/preferred mode etc. of the connected displays, essentially
+    resetting all saved settings (i.e. the "Default" profile in xfconf).
+    The correct approach is to get all necessary display_infos from the xfce
+    display helper (aka displays.c).
+    
+    Other, unrelated, changes are the replacement of the completely
+    unnecessary "buf" variable and correctly freeing the GList
+    "channel_contents".
+
+commit 6592ab6b6b431ae2e60ee60f116cc0ddad3fabb6
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Wed Aug 7 09:32:09 2019 +0200
+
+    display: Don't warn on deleting last profile
+
+commit eea301d77f989c32e7e7224e5582095e1fae964d
+Author: Anonymous <noreply@xfce.org>
+Date:   Wed Aug 7 00:30:55 2019 +0200
+
+    I18n: Update translation da (100%).
+    
+    452 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 0cec2e9eafa4d0c2317740b9590e7cdcc4f51894
+Author: Jiri Grönroos <jiri.gronroos@iki.fi>
+Date:   Mon Aug 5 18:30:43 2019 +0200
+
+    I18n: Update translation fi (100%).
+    
+    452 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 71cc2840eb09c59154ca80b2ba0417d88aeeb836
+Author: Anonymous <noreply@xfce.org>
+Date:   Sun Aug 4 18:30:54 2019 +0200
+
+    I18n: Update translation hu (100%).
+    
+    452 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 36fd6baa612c0bea6becc0f5c827ffffb2d0e291
+Author: Daniel Muñiz Fontoira <dani@damufo.com>
+Date:   Sun Aug 4 18:30:53 2019 +0200
+
+    I18n: Update translation gl (100%).
+    
+    452 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit d403bc6abc9bd49b9f95d1ba647fe112519597dd
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Sat Aug 3 23:22:18 2019 +0200
+
+    display: Remove debug statement breaking profiles (Bug #15769)
+    
+    These debug statements were introduced by accident in commit
+    4e56723968b2f35fb45d4a8e38e8b6415aeccbd4
+
+commit fcdbcf3250f351f16fa6218b96dd7ae75cbfc0c2
+Author: Baurzhan Muftakhidinov <baurthefirst@gmail.com>
+Date:   Sat Aug 3 12:31:03 2019 +0200
+
+    I18n: Update translation kk (100%).
+    
+    452 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 445b1b9b16f17ea76ad1887c283235d7fc042f30
+Author: Daniel Muñiz Fontoira <dani@damufo.com>
+Date:   Sat Aug 3 12:31:01 2019 +0200
+
+    I18n: Update translation gl (100%).
+    
+    452 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 3091ebafbbb6ee499f1e9179b027636274b6d54a
+Author: Hugo Carvalho <hugokarvalho@hotmail.com>
+Date:   Fri Aug 2 12:30:52 2019 +0200
+
+    I18n: Update translation pt (100%).
+    
+    452 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 03874e0dbc3219d148b61f839a520ba6a459252c
+Author: Zmicer Turok <nashtlumach@gmail.com>
+Date:   Fri Aug 2 12:30:52 2019 +0200
+
+    I18n: Update translation be (100%).
+    
+    452 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit dad52673656236569938be28f14474d22e414040
+Author: Michael Martins <michaelfm21@gmail.com>
+Date:   Fri Aug 2 06:31:12 2019 +0200
+
+    I18n: Update translation pt_BR (100%).
+    
+    452 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 281c736967d380aa5cc384b722e87d07a784df16
+Author: Andre Miranda <andreldm@xfce.org>
+Date:   Thu Aug 1 23:12:02 2019 -0300
+
+    settings-editor: Fix buttons declaration
+
+commit d5337a7a02d20bb9cd9e42a41eb25133002fb6b1
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Thu Aug 1 00:28:27 2019 +0200
+
+    settings-editor: Replace GtkStock buttons
+
+commit 43c5277a22947b1aa294272c4850a1367d2fd07e
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Thu Aug 1 00:09:17 2019 +0200
+
+    Make strings translateable
+
+commit 7da4dcd4a62f9fca6e497d7452ca57251accc1c3
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Thu Aug 1 00:08:22 2019 +0200
+
+    a11y: Replace GtkStock buttons
+
+commit d5b6b156a7c76938ce729eb550ff4706b3625c18
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Thu Aug 1 00:00:14 2019 +0200
+
+    mouse: Replace GtkStock buttons
+
+commit 48a2310275c0b96dbd902d530ccf3cb80bd7d2d0
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Wed Jul 31 23:58:36 2019 +0200
+
+    keyboard: Replace GtkStock buttons
+
+commit ad989a6f382b1ebc45d61f2506279998c66c873e
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Wed Jul 31 23:56:05 2019 +0200
+
+    color: Replace GtkStock buttons
+
+commit 229169c7b8f2bf249bc80b17b4d3e6d4dd2fcfd2
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Wed Jul 31 23:51:58 2019 +0200
+
+    appearance: Replace GtkStock buttons
+
+commit 7d488fa8721ebb1e0e8f3f2b0af2d34aaf739a8e
+Author: 黃柏諺 <s8321414@gmail.com>
+Date:   Wed Jul 31 18:30:44 2019 +0200
+
+    I18n: Update translation zh_TW (100%).
+    
+    452 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit ec29a23606e275d808900fa570add3f97804f6f3
+Author: 玉堂白鹤 <yjwork@qq.com>
+Date:   Wed Jul 31 06:31:08 2019 +0200
+
+    I18n: Update translation zh_CN (100%).
+    
+    452 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 945b4cf97a4119c4a9d36194477a4b435db44730
+Author: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>
+Date:   Wed Jul 31 00:30:42 2019 +0200
+
+    I18n: Update translation ca (100%).
+    
+    452 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 011ef66ef9ab5fa088f3b027c6e4fb26af099c68
+Author: Igor <f2404@yandex.ru>
+Date:   Tue Jul 30 18:30:55 2019 +0200
+
+    I18n: Update translation ru (100%).
+    
+    452 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 753fcb277b67ddd40ac03030107161deb26f6471
+Author: Yannick Le Guen <leguen.yannick@gmail.com>
+Date:   Tue Jul 30 18:30:55 2019 +0200
+
+    I18n: Update translation fr (100%).
+    
+    452 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 6bb6b17d82963750fcd8ad552161f89f7ac7f519
+Author: Anonymous <noreply@xfce.org>
+Date:   Tue Jul 30 18:30:55 2019 +0200
+
+    I18n: Update translation es (100%).
+    
+    452 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit e7e820c3a0a4308cb97d342ea77b28280a4bf000
+Author: Michal Várady <miko.vaji@gmail.com>
+Date:   Tue Jul 30 18:30:54 2019 +0200
+
+    I18n: Update translation cs (100%).
+    
+    452 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 7b202a1249dd4252a611d182962d43cd93df3ac9
+Author: Andre Miranda <andreldm@xfce.org>
+Date:   Mon Jul 29 23:27:28 2019 -0300
+
+    Make strings translatable
+
+commit ba32b0df81191cda1d9ca8ffddc6cecc5e6ad24b
+Author: Andre Miranda <andreldm@xfce.org>
+Date:   Mon Jul 29 22:00:12 2019 -0300
+
+    display-settings: use proper icon name
+
+commit 357bf6c0634aa30732207b558fabdd08e0df969e
+Author: Daniel Muñiz Fontoira <dani@damufo.com>
+Date:   Mon Jul 29 18:30:57 2019 +0200
+
+    I18n: Update translation gl (100%).
+    
+    451 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit eadb1d8944c71a1e13068df2d5830906873ed8b3
+Author: Daniel Muñiz Fontoira <dani@damufo.com>
+Date:   Mon Jul 29 12:31:03 2019 +0200
+
+    I18n: Update translation gl (100%).
+    
+    451 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 44b702be9505b062df096715c59c5b229c5e3969
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Sun Jul 28 15:35:09 2019 +0200
+
+    Back to development
+
+commit 4e56723968b2f35fb45d4a8e38e8b6415aeccbd4
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Sun Jul 28 15:33:13 2019 +0200
+
+    Updates for release
+
+commit ea6efed4de5bbd18e92409ba5d03d8d78e48d9df
+Author: 玉堂白鹤 <yjwork@qq.com>
+Date:   Fri Jul 26 06:30:58 2019 +0200
+
+    I18n: Update translation zh_CN (100%).
+    
+    451 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 960504d933378ad8b6f165c0063e7984a5ee0f7b
+Author: Olivier Fourdan <fourdan@xfce.org>
+Date:   Sat Jul 20 17:30:16 2019 +0200
+
+    display: Sync display when applying config
+    
+    Previously the display plugin would flush the display when applying the
+    configuration.
+    Use a sync instead to make sure the request is actually sent and
+    processed by the XServer.
+    
+    Signed-off-by: Olivier Fourdan <fourdan@xfce.org>
+
+commit 4cdf8a91cb8789a5104f9eb96548497deb591cd7
+Author: Olivier Fourdan <fourdan@xfce.org>
+Date:   Sat Jul 20 15:29:12 2019 +0200
+
+    display: Use current display
+    
+    Instead of getting the default display again and again.
+    
+    Signed-off-by: Olivier Fourdan <fourdan@xfce.org>
+
+commit 523abc95d66cf7aa76f76ba0a6f0363b2dd4c51c
+Author: Olivier Fourdan <fourdan@xfce.org>
+Date:   Fri Jul 19 14:10:08 2019 +0200
+
+    xsettings: Grab and sync XServer on startup (Bug #15725)
+    
+    Grab the XServer when declaring ourselves the xsettings manager and flush
+    it prior to ungrabbing it to make sure everything gets set for other clients.
+    
+    The goal is to avoid other X11 clients from reading xsettings until we
+    are done initializing.
+    
+    Signed-off-by: Olivier Fourdan <fourdan@xfce.org>
+
+commit 9c4acaaf5ea233f342b20e709eed25f1be1915ac
+Author: Olivier Fourdan <fourdan@xfce.org>
+Date:   Fri Jul 19 14:05:00 2019 +0200
+
+    xfsettingsd: Start settings prior to complete startup (Bug #15725)
+    
+    On session startup, various gtk based applications are launched concurrently.
+    If we start the settings daemon simultaneously, those other apps fail to detect
+    the settings and ignore the various preferences set via xsettings (themes,
+    icons, etc.).
+    
+    Make sure we spawn all settings helpers  prior to declaring ourselves ready to the
+    session manager.
+    
+    Signed-off-by: Olivier Fourdan <fourdan@xfce.org>
+
+commit 86717779a48e7fb4cd37171ca4e2766672a8d8a9
+Author: Olivier Fourdan <fourdan@xfce.org>
+Date:   Sat Jul 20 17:40:29 2019 +0200
+
+    Revert "xfsettingsd: Start with the highest priority (Bug #15697)"
+    
+    This reverts commit 92ddf97f8e8b976c3aa4483e2a5d1a23078ae84f.
+    
+    Signed-off-by: Olivier Fourdan <fourdan@xfce.org>
+
+commit dc1e2ff11405d897c3060f91a825791b0487b233
+Author: Kjell Cato Heskjestad <cato@heskjestad.xyz>
+Date:   Tue Jul 23 18:31:36 2019 +0200
+
+    I18n: Update translation nb (97%).
+    
+    438 translated messages, 13 untranslated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 840fccea029bd9db5da413e2821c409acfcadc9d
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Wed Jul 17 23:34:22 2019 +0200
+
+    Update copyright years
+
+commit bdd47c5fce91c10ae41f38d53704f99299c573fe
+Author: Jiri Grönroos <jiri.gronroos@iki.fi>
+Date:   Wed Jul 17 12:32:06 2019 +0200
+
+    I18n: Update translation fi (100%).
+    
+    451 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 92ddf97f8e8b976c3aa4483e2a5d1a23078ae84f
+Author: Olivier Fourdan <fourdan@xfce.org>
+Date:   Wed Jul 10 21:16:18 2019 +0200
+
+    xfsettingsd: Start with the highest priority (Bug #15697)
+    
+    Start the settings daemon with the highest priority, so it gets started
+    first, because all other components depend on the settings applied by
+    xfsettingsd and applying those after the other components have started
+    is very expensive, clients have to reconfigure themselves, reload fonts,
+    themes, reload configuration, etc.
+    
+    If we load the settings first, the other applications do not need all
+    that reconfiguration and therefore we end up starting the whole session
+    faster.
+    
+    Signed-off-by: Olivier Fourdan <fourdan@xfce.org>
+
+commit 5377b8c061efaef1261e869b3ccd6e0bfd666be7
+Author: Yarema aka Knedlyk <yupadmin@gmail.com>
+Date:   Wed Jul 10 00:31:25 2019 +0200
+
+    I18n: Update translation uk (85%).
+    
+    385 translated messages, 66 untranslated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 87cc09115a15a777cb4fe571f44caa340d0ee57b
+Author: Real School <translator_students@realschool.am>
+Date:   Wed Jul 3 18:30:39 2019 +0200
+
+    I18n: Update translation hy_AM (100%).
+    
+    451 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit e7a30bdde79d49857e70e442abe8c99f76f2c60e
+Author: Real School <translator_students@realschool.am>
+Date:   Wed Jul 3 12:31:12 2019 +0200
+
+    I18n: Update translation hy_AM (82%).
+    
+    372 translated messages, 79 untranslated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 01b4847f80b2e98e137bc5813486c6acd4740fdd
+Author: Sean Davis <smd.seandavis@gmail.com>
+Date:   Sun Jun 30 17:16:54 2019 -0400
+
+    Back to development
+
+commit e74f0edc8bb53ae8150070f5623667c2a68b86e0
+Author: Sean Davis <smd.seandavis@gmail.com>
+Date:   Sun Jun 30 17:13:28 2019 -0400
+
+    Updates for release
+
 commit 4b3a588cfc501ed662d67a260c8953ceaeca813b
 Author: Sean Davis <smd.seandavis@gmail.com>
 Date:   Sun Jun 30 06:44:14 2019 -0400

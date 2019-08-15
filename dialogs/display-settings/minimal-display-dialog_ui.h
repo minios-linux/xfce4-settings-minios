@@ -138,17 +138,17 @@ static const char minimal_display_dialog_ui[] =
   "perty></object><packing><property name=\"expand\">False</property><prop"
   "erty name=\"fill\">False</property><property name=\"position\">3</prope"
   "rty></packing></child><child><object class=\"GtkButton\" id=\"cancel_bu"
-  "tton\"><property name=\"label\">_Close</property><property name=\"visib"
-  "le\">True</property><property name=\"can_focus\">True</property><proper"
-  "ty name=\"receives_default\">True</property><property name=\"image\">im"
-  "age5</property><property name=\"use_underline\">True</property></object"
-  "><packing><property name=\"expand\">False</property><property name=\"fi"
-  "ll\">False</property><property name=\"position\">4</property></packing>"
-  "</child></object><packing><property name=\"expand\">False</property><pr"
-  "operty name=\"fill\">True</property><property name=\"pack_type\">end</p"
-  "roperty><property name=\"position\">1</property></packing></child></obj"
-  "ect></child></object></interface>"
+  "tton\"><property name=\"label\" translatable=\"yes\">_Close</property><"
+  "property name=\"visible\">True</property><property name=\"can_focus\">T"
+  "rue</property><property name=\"receives_default\">True</property><prope"
+  "rty name=\"image\">image5</property><property name=\"use_underline\">Tr"
+  "ue</property></object><packing><property name=\"expand\">False</propert"
+  "y><property name=\"fill\">False</property><property name=\"position\">4"
+  "</property></packing></child></object><packing><property name=\"expand\""
+  ">False</property><property name=\"fill\">True</property><property name="
+  "\"pack_type\">end</property><property name=\"position\">1</property></p"
+  "acking></child></object></child></object></interface>"
 };
 
-static const unsigned minimal_display_dialog_ui_length = 9450u;
+static const unsigned minimal_display_dialog_ui_length = 9469u;
 

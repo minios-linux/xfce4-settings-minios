@@ -4,15 +4,15 @@
 # 
 # Translators:
 # Ammuu5, 2018-2019
-# Jiri Grönroos <jiri.gronroos@iki.fi>, 2013,2018
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2013,2018-2019
 # Pasi Lallinaho <pasi@shimmerproject.org>, 2014-2015,2017,2019
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce4-settings\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-29 00:31+0200\n"
-"PO-Revision-Date: 2019-06-24 14:41+0000\n"
-"Last-Translator: Ammuu5\n"
+"POT-Creation-Date: 2019-07-30 06:31+0200\n"
+"PO-Revision-Date: 2019-08-05 16:09+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (http://www.transifex.com/xfce/xfce4-settings/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -88,7 +88,7 @@ msgstr "Apuvälineteknologiat ovat käytettävissä seuraavan kerran kun kirjaud
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:7
 msgid "No AT-SPI provider was found on your system"
-msgstr "AT-SPI -palvelua ei löytynyt"
+msgstr "AT-SPI-palvelua ei löytynyt"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:8
 msgid "Assistive _Technologies"
@@ -394,15 +394,15 @@ msgstr "K_uvakkeet"
 msgid ""
 "This font will be used as the default font used when drawing user interface "
 "text"
-msgstr "Tätä kirjasinta käytetään oletuskirjasimena käyttöliittymien tekstille"
+msgstr "Tätä fonttia käytetään oletusfonttina käyttöliittymien tekstille"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:16
 msgid "Select a default font"
-msgstr "Valitse oletuskirjasin"
+msgstr "Valitse oletusfontti"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:17
 msgid "Default Fon_t"
-msgstr "Oletuski_rjasin"
+msgstr "Oletus_fontti"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:18
 msgid ""
@@ -420,12 +420,12 @@ msgstr "Tasalev_yinen oletusfontti"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:21
 msgid "_Enable anti-aliasing"
-msgstr "Kytke antialiasointi päälle"
+msgstr "Kytke reunanpehmennys päälle"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:22
 msgid ""
 "Anti-aliasing, or font smoothing, can improve the look of text on the screen"
-msgstr "Antialiasointi eli kirjasinten reunojen tasoitus voi parantaa tekstin ulkonäköä näytöllä"
+msgstr "Reunanpehmennys (antialiasointi) eli fonttien reunojen tasoitus voi parantaa tekstin ulkonäköä näytöllä"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:23
 msgid "Hintin_g:"
@@ -435,7 +435,7 @@ msgstr "_Vihjeistys:"
 msgid ""
 "Many fonts contain information that provides extra hints as to how best draw"
 " the font; pick whichever looks best according to personal preference"
-msgstr "Useat kirjasimet sisältävät tietoa siitä, kuinka ne olisi parasta esittää. Valitse se vaihtoehto, joka mielestäsi näyttää parhaalta"
+msgstr "Useat fontit sisältävät tietoa siitä, kuinka ne olisi parasta esittää. Valitse se vaihtoehto, joka mielestäsi näyttää parhaalta"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:25
 msgid "Sub-_pixel order:"
@@ -449,7 +449,7 @@ msgstr "Jos sinulla on TFT- tai LCD-näyttö, voit parantaa kirjasinten laatua v
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:27
 msgid "Rendering"
-msgstr "Kirjasinten piirto"
+msgstr "Fonttien piirto"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:28
 msgid "Custom _DPI setting:"
@@ -459,7 +459,7 @@ msgstr "Mukautettu _erottelukyky:"
 msgid ""
 "Override the detected monitor resolution if fonts look too large or too "
 "small"
-msgstr "Ohita havaittu näytön tarkkuus jos kirjasimet ovat liian suuria tai pieniä"
+msgstr "Ohita havaittu näytön tarkkuus jos fontit ovat liian suuria tai pieniä"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:30
 msgid "DPI"
@@ -467,7 +467,7 @@ msgstr "DPI"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:31
 msgid "_Fonts"
-msgstr "_Kirjasimet"
+msgstr "_Fontit"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:32
 msgid "Specify what should be displayed in toolbar items"
@@ -624,7 +624,7 @@ msgstr "Sisäänrakennettu web-kamera"
 #: ../dialogs/color-settings/color-device.c:195
 #, c-format
 msgid "Enable color management for %s"
-msgstr "Käytä väriprofilointi laitteelle %s"
+msgstr "Käytä värihallintaa laitteelle %s"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:1
 #: ../dialogs/color-settings/xfce4-color-settings.desktop.in.h:1
@@ -645,7 +645,7 @@ msgstr "Malli:"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:5
 msgid "Colorspace:"
-msgstr "Väriavaruus"
+msgstr "Väriavaruus:"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:6
 msgid "Vendor:"
@@ -686,7 +686,7 @@ msgstr "Lisää väriprofiili laitteellesi"
 #: ../dialogs/color-settings/color-dialog.glade.h:15
 #: ../dialogs/color-settings/main.c:130
 msgid "_Cancel"
-msgstr "_Peruuta"
+msgstr "_Peru"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:16
 msgid "_OK"
@@ -763,7 +763,7 @@ msgstr "Oletusharmaasävy"
 #. TRANSLATORS: an ICC profile is a file containing colorspace data
 #: ../dialogs/color-settings/main.c:128
 msgid "Select ICC Profile File"
-msgstr "Valitse ICC -profiilitiedosto"
+msgstr "Valitse ICC-profiilitiedosto"
 
 #: ../dialogs/color-settings/main.c:131
 msgid "_Import"
@@ -863,93 +863,110 @@ msgid "Configure screen settings and layout"
 msgstr "Muokkaa näyttöasetuksia ja asettelua"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:8
+#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:262
+msgid "_Help"
+msgstr "_Ohje"
+
+#: ../dialogs/display-settings/display-dialog.glade.h:9
+#: ../dialogs/display-settings/minimal-display-dialog.glade.h:8
+#: ../dialogs/display-settings/profile-changed-dialog.glade.h:2
+#: ../dialogs/display-settings/main.c:3944
+#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:265
+msgid "_Close"
+msgstr "_Sulje"
+
+#: ../dialogs/display-settings/display-dialog.glade.h:10
 msgid "_Mirror displays"
 msgstr "_Peilaa näytöt"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:9
+#: ../dialogs/display-settings/display-dialog.glade.h:11
 msgid "Primary Display:"
 msgstr "Ensisijainen näyttö:"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:10
+#: ../dialogs/display-settings/display-dialog.glade.h:12
 msgid "R_esolution:"
 msgstr "_Tarkkuus:"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:11
+#: ../dialogs/display-settings/display-dialog.glade.h:13
 msgid "Refresh _rate:"
 msgstr "_Virkistystaajuus:"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:12
+#: ../dialogs/display-settings/display-dialog.glade.h:14
 msgid "Ro_tation:"
 msgstr "_Kääntö:"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:13
+#: ../dialogs/display-settings/display-dialog.glade.h:15
 msgid "Ref_lection:"
 msgstr "_Peilikuva:"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:14
+#: ../dialogs/display-settings/display-dialog.glade.h:16
+msgid "A_pply"
+msgstr "_Toteuta"
+
+#: ../dialogs/display-settings/display-dialog.glade.h:17
 msgid "_General"
 msgstr "_Yleiset"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:15
+#: ../dialogs/display-settings/display-dialog.glade.h:18
 msgid "<b>Profiles</b>"
 msgstr "<b>Profiilit</b>"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:16
+#: ../dialogs/display-settings/display-dialog.glade.h:19
 msgid "<b>Connecting Displays</b>"
 msgstr "<b>Näyttöjen liittäminen</b>"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:17
+#: ../dialogs/display-settings/display-dialog.glade.h:20
 msgid "Delete the currently selected display profile."
 msgstr "Poista valittu näyttöprofiili."
 
-#: ../dialogs/display-settings/display-dialog.glade.h:18
+#: ../dialogs/display-settings/display-dialog.glade.h:21
 msgid "Apply"
 msgstr "Käytä"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:19
+#: ../dialogs/display-settings/display-dialog.glade.h:22
 msgid "Apply the currently selected display profile."
 msgstr "Ota käyttöön valittu näyttöprofiili."
 
-#: ../dialogs/display-settings/display-dialog.glade.h:20
+#: ../dialogs/display-settings/display-dialog.glade.h:23
 msgid "Create a new display profile."
 msgstr "Luo uusi näyttöprofiili."
 
-#: ../dialogs/display-settings/display-dialog.glade.h:21
+#: ../dialogs/display-settings/display-dialog.glade.h:24
 msgid "Update an existing profile."
 msgstr "Päivitä olemassa oleva profiili."
 
-#: ../dialogs/display-settings/display-dialog.glade.h:22
+#: ../dialogs/display-settings/display-dialog.glade.h:25
 msgid "Automatically enable profiles when new display is connected"
 msgstr "Ota profiilit automaattisesti käyttöön kun uusi näyttö liitetään"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:23
+#: ../dialogs/display-settings/display-dialog.glade.h:26
 msgid "Configure new displays when connected"
 msgstr "Määrit uuden näytön asetukset liitettäessä"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:24
+#: ../dialogs/display-settings/display-dialog.glade.h:27
 msgid "Show popup windows to identify displays"
 msgstr "Näytä ponnahdusikkunat näyttöjen tunnistamiseksi"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:25
+#: ../dialogs/display-settings/display-dialog.glade.h:28
 msgid "<b>Identifying Displays</b>"
 msgstr "<b>Näyttöjen tunnistaminen</b>"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:26
+#: ../dialogs/display-settings/display-dialog.glade.h:29
 #: ../dialogs/display-settings/minimal-display-dialog.glade.h:6
 msgid "_Advanced"
-msgstr "Edistyneet _asetukset"
+msgstr "Lisä_asetukset"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:27
+#: ../dialogs/display-settings/display-dialog.glade.h:30
 msgid "<b>Profile Name</b>"
 msgstr "<b>Profiilin nimi</b>"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:28
+#: ../dialogs/display-settings/display-dialog.glade.h:31
 msgid "Create"
 msgstr "Luo"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:29
+#: ../dialogs/display-settings/display-dialog.glade.h:32
 msgid "A profile of this name already exists."
-msgstr "Samanniminen profiili on jo olemassa."
+msgstr "Profiili samalla nimellä on jo olemassa."
 
 #: ../dialogs/display-settings/minimal-display-dialog.glade.h:1
 msgid "Displays"
@@ -978,12 +995,6 @@ msgstr "valintapainike"
 #: ../dialogs/display-settings/profile-changed-dialog.glade.h:1
 msgid "Update Display Profile"
 msgstr "Päivitä näyttöprofiili"
-
-#: ../dialogs/display-settings/profile-changed-dialog.glade.h:2
-#: ../dialogs/display-settings/main.c:3944
-#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:208
-msgid "_Close"
-msgstr "_Sulje"
 
 #: ../dialogs/display-settings/profile-changed-dialog.glade.h:3
 msgid "_Update"
@@ -1090,7 +1101,7 @@ msgstr "Näyttöprofiilia ei voida palauttaa sen poistamisen jälkeen."
 #: ../dialogs/mime-settings/xfce-mime-window.c:908
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:144
 msgid "Cancel"
-msgstr "Peruuta"
+msgstr "Peru"
 
 #: ../dialogs/display-settings/main.c:1818
 msgid "Delete"
@@ -1099,7 +1110,7 @@ msgstr "Poista"
 #: ../dialogs/display-settings/main.c:1919
 #, c-format
 msgid "%d Xfce Panels"
-msgstr "%d Xfce paneelit"
+msgstr "%d Xfce-paneelit"
 
 #: ../dialogs/display-settings/main.c:2923
 msgid ""
@@ -1367,51 +1378,51 @@ msgstr "Ei voi yhdistää xfconf-taustaprosessiin. Syy: %s"
 msgid "Could not create the settings dialog."
 msgstr "Asetusdialogia ei voi luoda."
 
-#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:398
+#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:397
 msgid "Command"
 msgstr "Komento"
 
-#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:403
+#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:402
 msgid "Shortcut"
 msgstr "Pikanäppäin"
 
-#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:479
+#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:478
 msgid "Layout"
 msgstr "Asettelu"
 
-#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:480
+#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:479
 msgid "Variant"
 msgstr "Muunnelma"
 
-#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1003
-#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1107
+#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1002
+#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1106
 msgid "Shortcut command may not be empty."
 msgstr "Pikanäppäimen komento ei saa olla tyhjä."
 
+#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1270
 #: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1271
-#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1272
 msgid "Reset to Defaults"
 msgstr "Palauta oletukset"
 
-#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1273
+#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1272
 msgid ""
 "This will reset all shortcuts to their default values. Do you really want to"
 " do this?"
-msgstr "Tämä palauttaa kaikki pikanäppäimet oletusarvoihinsa. Oletko varma, että haluat tehdä tämän?"
+msgstr "Tämä palauttaa kaikki pikanäppäimet oletusarvoihinsa. Haluatko varmasti tehdä tämän?"
 
-#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1275
+#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1274
 msgid "No"
 msgstr "Ei"
 
-#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1276
+#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1275
 msgid "Yes"
 msgstr "Kyllä"
 
-#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1352
+#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1351
 msgid "The system defaults will be restored next time you log in."
 msgstr "Järjestelmän oletukset palautetaan seuraavan kirjautumisen yhteydessä."
 
-#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1354
+#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1353
 msgid "Warning"
 msgstr "Varoitus"
 
@@ -1431,7 +1442,7 @@ msgstr "_Mukautettu komento:"
 msgid ""
 "Use a custom command for an application that is not available from the above"
 " application list."
-msgstr "Käytä mukautettua komentoa sovellukselle, jota ei löydy ylläolevalta listalta."
+msgstr "Käytä mukautettua komentoa sovellukselle, jota ei löydy yllä olevalta listalta."
 
 #: ../dialogs/mime-settings/xfce-mime-chooser.c:224
 msgid "_Browse..."
@@ -1953,7 +1964,7 @@ msgstr "Tallenna"
 
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:160
 msgid "_Property:"
-msgstr "_Asetus"
+msgstr "_Asetus:"
 
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:174
 msgid "_Type:"
@@ -2008,24 +2019,20 @@ msgstr "Graafinen Xfconf-asetusten muokkain"
 msgid "Settings dialog to show"
 msgstr "Näytettävä asetusikkuna"
 
-#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:195
+#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:252
 msgid "All _Settings"
 msgstr "_Kaikki asetukset"
 
-#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:205
-msgid "_Help"
-msgstr "_Ohje"
-
-#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:432
+#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:491
 msgid "Settings"
 msgstr "Asetukset"
 
-#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:434
+#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:493
 msgid "Customize your desktop"
 msgstr "Mukauta työpöytääsi"
 
-#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:958
-#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:969
+#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:1000
+#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:1011
 #, c-format
 msgid "Unable to start \"%s\""
 msgstr "Kohdetta \"%s\" ei voi käynnistää."
