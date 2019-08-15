@@ -1,4 +1,4 @@
-xfce4-settings (4.14.0-1) UNRELEASED; urgency=medium
+xfce4-settings (4.14.0-1) unstable; urgency=medium
 
   [ Mateusz Łukasik ]
   * New upstream version 4.13.6.
@@ -12,7 +12,7 @@ xfce4-settings (4.14.0-1) UNRELEASED; urgency=medium
     feature
   * d/copyright updated for new release
 
- -- Yves-Alexis Perez <corsac@debian.org>  Thu, 15 Aug 2019 12:11:48 +0200
+ -- Yves-Alexis Perez <corsac@debian.org>  Thu, 15 Aug 2019 12:12:04 +0200
 
 xfce4-settings (4.13.5-1) experimental; urgency=medium
 
