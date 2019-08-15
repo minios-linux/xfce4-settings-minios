@@ -9,6 +9,7 @@ override_dh_autoreconf:
 
 override_dh_auto_configure:
 	dh_auto_configure -- \
+		--enable-colord \
 		--enable-libnotify \
 		--enable-libxklavier \
 		--enable-pluggable-dialogs \

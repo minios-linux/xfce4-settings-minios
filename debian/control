@@ -5,6 +5,7 @@ Maintainer: Debian Xfce Maintainers <debian-xfce@lists.debian.org>
 Uploaders: Yves-Alexis Perez <corsac@debian.org>
 Build-Depends: debhelper-compat (= 11),
                intltool (>= 0.31),
+               libcolord-dev,
                libexo-2-dev,
                libgarcon-1-0-dev (>= 0.2.0),
                libgtk-3-dev,
@@ -16,8 +17,8 @@ Build-Depends: debhelper-compat (= 11),
                libxfconf-0-dev (>= 4.13.0),
                libxklavier-dev (>= 5.0),
                libxrandr-dev,
-               xserver-xorg-input-libinput-dev,
-               xfce4-dev-tools
+               xfce4-dev-tools,
+               xserver-xorg-input-libinput-dev
 Standards-Version: 4.4.0
 Homepage: https://www.xfce.org
 Vcs-Git: https://salsa.debian.org/xfce-team/desktop/xfce4-settings.git
@@ -29,7 +30,7 @@ Depends: libgarcon-common (>= 0.2.0),
          xfconf,
          ${misc:Depends},
          ${shlibs:Depends}
-Recommends: x11-utils
+Recommends: colord, x11-utils, xiccd
 Description: graphical application for managing Xfce settings
  xfce4-settings is the Xfce settings manager front-end. It comes
  with several different components for configuring application-independent
