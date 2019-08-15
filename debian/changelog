@@ -1,9 +1,18 @@
-xfce4-settings (4.13.7-1) UNRELEASED; urgency=medium
+xfce4-settings (4.14.0-1) UNRELEASED; urgency=medium
 
+  [ Mateusz Łukasik ]
   * New upstream version 4.13.6.
   * New upstream version 4.13.7.
 
- -- Mateusz Łukasik <mati75@linuxmint.pl>  Tue, 04 Jun 2019 15:30:43 +0200
+  [ Yves-Alexis Perez ]
+  * New upstream version 4.14.0
+  * d/control: update standards version to 4.4.0
+  * use debhelper-compat b-d for debhelper compat level
+  * d/control: recommend colord and xiccd for new color profile management
+    feature
+  * d/copyright updated for new release
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Thu, 15 Aug 2019 12:11:48 +0200
 
 xfce4-settings (4.13.5-1) experimental; urgency=medium
 
