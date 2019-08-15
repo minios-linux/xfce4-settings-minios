@@ -1258,17 +1258,34 @@ display_settings_combobox_selection_changed (GtkComboBox *combobox,
     }
 }
 
+static gchar **
+display_settings_get_display_infos (void)
+{
+    gchar   **display_infos;
+    guint     m;
+
+    display_infos = g_new0 (gchar *, xfce_randr->noutput);
+    /* get all display edids, to only query randr once */
+    for (m = 0; m < xfce_randr->noutput; ++m)
+    {
+        display_infos[m] = g_strdup_printf ("%s", xfce_randr_get_edid (xfce_randr, m));
+    }
+    return display_infos;
+}
+
 static void
 display_settings_minimal_profile_populate (GtkBuilder *builder)
 {
     GObject  *profile_box, *profile_display1;
     GList    *profiles = NULL;
     GList    *current;
+    gchar   **display_infos;
 
     profile_box  = gtk_builder_get_object (builder, "profile-box");
     profile_display1  = gtk_builder_get_object (builder, "display1");
 
-    profiles = display_settings_get_profiles (xfce_randr, display_channel);
+    display_infos = display_settings_get_display_infos ();
+    profiles = display_settings_get_profiles (display_infos, display_channel);
 
     current = g_list_first (profiles);
     while (current)
@@ -1353,8 +1370,9 @@ display_settings_profile_list_populate (GtkBuilder *builder)
     GtkListStore     *store;
     GObject          *treeview;
     GtkTreeIter       iter;
-    GList *profiles = NULL;
-    GList *current;
+    GList            *profiles = NULL;
+    GList            *current;
+    gchar           **display_infos;
 
     /* create a new list store */
     store = gtk_list_store_new (N_COLUMNS,
@@ -1366,7 +1384,8 @@ display_settings_profile_list_populate (GtkBuilder *builder)
     treeview = gtk_builder_get_object (builder, "randr-profile");
     gtk_tree_view_set_model (GTK_TREE_VIEW (treeview), GTK_TREE_MODEL (store));
 
-    profiles = display_settings_get_profiles (xfce_randr, display_channel);
+    display_infos = display_settings_get_display_infos ();
+    profiles = display_settings_get_profiles (display_infos, display_channel);
 
     /* Populate treeview */
     current = g_list_first (profiles);
@@ -1489,15 +1508,16 @@ display_settings_dialog_response (GtkDialog  *dialog,
     else if (response_id == GTK_RESPONSE_CLOSE)
     {
         gchar *new_active_profile = xfconf_channel_get_string (display_channel, "/ActiveProfile", NULL);
+        gchar *property = g_strdup_printf ("/%s", active_profile);
+        gchar *profile_name = xfconf_channel_get_string (display_channel, property, NULL);
 
         if (g_strcmp0 (active_profile, new_active_profile) != 0 &&
+            profile_name != NULL &&
             g_strcmp0 (active_profile, "Default") != 0)
         {
             GtkBuilder *profile_changed_builder;
             GError     *error = NULL;
             gint        profile_response_id;
-            gchar      *property = g_strdup_printf ("/%s", active_profile);
-            gchar      *profile_name = xfconf_channel_get_string (display_channel, property, NULL);
 
             profile_changed_builder = gtk_builder_new ();
 
@@ -1548,9 +1568,9 @@ display_settings_dialog_response (GtkDialog  *dialog,
             }
 
             g_object_unref (G_OBJECT (profile_changed_builder));
-            g_free (profile_name);
-            g_free (property);
         }
+        g_free (profile_name);
+        g_free (property);
         g_free (new_active_profile);
         g_free (active_profile);
         gtk_widget_destroy (GTK_WIDGET (dialog));
@@ -3887,7 +3907,7 @@ main (gint argc, gchar **argv)
     if (G_UNLIKELY (opt_version))
     {
         g_print ("%s %s (Xfce %s)\n\n", G_LOG_DOMAIN, PACKAGE_VERSION, xfce_version_string ());
-        g_print ("%s\n", "Copyright (c) 2004-2018");
+        g_print ("%s\n", "Copyright (c) 2004-2019");
         g_print ("\t%s\n\n", _("The Xfce development team. All rights reserved."));
         g_print (_("Please report bugs to <%s>."), PACKAGE_BUGREPORT);
         g_print ("\n");

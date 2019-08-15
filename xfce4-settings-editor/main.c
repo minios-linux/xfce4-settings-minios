@@ -135,7 +135,7 @@ main(gint argc, gchar **argv)
     if (G_UNLIKELY (opt_version))
     {
         g_print ("%s %s (Xfce %s)\n\n", G_LOG_DOMAIN, PACKAGE_VERSION, xfce_version_string ());
-        g_print ("%s\n", "Copyright (c) 2008-2018");
+        g_print ("%s\n", "Copyright (c) 2008-2019");
         g_print ("\t%s\n\n", _("The Xfce development team. All rights reserved."));
         g_print (_("Please report bugs to <%s>."), PACKAGE_BUGREPORT);
         g_print ("\n");
@@ -160,10 +160,10 @@ main(gint argc, gchar **argv)
 
 	if (G_UNLIKELY (opt_socket_id == 0))
     {
-		dialog = xfce_titled_dialog_new_with_buttons (_("Settings Editor"), NULL,
+		dialog = xfce_titled_dialog_new_with_mixed_buttons (_("Settings Editor"), NULL,
 					GTK_DIALOG_DESTROY_WITH_PARENT,
-					"gtk-help", GTK_RESPONSE_HELP,
-					"gtk-close", GTK_RESPONSE_OK,
+					"help-browser", _("_Help"), GTK_RESPONSE_HELP,
+					"window-close", _("_Close"), GTK_RESPONSE_OK,
 					NULL);
 
 		xfce_titled_dialog_set_subtitle (XFCE_TITLED_DIALOG (dialog),
