@@ -1,3 +1,211 @@
+commit d708d5dfad6a1c551437fa33444ca9333d5d67d5
+Author: Yannick Le Guen <leguen.yannick@gmail.com>
+Date:   Wed Aug 21 12:31:24 2019 +0200
+
+    I18n: Update translation fr (100%).
+    
+    453 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 16ad603484be4da4add3038b096770ff006080aa
+Author: Steve Harris <steve@cultureofweb.com>
+Date:   Wed Aug 21 06:30:56 2019 +0200
+
+    I18n: Add new translation en_CA (78%).
+    
+    354 translated messages, 99 untranslated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 5ebfae2131a65e86d966180b67dac09af07ce523
+Author: 玉堂白鹤 <yjwork@qq.com>
+Date:   Wed Aug 21 06:30:55 2019 +0200
+
+    I18n: Update translation zh_CN (100%).
+    
+    453 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 392cf6b43b702fbbbb80422e68e4176053f1719c
+Author: Igor <f2404@yandex.ru>
+Date:   Wed Aug 21 00:31:08 2019 +0200
+
+    I18n: Update translation ru (100%).
+    
+    453 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit c73dcaec6b7800c63287868bdc1fc14903997fe4
+Author: Michael Martins <michaelfm21@gmail.com>
+Date:   Wed Aug 21 00:31:08 2019 +0200
+
+    I18n: Update translation pt_BR (100%).
+    
+    453 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 1bc26f45c2e00401d98767773fda2319be43bd2b
+Author: Pjotr <pjotrvertaalt@gmail.com>
+Date:   Wed Aug 21 00:31:08 2019 +0200
+
+    I18n: Update translation nl (100%).
+    
+    453 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 6d1245766de22475b6646fc1d715e3ca3788492a
+Author: Vinzenz Vietzke <vinz@vinzv.de>
+Date:   Wed Aug 21 00:31:08 2019 +0200
+
+    I18n: Update translation de (100%).
+    
+    453 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 2770268db213b48a530fdf662e58142290121471
+Author: Kiril Kirilov <cybercop_montana@abv.bg>
+Date:   Wed Aug 21 00:31:08 2019 +0200
+
+    I18n: Update translation bg (100%).
+    
+    453 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 4dd3a94d06b0139b227f85b6419000a76b34895b
+Author: Daniel Muñiz Fontoira <dani@damufo.com>
+Date:   Tue Aug 20 18:31:57 2019 +0200
+
+    I18n: Update translation gl (100%).
+    
+    453 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 449e9d9a6f4a341d63ff542b6f9cf0af5d43951f
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Tue Aug 20 01:01:40 2019 +0200
+
+    color: Conditionally hide info button in add-profile dialog
+    
+    The button is shown/hidden based on the availability of gcm-viewer.
+
+commit e777649343213af373b25719d096e7b7493e2675
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Tue Aug 20 01:01:09 2019 +0200
+
+    color: Add tooltip to profile info buttons
+
+commit 41dec5a0e2ac07676dffa1e3d5fc6f215a0c074d
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Mon Aug 19 18:11:31 2019 +0200
+
+    display: Fix profile matching in xfsettingsd
+    
+    Previously the code (erroneously) checked the CRTCs instead of the
+    Outputs, which meant that sometimes no EDID would be found (which is to
+    be expected) or the amount of CRTCs would differ from the amount of
+    Outputs, so the for loop would be messed up.
+
+commit ae8221b23f72f62276bd0a0ffe129329b217a612
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Mon Aug 19 18:09:48 2019 +0200
+
+    display: Assure correct gchar** (Bug #15816)
+
+commit 5701809b52e76d6be31c5d90e51d722bb1cb2ea8
+Author: Elishai Eliyahu <e1907@mm.st>
+Date:   Sun Aug 18 00:31:14 2019 +0200
+
+    I18n: Update translation he (100%).
+    
+    452 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit a7120d7e46c904f65ed0edc2df2319a1cce4bc49
+Author: Daniel Muñiz Fontoira <dani@damufo.com>
+Date:   Sun Aug 18 00:31:14 2019 +0200
+
+    I18n: Update translation gl (100%).
+    
+    452 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 2822f0644fc1670263b81d0c84d9c205bc580a2e
+Author: Emanuele Petriglia <transifex@emanuelepetriglia.com>
+Date:   Sat Aug 17 18:31:51 2019 +0200
+
+    I18n: Update translation it (100%).
+    
+    452 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 4a821cf1f9067e1fe8abb834e17b164b014a7f77
+Author: Daniel Muñiz Fontoira <dani@damufo.com>
+Date:   Sat Aug 17 18:31:51 2019 +0200
+
+    I18n: Update translation gl (100%).
+    
+    452 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 4b5018de753408433b2db9e93a7293967b838a36
+Author: clmmbs <msreywel@hotmail.com>
+Date:   Sat Aug 17 18:31:51 2019 +0200
+
+    I18n: Update translation ar (89%).
+    
+    405 translated messages, 47 untranslated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 230404bce88b663e192d6722b38a01c410b37898
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Sat Aug 17 00:58:00 2019 +0200
+
+    keyboard: Improve layout of add-command dialog
+
+commit d1b799be09bc64457c26bb79b4a3c0bfcd2d0823
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Sat Aug 17 00:46:14 2019 +0200
+
+    keyboard: Add mnemonics to add-command dialog (Bug #10495)
+    
+    The icon-button for the command is used to be consistent with
+    xfce4-session's add autostart entry dialog.
+
+commit 8d75b768b203323fd0402bd6247ac04c98ef00b4
+Author: Саша Петровић <salepetronije@gmail.com>
+Date:   Thu Aug 15 00:30:56 2019 +0200
+
+    I18n: Update translation sr (100%).
+    
+    452 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 143b9e6d860f669332180aee9dd9ea780deef99d
+Author: Sean Davis <smd.seandavis@gmail.com>
+Date:   Sun Aug 11 16:26:38 2019 -0400
+
+    Back to development
+
+commit a60f610f9b8aac1fa45bcb52ebb647011341a03c
+Author: Sean Davis <smd.seandavis@gmail.com>
+Date:   Sun Aug 11 16:23:37 2019 -0400
+
+    Updates for release
+
 commit 682c5d83a24ccc450d6efc07058f4747a5c01181
 Author: Kjell Cato Heskjestad <cato@heskjestad.xyz>
 Date:   Sun Aug 11 12:31:19 2019 +0200

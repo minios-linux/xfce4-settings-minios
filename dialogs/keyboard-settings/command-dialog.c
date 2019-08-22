@@ -100,6 +100,7 @@ command_dialog_create_contents (CommandDialog *dialog,
   GtkWidget *content_box;
   GtkWidget *hbox;
   GtkWidget *label;
+  GtkWidget *image;
   GtkWidget *table;
 
   /* Set dialog title and icon */
@@ -107,11 +108,11 @@ command_dialog_create_contents (CommandDialog *dialog,
   gtk_window_set_icon_name (GTK_WINDOW (dialog), "application-x-executable");
 
   /* Create cancel button */
-  button = gtk_button_new_with_label (_("Cancel"));
+  button = gtk_button_new_with_mnemonic (_("_Cancel"));
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_CANCEL);
   gtk_widget_show (button);
 
-  button = gtk_button_new_with_label (_("OK"));
+  button = gtk_button_new_with_mnemonic (_("_OK"));
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_OK);
   gtk_widget_set_can_default (GTK_WIDGET(button), TRUE);
   gtk_widget_grab_default (button);
@@ -119,9 +120,7 @@ command_dialog_create_contents (CommandDialog *dialog,
 
   /* Set the main box layout */
   content_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
-  gtk_widget_set_margin_bottom (GTK_WIDGET(content_box), 6);
-  gtk_widget_set_margin_start (GTK_WIDGET(content_box), 12);
-  gtk_container_set_border_width (GTK_CONTAINER (content_box), 6);
+  gtk_container_set_border_width (GTK_CONTAINER (content_box), 12);
   gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), content_box);
   gtk_widget_show (content_box);
 
@@ -144,7 +143,7 @@ command_dialog_create_contents (CommandDialog *dialog,
   table = gtk_grid_new ();
   gtk_grid_set_row_spacing (GTK_GRID (table), 6);
   gtk_grid_set_column_spacing (GTK_GRID (table), 12);
-  gtk_container_set_border_width (GTK_CONTAINER (table), 6);
+  gtk_widget_set_margin_top (GTK_WIDGET (table), 6);
   gtk_container_add (GTK_CONTAINER (content_box), table);
   gtk_widget_show (table);
 
@@ -165,29 +164,33 @@ command_dialog_create_contents (CommandDialog *dialog,
       gtk_widget_show (label);
     }
 
-  label = gtk_label_new (_("Command:"));
+  label = gtk_label_new_with_mnemonic (_("Comm_and:"));
   gtk_widget_set_halign (GTK_WIDGET (label), GTK_ALIGN_START);
   gtk_widget_set_valign (GTK_WIDGET (label), GTK_ALIGN_CENTER);
   gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
   gtk_widget_show (label);
 
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+  gtk_widget_set_hexpand (hbox, TRUE);
   gtk_grid_attach (GTK_GRID (table), hbox, 1, 1, 1, 1);
   gtk_widget_show (hbox);
 
   dialog->entry = gtk_entry_new ();
   gtk_entry_set_activates_default (GTK_ENTRY (dialog->entry), TRUE);
   gtk_entry_set_text (GTK_ENTRY (dialog->entry), action != NULL ? action : "");
-  gtk_container_add (GTK_CONTAINER (hbox), dialog->entry);
+  gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (dialog->entry));
+  gtk_box_pack_start (GTK_BOX (hbox), dialog->entry, TRUE, TRUE, 0);
   gtk_widget_show (dialog->entry);
 
-  dialog->button = gtk_button_new_with_label (_("Open"));
+  dialog->button = gtk_button_new ();
+  image = gtk_image_new_from_icon_name ("document-open", GTK_ICON_SIZE_BUTTON);
+  gtk_button_set_image (GTK_BUTTON (dialog->button), image);
   g_signal_connect_swapped (dialog->button, "clicked", G_CALLBACK (command_dialog_button_clicked), dialog);
-  gtk_box_pack_start (GTK_BOX (hbox), dialog->button, FALSE, TRUE, 0);
+  gtk_box_pack_end (GTK_BOX (hbox), dialog->button, FALSE, TRUE, 0);
   gtk_widget_show (dialog->button);
 
   dialog->sn_option = gtk_check_button_new_with_mnemonic (_("Use _startup notification"));
-  gtk_grid_attach (GTK_GRID (table), dialog->sn_option, 0, 2, 1, 1);
+  gtk_grid_attach (GTK_GRID (table), dialog->sn_option, 0, 2, 2, 1);
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->sn_option), snotify);
   gtk_widget_show (dialog->sn_option);
 
@@ -256,8 +259,8 @@ command_dialog_button_clicked (CommandDialog *dialog)
   chooser = gtk_file_chooser_dialog_new (_("Select command"),
                                          GTK_WINDOW (dialog),
                                          GTK_FILE_CHOOSER_ACTION_OPEN,
-                                         _("Cancel"), GTK_RESPONSE_CANCEL,
-                                         _("Open"), GTK_RESPONSE_OK, NULL);
+                                         _("_Cancel"), GTK_RESPONSE_CANCEL,
+                                         _("_Open"), GTK_RESPONSE_OK, NULL);
 
   /* Add file chooser filters */
   filter = gtk_file_filter_new ();
