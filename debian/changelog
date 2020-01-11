@@ -1,3 +1,17 @@
+xfce4-settings (4.14.2-1) unstable; urgency=medium
+
+  [ Unit 193 ]
+  * d/watch: Update for upstream's move to mirrorbit.
+
+  [ Yves-Alexis Perez ]
+  * d/watch updated to use uscan special strings
+  * New upstream version 4.14.2
+  * d/control: update dh compat level to 12
+  * d/control: update standards version to 4.4.1
+  * d/control: update b-deps for new upstream
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Sat, 11 Jan 2020 16:09:53 +0100
+
 xfce4-settings (4.14.1-1) unstable; urgency=medium
 
   * New upstream version 4.14.1
