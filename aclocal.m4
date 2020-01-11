@@ -6212,7 +6212,8 @@ _LT_EOF
   if AC_TRY_EVAL(ac_compile); then
     # Now try to grab the symbols.
     nlist=conftest.nm
-    if AC_TRY_EVAL(NM conftest.$ac_objext \| "$lt_cv_sys_global_symbol_pipe" \> $nlist) && test -s "$nlist"; then
+    $ECHO "$as_me:$LINENO: $NM conftest.$ac_objext | $lt_cv_sys_global_symbol_pipe > $nlist" >&AS_MESSAGE_LOG_FD
+    if eval "$NM" conftest.$ac_objext \| "$lt_cv_sys_global_symbol_pipe" \> $nlist 2>&AS_MESSAGE_LOG_FD && test -s "$nlist"; then
       # Try sorting and uniquifying the output.
       if sort "$nlist" | uniq > "$nlist"T; then
 	mv -f "$nlist"T "$nlist"
@@ -6850,6 +6851,12 @@ m4_if([$1], [CXX], [
       ecc*)
 	_LT_TAGVAR(lt_prog_compiler_wl, $1)='-Wl,'
 	_LT_TAGVAR(lt_prog_compiler_pic, $1)='-KPIC'
+	_LT_TAGVAR(lt_prog_compiler_static, $1)='-static'
+        ;;
+      # flang / f18. f95 an alias for gfortran or flang on Debian
+      flang* | f18* | f95*)
+	_LT_TAGVAR(lt_prog_compiler_wl, $1)='-Wl,'
+	_LT_TAGVAR(lt_prog_compiler_pic, $1)='-fPIC'
 	_LT_TAGVAR(lt_prog_compiler_static, $1)='-static'
         ;;
       # icc used to be incompatible with GCC.
@@ -11255,7 +11262,7 @@ AC_DEFUN([XDT_PROG_PKG_CONFIG],
         echo "*** pkg-config $xdt_cv_PKG_CONFIG_MIN_VERSION or newer. You can download pkg-config"
         echo "*** from the freedesktop.org software repository at"
         echo "***"
-        echo "***    http://www.freedesktop.org/software/pkgconfig"
+        echo "***    https://www.freedesktop.org/wiki/Software/pkg-config/"
         echo "***"
         exit 1;
       fi
@@ -11268,7 +11275,7 @@ AC_DEFUN([XDT_PROG_PKG_CONFIG],
       echo "*** You can download pkg-config from the freedesktop.org"
       echo "*** software repository at"
       echo "***"
-      echo "***    http://www.freedesktop.org/software/pkgconfig"
+      echo "***    https://www.freedesktop.org/wiki/Software/pkg-config/"
       echo "***"
       exit 1
     ])
@@ -11615,7 +11622,7 @@ AC_HELP_STRING([--disable-debug], [Include no debugging support]),
                               -Wno-unused-parameter -Wold-style-definition \
                               -Wdeclaration-after-statement \
                               -Wmissing-declarations \
-                              -Wmissing-noreturn -Wshadow -Wpointer-arith \
+                              -Wmissing-noreturn -Wpointer-arith \
                               -Wcast-align -Wformat -Wformat-security -Wformat-y2k \
                               -Winit-self -Wmissing-include-dirs -Wundef \
                               -Wnested-externs"
@@ -11636,7 +11643,7 @@ AC_HELP_STRING([--disable-debug], [Include no debugging support]),
       CPPFLAGS="$CPPFLAGS -DG_ENABLE_DEBUG"
       AC_MSG_RESULT([full])
     else
-      xdt_cv_additional_CFLAGS="$xdt_cv_additional_CFLAGS -g"
+      xdt_cv_additional_CFLAGS="$xdt_cv_additional_CFLAGS -g -Wshadow"
       AC_MSG_RESULT([yes])
     fi
 
