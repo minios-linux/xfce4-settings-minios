@@ -73,6 +73,14 @@ enum
 
 enum
 {
+    RESOLUTION_COLUMN_COMBO_NAME,
+    RESOLUTION_COLUMN_COMBO_MARKUP,
+    RESOLUTION_COLUMN_COMBO_VALUE,
+    N_RESOLUTION_COMBO_COLUMNS
+};
+
+enum
+{
     COLUMN_COMBO_NAME,
     COLUMN_COMBO_VALUE,
     N_COMBO_COLUMNS
@@ -163,6 +171,39 @@ GList *current_outputs = NULL;
 GtkWidget *randr_outputs_combobox = NULL;
 GtkWidget *apply_button = NULL;
 
+/* Show nice representation of the display ratio */
+typedef struct _XfceRatio XfceRatio;
+
+struct _XfceRatio
+{
+    gboolean precise;
+    gdouble ratio;
+    const gchar *desc;
+};
+
+static GHashTable *display_ratio = NULL;
+/* adding the +0.5 to result in "rounding" instead of trunc() */
+#define _ONE_DIGIT_PRECISION(x) ((gdouble)((gint)((x)*10.0+0.5))/10.0)
+#define _TWO_DIGIT_PRECISION(x) ((gdouble)((gint)((x)*100.0+0.5))/100.0)
+
+/* most prominent ratios */
+/* adding in least exact order to find most precise */
+static XfceRatio ratio_table[] = {
+    { FALSE, _ONE_DIGIT_PRECISION(16.0/9.0), "<span font_style='italic'>≈16:9</span>" },
+    { FALSE, _TWO_DIGIT_PRECISION(16.0/9.0), "<span font_style='italic'>≈16:9</span>" },
+    { TRUE, 16.0/9.0, "16:9" },
+    { FALSE, _ONE_DIGIT_PRECISION(16.0/10.0), "<span font_style='italic'>≈16:10</span>" },
+    { FALSE, _TWO_DIGIT_PRECISION(16.0/10.0), "<span font_style='italic'>≈16:10</span>" },
+    { TRUE, 16.0/10.0, "16:10" },
+    /* _ONE_DIGIT_PRECISION(4.0/3.0) would be mixed up with 5/4 */
+    { FALSE, _TWO_DIGIT_PRECISION(4.0/3.0), "<span font_style='italic'>≈4:3</span>" },
+    { TRUE, 4.0/3.0, "4:3" },
+    { FALSE, _ONE_DIGIT_PRECISION(21.0/9.0), "<span font_style='italic'>≈21:9</span>" },
+    { FALSE, _TWO_DIGIT_PRECISION(21.0/9.0), "<span font_style='italic'>≈21:9</span>" },
+    { TRUE, 21.0/9.0, "21:9" },
+    { FALSE, 0.0 , NULL }
+};
+
 static void display_settings_minimal_only_display1_toggled   (GtkToggleButton *button,
                                                               GtkBuilder      *builder);
 
@@ -187,6 +228,9 @@ static void display_settings_profile_apply                   (GtkWidget       *w
 static void display_settings_minimal_profile_apply           (GtkToggleButton *widget,
                                                               GtkBuilder      *builder);
 
+static GList *list_connected_outputs                         (gint            *total_w,
+                                                              gint            *total_h);
+
 static void
 display_settings_changed (void)
 {
@@ -194,13 +238,15 @@ display_settings_changed (void)
 }
 
 static XfceOutputInfo*
-get_nth_xfce_output_info(gint id)
+get_nth_xfce_output_info (gint id)
 {
     XfceOutputInfo *output = NULL;
     GList * entry = NULL;
 
-    if (current_outputs)
-        entry = g_list_nth (current_outputs, id);
+    if (!current_outputs)
+        current_outputs = list_connected_outputs (NULL, NULL);
+
+    entry = g_list_nth (current_outputs, id);
 
     if (entry)
         output = entry->data;
@@ -235,7 +281,8 @@ display_settings_get_n_active_outputs (void)
 
 static gboolean
 display_setting_combo_box_get_value (GtkComboBox *combobox,
-                                     gint        *value)
+                                     gint        *value,
+                                     gboolean     resolution)
 {
     GtkTreeModel *model;
     GtkTreeIter   iter;
@@ -243,7 +290,10 @@ display_setting_combo_box_get_value (GtkComboBox *combobox,
     if (gtk_combo_box_get_active_iter (combobox, &iter))
     {
         model = gtk_combo_box_get_model (combobox);
-        gtk_tree_model_get (model, &iter, COLUMN_COMBO_VALUE, value, -1);
+        if (resolution)
+            gtk_tree_model_get (model, &iter, RESOLUTION_COLUMN_COMBO_VALUE, value, -1);
+        else
+            gtk_tree_model_get (model, &iter, COLUMN_COMBO_VALUE, value, -1);
 
         return TRUE;
     }
@@ -339,7 +389,7 @@ display_setting_reflections_changed (GtkComboBox *combobox,
 {
     gint value;
 
-    if (!display_setting_combo_box_get_value (combobox, &value))
+    if (!display_setting_combo_box_get_value (combobox, &value, FALSE))
         return;
 
     /* Remove existing reflection */
@@ -422,7 +472,7 @@ display_setting_rotations_changed (GtkComboBox *combobox,
     XfceOutputInfo *output;
     gint value;
 
-    if (!display_setting_combo_box_get_value (combobox, &value))
+    if (!display_setting_combo_box_get_value (combobox, &value, FALSE))
         return;
 
     /* Set new rotation */
@@ -501,7 +551,7 @@ display_setting_refresh_rates_changed (GtkComboBox *combobox,
 {
     gint value;
 
-    if (!display_setting_combo_box_get_value (combobox, &value))
+    if (!display_setting_combo_box_get_value (combobox, &value, FALSE))
         return;
 
     /* Set new mode */
@@ -548,7 +598,7 @@ display_setting_refresh_rates_populate (GtkBuilder *builder)
 
     /* Fetch the selected resolution */
     res_combobox = gtk_builder_get_object (builder, "randr-resolution");
-    if (!display_setting_combo_box_get_value (GTK_COMBO_BOX (res_combobox), &n))
+    if (!display_setting_combo_box_get_value (GTK_COMBO_BOX (res_combobox), &n, TRUE))
         return;
 
     current_mode = xfce_randr_find_mode_by_id (xfce_randr, active_output, n);
@@ -597,7 +647,7 @@ display_setting_resolutions_changed (GtkComboBox *combobox,
     const XfceRRMode *mode;
     gint value;
 
-    if (!display_setting_combo_box_get_value (combobox, &value))
+    if (!display_setting_combo_box_get_value (combobox, &value, TRUE))
         return;
 
     /* Set new resolution */
@@ -617,21 +667,51 @@ display_setting_resolutions_changed (GtkComboBox *combobox,
     foo_scroll_area_invalidate (FOO_SCROLL_AREA (randr_gui_area));
 }
 
+/* Greatest common divisor */
+static guint
+gcd (guint a,
+     guint b)
+{
+    if (b == 0)
+      return a;
+
+    return gcd (b, a % b);
+}
+
+/* Initialize valid display aspect ratios */
+static void
+display_settings_aspect_ratios_populate (void)
+{
+    XfceRatio *i;
+
+    display_ratio = g_hash_table_new (g_double_hash, g_double_equal);
+    for (i = ratio_table; i->ratio != 0.0; i++)
+    {
+        g_hash_table_insert (display_ratio, &i->ratio, (gpointer) i);
+    }
+}
+
 static void
 display_setting_resolutions_populate (GtkBuilder *builder)
 {
     GtkTreeModel     *model;
     GObject          *combobox, *label;
+    GtkCellRenderer  *renderer;
     gint              nmode, n;
     gchar            *name;
+    gchar            *rratio;
     GtkTreeIter       iter;
     const XfceRRMode *modes;
+    XfceOutputInfo   *output;
 
     /* Get the combo box store and clear it */
     combobox = gtk_builder_get_object (builder, "randr-resolution");
     model = gtk_combo_box_get_model (GTK_COMBO_BOX (combobox));
     gtk_list_store_clear (GTK_LIST_STORE (model));
+
     label = gtk_builder_get_object (builder, "label-resolution");
+
+    output = get_nth_xfce_output_info (active_output);
 
     /* Disable it if no mode is selected */
     if (xfce_randr->mode[active_output] == None)
@@ -656,14 +736,73 @@ display_setting_resolutions_populate (GtkBuilder *builder)
         if (n == 0 || (n > 0 && (modes[n].width != modes[n - 1].width
             || modes[n].height != modes[n - 1].height)))
         {
+            /* Insert mode and ratio */
+            gdouble    ratio = (double) modes[n].width / (double) modes[n].height;
+            gdouble    rough_ratio;
+            gchar     *ratio_text = NULL;
+            XfceRatio *ratio_info = g_hash_table_lookup (display_ratio, &ratio);
 
-            /* Insert the mode */
-            name = g_strdup_printf ("%dx%d", modes[n].width, modes[n].height);
+            /* Highlight the preferred mode with an asterisk */
+            if (output->pref_width == modes[n].width
+                && output->pref_height == modes[n].height)
+                name = g_strdup_printf ("%dx%d*", modes[n].width,
+                                        modes[n].height);
+            else
+                name = g_strdup_printf ("%dx%d", modes[n].width,
+                                        modes[n].height);
+
+            if (ratio_info)
+                ratio_text = g_strdup (ratio_info->desc);
+
+            if (!ratio_info)
+            {
+                rough_ratio = _TWO_DIGIT_PRECISION (ratio);
+                ratio_info = g_hash_table_lookup (display_ratio, &rough_ratio);
+                if (ratio_info)
+                {
+                    /* if the lookup finds a precise ratio
+                     * although we did round the current ratio
+                     * we also mark this as not precise */
+                    if (ratio_info->precise)
+                        ratio_text = g_strdup_printf ("<span font_style='italic'>≈%s</span>", ratio_info->desc);
+                    else
+                        ratio_text = g_strdup (ratio_info->desc);
+                }
+            }
+
+            if (!ratio_info)
+            {
+                rough_ratio = _ONE_DIGIT_PRECISION (ratio);
+                ratio_info = g_hash_table_lookup (display_ratio, &rough_ratio);
+                if (ratio_info)
+                {
+                    if (ratio_info->precise)
+                        ratio_text = g_strdup_printf ("<span font_style='italic'>≈%s</span>", ratio_info->desc);
+                    else
+                        ratio_text = g_strdup (ratio_info->desc);
+                }
+            }
+
+            if (!ratio_info)
+            {
+                guint gcd_tmp = gcd (modes[n].width, modes[n].height);
+                guint format_x = modes[n].width / gcd_tmp;
+                guint format_y = modes[n].height / gcd_tmp;
+                rratio = g_strdup_printf ("<span fgalpha='50%%'>%d:%d</span>", format_x, format_y);
+            }
+            else
+            {
+                rratio = g_strdup_printf ("<span fgalpha='50%%'>%s</span>", ratio_text);
+            }
+            g_free (ratio_text);
+
             gtk_list_store_append (GTK_LIST_STORE (model), &iter);
             gtk_list_store_set (GTK_LIST_STORE (model), &iter,
-                                COLUMN_COMBO_NAME, name,
-                                COLUMN_COMBO_VALUE, modes[n].id, -1);
+                                RESOLUTION_COLUMN_COMBO_NAME, name,
+                                RESOLUTION_COLUMN_COMBO_MARKUP, rratio,
+                                RESOLUTION_COLUMN_COMBO_VALUE, modes[n].id, -1);
             g_free (name);
+            g_free (rratio);
         }
 
         /* Select the active mode */
@@ -1483,13 +1622,17 @@ display_settings_combobox_populate (GtkBuilder *builder)
 }
 
 static void
-display_settings_combo_box_create (GtkComboBox *combobox)
+display_settings_combo_box_create (GtkComboBox *combobox,
+                                   gboolean     resolution)
 {
     GtkCellRenderer *renderer;
     GtkListStore    *store;
 
     /* Create and set the combobox model */
-    store = gtk_list_store_new (N_COMBO_COLUMNS, G_TYPE_STRING, G_TYPE_INT);
+    if (resolution)
+        store = gtk_list_store_new (N_RESOLUTION_COMBO_COLUMNS, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT);
+    else
+        store = gtk_list_store_new (N_COMBO_COLUMNS, G_TYPE_STRING, G_TYPE_INT);
     gtk_combo_box_set_model (combobox, GTK_TREE_MODEL (store));
     g_object_unref (G_OBJECT (store));
 
@@ -1497,7 +1640,19 @@ display_settings_combo_box_create (GtkComboBox *combobox)
     renderer = gtk_cell_renderer_text_new ();
     gtk_cell_layout_clear (GTK_CELL_LAYOUT (combobox));
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combobox), renderer, TRUE);
-    gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (combobox), renderer, "text", COLUMN_COMBO_NAME);
+    if (resolution)
+        gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (combobox), renderer, "text", RESOLUTION_COLUMN_COMBO_NAME);
+    else
+        gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (combobox), renderer, "text", COLUMN_COMBO_NAME);
+
+    /* Add another column for the resolution combobox to display the ratio */
+    if (resolution)
+    {
+        renderer = gtk_cell_renderer_text_new ();
+        gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combobox), renderer, TRUE);
+        gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (combobox), renderer, "markup", RESOLUTION_COLUMN_COMBO_MARKUP);
+        gtk_cell_renderer_set_alignment (renderer, 1.0, 0.5);
+    }
 }
 
 static void
@@ -2021,20 +2176,21 @@ display_settings_dialog_new (GtkBuilder *builder)
     gtk_widget_show (GTK_WIDGET (label));
 
     combobox = gtk_builder_get_object (builder, "randr-reflection");
-    display_settings_combo_box_create (GTK_COMBO_BOX (combobox));
+    display_settings_combo_box_create (GTK_COMBO_BOX (combobox), FALSE);
     gtk_widget_show (GTK_WIDGET (combobox));
     g_signal_connect (G_OBJECT (combobox), "changed", G_CALLBACK (display_setting_reflections_changed), builder);
 
+    display_settings_aspect_ratios_populate ();
     combobox = gtk_builder_get_object (builder, "randr-resolution");
-    display_settings_combo_box_create (GTK_COMBO_BOX (combobox));
+    display_settings_combo_box_create (GTK_COMBO_BOX (combobox), TRUE);
     g_signal_connect (G_OBJECT (combobox), "changed", G_CALLBACK (display_setting_resolutions_changed), builder);
 
     combobox = gtk_builder_get_object (builder, "randr-refresh-rate");
-    display_settings_combo_box_create (GTK_COMBO_BOX (combobox));
+    display_settings_combo_box_create (GTK_COMBO_BOX (combobox), FALSE);
     g_signal_connect (G_OBJECT (combobox), "changed", G_CALLBACK (display_setting_refresh_rates_changed), builder);
 
     combobox = gtk_builder_get_object (builder, "randr-rotation");
-    display_settings_combo_box_create (GTK_COMBO_BOX (combobox));
+    display_settings_combo_box_create (GTK_COMBO_BOX (combobox), FALSE);
     g_signal_connect (G_OBJECT (combobox), "changed", G_CALLBACK (display_setting_rotations_changed), builder);
 
     combobox = gtk_builder_get_object (builder, "randr-profile");
@@ -2255,7 +2411,9 @@ screen_on_event (GdkXEvent *xevent,
 
         /* recreate the identify display popups */
         g_hash_table_destroy (display_popups);
+        g_hash_table_destroy (display_ratio);
         display_setting_identity_popups_populate ();
+        display_settings_aspect_ratios_populate ();
         set_display_popups_visible(show_popups);
     }
 
@@ -2314,7 +2472,8 @@ get_mirrored_configuration (void)
         return cloned;
 }
 
-static XfceOutputInfo *convert_xfce_output_info (gint output_id)
+static XfceOutputInfo *
+convert_xfce_output_info (gint output_id)
 {
     XfceOutputInfo *output;
     const XfceRRMode *mode, *preferred;
@@ -2323,7 +2482,7 @@ static XfceOutputInfo *convert_xfce_output_info (gint output_id)
 
     xfce_randr_get_positions(xfce_randr, output_id, &x, &y);
     mode = xfce_randr_find_mode_by_id (xfce_randr, output_id, xfce_randr->mode[output_id]);
-    preferred_mode = xfce_randr_preferred_mode(xfce_randr, output_id);
+    preferred_mode = xfce_randr_preferred_mode (xfce_randr, output_id);
     preferred = xfce_randr_find_mode_by_id (xfce_randr, output_id, preferred_mode);
     output = g_new0 (XfceOutputInfo, 1);
     output->id = output_id;
@@ -3886,7 +4045,7 @@ main (gint argc, gchar **argv)
     xfce_textdomain (GETTEXT_PACKAGE, LOCALEDIR, "UTF-8");
 
     /* Initialize Gtk+ */
-    if (!gtk_init_with_args (&argc, &argv, "", option_entries, GETTEXT_PACKAGE, &error))
+    if (!gtk_init_with_args (&argc, &argv, NULL, option_entries, GETTEXT_PACKAGE, &error))
     {
         if (G_LIKELY (error))
         {

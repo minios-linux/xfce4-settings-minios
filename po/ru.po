@@ -1,20 +1,24 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Xfce Bot <transifex@xfce.org>, 2019
-# 
-#, fuzzy
+# Aleksandr P, 2011
+# Alexandr Boltris <alex@altlinux.org>, 2011
+# Artem Zolochevskiy <artem.zolochevskiy@gmail.com>, 2011
+# Denis Koryavov <dkoryavov@yandex.ru> 2009, 2010
+# Dmitrij Smirnov <other@igus.lv>, 2011
+# Igor <f2404@yandex.ru>, 2016-2019
+# Ilya Shestopalov <yast4ik@yahoo.com>, 2009
+# Sergey Alyoshin <alyoshin.s@gmail.com>, 2013-2016,2018
 msgid ""
 msgstr ""
-"Project-Id-Version: xfce4-settings\n"
+"Project-Id-Version: Xfce4-settings\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-20 18:32+0200\n"
-"PO-Revision-Date: 2019-10-20 16:33+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>, 2019\n"
-"Language-Team: Russian (https://www.transifex.com/xfce/teams/16840/ru/)\n"
+"POT-Creation-Date: 2019-11-16 00:30+0100\n"
+"PO-Revision-Date: 2019-11-16 17:11+0000\n"
+"Last-Translator: Igor <f2404@yandex.ru>\n"
+"Language-Team: Russian (http://www.transifex.com/xfce/xfce4-settings/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -40,9 +44,7 @@ msgstr "Невозможно запросить версию используе�
 msgid ""
 "This system is using RandR %d.%d. For the display settings to work version "
 "1.2 is required at least"
-msgstr ""
-"Эта система использует RandR %d.%d. Для работы настроек дисплея необходима "
-"версия 1.2 или выше"
+msgstr "Эта система использует RandR %d.%d. Для работы настроек дисплея необходима версия 1.2 или выше"
 
 #: ../common/xfce-randr.c:574
 msgid "Laptop"
@@ -100,9 +102,7 @@ msgstr "_Справка"
 msgid ""
 "When enabled, the session manager will start the required applications for "
 "screen readers and magnifiers."
-msgstr ""
-"Если выбрано, менеджер сессий запустит приложения, необходимые для чтения с "
-"экрана и увеличения изображения."
+msgstr "Если выбрано, менеджер сессий запустит приложения, необходимые для чтения с экрана и увеличения изображения."
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:6
 msgid "_Enable assistive technologies"
@@ -114,8 +114,7 @@ msgstr "Начинать с сеансом"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:8
 msgid "Assistive technologies will be available the next time you login"
-msgstr ""
-"Вспомогательные технологии будут доступны при следующем входе в систему"
+msgstr "Вспомогательные технологии будут доступны при следующем входе в систему"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:9
 msgid "No AT-SPI provider was found on your system"
@@ -130,10 +129,7 @@ msgid ""
 "When enabled, modifier keys (such as Control, Alt, and Shift) do not need to"
 " be held down (they can be pressed and then released) when multiple keys "
 "would normally need to be pressed at the same time."
-msgstr ""
-"Когда выбрано, клавиши-модификаторы (такие как Control, Alt и Shift) не "
-"нужно удерживать нажатыми — они могут быть нажаты и затем отпущены. В то "
-"время как обычно клавиши нужно удерживать нажатыми одновременно."
+msgstr "Когда выбрано, клавиши-модификаторы (такие как Control, Alt и Shift) не нужно удерживать нажатыми — они могут быть нажаты и затем отпущены. В то время как обычно клавиши нужно удерживать нажатыми одновременно."
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:12
 msgid "_Use sticky keys"
@@ -147,9 +143,7 @@ msgstr "_Фиксировать залипшие клавиши"
 msgid ""
 "When selected, modifier keys (such as Control, Alt, and Shift) will remain "
 "locked in the pressed state until pressed again"
-msgstr ""
-"Когда выбрано, клавиши-модификаторы (такие как Control, Alt и Shift) "
-"останутся нажатыми до тех пор, пока их не нажать повторно"
+msgstr "Когда выбрано, клавиши-модификаторы (такие как Control, Alt и Shift) останутся нажатыми до тех пор, пока их не нажать повторно"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:15
 msgid "Disable sticky keys if two keys are _pressed"
@@ -159,9 +153,7 @@ msgstr "О_тключить залипание клавиш, если нажат
 msgid ""
 "When selected, the \"sticky keys\" feature will be disabled if two keys are "
 "pressed simultaneously"
-msgstr ""
-"Когда выбрано, функция «залипания клавиш» будет отключена, если нажаты "
-"одновременно две клавиши"
+msgstr "Когда выбрано, функция «залипания клавиш» будет отключена, если нажаты одновременно две клавиши"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:17
 msgid "Sticky Keys"
@@ -171,10 +163,7 @@ msgstr "Залипание клавиш"
 msgid ""
 "To help prevent accidental keystrokes, slow keys requires that a key is held"
 " for a certain minimum amount of time before the keystroke will be accepted."
-msgstr ""
-"Позволяет установить минимальное время, которое необходимо удерживать "
-"клавишу до того, как она будет принята. Это позволяет предотвратить "
-"случайные нажатия клавиш."
+msgstr "Позволяет установить минимальное время, которое необходимо удерживать клавишу до того, как она будет принята. Это позволяет предотвратить случайные нажатия клавиш."
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:19
 msgid "Use slow _keys"
@@ -188,9 +177,7 @@ msgstr "За_держка принятия:"
 msgid ""
 "The amount of time, in milliseconds, that must elapse before a keystroke "
 "will be accepted"
-msgstr ""
-"Время, которое должно пройти перед принятием нажатия клавиши, в "
-"миллисекундах"
+msgstr "Время, которое должно пройти перед принятием нажатия клавиши, в миллисекундах"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:22
 msgid "Slow Keys"
@@ -200,9 +187,7 @@ msgstr "Замедленные клавиши"
 msgid ""
 "To help prevent accidental multiple keystrokes, bounce keys imposes a "
 "minimum delay between keystrokes."
-msgstr ""
-"Позволяет установить минимальную задержку между нажатием клавиш для "
-"предотвращения множественных случайных нажатий клавиш."
+msgstr "Позволяет установить минимальную задержку между нажатием клавиш для предотвращения множественных случайных нажатий клавиш."
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:24
 msgid "Use _bounce keys"
@@ -228,9 +213,7 @@ msgstr "_Клавиатура"
 msgid ""
 "When enabled, the mouse pointer can be controlled using the keyboard number "
 "pad."
-msgstr ""
-"Когда выбрано, указатель мыши может контролироваться с цифровой панели "
-"клавиатуры."
+msgstr "Когда выбрано, указатель мыши может контролироваться с цифровой панели клавиатуры."
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:30
 msgid "_Use mouse emulation"
@@ -240,9 +223,7 @@ msgstr "Использовать _эмуляцию мыши"
 msgid ""
 "When selected, the mouse pointer can be controlled using the keyboard number"
 " pad"
-msgstr ""
-"Когда выбрано, указатель мыши может контролироваться с цифровой панели "
-"клавиатуры"
+msgstr "Когда выбрано, указатель мыши может контролироваться с цифровой панели клавиатуры"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:32
 msgid "msec"
@@ -252,8 +233,7 @@ msgstr "мс"
 msgid ""
 "The time, in milliseconds, between the initial key press and first repeated "
 "motion event"
-msgstr ""
-"Время между началом нажатия клавиши и началом движения, в миллисекундах"
+msgstr "Время между началом нажатия клавиши и началом движения, в миллисекундах"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:34
 msgid "_Acceleration delay:"
@@ -293,9 +273,7 @@ msgstr "_Расстояние ускорения:"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:43
 msgid "The ramp used to reach maximum pointer speed"
-msgstr ""
-"Расстояние, которое необходимо пройти указателю для достижения максимальной "
-"скорости"
+msgstr "Расстояние, которое необходимо пройти указателю для достижения максимальной скорости"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:44
 msgid "Mouse Emulation"
@@ -305,9 +283,7 @@ msgstr "Эмуляция мыши"
 msgid ""
 "Bind a keyboard shortcut to xfce4-find-cursor to get visual feedback of the "
 "mouse pointer's current location."
-msgstr ""
-"Привязать клавиатурное сочетание к xfce4-find-cursor, чтобы получить "
-"визуальный отклик от положения указателя мыши."
+msgstr "Привязать клавиатурное сочетание к xfce4-find-cursor, чтобы получить визуальный отклик от положения указателя мыши."
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:46
 msgid "Show location of pointer on keypress"
@@ -448,9 +424,7 @@ msgstr "Зна_чки"
 msgid ""
 "This font will be used as the default font used when drawing user interface "
 "text"
-msgstr ""
-"Этот шрифт будет использован в качестве стандартного для отображения текста "
-"интерфейса"
+msgstr "Этот шрифт будет использован в качестве стандартного для отображения текста интерфейса"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:18
 msgid "Select a default font"
@@ -464,9 +438,7 @@ msgstr "Шриф_т по умолчанию"
 msgid ""
 "This font will be used as the default monospace font, for example by "
 "terminal emulators."
-msgstr ""
-"Этот шрифт будет использоваться в качестве моноширинного шрифта по "
-"умолчанию, например, эмулятором терминала."
+msgstr "Этот шрифт будет использоваться в качестве моноширинного шрифта по умолчанию, например, эмулятором терминала."
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:21
 msgid "Select a default monospace font"
@@ -493,10 +465,7 @@ msgstr "_Хинтинг:"
 msgid ""
 "Many fonts contain information that provides extra hints as to how best draw"
 " the font; pick whichever looks best according to personal preference"
-msgstr ""
-"Многие шрифты содержат дополнительную информацию, которая помогает "
-"отрисовывать шрифт наилучшим образом. Выберите вариант, который выглядит "
-"лучше"
+msgstr "Многие шрифты содержат дополнительную информацию, которая помогает отрисовывать шрифт наилучшим образом. Выберите вариант, который выглядит лучше"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:27
 msgid "Sub-_pixel order:"
@@ -506,9 +475,7 @@ msgstr "Распределение внутри _пикселя:"
 msgid ""
 "Font quality on a TFT or LCD screen can be greatly improved by choosing the "
 "correct sub-pixel order of the screen"
-msgstr ""
-"Качество шрифтов на TFT или LCD экране может быть улучшено выбором "
-"правильного расположения цветов внутри пикселя"
+msgstr "Качество шрифтов на TFT или LCD экране может быть улучшено выбором правильного расположения цветов внутри пикселя"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:29
 msgid "Rendering"
@@ -522,9 +489,7 @@ msgstr "Задать _DPI:"
 msgid ""
 "Override the detected monitor resolution if fonts look too large or too "
 "small"
-msgstr ""
-"Переопределить автоматически определённое разрешение монитора. Используйте, "
-"если шрифты выглядят слишком маленькими или слишком большими"
+msgstr "Переопределить автоматически определённое разрешение монитора. Используйте, если шрифты выглядят слишком маленькими или слишком большими"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:32
 msgid "DPI"
@@ -567,9 +532,7 @@ msgid ""
 "If selected, keyboard shortcuts for menu items can be changed by hovering "
 "the mouse over the menu item and pressing the new key combination for the "
 "shortcut"
-msgstr ""
-"Если выбрано, комбинации клавиш для пунктов меню могут быть изменены "
-"наведением на них мыши и нажатием новой комбинации клавиш"
+msgstr "Если выбрано, комбинации клавиш для пунктов меню могут быть изменены наведением на них мыши и нажатием новой комбинации клавиш"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:42
 msgid "Menus and Buttons"
@@ -581,9 +544,7 @@ msgstr "Включить з_вуки событий"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:44
 msgid "Enable or disable event sounds globally (requires \"Canberra\" support)"
-msgstr ""
-"Включить или выключить звуки событий глобально (требуется поддержка "
-"«Canberra»)"
+msgstr "Включить или выключить звуки событий глобально (требуется поддержка «Canberra»)"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:45
 msgid "Enable input feedbac_k sounds"
@@ -593,9 +554,7 @@ msgstr "Включить в_ходящие звуки обратной связ�
 msgid ""
 "Specify whether mouse clicks and other user input will cause event sounds to"
 " play"
-msgstr ""
-"Определить будут ли клики мыши и других устройств ввода приводить к "
-"проигрыванию звука события"
+msgstr "Определить будут ли клики мыши и других устройств ввода приводить к проигрыванию звука события"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:47
 msgid "Event sounds"
@@ -618,9 +577,7 @@ msgstr "_Настройки"
 msgid ""
 "Warning: this icon theme has no cache file. You can create this by running "
 "<i>gtk-update-icon-cache %s/%s/</i> in a terminal emulator."
-msgstr ""
-"Внимание: эта тема значков не имеет кэш-файла. Вы можете создать его, "
-"выполнив в терминале: <i>gtk-update-icon-cache %s/%s/</i>."
+msgstr "Внимание: эта тема значков не имеет кэш-файла. Вы можете создать его, выполнив в терминале: <i>gtk-update-icon-cache %s/%s/</i>."
 
 #: ../dialogs/appearance-settings/main.c:879
 #, c-format
@@ -913,9 +870,7 @@ msgstr "<big><b>Сохранить настройки?</b></big>"
 msgid ""
 "The previous configuration will be restored in 10 seconds if you do not "
 "reply to this question."
-msgstr ""
-"Предыдущие настройки будут восстановлены через 10 секунд, если вы не "
-"ответите на этот вопрос."
+msgstr "Предыдущие настройки будут восстановлены через 10 секунд, если вы не ответите на этот вопрос."
 
 #: ../dialogs/display-settings/display-dialog.glade.h:1
 msgid "The primary display is currently configured to show:"
@@ -1081,9 +1036,7 @@ msgstr "<big><b>Вы изменили профиль, который уже бы
 msgid ""
 "If you don't update the profile your changes will be lost upon restarting "
 "your session or disconnecting or connecting a display."
-msgstr ""
-"Если вы не обновите профиль, ваши изменения будут потеряны при перезапуске "
-"сессии или при отключении и подключении дисплея."
+msgstr "Если вы не обновите профиль, ваши изменения будут потеряны при перезапуске сессии или при отключении и подключении дисплея."
 
 #: ../dialogs/display-settings/main.c:99
 msgid "Left"
@@ -1118,9 +1071,7 @@ msgstr "Минимальный интерфейс для настройки вн
 msgid ""
 "The previous configuration will be restored in %i seconds if you do not "
 "reply to this question."
-msgstr ""
-"Предыдущие настройки будут восстановлены через %i с, если вы не ответите на "
-"этот вопрос."
+msgstr "Предыдущие настройки будут восстановлены через %i с, если вы не ответите на этот вопрос."
 
 #. Insert the mode
 #: ../dialogs/display-settings/main.c:568
@@ -1139,9 +1090,7 @@ msgstr "Разрешение:"
 #: ../dialogs/display-settings/main.c:1164
 msgid ""
 "The last active output must not be disabled, the system would be unusable."
-msgstr ""
-"Последний активный выход не должен быть отключён, система будет непригодна "
-"для использования."
+msgstr "Последний активный выход не должен быть отключён, система будет непригодна для использования."
 
 #: ../dialogs/display-settings/main.c:1166
 msgid "Selected output not disabled"
@@ -1191,9 +1140,7 @@ msgstr "%d панел(ей) Xfce"
 msgid ""
 "Select a monitor to change its properties; drag it to rearrange its "
 "placement."
-msgstr ""
-"Выберите монитор для изменения его свойств и перетащите для изменения его "
-"расположения."
+msgstr "Выберите монитор для изменения его свойств и перетащите для изменения его расположения."
 
 #: ../dialogs/display-settings/main.c:2989
 #: ../dialogs/display-settings/main.c:3065
@@ -1335,9 +1282,7 @@ msgstr "_Включить повтор клавиши"
 msgid ""
 "When selected, pressing and holding down a key emits the same character over"
 " and over again"
-msgstr ""
-"Когда выбрано, при нажатии и удерживании клавиши будет печататься тот же "
-"символ снова и снова"
+msgstr "Когда выбрано, при нажатии и удерживании клавиши будет печататься тот же символ снова и снова"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:13
 msgid "_Repeat delay:"
@@ -1407,9 +1352,7 @@ msgstr "Использовать с_тандартные системные па
 msgid ""
 "Specifies whether the keyboard layout is controlled with this settings "
 "dialog, or by the X server"
-msgstr ""
-"Определяет, должна ли раскладка клавиатуры контролироваться через меню "
-"настроек или через X сервер"
+msgstr "Определяет, должна ли раскладка клавиатуры контролироваться через меню настроек или через X сервер"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:30
 msgid "_Keyboard model"
@@ -1482,9 +1425,7 @@ msgstr "Сбросить настройки"
 msgid ""
 "This will reset all shortcuts to their default values. Do you really want to"
 " do this?"
-msgstr ""
-"Это действие сбросит все настройки комбинаций клавиш на их стандартное "
-"значение. Вы действительно хотите сделать это?"
+msgstr "Это действие сбросит все настройки комбинаций клавиш на их стандартное значение. Вы действительно хотите сделать это?"
 
 #: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1274
 msgid "No"
@@ -1496,8 +1437,7 @@ msgstr "Да"
 
 #: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1351
 msgid "The system defaults will be restored next time you log in."
-msgstr ""
-"Настройки по умолчанию будут восстановлены при следующем входе в систему."
+msgstr "Настройки по умолчанию будут восстановлены при следующем входе в систему."
 
 #: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1353
 msgid "Warning"
@@ -1616,9 +1556,7 @@ msgstr "Не удалось связать приложение «%s» с тип
 #: ../dialogs/mime-settings/xfce-mime-window.c:899
 #, c-format
 msgid "Are you sure you want to reset content type \"%s\" to its default value?"
-msgstr ""
-"Вы действительно хотите сбросить настройки для типа «%s» к значениям по "
-"умолчанию?"
+msgstr "Вы действительно хотите сбросить настройки для типа «%s» к значениям по умолчанию?"
 
 #: ../dialogs/mime-settings/xfce-mime-window.c:903
 msgid "Question"
@@ -1628,9 +1566,7 @@ msgstr "Вопрос"
 msgid ""
 "This will remove your custom mime-association and restore the system-wide "
 "default."
-msgstr ""
-"Выбранная вами связь для типа MIME будет заменена на используемую системой "
-"по умолчанию."
+msgstr "Выбранная вами связь для типа MIME будет заменена на используемую системой по умолчанию."
 
 #: ../dialogs/mime-settings/xfce-mime-window.c:910
 #: ../dialogs/mime-settings/xfce-mime-window.c:981
@@ -1749,9 +1685,7 @@ msgstr "С_бросить настройки"
 msgid ""
 "Set the acceleration and sensitivity for the selected device to the default "
 "values"
-msgstr ""
-"Установить ускорение и чувствительность для выбранного устройства на "
-"стандартные значения"
+msgstr "Установить ускорение и чувствительность для выбранного устройства на стандартные значения"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:23
 msgid "Sensitivit_y:"
@@ -1764,16 +1698,13 @@ msgstr "_Ускорение:"
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:25
 msgid ""
 "The factor at which the pointer's speed will increase as the mouse is moved"
-msgstr ""
-"Коэффициент, на который будет умножена скорость указателя при движении мыши"
+msgstr "Коэффициент, на который будет умножена скорость указателя при движении мыши"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:26
 msgid ""
 "The number of pixels the pointer must move in a short time before it starts "
 "accelerating"
-msgstr ""
-"Количество пикселей, которое должен быстро пройти указатель перед началом "
-"ускорения"
+msgstr "Количество пикселей, которое должен быстро пройти указатель перед началом ускорения"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:27
 msgid "Pointer Speed"
@@ -1790,8 +1721,7 @@ msgstr "_Отключать тачпад во время набора"
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:30
 msgid ""
 "When selected, the touchpad will be disabled when the keyboard is being used"
-msgstr ""
-"Когда выбрано, тачпад будет отключаться во время использования клавиатуры"
+msgstr "Когда выбрано, тачпад будет отключаться во время использования клавиатуры"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:31
 msgid "Duratio_n:"
@@ -1841,9 +1771,7 @@ msgstr "П_орог:"
 msgid ""
 "The number of pixels the pointer must move before a drag operation will "
 "start"
-msgstr ""
-"Количество пикселей, которые должен пройти указатель перед началом "
-"перемещения объекта"
+msgstr "Количество пикселей, которые должен пройти указатель перед началом перемещения объекта"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:44
 msgid "Drag and Drop"
@@ -1857,9 +1785,7 @@ msgstr "Вр_емя:"
 msgid ""
 "Two mouse clicks in less than this length of time (in milliseconds) will be "
 "considered a double click"
-msgstr ""
-"Два щелчка мышью с интервалом менее этого значения будут считаться двойным "
-"щелчком, в миллисекундах"
+msgstr "Два щелчка мышью с интервалом менее этого значения будут считаться двойным щелчком, в миллисекундах"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:47
 msgid "D_istance:"
@@ -1869,9 +1795,7 @@ msgstr "_Расстояние:"
 msgid ""
 "The mouse pointer cannot move farther than this distance between two clicks "
 "for them to be considered a double click"
-msgstr ""
-"Для двойного щелчка указатель мыши не должен переместиться между щелчками "
-"более чем на заданное расстояние"
+msgstr "Для двойного щелчка указатель мыши не должен переместиться между щелчками более чем на заданное расстояние"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:49
 msgid "Double Click"
@@ -1906,136 +1830,125 @@ msgstr "Редактор настроек"
 msgid "Customize settings stored by Xfconf"
 msgstr "Изменение настроек хранимых в Xfconf"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:252
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:253
 msgid "Channel"
 msgstr "Канал"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:286
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:287
 msgid "Property"
 msgstr "Свойство"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:293
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:294
 msgid "Type"
 msgstr "Тип"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:300
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:301
 msgid "Locked"
 msgstr "Заблокировано"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:307
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:308
 msgid "Value"
 msgstr "Значение"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:322
-msgid "New"
-msgstr "Новый"
-
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:325
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:328
 msgid "New property"
 msgstr "Новое свойство"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:333
-msgid "Edit"
-msgstr "Изменить"
-
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:336
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:341
 msgid "Edit selected property"
 msgstr "Изменить выделенное свойство"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:344
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1031
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1370
-msgid "_Reset"
-msgstr "С_бросить"
-
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:347
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:354
 msgid "Reset selected property"
 msgstr "Сбросить выделенное свойство"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:454
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:545
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:664
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:461
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:552
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:671
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:89
 msgid "Empty"
 msgstr "Пусто"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:457
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:464
 msgid "Array"
 msgstr "Массив"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:462
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:469
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:90
 msgid "String"
 msgstr "Строка"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:470
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:477
 msgid "Integer"
 msgstr "Целое"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:473
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:480
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:91
 msgid "Boolean"
 msgstr "Логическое"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:476
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:483
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:93
 msgid "Double"
 msgstr "Двойной точности"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:810
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:817
 msgid "_Reset Channel"
 msgstr "С_бросить канал"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:811
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:818
 msgid "Resetting a channel will permanently remove those custom settings."
-msgstr ""
-"Возврат значения канала к первоначальному состоянию удалит его текущие "
-"настройки."
+msgstr "Возврат значения канала к первоначальному состоянию удалит его текущие настройки."
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:812
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:819
 #, c-format
 msgid "Are you sure you want to reset channel \"%s\" and all its properties?"
 msgstr "Вы действительно хотите сбросить канал «%s» и все его свойства?"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:887
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:894
 msgid "reset"
 msgstr "сброшено"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:944
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:951
 #, c-format
 msgid "Monitor %s"
 msgstr "Наблюдение за %s"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:952
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:959
 msgid "Watch an Xfconf channel for property changes"
 msgstr "Следить за изменениями свойств в канале Xfconf"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:954
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:961
 msgid "Clear"
 msgstr "Очистить"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:955
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:962
 msgid "Close"
 msgstr "Закрыть"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:988
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:995
 #, c-format
 msgid "start monitoring channel \"%s\""
 msgstr "начато наблюдение за каналом \"%s\""
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1037
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1038
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1377
+msgid "_Reset"
+msgstr "С_бросить"
+
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1044
 msgid "_Monitor"
 msgstr "_Наблюдение"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1047
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1054
 msgid "Refresh"
 msgstr "Обновить"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1371
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1378
 msgid "Resetting a property will permanently remove those custom settings."
 msgstr "Сброс значения свойства навсегда удалит ваши настройки для него."
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1372
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1379
 #, c-format
 msgid "Are you sure you want to reset property \"%s\"?"
 msgstr "Вы действительно хотите сбросить свойство «%s»?"
@@ -2097,10 +2010,7 @@ msgid ""
 "Property names can only include the ASCII characters A-Z, a-z, 0-9, '_', "
 "'-', ':', '.', ',', '[', ']', '{', '}', '<' and '>', as well as '/' as a "
 "separator"
-msgstr ""
-"Имена свойств могут содержать только ASCII-символы A-Z, a-z, 0-9, «_», «-», "
-"«:», «.», «,», «[», «]», «{», «}», «<» и «>», а так же символ «/» как "
-"разделитель"
+msgstr "Имена свойств могут содержать только ASCII-символы A-Z, a-z, 0-9, «_», «-», «:», «.», «,», «[», «]», «{», «}», «<» и «>», а так же символ «/» как разделитель"
 
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:423
 #, c-format
@@ -2206,5 +2116,9 @@ msgid "Workspace %d"
 msgstr "Рабочее место %d"
 
 #: ../xfsettingsd/xfsettingsd.desktop.in.h:1
+msgid "Xfce Settings Daemon"
+msgstr "Служба диспетчера настроек Xfce"
+
+#: ../xfsettingsd/xfsettingsd.desktop.in.h:2
 msgid "The Xfce Settings Daemon"
 msgstr "Служба диспетчера настроек Xfce"
