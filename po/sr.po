@@ -1,21 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Xfce Bot <transifex@xfce.org>, 2019
-# Саша Петровић <salepetronije@gmail.com>, 2019
-# 
-#, fuzzy
+# Nikola Radovanović <cobisimo@gmail.com>, 2018
+# Саша Петровић <salepetronije@gmail.com>, 2012,2014
+# Саша Петровић <salepetronije@gmail.com>, 2012,2014-2019
+# Саша Петровић <salepetronije@gmail.com>, 2017
+# Саша Петровић <salepetronije@gmail.com>, 2017,2019
+# Саша Петровић <salepetronije@gmail.com>, 2017,2019
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Xfce4-settings\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-21 00:33+0200\n"
-"PO-Revision-Date: 2019-10-20 16:33+0000\n"
-"Last-Translator: Саша Петровић <salepetronije@gmail.com>, 2019\n"
-"Language-Team: Serbian (https://www.transifex.com/xfce/teams/16840/sr/)\n"
+"POT-Creation-Date: 2019-11-16 00:30+0100\n"
+"PO-Revision-Date: 2019-12-11 09:06+0000\n"
+"Last-Translator: Саша Петровић <salepetronije@gmail.com>\n"
+"Language-Team: Serbian (http://www.transifex.com/xfce/xfce4-settings/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -33,7 +34,7 @@ msgstr "Непознато"
 #: ../common/xfce-randr.c:286 ../dialogs/display-settings/main.c:3927
 #, c-format
 msgid "Unable to query the version of the RandR extension being used"
-msgstr "Нисам успео да пропитам издање проширења Раднра које је у употреби"
+msgstr "Нисам успео да пропитам издање проширења Рандра које је у употреби"
 
 #. 1.2 is required
 #: ../common/xfce-randr.c:294
@@ -41,9 +42,7 @@ msgstr "Нисам успео да пропитам издање прошире�
 msgid ""
 "This system is using RandR %d.%d. For the display settings to work version "
 "1.2 is required at least"
-msgstr ""
-"Овај систем користи Рандр %d.%d. За поставке приказа најниже неопходно "
-"издање је 1.2"
+msgstr "Овај систем користи Рандр %d.%d. За поставке приказа најниже неопходно издање је 1.2"
 
 #: ../common/xfce-randr.c:574
 msgid "Laptop"
@@ -101,9 +100,7 @@ msgstr "_Помоћ"
 msgid ""
 "When enabled, the session manager will start the required applications for "
 "screen readers and magnifiers."
-msgstr ""
-"Уколико је укључено, управник седнице ће покренути потребне програме за "
-"читање приказа и лупе."
+msgstr "Уколико је укључено, управник седнице ће покренути потребне програме за читање приказа и лупе."
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:6
 msgid "_Enable assistive technologies"
@@ -130,10 +127,7 @@ msgid ""
 "When enabled, modifier keys (such as Control, Alt, and Shift) do not need to"
 " be held down (they can be pressed and then released) when multiple keys "
 "would normally need to be pressed at the same time."
-msgstr ""
-"Када је омогућено, управљачка дугмад (као што су  Контрол, Алт и Шифт) не "
-"морају се држати притиснута (она могу бити притиснута па пуштена) када "
-"обично више дугмади треба притиснути у исто време."
+msgstr "Када је омогућено, управљачка дугмад (као што су  Контрол, Алт и Шифт) не морају се држати притиснута (она могу бити притиснута па пуштена) када обично више дугмади треба притиснути у исто време."
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:12
 msgid "_Use sticky keys"
@@ -147,9 +141,7 @@ msgstr "_Закључај лепљиву дугмад"
 msgid ""
 "When selected, modifier keys (such as Control, Alt, and Shift) will remain "
 "locked in the pressed state until pressed again"
-msgstr ""
-"Када је изабрано, управљачка дугмад (као што су Контрол, Алт и Шифт) ће "
-"остати закључани у притиснутом стању док се не притисну опет"
+msgstr "Када је изабрано, управљачка дугмад (као што су Контрол, Алт и Шифт) ће остати закључани у притиснутом стању док се не притисну опет"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:15
 msgid "Disable sticky keys if two keys are _pressed"
@@ -159,9 +151,7 @@ msgstr "Искључи лепљиву дугмад ако се притисну 
 msgid ""
 "When selected, the \"sticky keys\" feature will be disabled if two keys are "
 "pressed simultaneously"
-msgstr ""
-"Када је изабрано, особина „лепљивих дугмади“ ће бити обустављена ако су два "
-"дугмета притиснута истовремено"
+msgstr "Када је изабрано, особина „лепљивих дугмади“ ће бити обустављена ако су два дугмета притиснута истовремено"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:17
 msgid "Sticky Keys"
@@ -171,10 +161,7 @@ msgstr "Лепљива дугмад"
 msgid ""
 "To help prevent accidental keystrokes, slow keys requires that a key is held"
 " for a certain minimum amount of time before the keystroke will be accepted."
-msgstr ""
-"За спречавање случајних низова дугмади, спора дугмада захтевају да се дугме "
-"држи притиснутим одређено време пре него низ притисака дугмади буде "
-"прихваћен."
+msgstr "За спречавање случајних низова дугмади, спора дугмада захтевају да се дугме држи притиснутим одређено време пре него низ притисака дугмади буде прихваћен."
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:19
 msgid "Use slow _keys"
@@ -198,9 +185,7 @@ msgstr "Спора дугмад"
 msgid ""
 "To help prevent accidental multiple keystrokes, bounce keys imposes a "
 "minimum delay between keystrokes."
-msgstr ""
-"Да би спречили случајне вишеструке притиске дугмади, одскочна дугмад намећу "
-"најмање кашњење између притисака дугмади"
+msgstr "Да би спречили случајне вишеструке притиске дугмади, одскочна дугмад намећу најмање кашњење између притисака дугмади"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:24
 msgid "Use _bounce keys"
@@ -226,8 +211,7 @@ msgstr "Тастату_ра"
 msgid ""
 "When enabled, the mouse pointer can be controlled using the keyboard number "
 "pad."
-msgstr ""
-"Када је изабрано, показивачем миша може бити управљано бројчаним дугмадима"
+msgstr "Када је изабрано, показивачем миша може бити управљано бројчаним дугмадима"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:30
 msgid "_Use mouse emulation"
@@ -237,8 +221,7 @@ msgstr "_Користи опонашање миша"
 msgid ""
 "When selected, the mouse pointer can be controlled using the keyboard number"
 " pad"
-msgstr ""
-"Када је изабрано, показивачем миша може бити управљано бројчаним дугмадима"
+msgstr "Када је изабрано, показивачем миша може бити управљано бројчаним дугмадима"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:32
 msgid "msec"
@@ -248,9 +231,7 @@ msgstr "милисек"
 msgid ""
 "The time, in milliseconds, between the initial key press and first repeated "
 "motion event"
-msgstr ""
-"Време између почетних притисака дугмади и првог поновљеног покрета у "
-"милисекундама"
+msgstr "Време између почетних притисака дугмади и првог поновљеног покрета у милисекундама"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:34
 msgid "_Acceleration delay:"
@@ -300,9 +281,7 @@ msgstr "Опонашање миша"
 msgid ""
 "Bind a keyboard shortcut to xfce4-find-cursor to get visual feedback of the "
 "mouse pointer's current location."
-msgstr ""
-"Додели пречицу дугмади за xfce4-find-cursor ради видног одзива тренутног "
-"положаја миша."
+msgstr "Додели пречицу дугмади за xfce4-find-cursor ради видног одзива тренутног положаја миша."
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:46
 msgid "Show location of pointer on keypress"
@@ -443,9 +422,7 @@ msgstr "_Сличице"
 msgid ""
 "This font will be used as the default font used when drawing user interface "
 "text"
-msgstr ""
-"Овај словни лик ће бити коришћен као подразумевани при исцртавању текста "
-"корисничког сучеља"
+msgstr "Овај словни лик ће бити коришћен као подразумевани при исцртавању текста корисничког сучеља"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:18
 msgid "Select a default font"
@@ -459,9 +436,7 @@ msgstr "Подразумевани словни ли_к"
 msgid ""
 "This font will be used as the default monospace font, for example by "
 "terminal emulators."
-msgstr ""
-"Овај словолик ће се користити за подразумевани једноразмачни словни лик, "
-"нпр. за опонашаче терминала."
+msgstr "Овај словолик ће се користити за подразумевани једноразмачни словни лик, нпр. за опонашаче терминала."
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:21
 msgid "Select a default monospace font"
@@ -478,8 +453,7 @@ msgstr "_Омогући омекшавање"
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:24
 msgid ""
 "Anti-aliasing, or font smoothing, can improve the look of text on the screen"
-msgstr ""
-"Дотеривање, или умекшавање словног лика, може побољшати изглед писма приказа"
+msgstr "Дотеривање, или умекшавање словног лика, може побољшати изглед писма приказа"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:25
 msgid "Hintin_g:"
@@ -489,10 +463,7 @@ msgstr "Наговештавањ_е:"
 msgid ""
 "Many fonts contain information that provides extra hints as to how best draw"
 " the font; pick whichever looks best according to personal preference"
-msgstr ""
-"Многи словни ликови садрже податке који обезбеђују додатна упутства о "
-"најбољем исцртавању словних ликова; изаберите оно које изгледа најбоље по "
-"личном нахођењу"
+msgstr "Многи словни ликови садрже податке који обезбеђују додатна упутства о најбољем исцртавању словних ликова; изаберите оно које изгледа најбоље по личном нахођењу"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:27
 msgid "Sub-_pixel order:"
@@ -502,9 +473,7 @@ msgstr "Распоред испод _тачака:"
 msgid ""
 "Font quality on a TFT or LCD screen can be greatly improved by choosing the "
 "correct sub-pixel order of the screen"
-msgstr ""
-"Изглед словних ликова на ТФТ или ЛЦД екрану може бити побољшан правилним "
-"избором приказа распореда тачака"
+msgstr "Изглед словних ликова на ТФТ или ЛЦД екрану може бити побољшан правилним избором приказа распореда тачака"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:29
 msgid "Rendering"
@@ -518,9 +487,7 @@ msgstr "Прилагођена подешавања _ТПИ:"
 msgid ""
 "Override the detected monitor resolution if fonts look too large or too "
 "small"
-msgstr ""
-"Изаберите другачију размеру екрана од препознате уколико словни ликови "
-"изгледају превелики или премали"
+msgstr "Изаберите другачију размеру екрана од препознате уколико словни ликови изгледају превелики или премали"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:32
 msgid "DPI"
@@ -563,9 +530,7 @@ msgid ""
 "If selected, keyboard shortcuts for menu items can be changed by hovering "
 "the mouse over the menu item and pressing the new key combination for the "
 "shortcut"
-msgstr ""
-"Ако је изабрано, пречице дугмади за избор ставки могу бити промењене "
-"надношењем миша над избором ставки и притиском новог низа пречице"
+msgstr "Ако је изабрано, пречице дугмади за избор ставки могу бити промењене надношењем миша над избором ставки и притиском новог низа пречице"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:42
 msgid "Menus and Buttons"
@@ -587,9 +552,7 @@ msgstr "Омогући звуке одзив_а уноса"
 msgid ""
 "Specify whether mouse clicks and other user input will cause event sounds to"
 " play"
-msgstr ""
-"Одредите да ли кликтање мишем или други уноси треба да покрену звучне "
-"догађаје"
+msgstr "Одредите да ли кликтање мишем или други уноси треба да покрену звучне догађаје"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:47
 msgid "Event sounds"
@@ -612,10 +575,7 @@ msgstr "Постав_ке"
 msgid ""
 "Warning: this icon theme has no cache file. You can create this by running "
 "<i>gtk-update-icon-cache %s/%s/</i> in a terminal emulator."
-msgstr ""
-"Упозорење: Ова тема сличица нема датотеку међумеморије. Можете је образовати"
-" извршавањем наредбе <i>gtk-update-icon-cache %s/%s/</i> у опонашачу "
-"терминала."
+msgstr "Упозорење: Ова тема сличица нема датотеку међумеморије. Можете је образовати извршавањем наредбе <i>gtk-update-icon-cache %s/%s/</i> у опонашачу терминала."
 
 #: ../dialogs/appearance-settings/main.c:879
 #, c-format
@@ -737,7 +697,7 @@ msgstr "Избриши тренутни пресек"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:13
 msgid "Show detailed information about the selected profile"
-msgstr "Прикажи податке о изабраном пресеку"
+msgstr "Прикажи опширно податке о одабраном пресеку"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:14
 msgid "Enable"
@@ -908,9 +868,7 @@ msgstr "<big><b>Да ли желите задржати ове поставке?
 msgid ""
 "The previous configuration will be restored in 10 seconds if you do not "
 "reply to this question."
-msgstr ""
-"Претходне поставке ће бити враћене кроз 10 секунди уколико не одговорите на "
-"ово питање."
+msgstr "Претходне поставке ће бити враћене кроз 10 секунди уколико не одговорите на ово питање."
 
 #: ../dialogs/display-settings/display-dialog.glade.h:1
 msgid "The primary display is currently configured to show:"
@@ -1076,9 +1034,7 @@ msgstr "<big><b>Изменили сте претходно коришћени п
 msgid ""
 "If you don't update the profile your changes will be lost upon restarting "
 "your session or disconnecting or connecting a display."
-msgstr ""
-"Ако не освежите пресек, измене ће бити изгубљене након поновног покретања "
-"седнице или откачињања или прикачивања екрана."
+msgstr "Ако не освежите пресек, измене ће бити изгубљене након поновног покретања седнице или откачињања или прикачивања екрана."
 
 #: ../dialogs/display-settings/main.c:99
 msgid "Left"
@@ -1113,9 +1069,7 @@ msgstr "Најмање сучеље да би се подесио спољни �
 msgid ""
 "The previous configuration will be restored in %i seconds if you do not "
 "reply to this question."
-msgstr ""
-"Претходна подешавања ће бити враћена кроз %i секунде ако не одговорите на "
-"ово питање."
+msgstr "Претходна подешавања ће бити враћена кроз %i секунде ако не одговорите на ово питање."
 
 #. Insert the mode
 #: ../dialogs/display-settings/main.c:568
@@ -1134,9 +1088,7 @@ msgstr "Размера:"
 #: ../dialogs/display-settings/main.c:1164
 msgid ""
 "The last active output must not be disabled, the system would be unusable."
-msgstr ""
-"Последњи употребљени излаз не сме бити онемогућен, графички систем ће бити "
-"неупотребљив."
+msgstr "Последњи употребљени излаз не сме бити онемогућен, графички систем ће бити неупотребљив."
 
 #: ../dialogs/display-settings/main.c:1166
 msgid "Selected output not disabled"
@@ -1186,9 +1138,7 @@ msgstr "%d полица ИксФЦЕ-а"
 msgid ""
 "Select a monitor to change its properties; drag it to rearrange its "
 "placement."
-msgstr ""
-"Изаберите екран за промену његових поставки; превуците га ради преуређења "
-"његовог смештаја."
+msgstr "Изаберите екран за промену његових поставки; превуците га ради преуређења његовог смештаја."
 
 #: ../dialogs/display-settings/main.c:2989
 #: ../dialogs/display-settings/main.c:3065
@@ -1330,9 +1280,7 @@ msgstr "_Омогући понављање дугмади"
 msgid ""
 "When selected, pressing and holding down a key emits the same character over"
 " and over again"
-msgstr ""
-"Када је изабрано, притисак и држање дугмади ће исписивати исти знак у "
-"недоглед"
+msgstr "Када је изабрано, притисак и држање дугмади ће исписивати исти знак у недоглед"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:13
 msgid "_Repeat delay:"
@@ -1340,8 +1288,7 @@ msgstr "Кашњење _понављања:"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:14
 msgid "The time, in milliseconds, before a pressed key begins repeating"
-msgstr ""
-"Време у милисекундама, пре него што притиснуто дугме почне са понављањем"
+msgstr "Време у милисекундама, пре него што притиснуто дугме почне са понављањем"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:15
 msgid "Repe_at speed:"
@@ -1349,9 +1296,7 @@ msgstr "_Брзина понављања:"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:16
 msgid "The rate at which keystrokes are generated while a key is pressed"
-msgstr ""
-"Учесталост по којој се притисци дугмади понављају док се дугме држи "
-"притиснуто"
+msgstr "Учесталост по којој се притисци дугмади понављају док се дугме држи притиснуто"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:17
 msgid "Typing Settings"
@@ -1405,9 +1350,7 @@ msgstr "_Користи системски подразумеване"
 msgid ""
 "Specifies whether the keyboard layout is controlled with this settings "
 "dialog, or by the X server"
-msgstr ""
-"Одредите да ли се распоред тастатуре подешава у прозорчету поставки, или "
-"сервером Икса"
+msgstr "Одредите да ли се распоред тастатуре подешава у прозорчету поставки, или сервером Икса"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:30
 msgid "_Keyboard model"
@@ -1444,8 +1387,7 @@ msgstr "Нисам успео да покренем GTK+."
 #: ../dialogs/keyboard-settings/main.c:104
 #, c-format
 msgid "Failed to connect to xfconf daemon. Reason: %s"
-msgstr ""
-"Нисам успео да се повежем са домаром Иксефконф-а (xfconf)  . Разлог: %s"
+msgstr "Нисам успео да се повежем са домаром Иксефконф-а (xfconf)  . Разлог: %s"
 
 #: ../dialogs/keyboard-settings/main.c:115
 msgid "Could not create the settings dialog."
@@ -1481,9 +1423,7 @@ msgstr "Врати на подразумевано"
 msgid ""
 "This will reset all shortcuts to their default values. Do you really want to"
 " do this?"
-msgstr ""
-"Ово ће вратити све пречице на њихове подразумеване вредности. Да ли то "
-"сигурно желите?"
+msgstr "Ово ће вратити све пречице на њихове подразумеване вредности. Да ли то сигурно желите?"
 
 #: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1274
 msgid "No"
@@ -1623,9 +1563,7 @@ msgstr "Упитник"
 msgid ""
 "This will remove your custom mime-association and restore the system-wide "
 "default."
-msgstr ""
-"Ово ће уклонити корисничко придруживање програма врстама датотека на "
-"подразумеване вредности система."
+msgstr "Ово ће уклонити корисничко придруживање програма врстама датотека на подразумеване вредности система."
 
 #: ../dialogs/mime-settings/xfce-mime-window.c:910
 #: ../dialogs/mime-settings/xfce-mime-window.c:981
@@ -1744,8 +1682,7 @@ msgstr "_Врати на подразумевано"
 msgid ""
 "Set the acceleration and sensitivity for the selected device to the default "
 "values"
-msgstr ""
-"Врати убрзање и осетљивост одабраног уређаја на подразумеване вредности"
+msgstr "Врати убрзање и осетљивост одабраног уређаја на подразумеване вредности"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:23
 msgid "Sensitivit_y:"
@@ -1781,9 +1718,7 @@ msgstr "Онемогући до_дирну плочицу за време куц
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:30
 msgid ""
 "When selected, the touchpad will be disabled when the keyboard is being used"
-msgstr ""
-"Кад је одабрано, додирна плочица ће бити онемогућена док се користи "
-"тастатура"
+msgstr "Кад је одабрано, додирна плочица ће бити онемогућена док се користи тастатура"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:31
 msgid "Duratio_n:"
@@ -1847,9 +1782,7 @@ msgstr "Вр_еме:"
 msgid ""
 "Two mouse clicks in less than this length of time (in milliseconds) will be "
 "considered a double click"
-msgstr ""
-"Два клика мишем за краће време (у милисекундама) ће бити схваћена као "
-"двоклик"
+msgstr "Два клика мишем за краће време (у милисекундама) ће бити схваћена као двоклик"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:47
 msgid "D_istance:"
@@ -1859,9 +1792,7 @@ msgstr "Р_азмак:"
 msgid ""
 "The mouse pointer cannot move farther than this distance between two clicks "
 "for them to be considered a double click"
-msgstr ""
-"Показивач миша не може да се помери даље од овог растојања између два клика "
-"да би их сматрали двокликом"
+msgstr "Показивач миша не може да се помери даље од овог растојања између два клика да би их сматрали двокликом"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:49
 msgid "Double Click"
@@ -1896,138 +1827,125 @@ msgstr "Уредник поставки"
 msgid "Customize settings stored by Xfconf"
 msgstr "Прилагодите поставке сачуване Иксфконф-ом"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:252
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:253
 msgid "Channel"
 msgstr "Канал"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:286
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:287
 msgid "Property"
 msgstr "Особина"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:293
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:294
 msgid "Type"
 msgstr "Врста"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:300
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:301
 msgid "Locked"
 msgstr "Закључано"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:307
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:308
 msgid "Value"
 msgstr "Вредност"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:322
-msgid "New"
-msgstr "Нови"
-
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:325
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:328
 msgid "New property"
 msgstr "Нова особина"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:333
-msgid "Edit"
-msgstr "Уреди"
-
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:336
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:341
 msgid "Edit selected property"
 msgstr "Уреди изабрану особину"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:344
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1031
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1370
-msgid "_Reset"
-msgstr "_Врати на подразумевано"
-
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:347
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:354
 msgid "Reset selected property"
 msgstr "Врати обележену вредност на подразумевану"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:454
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:545
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:664
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:461
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:552
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:671
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:89
 msgid "Empty"
 msgstr "Празно"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:457
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:464
 msgid "Array"
 msgstr "Низ"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:462
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:469
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:90
 msgid "String"
 msgstr "Ниска"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:470
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:477
 msgid "Integer"
 msgstr "Цео број"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:473
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:480
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:91
 msgid "Boolean"
 msgstr "Логичка вредност"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:476
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:483
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:93
 msgid "Double"
 msgstr "Двоструко"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:810
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:817
 msgid "_Reset Channel"
 msgstr "_Врати канал на подразумевано"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:811
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:818
 msgid "Resetting a channel will permanently remove those custom settings."
-msgstr ""
-"Враћање канала на подразумеване вредности ће трајно уклонити произвољне "
-"поставке."
+msgstr "Враћање канала на подразумеване вредности ће трајно уклонити произвољне поставке."
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:812
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:819
 #, c-format
 msgid "Are you sure you want to reset channel \"%s\" and all its properties?"
-msgstr ""
-"Да ли сте сигурни да желите вратити канал „%s“ и сва његова својства на "
-"подразумеване?"
+msgstr "Да ли сте сигурни да желите вратити канал „%s“ и сва његова својства на подразумеване?"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:887
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:894
 msgid "reset"
 msgstr "врати"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:944
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:951
 #, c-format
 msgid "Monitor %s"
 msgstr "Надгледање %s"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:952
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:959
 msgid "Watch an Xfconf channel for property changes"
 msgstr "Надгледај измене својстава канала Иксфконф-а"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:954
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:961
 msgid "Clear"
 msgstr "Очисти"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:955
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:962
 msgid "Close"
 msgstr "Затвори"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:988
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:995
 #, c-format
 msgid "start monitoring channel \"%s\""
 msgstr "почни надгледање канала „%s“"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1037
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1038
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1377
+msgid "_Reset"
+msgstr "_Врати на подразумевано"
+
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1044
 msgid "_Monitor"
 msgstr "_Надгледање"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1047
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1054
 msgid "Refresh"
 msgstr "Освежи"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1371
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1378
 msgid "Resetting a property will permanently remove those custom settings."
 msgstr "Враћање особина ће трајно уклонити прилагођене поставке."
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1372
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1379
 #, c-format
 msgid "Are you sure you want to reset property \"%s\"?"
 msgstr "Да ли сте сигурни да желите да повратите особине „%s“?"
@@ -2089,9 +2007,7 @@ msgid ""
 "Property names can only include the ASCII characters A-Z, a-z, 0-9, '_', "
 "'-', ':', '.', ',', '[', ']', '{', '}', '<' and '>', as well as '/' as a "
 "separator"
-msgstr ""
-"У називима својстава могу бити само знаци ASCII-ја A-Z, a-z, 0-9, '_', '-', "
-"':', '.', ',', '[', ']', '{', '}', '<' и '>', као и „/“ у улози раздвајача"
+msgstr "У називима својстава могу бити само знаци ASCII-ја A-Z, a-z, 0-9, '_', '-', ':', '.', ',', '[', ']', '{', '}', '<' и '>', као и „/“ у улози раздвајача"
 
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:423
 #, c-format
@@ -2197,5 +2113,9 @@ msgid "Workspace %d"
 msgstr "Радни простор %d"
 
 #: ../xfsettingsd/xfsettingsd.desktop.in.h:1
+msgid "Xfce Settings Daemon"
+msgstr "Домар поставки ИксФЦЕ-а"
+
+#: ../xfsettingsd/xfsettingsd.desktop.in.h:2
 msgid "The Xfce Settings Daemon"
 msgstr "Домар поставки Иксфце-а"

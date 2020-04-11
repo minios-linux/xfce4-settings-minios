@@ -111,7 +111,7 @@ main(gint argc, gchar **argv)
     xfce_textdomain (GETTEXT_PACKAGE, LOCALEDIR, "UTF-8");
 
     /* initialize Gtk+ */
-    if (!gtk_init_with_args (&argc, &argv, "", option_entries, GETTEXT_PACKAGE, &error))
+    if (!gtk_init_with_args (&argc, &argv, NULL, option_entries, GETTEXT_PACKAGE, &error))
     {
         if (G_LIKELY (error))
         {
@@ -163,7 +163,7 @@ main(gint argc, gchar **argv)
 		dialog = xfce_titled_dialog_new_with_mixed_buttons (_("Settings Editor"), NULL,
 					GTK_DIALOG_DESTROY_WITH_PARENT,
 					"help-browser", _("_Help"), GTK_RESPONSE_HELP,
-					"window-close", _("_Close"), GTK_RESPONSE_OK,
+					"window-close-symbolic", _("_Close"), GTK_RESPONSE_OK,
 					NULL);
 
 		xfce_titled_dialog_set_subtitle (XFCE_TITLED_DIALOG (dialog),

@@ -1,22 +1,21 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Xfce Bot <transifex@xfce.org>, 2019
+# byStarTW (pan93412) <pan93412@gmail.com>, 2018
+# Cheng-Chia Tseng <pswo10680@gmail.com>, 2010
+# 黃柏諺 <s8321414@gmail.com>, 2014-2019
+# Walter Cheuk <wwycheuk@gmail.com>, 2013-2014,2019
 # 黃柏諺 <s8321414@gmail.com>, 2019
-# Walter Cheuk <wwycheuk@gmail.com>, 2019
-# 
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Xfce4-settings\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-21 00:33+0200\n"
-"PO-Revision-Date: 2019-10-20 16:33+0000\n"
-"Last-Translator: Walter Cheuk <wwycheuk@gmail.com>, 2019\n"
-"Language-Team: Chinese (Taiwan) (https://www.transifex.com/xfce/teams/16840/zh_TW/)\n"
+"POT-Creation-Date: 2019-11-16 00:30+0100\n"
+"PO-Revision-Date: 2019-11-16 13:07+0000\n"
+"Last-Translator: 黃柏諺 <s8321414@gmail.com>\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.com/xfce/xfce4-settings/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -42,11 +41,11 @@ msgstr "無法查詢正在使用中的 RandR 擴展版本"
 msgid ""
 "This system is using RandR %d.%d. For the display settings to work version "
 "1.2 is required at least"
-msgstr "本系統正在使用 RanR %d.%d。若要讓該顯示設定運作，至少需要 1.2 版"
+msgstr "本系統正在使用 RanR %d.%d。若要令顯示器設定生效，至少需要 1.2 版"
 
 #: ../common/xfce-randr.c:574
 msgid "Laptop"
-msgstr "膝上型電腦"
+msgstr "筆記本電腦"
 
 #. TRANSLATORS: an externally connected display, where %s is either the
 #. * model, vendor or ID, e.g. 'LP2480zx Monitor'
@@ -552,7 +551,7 @@ msgstr "啟用輸入回饋音效(_K)"
 msgid ""
 "Specify whether mouse clicks and other user input will cause event sounds to"
 " play"
-msgstr "指定滑鼠點擊或其它使用者輸入是否要播放事件音效"
+msgstr "指定滑鼠點擊或其他使用者輸入是否要播放事件音效"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:47
 msgid "Event sounds"
@@ -575,8 +574,7 @@ msgstr "設定值(_N)"
 msgid ""
 "Warning: this icon theme has no cache file. You can create this by running "
 "<i>gtk-update-icon-cache %s/%s/</i> in a terminal emulator."
-msgstr ""
-"警告：此圖示主題沒有快取檔。您可以在終端機模擬器中執行 <i>gtk-update-icon-cache %s/%s/</i> 來製作快取。"
+msgstr "警告：此圖示主題沒有快取檔。您可以在終端機模擬器中執行 <i>gtk-update-icon-cache %s/%s/</i> 來製作快取。"
 
 #: ../dialogs/appearance-settings/main.c:879
 #, c-format
@@ -643,7 +641,7 @@ msgstr "網路攝影機"
 #. TRANSLATORS: This refers to the TFT display on a laptop
 #: ../dialogs/color-settings/color-device.c:94
 msgid "Laptop Screen"
-msgstr "筆記型電腦螢幕"
+msgstr "筆記本電腦螢幕"
 
 #. TRANSLATORS: This refers to the embedded webcam on a laptop
 #: ../dialogs/color-settings/color-device.c:102
@@ -698,7 +696,7 @@ msgstr "刪除目前選定的設定檔"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:13
 msgid "Show detailed information about the selected profile"
-msgstr "顯示關於選定設定檔的詳細資訊"
+msgstr "顯示關於選定的設定檔之詳細資訊"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:14
 msgid "Enable"
@@ -873,7 +871,7 @@ msgstr "若您無法回應此提問，將於 10 秒內還原成之前的組態�
 
 #: ../dialogs/display-settings/display-dialog.glade.h:1
 msgid "The primary display is currently configured to show:"
-msgstr "目前設定為顯示主顯示器："
+msgstr "目前設定為顯示主要顯示器："
 
 #: ../dialogs/display-settings/display-dialog.glade.h:2
 msgid "Xfce Panel"
@@ -903,11 +901,11 @@ msgstr "調整螢幕設定與配置"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:10
 msgid "_Mirror displays"
-msgstr "讓顯示器鏡像顯示(_M)"
+msgstr "鏡像顯示(_M)"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:11
 msgid "Primary Display:"
-msgstr "主顯示器："
+msgstr "主要顯示器："
 
 #: ../dialogs/display-settings/display-dialog.glade.h:12
 msgid "R_esolution:"
@@ -1004,7 +1002,7 @@ msgstr "僅顯示器 1"
 
 #: ../dialogs/display-settings/minimal-display-dialog.glade.h:3
 msgid "Mirror Displays"
-msgstr "讓顯示器鏡像顯示"
+msgstr "鏡像顯示"
 
 #: ../dialogs/display-settings/minimal-display-dialog.glade.h:4
 msgid "Extend to the right"
@@ -1035,11 +1033,11 @@ msgstr "<big><b>您已對您先前作用中的設定檔做出變更</b></big>"
 msgid ""
 "If you don't update the profile your changes will be lost upon restarting "
 "your session or disconnecting or connecting a display."
-msgstr "如果沒有更新設定檔，變更將會在重新啟動工作階段或拔下或連上顯示器時失去。"
+msgstr "如果沒有更新設定檔，變更會在重新啟動工作階段或拔下或連上螢幕時遺失。"
 
 #: ../dialogs/display-settings/main.c:99
 msgid "Left"
-msgstr "左"
+msgstr "向左"
 
 #: ../dialogs/display-settings/main.c:100
 msgid "Inverted"
@@ -1047,7 +1045,7 @@ msgstr "反轉"
 
 #: ../dialogs/display-settings/main.c:101
 msgid "Right"
-msgstr "右"
+msgstr "向右"
 
 #: ../dialogs/display-settings/main.c:110
 msgid "Horizontal"
@@ -1098,7 +1096,7 @@ msgstr "選取的輸出未停用"
 #: ../dialogs/display-settings/main.c:1542
 #, c-format
 msgid "Update changed display profile '%s'?"
-msgstr "更新已變更的顯示設定檔「%s」嗎？"
+msgstr "是否更新已變更的顯示設定檔「%s」？"
 
 #: ../dialogs/display-settings/main.c:1547
 #, c-format
@@ -1116,7 +1114,7 @@ msgstr "刪除設定檔"
 
 #: ../dialogs/display-settings/main.c:1839
 msgid "Once a display profile is deleted it cannot be restored."
-msgstr "顯示設定檔一旦刪除就無法復原。"
+msgstr "顯示設定檔一旦被刪除就無法復原。"
 
 #: ../dialogs/display-settings/main.c:1840
 #: ../dialogs/mime-settings/xfce-mime-chooser.c:134
@@ -1198,7 +1196,7 @@ msgstr "捷徑："
 
 #: ../dialogs/keyboard-settings/command-dialog.c:167
 msgid "Comm_and:"
-msgstr "指令：(_A)"
+msgstr "指令(_A)："
 
 #: ../dialogs/keyboard-settings/command-dialog.c:192
 msgid "Use _startup notification"
@@ -1552,7 +1550,7 @@ msgstr "無法為 MIME 類型「%2$s」設定應用程式「%1$s」。"
 #: ../dialogs/mime-settings/xfce-mime-window.c:899
 #, c-format
 msgid "Are you sure you want to reset content type \"%s\" to its default value?"
-msgstr "您確定要重設內容類型「%s」為其預設值？"
+msgstr "確定要將內容類型「%s」重設為預設值？"
 
 #: ../dialogs/mime-settings/xfce-mime-window.c:903
 msgid "Question"
@@ -1826,137 +1824,128 @@ msgstr "設定編輯器"
 msgid "Customize settings stored by Xfconf"
 msgstr "自訂 Xfconf 儲存的設定"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:252
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:253
 msgid "Channel"
 msgstr "通道"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:286
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:287
 msgid "Property"
 msgstr "屬性"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:293
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:294
 msgid "Type"
 msgstr "類型"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:300
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:301
 msgid "Locked"
 msgstr "鎖上"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:307
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:308
 msgid "Value"
 msgstr "值"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:322
-msgid "New"
-msgstr "新建"
-
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:325
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:328
 msgid "New property"
 msgstr "新增屬性"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:333
-msgid "Edit"
-msgstr "編輯"
-
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:336
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:341
 msgid "Edit selected property"
 msgstr "編輯所選的屬性"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:344
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1031
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1370
-msgid "_Reset"
-msgstr "重設(_R)"
-
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:347
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:354
 msgid "Reset selected property"
 msgstr "重設所選的屬性"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:454
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:545
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:664
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:461
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:552
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:671
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:89
 msgid "Empty"
 msgstr "空"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:457
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:464
 msgid "Array"
 msgstr "陣列"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:462
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:469
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:90
 msgid "String"
 msgstr "字串"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:470
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:477
 msgid "Integer"
 msgstr "整數"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:473
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:480
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:91
 msgid "Boolean"
 msgstr "真假值"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:476
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:483
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:93
 msgid "Double"
 msgstr "倍精度"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:810
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:817
 msgid "_Reset Channel"
 msgstr "重設通道(_R)"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:811
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:818
 msgid "Resetting a channel will permanently remove those custom settings."
 msgstr "重設通道將永久移除那些自訂過的設定。"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:812
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:819
 #, c-format
 msgid "Are you sure you want to reset channel \"%s\" and all its properties?"
-msgstr "您確定要重設「%s」通道與其全部屬性？"
+msgstr "確定要重設「%s」通道與其全部屬性？"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:887
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:894
 msgid "reset"
 msgstr "重設"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:944
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:951
 #, c-format
 msgid "Monitor %s"
 msgstr "螢幕  %s"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:952
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:959
 msgid "Watch an Xfconf channel for property changes"
 msgstr "監看 Xfconf 通道以瞭解屬性變動"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:954
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:961
 msgid "Clear"
 msgstr "清除"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:955
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:962
 msgid "Close"
 msgstr "關閉"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:988
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:995
 #, c-format
 msgid "start monitoring channel \"%s\""
 msgstr "停止監視「%s」通道"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1037
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1038
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1377
+msgid "_Reset"
+msgstr "重設(_R)"
+
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1044
 msgid "_Monitor"
 msgstr "螢幕(_M)"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1047
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1054
 msgid "Refresh"
 msgstr "重新整理"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1371
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1378
 msgid "Resetting a property will permanently remove those custom settings."
 msgstr "重設屬性將永久移除那些自訂過的設定。"
 
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1372
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:1379
 #, c-format
 msgid "Are you sure you want to reset property \"%s\"?"
-msgstr "您確定要重設屬性「%s」嗎？"
+msgstr "確定要重設屬性「%s」嗎？"
 
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:92
 msgid "Int"
@@ -2015,9 +2004,7 @@ msgid ""
 "Property names can only include the ASCII characters A-Z, a-z, 0-9, '_', "
 "'-', ':', '.', ',', '[', ']', '{', '}', '<' and '>', as well as '/' as a "
 "separator"
-msgstr ""
-"屬性名稱只能包含 ASCII 字元 A-Z、a-z、0-9、'_'、'-'、':'、'.'、','、'['、']'、'{'、'}'、'<'、'>'，而 "
-"'/' 作為分隔符號"
+msgstr "屬性名稱只能包含 ASCII 字元 A-Z、a-z、0-9、'_'、'-'、':'、'.'、','、'['、']'、'{'、'}'、'<'、'>'，而 '/' 作為分隔符號"
 
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:423
 #, c-format
@@ -2123,5 +2110,9 @@ msgid "Workspace %d"
 msgstr "工作區 %d"
 
 #: ../xfsettingsd/xfsettingsd.desktop.in.h:1
+msgid "Xfce Settings Daemon"
+msgstr "Xfce 設定幕後程式"
+
+#: ../xfsettingsd/xfsettingsd.desktop.in.h:2
 msgid "The Xfce Settings Daemon"
 msgstr "Xfce 4 設定幕後程式"

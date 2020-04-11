@@ -15,10 +15,10 @@ dnl ***************************
 dnl *** Version information ***
 dnl ***************************
 m4_define([xfce4_settings_version_major], [4])
-m4_define([xfce4_settings_version_minor], [14])
-m4_define([xfce4_settings_version_micro], [2])
+m4_define([xfce4_settings_version_minor], [15])
+m4_define([xfce4_settings_version_micro], [0])
 m4_define([xfce4_settings_version_nano], [])
-m4_define([xfce4_settings_version_build], [176aae96])
+m4_define([xfce4_settings_version_build], [71e8c029])
 m4_define([xfce4_settings_version_tag], []) # Leave empty for releases
 m4_define([xfce4_settings_version], [xfce4_settings_version_major().xfce4_settings_version_minor().xfce4_settings_version_micro()ifelse(xfce4_settings_version_nano(), [], [], [.xfce4_settings_version_nano()])ifelse(xfce4_settings_version_tag(), [git], [xfce4_settings_version_tag()-xfce4_settings_version_build()], [xfce4_settings_version_tag()])])
 
@@ -42,7 +42,7 @@ AC_COPYRIGHT([Copyright (c) 2008-2019
 AC_INIT([xfce4-settings], [xfce4_settings_version], [https://bugzilla.xfce.org/])
 AC_PREREQ([2.60])
 AC_CONFIG_MACRO_DIRS([m4])
-AC_REVISION([176aae96])
+AC_REVISION([71e8c029])
 
 dnl ***************************
 dnl *** Initialize automake ***
@@ -99,7 +99,7 @@ XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [2.45.8])
 XDT_CHECK_PACKAGE([GIO], [gio-2.0], [2.45.8])
 XDT_CHECK_PACKAGE([GARCON], [garcon-1], [0.1.10])
 XDT_CHECK_PACKAGE([LIBXFCE4UTIL], [libxfce4util-1.0], [4.9.0])
-XDT_CHECK_PACKAGE([LIBXFCE4UI], [libxfce4ui-2], [4.13.0])
+XDT_CHECK_PACKAGE([LIBXFCE4UI], [libxfce4ui-2], [4.15.1])
 XDT_CHECK_PACKAGE([LIBXFCE4KBD_PRIVATE], [libxfce4kbd-private-3], [4.12.0])
 XDT_CHECK_PACKAGE([XFCONF], [libxfconf-0], [4.13.0])
 XDT_CHECK_PACKAGE([FONTCONFIG], [fontconfig], [2.6.0])
