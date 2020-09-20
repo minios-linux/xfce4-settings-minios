@@ -28,6 +28,7 @@ Package: xfce4-settings
 Architecture: any
 Depends: libgarcon-common (>= 0.2.0),
          xfconf,
+         xfce4-helpers,
          ${misc:Depends},
          ${shlibs:Depends}
 Recommends: colord, x11-utils, xiccd
@@ -43,3 +44,15 @@ Description: graphical application for managing Xfce settings
   - xfsettingsd, a daemon for exporting XSettings to applications, and
     providing special features like keyboard shortcuts, AccessX notification
     and update of keyboard and mouse-pointer data.
+
+Package: xfce4-helpers
+Architecture: any
+Multi-Arch: foreign
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
+Breaks: libexo-helpers
+Replaces: libexo-helpers
+Suggests: sensible-utils
+Description: helpers for the Xfce4 desktop environment
+ This package contains the helper files in use by Xfce4 for its
+ preferred applications framework.

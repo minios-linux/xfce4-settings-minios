@@ -7,6 +7,22 @@ override_dh_autoreconf:
 	mkdir -p m4
 	dh_autoreconf
 
+override_dh_install:
+	# Debianise helpers
+	sed -i -e 's/^WebBrowser=.*/WebBrowser=debian-sensible-browser/' \
+		-e 's/TerminalEmulator=.*/TerminalEmulator=debian-x-terminal-emulator/' \
+		debian/tmp/etc/xdg/xfce4/helpers.rc
+
+	## Create a muttng/neomutt helper from the mutt one
+	sed -e 's/utt/uttng/;s/Icon=muttng/Icon=mutt/' \
+		<debian/tmp/usr/share/xfce4/helpers/mutt.desktop \
+		>debian/tmp/usr/share/xfce4/helpers/muttng.desktop
+	sed -e 's/mutt/neomutt/;s/Icon=neomutt/Icon=mutt/' \
+		<debian/tmp/usr/share/xfce4/helpers/mutt.desktop \
+		>debian/tmp/usr/share/xfce4/helpers/neomutt.desktop
+
+	dh_install
+
 override_dh_auto_configure:
 	dh_auto_configure -- \
 		--enable-colord \
@@ -14,7 +30,8 @@ override_dh_auto_configure:
 		--enable-libxklavier \
 		--enable-pluggable-dialogs \
 		--enable-sound-settings \
-		--enable-xcursor
+		--enable-xcursor \
+		--with-helper-path-prefix=/usr/share
 
 override_dh_installman:
 	dh_installman debian/*.1
