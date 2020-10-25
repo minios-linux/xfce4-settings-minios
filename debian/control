@@ -27,8 +27,8 @@ Vcs-Browser: https://salsa.debian.org/xfce-team/desktop/xfce4-settings
 Package: xfce4-settings
 Architecture: any
 Depends: libgarcon-common (>= 0.2.0),
-         xfconf,
          xfce4-helpers,
+         xfconf,
          ${misc:Depends},
          ${shlibs:Depends}
 Recommends: colord, x11-utils, xiccd
@@ -48,8 +48,7 @@ Description: graphical application for managing Xfce settings
 Package: xfce4-helpers
 Architecture: any
 Multi-Arch: foreign
-Depends: ${misc:Depends},
-         ${shlibs:Depends}
+Depends: python3, python3-urllib3, ${misc:Depends}, ${shlibs:Depends}
 Breaks: libexo-helpers
 Replaces: libexo-helpers
 Suggests: sensible-utils
