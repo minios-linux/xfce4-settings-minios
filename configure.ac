@@ -16,9 +16,9 @@ dnl *** Version information ***
 dnl ***************************
 m4_define([xfce4_settings_version_major], [4])
 m4_define([xfce4_settings_version_minor], [15])
-m4_define([xfce4_settings_version_micro], [0])
+m4_define([xfce4_settings_version_micro], [2])
 m4_define([xfce4_settings_version_nano], [])
-m4_define([xfce4_settings_version_build], [71e8c029])
+m4_define([xfce4_settings_version_build], [be618350])
 m4_define([xfce4_settings_version_tag], []) # Leave empty for releases
 m4_define([xfce4_settings_version], [xfce4_settings_version_major().xfce4_settings_version_minor().xfce4_settings_version_micro()ifelse(xfce4_settings_version_nano(), [], [], [.xfce4_settings_version_nano()])ifelse(xfce4_settings_version_tag(), [git], [xfce4_settings_version_tag()-xfce4_settings_version_build()], [xfce4_settings_version_tag()])])
 
@@ -42,7 +42,7 @@ AC_COPYRIGHT([Copyright (c) 2008-2019
 AC_INIT([xfce4-settings], [xfce4_settings_version], [https://bugzilla.xfce.org/])
 AC_PREREQ([2.60])
 AC_CONFIG_MACRO_DIRS([m4])
-AC_REVISION([71e8c029])
+AC_REVISION([be618350])
 
 dnl ***************************
 dnl *** Initialize automake ***
@@ -67,6 +67,7 @@ AM_PROG_CC_C_O
 AC_PROG_LD()
 AC_PROG_INSTALL()
 IT_PROG_INTLTOOL([0.35.0], [no-xml])
+AC_CHECK_PROGS([PYTHON], [python3 python])
 
 dnl **************************
 dnl *** Initialize libtool ***
@@ -83,7 +84,7 @@ AC_CHECK_FUNCS([daemon setsid])
 dnl ******************************
 dnl *** Check for i18n support ***
 dnl ******************************
-XDT_I18N([am ar ast be bg bn ca cs da de el en_AU en_CA en_GB es eu fi fr gl he hr hu hy_AM id ie is it ja kk ko lt lv ms nb nl nn oc pa pl pt_BR pt ro ru si sk sl sq sr sv te th tr ug uk ur_PK ur zh_CN zh_HK zh_TW ])
+XDT_I18N([am ar ast be be@tarask bg bn ca cs da de el en_AU en_CA en_GB es et eu fi fr gl he hr hu hy_AM hye id ie is it ja kk ko lt lv ms nb nl nn oc pa pl pt pt_BR ro ru si sk sl sq sr sv te th tr ug uk ur ur_PK zh_CN zh_HK zh_TW])
 
 dnl ***********************************
 dnl *** Version string for the docs ***
@@ -98,7 +99,7 @@ XDT_CHECK_PACKAGE([GTK], [gtk+-3.0], [3.20.0])
 XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [2.45.8])
 XDT_CHECK_PACKAGE([GIO], [gio-2.0], [2.45.8])
 XDT_CHECK_PACKAGE([GARCON], [garcon-1], [0.1.10])
-XDT_CHECK_PACKAGE([LIBXFCE4UTIL], [libxfce4util-1.0], [4.9.0])
+XDT_CHECK_PACKAGE([LIBXFCE4UTIL], [libxfce4util-1.0], [4.15.2])
 XDT_CHECK_PACKAGE([LIBXFCE4UI], [libxfce4ui-2], [4.15.1])
 XDT_CHECK_PACKAGE([LIBXFCE4KBD_PRIVATE], [libxfce4kbd-private-3], [4.12.0])
 XDT_CHECK_PACKAGE([XFCONF], [libxfconf-0], [4.13.0])
@@ -270,11 +271,12 @@ dialogs/color-settings/Makefile
 dialogs/display-settings/Makefile
 dialogs/keyboard-settings/Makefile
 dialogs/mime-settings/Makefile
+dialogs/mime-settings/helpers/Makefile
 dialogs/mouse-settings/Makefile
 icons/Makefile
-icons/24x24/Makefile
+icons/16x16/Makefile
 icons/48x48/Makefile
-icons/64x64/Makefile
+icons/128x128/Makefile
 icons/scalable/Makefile
 xfsettingsd/Makefile
 xfce4-settings-manager/Makefile

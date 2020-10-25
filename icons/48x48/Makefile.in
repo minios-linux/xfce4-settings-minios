@@ -316,6 +316,7 @@ POFILES = @POFILES@
 POSUB = @POSUB@
 PO_IN_DATADIR_FALSE = @PO_IN_DATADIR_FALSE@
 PO_IN_DATADIR_TRUE = @PO_IN_DATADIR_TRUE@
+PYTHON = @PYTHON@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -407,7 +408,15 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 iconsdir = $(datadir)/icons/hicolor/48x48/apps
 icons_DATA = \
-	xfce4-color-settings.png
+	org.xfce.settings.accessibility.png		\
+	org.xfce.settings.appearance.png		\
+	org.xfce.settings.color.png		\
+	org.xfce.settings.display.png		\
+	org.xfce.settings.editor.png		\
+	org.xfce.settings.keyboard.png		\
+	org.xfce.settings.manager.png		\
+	org.xfce.settings.mouse.png		\
+	org.xfce.settings.default-applications.png
 
 EXTRA_DIST = \
 	$(icons_DATA)

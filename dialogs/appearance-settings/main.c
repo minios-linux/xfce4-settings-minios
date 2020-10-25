@@ -40,6 +40,8 @@
 
 #include <gdk/gdkx.h>
 
+#include <gio/gio.h>
+
 #include <libxfce4ui/libxfce4ui.h>
 #include <libxfce4util/libxfce4util.h>
 #include <xfconf/xfconf.h>
@@ -80,12 +82,7 @@ enum {
 	NUM_SYMBOLIC_COLORS
 };
 
-/* String arrays with the settings in combo boxes */
-static const gchar* toolbar_styles_array[] =
-{
-    "icons", "text", "both", "both-horiz"
-};
-
+static const gchar *gsettings_category_gnome_interface = "org.gnome.desktop.interface";
 static const gchar* xft_hint_styles_array[] =
 {
     "hintnone", "hintslight", "hintmedium", "hintfull"
@@ -216,18 +213,6 @@ cb_ui_theme_tree_selection_changed (GtkTreeSelection *selection)
 {
     /* Set the new UI theme */
     cb_theme_tree_selection_changed (selection, "/Net/ThemeName");
-}
-
-static void
-cb_toolbar_style_combo_changed (GtkComboBox *combo)
-{
-    gint active;
-
-    /* Get active item, prevent number outside the array (stay within zero-index) */
-    active = CLAMP (gtk_combo_box_get_active (combo), 0, (gint) G_N_ELEMENTS (toolbar_styles_array)-1);
-
-    /* Save setting */
-    xfconf_channel_set_string (xsettings_channel, "/Gtk/ToolbarStyle", toolbar_styles_array[active]);
 }
 
 static void
@@ -659,6 +644,7 @@ appearance_settings_dialog_channel_property_changed (XfconfChannel *channel,
     guint         i;
     gint          antialias, dpi, custom_dpi;
     GtkTreeModel *model;
+    g_autoptr(GSettings) gsettings = NULL;
 
     g_return_if_fail (property_name != NULL);
     g_return_if_fail (GTK_IS_BUILDER (builder));
@@ -671,20 +657,6 @@ appearance_settings_dialog_channel_property_changed (XfconfChannel *channel,
             if (strcmp (str, xft_rgba_array[i]) == 0)
             {
                 object = gtk_builder_get_object (builder, "xft_rgba_combo_box");
-                gtk_combo_box_set_active (GTK_COMBO_BOX (object), i);
-                break;
-            }
-        }
-        g_free (str);
-    }
-    else if (strcmp (property_name, "/Gtk/ToolbarStyle") == 0)
-    {
-        str = xfconf_channel_get_string (xsettings_channel, property_name, toolbar_styles_array[2]);
-        for (i = 0; i < G_N_ELEMENTS (toolbar_styles_array); i++)
-        {
-            if (strcmp (str, toolbar_styles_array[i]) == 0)
-            {
-                object = gtk_builder_get_object (builder, "gtk_toolbar_style_combo_box");
                 gtk_combo_box_set_active (GTK_COMBO_BOX (object), i);
                 break;
             }
@@ -778,6 +750,13 @@ appearance_settings_dialog_channel_property_changed (XfconfChannel *channel,
             g_free (selected_name);
             g_free (new_name);
         }
+
+        /* Keep gsettings in sync */
+        gsettings = g_settings_new (gsettings_category_gnome_interface);
+        if (gsettings)
+        {
+            g_settings_set_string (gsettings, "gtk-theme", xfconf_channel_get_string (channel, property_name, NULL));
+        }
     }
     else if (strcmp (property_name, "/Net/IconThemeName") == 0)
     {
@@ -817,6 +796,31 @@ appearance_settings_dialog_channel_property_changed (XfconfChannel *channel,
                              (GSourceFunc) appearance_settings_load_icon_themes,
                              pd,
                              (GDestroyNotify) preview_data_free);
+        }
+
+        /* Keep gsettings in sync */
+        gsettings = g_settings_new (gsettings_category_gnome_interface);
+        if (gsettings)
+        {
+            g_settings_set_string (gsettings, "icon-theme", xfconf_channel_get_string (channel, property_name, NULL));
+        }
+    }
+    else if (strcmp (property_name, "/Gtk/FontName") == 0)
+    {
+        /* Keep gsettings in sync */
+        gsettings = g_settings_new (gsettings_category_gnome_interface);
+        if (gsettings)
+        {
+            g_settings_set_string (gsettings, "font-name", xfconf_channel_get_string (channel, property_name, NULL));
+        }
+    }
+    else if (strcmp (property_name, "/Gtk/MonospaceFontName") == 0)
+    {
+        /* Keep gsettings in sync */
+        gsettings = g_settings_new (gsettings_category_gnome_interface);
+        if (gsettings)
+        {
+            g_settings_set_string (gsettings, "monospace-font-name", xfconf_channel_get_string (channel, property_name, NULL));
         }
     }
 }
@@ -934,6 +938,11 @@ cb_theme_uri_dropped (GtkWidget        *widget,
         object = gtk_builder_get_object (builder, "gtk_theme_treeview");
         model = gtk_tree_view_get_model (GTK_TREE_VIEW (object));
         gtk_list_store_clear (GTK_LIST_STORE (model));
+        pd = preview_data_new (GTK_LIST_STORE (model), GTK_TREE_VIEW (object));
+        g_idle_add_full (G_PRIORITY_HIGH_IDLE,
+                         (GSourceFunc) appearance_settings_load_ui_themes,
+                         pd,
+                         (GDestroyNotify) preview_data_free);
     }
 }
 
@@ -1086,11 +1095,6 @@ appearance_settings_dialog_configure_widgets (GtkBuilder *builder)
     xfconf_g_property_bind (xsettings_channel,  "/Gtk/MonospaceFontName", G_TYPE_STRING,
                             G_OBJECT (object), "font-name");
 
-    /* Toolbar style */
-    object = gtk_builder_get_object (builder, "gtk_toolbar_style_combo_box");
-    appearance_settings_dialog_channel_property_changed (xsettings_channel, "/Gtk/ToolbarStyle", NULL, builder);
-    g_signal_connect (G_OBJECT (object), "changed", G_CALLBACK(cb_toolbar_style_combo_changed), NULL);
-
     /* Hinting style */
     object = gtk_builder_get_object (builder, "xft_hinting_style_combo_box");
     appearance_settings_dialog_channel_property_changed (xsettings_channel, "/Xft/HintStyle", NULL, builder);
@@ -1222,6 +1226,7 @@ main (gint argc, gchar **argv)
             {
                 /* build the dialog */
                 dialog = gtk_builder_get_object (builder, "dialog");
+                gtk_window_set_type_hint (GTK_WINDOW (dialog), GDK_WINDOW_TYPE_HINT_NORMAL);
 
                 g_signal_connect (dialog, "response",
                     G_CALLBACK (appearance_settings_dialog_response), NULL);
