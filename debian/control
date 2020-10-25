@@ -26,7 +26,8 @@ Vcs-Browser: https://salsa.debian.org/xfce-team/desktop/xfce4-settings
 
 Package: xfce4-settings
 Architecture: any
-Depends: libgarcon-common (>= 0.2.0),
+Depends: exo-utils,
+         libgarcon-common (>= 0.2.0),
          xfce4-helpers,
          xfconf,
          ${misc:Depends},
