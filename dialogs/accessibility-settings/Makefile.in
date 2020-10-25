@@ -390,6 +390,7 @@ POFILES = @POFILES@
 POSUB = @POSUB@
 PO_IN_DATADIR_FALSE = @PO_IN_DATADIR_FALSE@
 PO_IN_DATADIR_TRUE = @PO_IN_DATADIR_TRUE@
+PYTHON = @PYTHON@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -949,7 +950,7 @@ uninstall-am: uninstall-binPROGRAMS uninstall-desktopDATA
 
 
 @MAINTAINER_MODE_TRUE@accessibility-dialog_ui.h: accessibility-dialog.glade
-@MAINTAINER_MODE_TRUE@	exo-csource --static --strip-comments --strip-content --name=accessibility_dialog_ui $< >$@
+@MAINTAINER_MODE_TRUE@	xdt-csource --static --strip-comments --strip-content --name=accessibility_dialog_ui $< >$@
 
 @INTLTOOL_DESKTOP_RULE@
 

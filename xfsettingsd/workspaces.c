@@ -64,7 +64,7 @@ struct _XfceWorkspacesHelper
 
     XfconfChannel *channel;
 
-    GTimeVal       timestamp;
+    gint64         timestamp;
 
 #ifdef GDK_WINDOWING_X11
     guint          wait_for_wm_timeout_id;
@@ -76,11 +76,10 @@ struct _XfceWorkspacesHelperClass
     GObjectClass parent;
 };
 
-
-
 #ifdef GDK_WINDOWING_X11
 static Atom atom_net_number_of_desktops = 0;
 static Atom atom_net_desktop_names = 0;
+static gboolean xfsettingsd_disable_wm_check = FALSE;
 
 typedef struct
 {
@@ -160,7 +159,6 @@ xfce_workspaces_helper_filter_func (GdkXEvent  *gdkxevent,
 #ifdef GDK_WINDOWING_X11
     XfceWorkspacesHelper  *helper = XFCE_WORKSPACES_HELPER (user_data);
     XEvent                *xevent = gdkxevent;
-    GTimeVal               timestamp;
 
     if (xevent->type == PropertyNotify)
     {
@@ -174,10 +172,7 @@ xfce_workspaces_helper_filter_func (GdkXEvent  *gdkxevent,
         else if (xevent->xproperty.atom == atom_net_desktop_names)
         {
             /* don't respond to our own name changes (1 sec) */
-            g_get_current_time (&timestamp);
-            if (timestamp.tv_sec > helper->timestamp.tv_sec
-                || (timestamp.tv_sec == helper->timestamp.tv_sec
-                    && timestamp.tv_usec > helper->timestamp.tv_usec))
+            if (g_get_real_time () > helper->timestamp)
             {
                 /* someone changed (possibly another application that does
                  * not update xfconf) the name of a desktop, store the
@@ -343,8 +338,7 @@ xfce_workspaces_helper_set_names_real (XfceWorkspacesHelper *helper)
         }
 
         /* update stamp so new names is not handled for the next second */
-        g_get_current_time (&helper->timestamp);
-        g_time_val_add (&helper->timestamp, G_USEC_PER_SEC);
+        helper->timestamp = g_get_real_time () + G_USEC_PER_SEC;
 
         gdk_x11_display_error_trap_push (gdk_display_get_default ());
 
@@ -476,7 +470,7 @@ xfce_workspaces_helper_set_names (XfceWorkspacesHelper *helper,
     guint       i;
     gchar     **atom_names;
 
-    if (!disable_wm_check)
+    if (!disable_wm_check && !xfsettingsd_disable_wm_check)
     {
         /* setup data for wm checking */
         wfwm = g_slice_new0 (WaitForWM);
@@ -592,3 +586,13 @@ xfce_workspaces_helper_prop_changed (XfconfChannel        *channel,
         xfce_workspaces_helper_set_names (helper, TRUE);
     }
 }
+
+
+
+#ifdef GDK_WINDOWING_X11
+void
+xfce_workspaces_helper_disable_wm_check (gboolean disable_wm_check)
+{
+    xfsettingsd_disable_wm_check = disable_wm_check;
+}
+#endif

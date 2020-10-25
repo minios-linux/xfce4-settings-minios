@@ -87,10 +87,6 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-@HAVE_COLORD_TRUE@am__append_1 = \
-@HAVE_COLORD_TRUE@	icons
-
-distuninstallcheck_listfiles = find . -type f -print
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -160,8 +156,7 @@ am__define_uniq_tagged_files = \
 ETAGS = etags
 CTAGS = ctags
 CSCOPE = cscope
-DIST_SUBDIRS = common dialogs xfce4-settings-manager \
-	xfce4-settings-editor xfsettingsd po icons
+DIST_SUBDIRS = $(SUBDIRS)
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/config.h.in AUTHORS \
 	COPYING ChangeLog INSTALL NEWS README TODO compile \
 	config.guess config.sub install-sh ltmain.sh missing \
@@ -374,6 +369,7 @@ POFILES = @POFILES@
 POSUB = @POSUB@
 PO_IN_DATADIR_FALSE = @PO_IN_DATADIR_FALSE@
 PO_IN_DATADIR_TRUE = @PO_IN_DATADIR_TRUE@
+PYTHON = @PYTHON@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -464,10 +460,17 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
-SUBDIRS = common dialogs xfce4-settings-manager xfce4-settings-editor \
-	xfsettingsd po $(am__append_1)
-@HAVE_COLORD_TRUE@distuninstallcheck_listfiles = \
-@HAVE_COLORD_TRUE@	find . -type f -print | grep -v ./share/icons/hicolor/icon-theme.cache
+SUBDIRS = \
+	common \
+	dialogs \
+	xfce4-settings-manager \
+	xfce4-settings-editor \
+	xfsettingsd \
+	po \
+	icons
+
+distuninstallcheck_listfiles = \
+	find . -type f -print | grep -v ./share/icons/hicolor/icon-theme.cache
 
 EXTRA_DIST = \
 	intltool-extract.in \

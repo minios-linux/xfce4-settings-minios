@@ -160,43 +160,12 @@ xfce_settings_manager_queue_resize (XfceSettingsManagerDialog *dialog)
 {
     GList *li;
     DialogCategory *category;
-    GdkWindow *window = gtk_widget_get_window (GTK_WIDGET (dialog));
 
     for (li = dialog->categories; li != NULL; li = li->next)
     {
         category = li->data;
         gtk_widget_queue_resize (GTK_WIDGET (category->iconview));
     }
-
-    if (window == NULL)
-        return FALSE;
-
-    gdk_window_invalidate_rect (window, NULL, TRUE);
-
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-    gdk_window_process_updates (window, TRUE);
-G_GNUC_END_IGNORE_DEPRECATIONS
-
-    return FALSE;
-}
-
-
-
-/* FIXME: This is a hacky patch to ensure the embedded icon views resize on change. */
-static gboolean
-xfce_settings_manager_queue_redraw (XfceSettingsManagerDialog *dialog)
-{
-    GdkWindow *window = gtk_widget_get_window (GTK_WIDGET (dialog));
-    gint h, w;
-
-    if (window == NULL)
-        return FALSE;
-
-    h = gdk_window_get_height (window);
-    w = gdk_window_get_width (window);
-
-    gdk_window_resize (window, w, h+1);
-    gdk_window_resize (window, w, h);
 
     return FALSE;
 }
@@ -221,7 +190,6 @@ xfce_settings_manager_dialog_init (XfceSettingsManagerDialog *dialog)
     GtkWidget *viewport;
     GtkWidget *image;
     GtkWidget *button;
-    GList     *children;
     gchar     *path;
 
     dialog->channel = xfconf_channel_get ("xfce4-settings-manager");
@@ -265,7 +233,7 @@ xfce_settings_manager_dialog_init (XfceSettingsManagerDialog *dialog)
     dialog->filter_entry = entry = gtk_entry_new ();
     gtk_header_bar_pack_end (GTK_HEADER_BAR (gtk_dialog_get_header_bar (GTK_DIALOG (dialog))), entry);
     gtk_widget_set_valign (entry, GTK_ALIGN_CENTER);
-    gtk_entry_set_icon_from_icon_name (GTK_ENTRY (entry), GTK_ENTRY_ICON_SECONDARY, "edit-find");
+    gtk_entry_set_icon_from_icon_name (GTK_ENTRY (entry), GTK_ENTRY_ICON_SECONDARY, "edit-find-symbolic");
     gtk_entry_set_icon_activatable (GTK_ENTRY (entry), GTK_ENTRY_ICON_SECONDARY, FALSE);
     g_signal_connect (G_OBJECT (entry), "changed",
         G_CALLBACK (xfce_settings_manager_dialog_entry_changed), dialog);
@@ -274,6 +242,7 @@ xfce_settings_manager_dialog_init (XfceSettingsManagerDialog *dialog)
     g_signal_connect (G_OBJECT (entry), "key-press-event",
         G_CALLBACK (xfce_settings_manager_dialog_entry_key_press), dialog);
     gtk_widget_show (entry);
+    gtk_widget_grab_focus (dialog->filter_entry);
 
     dialog_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
@@ -301,7 +270,7 @@ xfce_settings_manager_dialog_init (XfceSettingsManagerDialog *dialog)
     /* pluggable dialog scrolled window and viewport */
     dialog->socket_scroll = scroll = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scroll), GTK_SHADOW_NONE);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
     gtk_box_pack_start (GTK_BOX (dialog_vbox), scroll, TRUE, TRUE, 0);
     gtk_container_set_border_width (GTK_CONTAINER (scroll), 0);
 
@@ -445,7 +414,7 @@ xfce_settings_manager_dialog_set_title (XfceSettingsManagerDialog *dialog,
     g_return_if_fail (XFCE_IS_SETTINGS_MANAGER_DIALOG (dialog));
 
     if (icon_name == NULL)
-        icon_name = "preferences-desktop";
+        icon_name = "org.xfce.settings.manager";
     if (title == NULL)
         title = _("Settings");
     if (subtitle == NULL)
@@ -685,7 +654,7 @@ xfce_settings_manager_dialog_go_back (XfceSettingsManagerDialog *dialog)
     gtk_widget_set_sensitive (dialog->button_back, FALSE);
     gtk_widget_set_sensitive (dialog->button_help, TRUE);
 
-    gtk_widget_set_sensitive (dialog->filter_entry, TRUE);
+    gtk_widget_show (dialog->filter_entry);
     gtk_entry_set_text (GTK_ENTRY (dialog->filter_entry), "");
     gtk_widget_grab_focus (dialog->filter_entry);
 
@@ -727,7 +696,7 @@ xfce_settings_manager_dialog_entry_changed (GtkWidget                 *entry,
         {
             gtk_entry_set_icon_from_icon_name (GTK_ENTRY (dialog->filter_entry),
                 GTK_ENTRY_ICON_SECONDARY,
-                filter_text == NULL ? "edit-find" : "edit-clear");
+                filter_text == NULL ? "edit-find-symbolic" : "edit-clear-symbolic");
             gtk_entry_set_icon_activatable (GTK_ENTRY (dialog->filter_entry),
                 GTK_ENTRY_ICON_SECONDARY, filter_text != NULL);
         }
@@ -750,7 +719,7 @@ xfce_settings_manager_dialog_entry_changed (GtkWidget                 *entry,
             gtk_widget_set_visible (category->box, n_children > 0);
         }
 
-        g_idle_add ((GSourceFunc) xfce_settings_manager_queue_redraw, dialog);
+        g_idle_add ((GSourceFunc) xfce_settings_manager_queue_resize, dialog);
     }
     else
     {
@@ -862,7 +831,7 @@ xfce_settings_manager_dialog_plug_added (GtkWidget                 *socket,
     /* button sensitivity */
     gtk_widget_set_sensitive (dialog->button_back, TRUE);
     gtk_widget_set_sensitive (dialog->button_help, dialog->help_page != NULL);
-    gtk_widget_set_sensitive (dialog->filter_entry, FALSE);
+    gtk_widget_hide (dialog->filter_entry);
 
     /* plug startup complete */
     gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET(dialog)), NULL);
@@ -888,7 +857,7 @@ static void
 xfce_settings_manager_dialog_spawn (XfceSettingsManagerDialog *dialog,
                                     GarconMenuItem            *item)
 {
-    const gchar    *command;
+    gchar          *command;
     gboolean        snotify;
     GdkScreen      *screen;
     GdkDisplay     *display;
@@ -898,13 +867,22 @@ xfce_settings_manager_dialog_spawn (XfceSettingsManagerDialog *dialog,
     XfceRc         *rc;
     gboolean        pluggable = FALSE;
     gchar          *cmd;
+    gchar          *uri;
     GtkWidget      *socket;
     GdkCursor      *cursor;
 
     g_return_if_fail (GARCON_IS_MENU_ITEM (item));
 
     screen = gtk_window_get_screen (GTK_WINDOW (dialog));
-    command = garcon_menu_item_get_command (item);
+
+    /* expand the field codes */
+    uri = garcon_menu_item_get_uri (item);
+    command = xfce_expand_desktop_entry_field_codes (garcon_menu_item_get_command (item),
+                                                     NULL,
+                                                     garcon_menu_item_get_icon_name (item),
+                                                     garcon_menu_item_get_name (item),
+                                                     uri, FALSE);
+    g_free (uri);
 
     /* we need to read some more info from the desktop
      *  file that is not supported by garcon */
@@ -971,6 +949,8 @@ xfce_settings_manager_dialog_spawn (XfceSettingsManagerDialog *dialog,
             g_error_free (error);
         }
     }
+
+  g_free (command);
 }
 
 
@@ -1249,10 +1229,12 @@ xfce_settings_manager_dialog_menu_reload (XfceSettingsManagerDialog *dialog)
     GList               *lnext;
     GarconMenuDirectory *directory;
     GList               *items, *lp;
+    GList               *keywords, *kli;
     gint                 i = 0;
     gchar               *item_text;
     gchar               *normalized;
     gchar               *filter_text;
+    GString             *item_keywords;
     DialogCategory      *category;
 
     g_return_if_fail (XFCE_IS_SETTINGS_MANAGER_DIALOG (dialog));
@@ -1298,10 +1280,19 @@ xfce_settings_manager_dialog_menu_reload (XfceSettingsManagerDialog *dialog)
                 items = g_list_sort (items, xfce_settings_manager_dialog_menu_sort);
                 for (lp = items; lp != NULL; lp = lp->next)
                 {
-                    /* create independent search string */
-                    item_text = g_strdup_printf ("%s\n%s",
+                    /* create independent search string based on name, comment and keywords */
+                    keywords = garcon_menu_item_get_keywords (lp->data);
+                    item_keywords = g_string_new (NULL);
+                    for (kli = keywords; kli != NULL; kli = kli->next)
+                    {
+                        g_string_append (item_keywords, kli->data);
+                    }
+                    item_text = g_strdup_printf ("%s\n%s\n%s",
                         garcon_menu_item_get_name (lp->data),
-                        garcon_menu_item_get_comment (lp->data));
+                        garcon_menu_item_get_comment (lp->data),
+                        item_keywords->str);
+                    g_string_free (item_keywords, TRUE);
+                    g_list_free (kli);
                     normalized = g_utf8_normalize (item_text, -1, G_NORMALIZE_DEFAULT);
                     g_free (item_text);
                     filter_text = g_utf8_casefold (normalized, -1);
@@ -1332,7 +1323,7 @@ xfce_settings_manager_dialog_menu_reload (XfceSettingsManagerDialog *dialog)
         g_error_free (error);
     }
 
-    g_idle_add ((GSourceFunc) xfce_settings_manager_queue_redraw, dialog);
+    g_idle_add ((GSourceFunc) xfce_settings_manager_queue_resize, dialog);
 }
 
 

@@ -983,27 +983,14 @@ xfce_keyboard_settings_add_button_clicked (XfceKeyboardSettings *settings,
   GObject      *parent;
   const gchar *shortcut;
   const gchar *command;
-  gboolean     finished = FALSE;
   gint         response;
   gboolean     snotify;
 
   g_return_if_fail (XFCE_IS_KEYBOARD_SETTINGS (settings));
 
-  /* Create command dialog */
+  /* Request a command from the user */
   command_dialog = command_dialog_new (NULL, NULL, FALSE);
-
-  /* Run command dialog until a valid (non-empty) command is entered or the dialog is cancelled */
-  do
-    {
-      response = command_dialog_run (COMMAND_DIALOG (command_dialog), GTK_WIDGET (button));
-
-      if (G_UNLIKELY (response == GTK_RESPONSE_OK &&
-                      g_utf8_strlen (command_dialog_get_command (COMMAND_DIALOG (command_dialog)), -1) == 0))
-        xfce_dialog_show_error (GTK_WINDOW (command_dialog), NULL, _("Shortcut command may not be empty."));
-      else
-        finished = TRUE;
-    }
-  while (!finished);
+  response = command_dialog_run (COMMAND_DIALOG (command_dialog), GTK_WIDGET (button));
 
   /* Abort if the dialog was cancelled */
   if (G_UNLIKELY (response == GTK_RESPONSE_OK))
@@ -1076,7 +1063,6 @@ xfce_keyboard_settings_edit_button_clicked (XfceKeyboardSettings *settings)
       if (G_LIKELY (gtk_tree_model_get_iter (model, &iter, path)))
         {
           GtkWidget *command_dialog;
-          gboolean  finished = FALSE;
           gboolean  snotify;
           gchar    *shortcut_label;
           gchar    *shortcut;
@@ -1093,21 +1079,9 @@ xfce_keyboard_settings_edit_button_clicked (XfceKeyboardSettings *settings)
 
           DBG ("Edit shortcut %s / command %s", shortcut, command);
 
-          /* Create command dialog */
+          /* Request a new command from the user */
           command_dialog = command_dialog_new (shortcut_label, command, snotify);
-
-          /* Run command dialog until a valid (non-empty) command is entered or the dialog is cancelled */
-          do
-            {
-              response = command_dialog_run (COMMAND_DIALOG (command_dialog), GTK_WIDGET (view));
-
-              if (G_UNLIKELY (response == GTK_RESPONSE_OK &&
-                              g_utf8_strlen (command_dialog_get_command (COMMAND_DIALOG (command_dialog)), -1) == 0))
-                xfce_dialog_show_error (GTK_WINDOW (command_dialog), NULL, _("Shortcut command may not be empty."));
-              else
-                finished = TRUE;
-            }
-          while (!finished);
+          response = command_dialog_run (COMMAND_DIALOG (command_dialog), GTK_WIDGET (view));
 
           /* Abort if the dialog was cancelled */
           if (G_UNLIKELY (response == GTK_RESPONSE_OK))
@@ -1159,14 +1133,16 @@ xfce_keyboard_settings_edit_button_clicked (XfceKeyboardSettings *settings)
                   test_new_shortcut = (g_strcmp0 (shortcut, new_shortcut) != 0);
                   if (g_strcmp0 (command, new_command) != 0 || (test_new_shortcut) || snotify != new_snotify)
                     {
-                      /* Remove the row because we add new one from the
-                       * shortcut-added signal */
-                      gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
-
                       if (test_new_shortcut)
-                        /* Remove old keyboard shortcut via xfconf */
-                        xfce_shortcuts_provider_reset_shortcut (settings->priv->provider,
-                                                                shortcut);
+                        {
+                          /* Remove the row because we add new one from the
+                           * shortcut-added signal */
+                          gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+
+                          /* Remove old keyboard shortcut via xfconf */
+                          xfce_shortcuts_provider_reset_shortcut (settings->priv->provider,
+                                                                  shortcut);
+                        }
 
                       /* Save settings */
                       xfce_shortcuts_provider_set_shortcut (settings->priv->provider,

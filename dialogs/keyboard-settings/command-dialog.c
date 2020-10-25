@@ -96,24 +96,30 @@ command_dialog_create_contents (CommandDialog *dialog,
                                 const gchar   *action,
                                 gboolean       snotify)
 {
-  GtkWidget *button;
-  GtkWidget *content_box;
-  GtkWidget *hbox;
-  GtkWidget *label;
-  GtkWidget *image;
-  GtkWidget *table;
+  GtkWidget       *button;
+  GtkWidget       *content_box;
+  GtkWidget       *hbox;
+  GtkWidget       *label;
+  GtkWidget       *image;
+  GtkWidget       *table;
+  gchar          **keys;
+  guint            i;
+  GtkStyleContext *context;
 
   /* Set dialog title and icon */
   gtk_window_set_title (GTK_WINDOW (dialog), _("Shortcut Command"));
   gtk_window_set_icon_name (GTK_WINDOW (dialog), "application-x-executable");
 
+  xfce_titled_dialog_create_action_area (XFCE_TITLED_DIALOG (dialog));
+
   /* Create cancel button */
   button = gtk_button_new_with_mnemonic (_("_Cancel"));
-  gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_CANCEL);
+  xfce_titled_dialog_add_action_widget (XFCE_TITLED_DIALOG (dialog), button, GTK_RESPONSE_CANCEL);
   gtk_widget_show (button);
 
   button = gtk_button_new_with_mnemonic (_("_OK"));
-  gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_OK);
+  xfce_titled_dialog_add_action_widget (XFCE_TITLED_DIALOG (dialog), button, GTK_RESPONSE_OK);
+  xfce_titled_dialog_set_default_response (XFCE_TITLED_DIALOG (dialog), GTK_RESPONSE_OK);
   gtk_widget_set_can_default (GTK_WIDGET(button), TRUE);
   gtk_widget_grab_default (button);
   gtk_widget_show (button);
@@ -157,11 +163,23 @@ command_dialog_create_contents (CommandDialog *dialog,
       gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
       gtk_widget_show (label);
 
-      label = gtk_label_new (shortcut);
-      gtk_widget_set_halign (GTK_WIDGET (label), GTK_ALIGN_START);
-      gtk_widget_set_valign (GTK_WIDGET (label), GTK_ALIGN_CENTER);
-      gtk_grid_attach (GTK_GRID (table), label, 1, 0, 1, 1);
-      gtk_widget_show (label);
+      hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+      keys = g_strsplit (shortcut, "+", -1);
+
+      /* Show each key as individual label with the .keycap style class */
+      for (i = 0; i < g_strv_length (keys); i++)
+        {
+          label = gtk_label_new (keys[i]);
+          context = gtk_widget_get_style_context (label);
+          gtk_style_context_add_class (context, "keycap");
+          gtk_widget_show (label);
+          gtk_container_add (GTK_CONTAINER (hbox), label);
+        }
+
+      g_strfreev (keys);
+
+      gtk_grid_attach (GTK_GRID (table), hbox, 1, 0, 1, 1);
+      gtk_widget_show (hbox);
     }
 
   label = gtk_label_new_with_mnemonic (_("Comm_and:"));
@@ -235,7 +253,7 @@ command_dialog_run (CommandDialog *dialog,
     {
       response = gtk_dialog_run (GTK_DIALOG (dialog));
 
-      if (G_UNLIKELY (response != GTK_RESPONSE_CANCEL && g_utf8_strlen (command_dialog_get_command (dialog), -1) == 0))
+      if (G_UNLIKELY (response == GTK_RESPONSE_OK && g_utf8_strlen (command_dialog_get_command (dialog), -1) == 0))
         xfce_dialog_show_error (GTK_WINDOW (dialog), NULL, _("The command may not be empty."));
       else
         finished = TRUE;

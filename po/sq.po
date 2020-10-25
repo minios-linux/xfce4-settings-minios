@@ -3,13 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Besnik Bleta <besnik@programeshqip.org>, 2020
+# Besnik Bleta <besnik@programeshqip.org>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce4-settings\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-16 00:30+0100\n"
-"PO-Revision-Date: 2020-01-08 00:17+0000\n"
-"Last-Translator: Besnik <besnik@programeshqip.org>\n"
+"POT-Creation-Date: 2020-05-12 00:46+0200\n"
+"PO-Revision-Date: 2020-05-25 10:01+0000\n"
+"Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian (http://www.transifex.com/xfce/xfce4-settings/language/sq/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,10 +27,10 @@ msgctxt "Monitor vendor"
 msgid "Unknown"
 msgstr "I panjohur"
 
-#: ../common/xfce-randr.c:286 ../dialogs/display-settings/main.c:3927
+#: ../common/xfce-randr.c:286 ../dialogs/display-settings/main.c:4100
 #, c-format
 msgid "Unable to query the version of the RandR extension being used"
-msgstr ""
+msgstr "S’arrihet të kërkohet për versionin e zgjerimit RandR që po përdoret"
 
 #. 1.2 is required
 #: ../common/xfce-randr.c:294
@@ -36,7 +38,7 @@ msgstr ""
 msgid ""
 "This system is using RandR %d.%d. For the display settings to work version "
 "1.2 is required at least"
-msgstr ""
+msgstr "Ky sistem përdor RandR %d.%d. Që të funksionojnë rregullimet e ekranit, lypset të paktën version 1.2"
 
 #: ../common/xfce-randr.c:574
 msgid "Laptop"
@@ -71,11 +73,12 @@ msgstr "Formësoni përdorshmërinë e tastierës dhe miut"
 #: ../dialogs/display-settings/display-dialog.glade.h:9
 #: ../dialogs/display-settings/minimal-display-dialog.glade.h:8
 #: ../dialogs/display-settings/profile-changed-dialog.glade.h:2
-#: ../dialogs/display-settings/main.c:3967
+#: ../dialogs/display-settings/main.c:4140
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:7
+#: ../dialogs/mime-settings/xfce-mime-window.c:190
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:14
 #: ../xfce4-settings-editor/main.c:166
-#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:265
+#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:259
 msgid "_Close"
 msgstr "_Mbylle"
 
@@ -84,9 +87,10 @@ msgstr "_Mbylle"
 #: ../dialogs/color-settings/color-dialog.glade.h:4
 #: ../dialogs/display-settings/display-dialog.glade.h:8
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:8
+#: ../dialogs/mime-settings/xfce-mime-window.c:193
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:13
 #: ../xfce4-settings-editor/main.c:165
-#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:262
+#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:248
 msgid "_Help"
 msgstr "_Ndihmë"
 
@@ -94,7 +98,7 @@ msgstr "_Ndihmë"
 msgid ""
 "When enabled, the session manager will start the required applications for "
 "screen readers and magnifiers."
-msgstr ""
+msgstr "Kur aktivizohet, përgjegjësi i sesioneve do të nisë aplikacionet e domosdoshme për lexues dhe zmadhues ekrani."
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:6
 msgid "_Enable assistive technologies"
@@ -106,7 +110,7 @@ msgstr "Fillo Me Sesion"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:8
 msgid "Assistive technologies will be available the next time you login"
-msgstr ""
+msgstr "Teknologjitë ndihmëse do të jenë të përdorshme herën pasuese që do të bëni hyrje"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:9
 msgid "No AT-SPI provider was found on your system"
@@ -121,7 +125,7 @@ msgid ""
 "When enabled, modifier keys (such as Control, Alt, and Shift) do not need to"
 " be held down (they can be pressed and then released) when multiple keys "
 "would normally need to be pressed at the same time."
-msgstr ""
+msgstr "Kur aktivizohet, s’ka nevojë të mbahen të shtypur (ata mund të shtypen dhe të lihen të lirë) taste modifikues (të tillë si tastet Control, Alt, dhe Shift), ndërkohë që, normalisht, do të duhej të mbaheshin të shtypur disa taste njëherësh."
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:12
 msgid "_Use sticky keys"
@@ -129,23 +133,23 @@ msgstr "_Përdor taste ngjitës"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:13
 msgid "_Lock sticky keys"
-msgstr ""
+msgstr "_Kyçi tastet ngjitës"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:14
 msgid ""
 "When selected, modifier keys (such as Control, Alt, and Shift) will remain "
 "locked in the pressed state until pressed again"
-msgstr ""
+msgstr "Kur aktivizohet, taste modifikues (të tillë si tastet Control, Alt, dhe Shift) do të mbesin të bllokuar në gjendjen të shtypur, deri sa të rishtypen"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:15
 msgid "Disable sticky keys if two keys are _pressed"
-msgstr ""
+msgstr "Çaktivizo taste ngjitës, nëse _shtypen dy taste"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:16
 msgid ""
 "When selected, the \"sticky keys\" feature will be disabled if two keys are "
 "pressed simultaneously"
-msgstr ""
+msgstr "Kur përzgjidhet, veçoria \"taste ngjitës\" do të çaktivizohet, nëse shtypen njëherësh dy taste"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:17
 msgid "Sticky Keys"
@@ -155,7 +159,7 @@ msgstr "Taste Ngjitës"
 msgid ""
 "To help prevent accidental keystrokes, slow keys requires that a key is held"
 " for a certain minimum amount of time before the keystroke will be accepted."
-msgstr ""
+msgstr "Për të parandaluar shtypje aksidentale tastesh, tastet e ngadaltë kërkojnë doemos që një tast të mbahet i shtypur për një sasi minimum kohe, përpara se një shtypje tasti të pranohet."
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:19
 msgid "Use slow _keys"
@@ -163,13 +167,13 @@ msgstr "Përdor _taste të ngadaltë"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:20
 msgid "Acceptance _delay:"
-msgstr ""
+msgstr "Vonesë pranimi:"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:21
 msgid ""
 "The amount of time, in milliseconds, that must elapse before a keystroke "
 "will be accepted"
-msgstr ""
+msgstr "Sasia e kohës, në milisekonda, që duhet të rrjedhë, përpara se një shtypje tasti të pranohet"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:22
 msgid "Slow Keys"
@@ -179,23 +183,23 @@ msgstr "Taste të Ngadaltë"
 msgid ""
 "To help prevent accidental multiple keystrokes, bounce keys imposes a "
 "minimum delay between keystrokes."
-msgstr ""
+msgstr "Për të parandaluar shtypje aksidentale tastesh, tastet kërcyes imponojnë një vonesë minimum mes shtypjesh tasti."
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:24
 msgid "Use _bounce keys"
-msgstr ""
+msgstr "Përdor taste _kërcyes"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:25
 msgid "K_eystroke delay:"
-msgstr ""
+msgstr "_Vonesë shtypjeje tasti:"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:26
 msgid "The amount of time, in milliseconds, required between keystrokes"
-msgstr ""
+msgstr "Sasia e kohës, në milisekonda, e domosdoshme mes shtypjesh tasti"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:27
 msgid "Bounce Keys"
-msgstr ""
+msgstr "Taste kërcyes"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:28
 msgid "Keyboa_rd"
@@ -205,7 +209,7 @@ msgstr "_Tastierë"
 msgid ""
 "When enabled, the mouse pointer can be controlled using the keyboard number "
 "pad."
-msgstr ""
+msgstr "Kur aktivizohet, treguesi i miut mund të kontrollohet duke përdorur pjesën e tastierës me numra."
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:30
 msgid "_Use mouse emulation"
@@ -215,17 +219,17 @@ msgstr "_Përdor emulim miu"
 msgid ""
 "When selected, the mouse pointer can be controlled using the keyboard number"
 " pad"
-msgstr ""
+msgstr "Kur përzgjidhet, treguesi i miut mund të kontrollohet duke përdorur pjesën e tastierës me numra"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:32
 msgid "msec"
-msgstr ""
+msgstr "ms"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:33
 msgid ""
 "The time, in milliseconds, between the initial key press and first repeated "
 "motion event"
-msgstr ""
+msgstr "Koha, në milisekonda, mes shtypjes fillestare të tastit dhe aktit të parë të lëvizjes përsëritëse"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:34
 msgid "_Acceleration delay:"
@@ -237,7 +241,7 @@ msgstr "Interval _përsëritjesh:"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:36
 msgid "The time, in milliseconds, between repeated motion events"
-msgstr ""
+msgstr "Koha, në milisekonda, mes aktesh lëvizjeje të përsëritur"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:37
 msgid "Acceleration t_ime:"
@@ -245,7 +249,7 @@ msgstr "_Kohë përshpejtimesh:"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:38
 msgid "The time, in milliseconds, to get to maximum speed"
-msgstr ""
+msgstr "Koha, në milisekonda, për të arrirë shpejtësinë maksimum"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:39
 msgid "Ma_ximum speed:"
@@ -253,7 +257,7 @@ msgstr "Shpejtësi _maksimum:"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:40
 msgid "The maximum pointer speed after acceleration"
-msgstr ""
+msgstr "Shpejtësia maksimum e treguesit, pas përshpejtimit"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:41
 msgid "pixels/sec"
@@ -275,11 +279,11 @@ msgstr "Emulim Miu"
 msgid ""
 "Bind a keyboard shortcut to xfce4-find-cursor to get visual feedback of the "
 "mouse pointer's current location."
-msgstr ""
+msgstr "Lidhni një shkurtore tastiere me xfce4-find-cursor për të marrë të dhëna pamore rreth vendit të tanishëm të treguesit të miut."
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:46
 msgid "Show location of pointer on keypress"
-msgstr ""
+msgstr "Gjatë shtypjeje tasti, shfaq vendndodhje treguesi"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:47
 msgid "Find Cursor"
@@ -291,7 +295,7 @@ msgstr "_Mi"
 
 #: ../dialogs/accessibility-settings/main.c:46
 #: ../dialogs/appearance-settings/main.c:109
-#: ../dialogs/color-settings/main.c:48 ../dialogs/display-settings/main.c:131
+#: ../dialogs/color-settings/main.c:48 ../dialogs/display-settings/main.c:139
 #: ../dialogs/keyboard-settings/main.c:40 ../dialogs/mime-settings/main.c:43
 #: ../dialogs/mouse-settings/main.c:84 ../xfce4-settings-editor/main.c:49
 msgid "Settings manager socket"
@@ -299,7 +303,7 @@ msgstr "\"Socket\" përgjegjësi rregullimesh"
 
 #: ../dialogs/accessibility-settings/main.c:46
 #: ../dialogs/appearance-settings/main.c:109
-#: ../dialogs/color-settings/main.c:48 ../dialogs/display-settings/main.c:131
+#: ../dialogs/color-settings/main.c:48 ../dialogs/display-settings/main.c:139
 #: ../dialogs/keyboard-settings/main.c:40 ../dialogs/mime-settings/main.c:43
 #: ../dialogs/mouse-settings/main.c:84 ../xfce4-settings-editor/main.c:49
 msgid "SOCKET ID"
@@ -307,21 +311,22 @@ msgstr "ID SOCKET-i"
 
 #: ../dialogs/accessibility-settings/main.c:47
 #: ../dialogs/appearance-settings/main.c:110
-#: ../dialogs/color-settings/main.c:49 ../dialogs/display-settings/main.c:132
+#: ../dialogs/color-settings/main.c:49 ../dialogs/display-settings/main.c:140
 #: ../dialogs/keyboard-settings/main.c:41 ../dialogs/mime-settings/main.c:44
 #: ../dialogs/mouse-settings/main.c:85 ../xfce4-settings-editor/main.c:50
-#: ../xfce4-settings-manager/main.c:43 ../xfsettingsd/main.c:101
+#: ../xfce4-settings-manager/main.c:43 ../xfsettingsd/main.c:102
 msgid "Version information"
 msgstr "Të dhëna versioni"
 
 #: ../dialogs/accessibility-settings/main.c:200
 #: ../dialogs/appearance-settings/main.c:1166
 #: ../dialogs/color-settings/main.c:1390
-#: ../dialogs/display-settings/main.c:3895
+#: ../dialogs/display-settings/main.c:4068
 #: ../dialogs/keyboard-settings/main.c:78 ../dialogs/mime-settings/main.c:78
+#: ../dialogs/mime-settings/xfce-mime-helper-main.c:158
 #: ../dialogs/mouse-settings/main.c:1872 ../xfce4-settings-editor/main.c:120
-#: ../xfce4-settings-manager/main.c:64 ../xfsettingsd/main.c:237
-#: ../xfsettingsd/main.c:275
+#: ../xfce4-settings-manager/main.c:64 ../xfsettingsd/main.c:242
+#: ../xfsettingsd/main.c:280
 #, c-format
 msgid "Type '%s --help' for usage."
 msgstr "Për përdorimin, shtypni '%s --help'."
@@ -329,20 +334,20 @@ msgstr "Për përdorimin, shtypni '%s --help'."
 #: ../dialogs/accessibility-settings/main.c:219
 #: ../dialogs/appearance-settings/main.c:1185
 #: ../dialogs/color-settings/main.c:1407
-#: ../dialogs/display-settings/main.c:3914
+#: ../dialogs/display-settings/main.c:4087
 #: ../dialogs/keyboard-settings/main.c:94 ../dialogs/mime-settings/main.c:97
 #: ../dialogs/mouse-settings/main.c:1891 ../xfce4-settings-editor/main.c:139
-#: ../xfce4-settings-manager/main.c:80 ../xfsettingsd/main.c:253
+#: ../xfce4-settings-manager/main.c:80 ../xfsettingsd/main.c:258
 msgid "The Xfce development team. All rights reserved."
-msgstr "Ekipi zhvillues i Xfce-së. Tërë të drejtat të rezervuara."
+msgstr "Ekipi i zhvillimit të Xfce-së. Tërë të drejtat të rezervuara."
 
 #: ../dialogs/accessibility-settings/main.c:220
 #: ../dialogs/appearance-settings/main.c:1186
 #: ../dialogs/color-settings/main.c:1408
-#: ../dialogs/display-settings/main.c:3915
+#: ../dialogs/display-settings/main.c:4088
 #: ../dialogs/keyboard-settings/main.c:95 ../dialogs/mime-settings/main.c:98
 #: ../dialogs/mouse-settings/main.c:1892 ../xfce4-settings-editor/main.c:140
-#: ../xfce4-settings-manager/main.c:81 ../xfsettingsd/main.c:254
+#: ../xfce4-settings-manager/main.c:81 ../xfsettingsd/main.c:259
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "Ju lutemi, njoftoni të meta te <%s>."
@@ -351,16 +356,22 @@ msgstr "Ju lutemi, njoftoni të meta te <%s>."
 msgid "Improve keyboard and mouse accessibility"
 msgstr "Përmirësoni përdorshmërinë e tastierës dhe miut"
 
+#: ../dialogs/accessibility-settings/xfce4-accessibility-settings.desktop.in.h:3
+msgid ""
+"assistive;technologies;keys;sticky;bounce;emulation;screen "
+"readers;magnifiers;a11y;i18n;l10n;AT-SPI;ATK;impairment;"
+msgstr "asistive;teknologji;taste;ngjitës;bounce;emulim;lexues ekrani;zmadhues;a11y;i18n;l10n;AT-SPI;ATK;dobësim;"
+
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:1
 #: ../dialogs/appearance-settings/main.c:1041
-#: ../dialogs/display-settings/main.c:98
-#: ../dialogs/display-settings/main.c:109
+#: ../dialogs/display-settings/main.c:106
+#: ../dialogs/display-settings/main.c:117
 msgid "None"
 msgstr "Asnjë"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:2
 msgid "Slight"
-msgstr ""
+msgstr "Pakëz"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:3
 msgid "Medium"
@@ -368,7 +379,7 @@ msgstr "E mesme"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:4
 msgid "Full"
-msgstr ""
+msgstr "Plotësisht"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:5
 msgid "Icons"
@@ -416,7 +427,7 @@ msgstr "_Ikona"
 msgid ""
 "This font will be used as the default font used when drawing user interface "
 "text"
-msgstr ""
+msgstr "Ky lloj shkronjash do të përdoret si lloj parazgjedhje shkronjash, kur vizatohet tekst ndërfaqeje përdoruesi"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:18
 msgid "Select a default font"
@@ -430,7 +441,7 @@ msgstr "Shkronja _Parazgjedhje"
 msgid ""
 "This font will be used as the default monospace font, for example by "
 "terminal emulators."
-msgstr ""
+msgstr "Ky lloj shkronjash do të përdoret si lloj parazgjedhje Monospace shkronjash, për shembull, nga emulues terminalesh."
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:21
 msgid "Select a default monospace font"
@@ -447,7 +458,7 @@ msgstr "_Aktivizo anti-aliasing"
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:24
 msgid ""
 "Anti-aliasing, or font smoothing, can improve the look of text on the screen"
-msgstr ""
+msgstr "Anti-aliasing, ose zbutja e shkronjave mund të përmirësojë pamjen e tekstit në ekran"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:25
 msgid "Hintin_g:"
@@ -457,17 +468,17 @@ msgstr ""
 msgid ""
 "Many fonts contain information that provides extra hints as to how best draw"
 " the font; pick whichever looks best according to personal preference"
-msgstr ""
+msgstr "Shumë lloje shkronjash përmbajnë të dhëna të cilat furnizojnë ndihmëza shtesë rreth mënyrës më të mirë se si të vizatohen shkronjat; zgjidhni cilindo që duket më i miri, në përputhje me parapëlqime personale"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:27
 msgid "Sub-_pixel order:"
-msgstr ""
+msgstr "Shkallë nën-_piksel:"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:28
 msgid ""
 "Font quality on a TFT or LCD screen can be greatly improved by choosing the "
 "correct sub-pixel order of the screen"
-msgstr ""
+msgstr "Cilësia e shkronjave në një ekran TFT ose LCD mund të përmirësohet shumë duke zgjedhur për ekranin shkallën e duhur nën-piksel"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:29
 msgid "Rendering"
@@ -481,7 +492,7 @@ msgstr "Vlerë _DPI vetjake:"
 msgid ""
 "Override the detected monitor resolution if fonts look too large or too "
 "small"
-msgstr ""
+msgstr "Anashkalo qartësinë e monitorit të pikasur, nëse shkronjat duken shumë të mëdha ose shumë të vogla"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:32
 msgid "DPI"
@@ -493,7 +504,7 @@ msgstr "_Shkronja"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:34
 msgid "Specify what should be displayed in toolbar items"
-msgstr ""
+msgstr "Përcaktoni se ç’duhet shfaqur te elementë paneli"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:35
 msgid "_Toolbar Style"
@@ -505,7 +516,7 @@ msgstr "Shfaqni figura te _butonat"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:37
 msgid "Specify whether icons should be displayed next to text in buttons"
-msgstr ""
+msgstr "Përcaktoni nëse te butonat duhen shfaqur ikona në krah të teksteve"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:38
 msgid "Show images in _menus"
@@ -513,18 +524,18 @@ msgstr "Shfaqni figura te _menutë"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:39
 msgid "Specify whether icons should be displayed next to items in menus"
-msgstr ""
+msgstr "Përcaktoni nëse te menutë duhen shfaqur ikona në krah të elementeve"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:40
 msgid "Enable e_ditable accelerators"
-msgstr ""
+msgstr "Aktivizo përshpejtues të përp_unueshëm"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:41
 msgid ""
 "If selected, keyboard shortcuts for menu items can be changed by hovering "
 "the mouse over the menu item and pressing the new key combination for the "
 "shortcut"
-msgstr ""
+msgstr "Nëse përzgjidhet, shkurtoret për elementë menush mund të ndryshohen duke kaluar treguesin e miut sipër elementit të menusë dhe duke shtypur kombinimin e ri të tasteve për shkurtoren"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:42
 msgid "Menus and Buttons"
@@ -536,17 +547,17 @@ msgstr "Aktivizo tinguj _aktesh"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:44
 msgid "Enable or disable event sounds globally (requires \"Canberra\" support)"
-msgstr ""
+msgstr "Aktivizoni ose çaktivizoni globalisht tinguj aktesh (lyp mbulin të \"Canberra\"-s)"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:45
 msgid "Enable input feedbac_k sounds"
-msgstr ""
+msgstr "Aktivizo tinguj feedback-u input-esh"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:46
 msgid ""
 "Specify whether mouse clicks and other user input will cause event sounds to"
 " play"
-msgstr ""
+msgstr "Përcaktoni nëse klikime miu dhe tjetër gjë dhënë nga përdoruesi do të shkaktojnë luajtjen e tinguj aktesh"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:47
 msgid "Event sounds"
@@ -554,7 +565,7 @@ msgstr "Tinguj aktesh"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:48
 msgid "Adjust the system-wide display scaling"
-msgstr ""
+msgstr "Rregulloni përshkallëzim ekrani për gjithë sistemin"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:49
 msgid "_Window Scaling"
@@ -562,19 +573,19 @@ msgstr "Përshkallëzim _Dritaresh"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:50
 msgid "Setti_ngs"
-msgstr ""
+msgstr "_Rregullime"
 
 #: ../dialogs/appearance-settings/main.c:463
 #, c-format
 msgid ""
 "Warning: this icon theme has no cache file. You can create this by running "
 "<i>gtk-update-icon-cache %s/%s/</i> in a terminal emulator."
-msgstr ""
+msgstr "Kujdes: kjo temë ikonash nuk ka kartelë fshehtine. Këtë mund ta krijoni duke xhiruar <i>gtk-update-icon-cache %s/%s/</i> në një emulues terminali."
 
 #: ../dialogs/appearance-settings/main.c:879
 #, c-format
 msgid "File is larger than %d MB, installation aborted"
-msgstr ""
+msgstr "Kartela është më e madhe se %d MB, instalimi u ndërpre"
 
 #: ../dialogs/appearance-settings/main.c:884
 msgid "Failed to create temporary directory"
@@ -586,7 +597,7 @@ msgstr "S’u arrit të përftohej arkiv"
 
 #: ../dialogs/appearance-settings/main.c:894
 msgid "Unknown format, only archives and directories are supported"
-msgstr ""
+msgstr "Format i panjohur, mbulohen vetëm arkiva dhe drejtori"
 
 #: ../dialogs/appearance-settings/main.c:899
 #, c-format
@@ -613,101 +624,108 @@ msgstr "RGB Vertikale"
 msgid "Vertical BGR"
 msgstr "BGR Vertikale"
 
+#: ../dialogs/appearance-settings/xfce-ui-settings.desktop.in.h:3
+msgid ""
+"themes;user interface;styles;icons;fonts;anti-aliasing;hinting;sub-"
+"pixel;subpixel;rendering;ClearType;DPI;RGB;BGR;menu accelerators;keyboard "
+"shortcuts;event;sounds;window scaling;HiDPI;Retina display;"
+msgstr "tema;ndërfaqe përdoruesi;stile;ikona;shkronja;anti-aliasing;hinting;sub-pixel;subpixel;vizatim;ClearType;DPI;RGB;BGR;përshpejtues menush;shkurtore tastiere;akt;tinguj;ripërmasim dritaresh;HiDPI;ekran Retina;"
+
 #. TRANSLATORS: a flatbed scanner device, e.g. 'Epson Scanner'
 #: ../dialogs/color-settings/color-device.c:68
 msgid "Scanner"
-msgstr ""
+msgstr "Skaner"
 
 #. TRANSLATORS: a camera device, e.g. 'Nikon D60 Camera'
 #: ../dialogs/color-settings/color-device.c:71
 msgid "Camera"
-msgstr ""
+msgstr "Kamerë"
 
 #. TRANSLATORS: a printer device, e.g. 'Epson Photosmart Printer'
 #: ../dialogs/color-settings/color-device.c:74
 msgid "Printer"
-msgstr ""
+msgstr "Shtypës"
 
 #. TRANSLATORS: a webcam device, e.g. 'Philips HiDef Camera'
 #: ../dialogs/color-settings/color-device.c:77
 msgid "Webcam"
-msgstr ""
+msgstr "Kamerë Web"
 
 #. TRANSLATORS: This refers to the TFT display on a laptop
 #: ../dialogs/color-settings/color-device.c:94
 msgid "Laptop Screen"
-msgstr ""
+msgstr "Ekrani Laptopi"
 
 #. TRANSLATORS: This refers to the embedded webcam on a laptop
 #: ../dialogs/color-settings/color-device.c:102
 msgid "Built-in Webcam"
-msgstr ""
+msgstr "Kamerë Web e Brendshme"
 
 #: ../dialogs/color-settings/color-device.c:195
 #, c-format
 msgid "Enable color management for %s"
-msgstr ""
+msgstr "Aktivizoni administrim ngjyrash për %s"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:1
 #: ../dialogs/color-settings/xfce4-color-settings.desktop.in.h:1
 msgid "Color Profiles"
-msgstr ""
+msgstr "Profile Ngjyre"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:2
 msgid "Configure color profiles for your devices"
-msgstr ""
+msgstr "Formësoni profile ngjyrash për pajisjet tuaja"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:5
 msgid "<b>No devices found.</b>"
-msgstr ""
+msgstr "<b>S’u gjet pajisje.</b>"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:6
 msgid "Model:"
-msgstr ""
+msgstr "Model:"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:7
 msgid "Colorspace:"
-msgstr ""
+msgstr "Hapësirë ngjyrash:"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:8
 msgid "Vendor:"
-msgstr ""
+msgstr "Tregtues:"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:9
 msgid "Calibrate"
-msgstr ""
+msgstr "Kalibrojeni"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:10
 msgid "<b>No profiles for the selected device.</b>"
-msgstr ""
+msgstr "<b>Pa profile për pajisjen e përzgjedhur.</b>"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:11
 msgid "Add a profile to the currently selected device"
-msgstr ""
+msgstr "Shtoni një profil te pajisja e tanishme e përzgjedhur"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:12
 msgid "Delete the currently selected profile"
-msgstr ""
+msgstr "Fshi profilin e tanishëm të përzgjedhur"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:13
 msgid "Show detailed information about the selected profile"
-msgstr ""
+msgstr "Shfaq të dhëna të hollësishme rreth profilit të përzgjedhur"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:14
 msgid "Enable"
-msgstr ""
+msgstr "Aktivizoje"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:15
 msgid "Enable the selected profile"
-msgstr ""
+msgstr "Aktivizo profilin e përzgjedhur"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:16
 msgid "Add Profile to Device"
-msgstr ""
+msgstr "Shtoni Profil te Pajisje"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:17
 msgid "Add a Color Profile to your Device"
-msgstr ""
+msgstr "Shtoni te Pajisja juaj një Profil Ngjyrash"
 
 #. Create cancel button
 #: ../dialogs/color-settings/color-dialog.glade.h:18
@@ -715,30 +733,35 @@ msgstr ""
 #: ../dialogs/keyboard-settings/command-dialog.c:111
 #: ../dialogs/keyboard-settings/command-dialog.c:262
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:3
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:395
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:540
+#: ../dialogs/mime-settings/xfce-mime-helper-launcher-dialog.c:109
 msgid "_Cancel"
 msgstr "_Anuloje"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:19
 #: ../dialogs/keyboard-settings/command-dialog.c:115
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:4
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:541
+#: ../dialogs/mime-settings/xfce-mime-helper-launcher-dialog.c:110
 msgid "_OK"
 msgstr "_OK"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:20
 msgid "Import color profile files (*.icc)"
-msgstr ""
+msgstr "Importoni kartela profile ngjyrash (*.icc)"
 
 #. TRANSLATORS: standard spaces are well known colorspaces like
 #. * sRGB, AdobeRGB and ProPhotoRGB
 #: ../dialogs/color-settings/color-profile.c:94
 msgid "Standard Space"
-msgstr ""
+msgstr "Hapësirë Standard"
 
 #. TRANSLATORS: test profiles do things like changing the screen
 #. * a different color, or swap the red and green channels
 #: ../dialogs/color-settings/color-profile.c:99
 msgid "Test Profile"
-msgstr ""
+msgstr "Provojeni Profilin"
 
 #. TRANSLATORS: automatic profiles are generated automatically
 #. * by the color management system based on manufacturing data,
@@ -747,7 +770,7 @@ msgstr ""
 #: ../dialogs/color-settings/color-profile.c:106
 msgctxt "Automatically generated profile"
 msgid "Automatic"
-msgstr "Automatike"
+msgstr "Automatik"
 
 #. TRANSLATORS: the profile quality - low quality profiles take
 #. * much less time to generate but may be a poor reflection of the
@@ -755,13 +778,13 @@ msgstr "Automatike"
 #: ../dialogs/color-settings/color-profile.c:115
 msgctxt "Profile quality"
 msgid "Low Quality"
-msgstr ""
+msgstr "Cilësi e Ulët"
 
 #. TRANSLATORS: the profile quality
 #: ../dialogs/color-settings/color-profile.c:119
 msgctxt "Profile quality"
 msgid "Medium Quality"
-msgstr ""
+msgstr "Cilësi Mesatare"
 
 #. TRANSLATORS: the profile quality - high quality profiles take
 #. * a *long* time, and have the best calibration and
@@ -769,69 +792,69 @@ msgstr ""
 #: ../dialogs/color-settings/color-profile.c:125
 msgctxt "Profile quality"
 msgid "High Quality"
-msgstr ""
+msgstr "Cilësi e Lartë"
 
 #. TRANSLATORS: this default RGB space is used for printers that
 #. * do not have additional printer profiles specified in the PPD
 #: ../dialogs/color-settings/color-profile.c:140
 msgctxt "Colorspace fallback"
 msgid "Default RGB"
-msgstr ""
+msgstr "RGB Parazgjedhje"
 
 #. TRANSLATORS: this default CMYK space is used for printers that
 #. * do not have additional printer profiles specified in the PPD
 #: ../dialogs/color-settings/color-profile.c:146
 msgctxt "Colorspace fallback"
 msgid "Default CMYK"
-msgstr ""
+msgstr "CMYK Parazgjedhje"
 
 #. TRANSLATORS: this default gray space is used for printers that
 #. * do not have additional printer profiles specified in the PPD
 #: ../dialogs/color-settings/color-profile.c:152
 msgctxt "Colorspace fallback"
 msgid "Default Gray"
-msgstr ""
+msgstr "Gri Parazgjedhje"
 
 #. TRANSLATORS: an ICC profile is a file containing colorspace data
 #: ../dialogs/color-settings/main.c:128
 msgid "Select ICC Profile File"
-msgstr ""
+msgstr "Përzgjidhni Kartelë Profili ICC"
 
 #: ../dialogs/color-settings/main.c:131
 msgid "_Import"
-msgstr ""
+msgstr "_Importo"
 
 #. TRANSLATORS: filter name on the file->open dialog
 #: ../dialogs/color-settings/main.c:142
 msgid "Supported ICC profiles"
-msgstr ""
+msgstr "Profile ICC të mbuluar"
 
 #. TRANSLATORS: filter name on the file->open dialog
 #: ../dialogs/color-settings/main.c:149
 msgid "All files"
-msgstr "Tërë kartelat "
+msgstr "Tërë kartelat"
 
 #. TRANSLATORS: this is a profile prefix to signify the
 #. * profile has been auto-generated for this hardware
 #: ../dialogs/color-settings/main.c:193
 msgid "Default: "
-msgstr ""
+msgstr "Parazgjedhje: "
 
 #. TRANSLATORS: this is a profile prefix to signify the
 #. * profile his a standard space like AdobeRGB
 #: ../dialogs/color-settings/main.c:200
 msgid "Colorspace: "
-msgstr ""
+msgstr "Hapësirë ngjyrash: "
 
 #. TRANSLATORS: this is a profile prefix to signify the
 #. * profile is a test profile
 #: ../dialogs/color-settings/main.c:206
 msgid "Test profile: "
-msgstr ""
+msgstr "Provojeni profilin: "
 
 #: ../dialogs/color-settings/main.c:244
 msgid "Compatible Profiles"
-msgstr ""
+msgstr "Profile të Përputhshëm"
 
 #: ../dialogs/color-settings/main.c:836 ../dialogs/color-settings/main.c:837
 #: ../dialogs/color-settings/main.c:838
@@ -840,7 +863,11 @@ msgstr "I panjohur"
 
 #: ../dialogs/color-settings/xfce4-color-settings.desktop.in.h:2
 msgid "Set color profiles"
-msgstr ""
+msgstr "Ujdisni profile ngjyrash"
+
+#: ../dialogs/color-settings/xfce4-color-settings.desktop.in.h:3
+msgid "color;settings;management;display;monitors;printers;webcams;scanners;"
+msgstr "ngjyrë;rregullime;administrim;ekran;monitorë;shtypës;kamera web;skaner;"
 
 #: ../dialogs/display-settings/confirmation-dialog.glade.h:1
 msgid "Confirmation"
@@ -856,29 +883,29 @@ msgstr "Rikthe formësimin e mëparshëm"
 
 #: ../dialogs/display-settings/confirmation-dialog.glade.h:4
 msgid "<big><b>Would you like to keep this configuration?</b></big>"
-msgstr ""
+msgstr "<big><b>Doni të mbahet ky formësim?</b></big>"
 
 #: ../dialogs/display-settings/confirmation-dialog.glade.h:5
 msgid ""
 "The previous configuration will be restored in 10 seconds if you do not "
 "reply to this question."
-msgstr ""
+msgstr "Formësimi i mëparshëm do të rikthehet pas 10 sekondash, nëse s’i përgjigjeni kësaj pyetjeje."
 
 #: ../dialogs/display-settings/display-dialog.glade.h:1
 msgid "The primary display is currently configured to show:"
-msgstr ""
+msgstr "Ekrani parësor është aktualisht i formësuar për të shfaqur:"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:2
 msgid "Xfce Panel"
-msgstr ""
+msgstr "Panel Xfce"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:3
 msgid "Desktop icons"
-msgstr ""
+msgstr "Ikona desktopi"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:4
 msgid "Notifications"
-msgstr ""
+msgstr "Njoftime"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:5
 msgid "Configure..."
@@ -896,11 +923,11 @@ msgstr "Formësoni rregullime dhe skemë ekrani"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:10
 msgid "_Mirror displays"
-msgstr ""
+msgstr "_Pasqyro ekrane"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:11
 msgid "Primary Display:"
-msgstr ""
+msgstr "Ekran Parësor:"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:12
 msgid "R_esolution:"
@@ -908,84 +935,84 @@ msgstr "_Qartësi:"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:13
 msgid "Refresh _rate:"
-msgstr ""
+msgstr "Shp_ejtësi rifreskimi:"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:14
 msgid "Ro_tation:"
-msgstr "Ro_tullim:"
+msgstr "Rro_tullim:"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:15
 msgid "Ref_lection:"
-msgstr ""
+msgstr "Ref_lektim:"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:16
 msgid "A_pply"
-msgstr ""
+msgstr "_Zbatoje"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:17
 msgid "_General"
-msgstr "_Të përgjithshme"
+msgstr "Të përgjithsh_me"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:18
 msgid "<b>Profiles</b>"
-msgstr ""
+msgstr "<b>Profile</b>"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:19
 msgid "<b>Connecting Displays</b>"
-msgstr ""
+msgstr "<b>Lidhje Ekranesh</b>"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:20
 msgid "Delete the currently selected display profile."
-msgstr ""
+msgstr "Fshi profilin e ekranit të tanishëm të përzgjedhur."
 
 #: ../dialogs/display-settings/display-dialog.glade.h:21
 msgid "Apply"
-msgstr ""
+msgstr "Zbatoje"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:22
 msgid "Apply the currently selected display profile."
-msgstr ""
+msgstr "Apliko profilin e ekranit të përzgjedhur të tanishëm."
 
 #: ../dialogs/display-settings/display-dialog.glade.h:23
 msgid "Create a new display profile."
-msgstr ""
+msgstr "Krijoni profil të ri monitori."
 
 #: ../dialogs/display-settings/display-dialog.glade.h:24
 msgid "Update an existing profile."
-msgstr ""
+msgstr "Përditësoni një profil ekzistues."
 
 #: ../dialogs/display-settings/display-dialog.glade.h:25
 msgid "Automatically enable profiles when new display is connected"
-msgstr ""
+msgstr "Aktivizo automatikisht profile kur lidhet ekran i ri"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:26
 msgid "Configure new displays when connected"
-msgstr ""
+msgstr "Formësoni ekrane të rinj kur lidhen"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:27
 msgid "Show popup windows to identify displays"
-msgstr ""
+msgstr "Shfaq dritare flluskë për identifikim ekranesh"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:28
 msgid "<b>Identifying Displays</b>"
-msgstr ""
+msgstr "<b>Identifikim Ekranesh</b>"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:29
 #: ../dialogs/display-settings/minimal-display-dialog.glade.h:6
 msgid "_Advanced"
-msgstr ""
+msgstr "Të _mëtejshme"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:30
 msgid "<b>Profile Name</b>"
-msgstr ""
+msgstr "<b>Emër Profili</b>"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:31
 msgid "Create"
-msgstr ""
+msgstr "Krijoje"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:32
 msgid "A profile of this name already exists."
-msgstr ""
+msgstr "Ka tashmë një profil me këtë emër."
 
 #: ../dialogs/display-settings/minimal-display-dialog.glade.h:1
 msgid "Displays"
@@ -997,7 +1024,7 @@ msgstr "Vetëm Ekrani 1"
 
 #: ../dialogs/display-settings/minimal-display-dialog.glade.h:3
 msgid "Mirror Displays"
-msgstr ""
+msgstr "Pasqyro Ekrane"
 
 #: ../dialogs/display-settings/minimal-display-dialog.glade.h:4
 msgid "Extend to the right"
@@ -1009,133 +1036,137 @@ msgstr "Vetëm Ekrani 2"
 
 #: ../dialogs/display-settings/minimal-display-dialog.glade.h:7
 msgid "radiobutton"
-msgstr ""
+msgstr "buton rrethor"
 
 #: ../dialogs/display-settings/profile-changed-dialog.glade.h:1
 msgid "Update Display Profile"
-msgstr ""
+msgstr "Përditëso Profil Ekrani"
 
 #: ../dialogs/display-settings/profile-changed-dialog.glade.h:3
 msgid "_Update"
-msgstr ""
+msgstr "_Përditësoje"
 
 #: ../dialogs/display-settings/profile-changed-dialog.glade.h:4
 msgid ""
 "<big><b>You have made changes to your previously active profile</b></big>"
-msgstr ""
+msgstr "<big><b>Keni bërë ndryshime te profili juaj aktiv i mëparshëm</b></big>"
 
 #: ../dialogs/display-settings/profile-changed-dialog.glade.h:5
 msgid ""
 "If you don't update the profile your changes will be lost upon restarting "
 "your session or disconnecting or connecting a display."
-msgstr ""
+msgstr "Nëse s’përditësoni profilin, ndryshimet do të humbin gjatë rinisjes së sesionit tuaj ose gjatë shkëputjes ose lidhjes së një ekrani."
 
-#: ../dialogs/display-settings/main.c:99
+#: ../dialogs/display-settings/main.c:107
 msgid "Left"
 msgstr "Majtas"
 
-#: ../dialogs/display-settings/main.c:100
+#: ../dialogs/display-settings/main.c:108
 msgid "Inverted"
-msgstr ""
+msgstr "Përmbysur"
 
-#: ../dialogs/display-settings/main.c:101
+#: ../dialogs/display-settings/main.c:109
 msgid "Right"
 msgstr "Djathtas"
 
-#: ../dialogs/display-settings/main.c:110
+#: ../dialogs/display-settings/main.c:118
 msgid "Horizontal"
 msgstr "Horizontalisht"
 
-#: ../dialogs/display-settings/main.c:111
+#: ../dialogs/display-settings/main.c:119
 msgid "Vertical"
 msgstr "Vertikalisht"
 
-#: ../dialogs/display-settings/main.c:112
+#: ../dialogs/display-settings/main.c:120
 msgid "Horizontal and Vertical"
 msgstr "Horizontalisht dhe Vertikalisht"
 
-#: ../dialogs/display-settings/main.c:133
+#: ../dialogs/display-settings/main.c:141
 msgid "Minimal interface to set up an external output"
-msgstr ""
+msgstr "Ndërfaqe minimale për të ujdisur një output të jashtëm"
 
-#: ../dialogs/display-settings/main.c:273
+#: ../dialogs/display-settings/main.c:323
 #, c-format
 msgid ""
 "The previous configuration will be restored in %i seconds if you do not "
 "reply to this question."
-msgstr ""
+msgstr "Formësimi i mëparshëm do të rikthehet pas %i sekondash, nëse nuk i përgjigjeni kësaj pyetje."
 
 #. Insert the mode
-#: ../dialogs/display-settings/main.c:568
+#: ../dialogs/display-settings/main.c:644
 #, c-format
 msgid "%.1f Hz"
 msgstr "%.1f Hz"
 
-#: ../dialogs/display-settings/main.c:878
+#: ../dialogs/display-settings/main.c:1042
 msgid "Display:"
 msgstr "Ekran:"
 
-#: ../dialogs/display-settings/main.c:883
+#: ../dialogs/display-settings/main.c:1047
 msgid "Resolution:"
 msgstr "Qartësi:"
 
-#: ../dialogs/display-settings/main.c:1164
+#: ../dialogs/display-settings/main.c:1324
 msgid ""
 "The last active output must not be disabled, the system would be unusable."
-msgstr ""
+msgstr "S’duhet çaktivizuar output-i i fundit aktiv, sistemi mund të bëhet i papërdorshëm."
 
-#: ../dialogs/display-settings/main.c:1166
+#: ../dialogs/display-settings/main.c:1326
 msgid "Selected output not disabled"
-msgstr ""
+msgstr "Output-i i përzgjedhur s’është çaktivizuar"
 
-#: ../dialogs/display-settings/main.c:1542
+#: ../dialogs/display-settings/main.c:1501
+msgid "Profiles matching the currently connected displays"
+msgstr "Profile që kanë përputhje me ekranet e lidhur aktualisht"
+
+#: ../dialogs/display-settings/main.c:1707
 #, c-format
 msgid "Update changed display profile '%s'?"
-msgstr ""
+msgstr "Të përditësohet profili i ndryshuar i ekranit '%s'?"
 
-#: ../dialogs/display-settings/main.c:1547
+#: ../dialogs/display-settings/main.c:1712
 #, c-format
 msgid "_Update '%s'"
-msgstr ""
+msgstr "_Përditëso '%s'"
 
-#: ../dialogs/display-settings/main.c:1834
+#: ../dialogs/display-settings/main.c:2000
 #, c-format
 msgid "Do you want to delete the display profile '%s'?"
-msgstr ""
+msgstr "Doni të fshihet profili i ekranit '%s'?"
 
-#: ../dialogs/display-settings/main.c:1836
+#: ../dialogs/display-settings/main.c:2002
 msgid "Delete Profile"
-msgstr ""
+msgstr "Fshije Profilin"
 
-#: ../dialogs/display-settings/main.c:1839
+#: ../dialogs/display-settings/main.c:2005
 msgid "Once a display profile is deleted it cannot be restored."
-msgstr ""
+msgstr "Pasi të fshihet një profil ekrani, s’mund të rikthehet."
 
-#: ../dialogs/display-settings/main.c:1840
+#: ../dialogs/display-settings/main.c:2006
 #: ../dialogs/mime-settings/xfce-mime-chooser.c:134
 #: ../dialogs/mime-settings/xfce-mime-chooser.c:382
-#: ../dialogs/mime-settings/xfce-mime-window.c:908
+#: ../dialogs/mime-settings/xfce-mime-window.c:1079
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:144
 msgid "Cancel"
 msgstr "Anuloje"
 
-#: ../dialogs/display-settings/main.c:1841
+#: ../dialogs/display-settings/main.c:2007
 msgid "Delete"
-msgstr ""
+msgstr "Fshije"
 
-#: ../dialogs/display-settings/main.c:1942
+#: ../dialogs/display-settings/main.c:2108
 #, c-format
 msgid "%d Xfce Panels"
-msgstr ""
+msgstr "Panele Xfce %d"
 
-#: ../dialogs/display-settings/main.c:2946
+#: ../dialogs/display-settings/main.c:3116
 msgid ""
 "Select a monitor to change its properties; drag it to rearrange its "
 "placement."
-msgstr ""
+msgstr "Përzgjidhni një monitor për t’i ndryshuar vetitë; që t’i risistemoni vendosjen, tërhiqeni."
 
-#: ../dialogs/display-settings/main.c:2989
-#: ../dialogs/display-settings/main.c:3065
+#: ../dialogs/display-settings/main.c:3159
+#: ../dialogs/display-settings/main.c:3235
 #, c-format
 msgid "(%i, %i)"
 msgstr "(%i, %i)"
@@ -1144,45 +1175,50 @@ msgstr "(%i, %i)"
 #. * screen is the same as your external monitor.  Here, "Mirror" is being
 #. * used as an adjective, not as a verb.  For example, the Spanish
 #. * translation could be "Pantallas en Espejo", *not* "Espejar Pantallas".
-#: ../dialogs/display-settings/main.c:3267
+#: ../dialogs/display-settings/main.c:3437
 msgid "Mirror Screens"
-msgstr ""
+msgstr "Pasqyro Ekranet"
 
-#: ../dialogs/display-settings/main.c:3317
+#: ../dialogs/display-settings/main.c:3487
 msgid "(Disabled)"
 msgstr "(Çaktivizuar)"
 
-#: ../dialogs/display-settings/main.c:3734
+#: ../dialogs/display-settings/main.c:3906
 #, c-format
 msgid "Only %s (1)"
-msgstr ""
+msgstr "Vetëm %s (1)"
 
-#: ../dialogs/display-settings/main.c:3745
+#: ../dialogs/display-settings/main.c:3917
 #, c-format
 msgid "Only %s (2)"
-msgstr ""
+msgstr "Vetëm %s (2)"
 
-#: ../dialogs/display-settings/main.c:3928
-#: ../dialogs/display-settings/main.c:3965
+#: ../dialogs/display-settings/main.c:4101
+#: ../dialogs/display-settings/main.c:4138
 msgid "Unable to start the Xfce Display Settings"
-msgstr ""
+msgstr "S’arrihet të nisen Rregullime Ekrani Xfce"
 
-#: ../dialogs/display-settings/main.c:3960
+#: ../dialogs/display-settings/main.c:4133
 msgid "ATI Settings"
 msgstr "Rregullime ATI"
 
-#: ../dialogs/display-settings/main.c:3975
+#: ../dialogs/display-settings/main.c:4148
 msgid "Unable to launch the proprietary driver settings"
-msgstr ""
+msgstr "S’arrihet të nisen rregullimet e përudhësit pronësor"
+
+#: ../dialogs/display-settings/xfce-display-settings.desktop.in.h:3
+msgid ""
+"display;settings;screen;resolution;refresh;rate;rotation;external;projectors;monitors;LCD;CRT;HiDPI;"
+msgstr "ekran;rregullime;ekran;qartësi;rifreskoje;frekuencë;rrotullim;i jashtëm;projektorë;monitorë;LCD;CRT;HiDPI;"
 
 #. Set dialog title and icon
 #: ../dialogs/keyboard-settings/command-dialog.c:107
 msgid "Shortcut Command"
-msgstr "Shkurtore Urdhri"
+msgstr "Urdhër i Shkurtores"
 
 #: ../dialogs/keyboard-settings/command-dialog.c:136
 msgid "Enter the command you want to trigger with a shortcut."
-msgstr ""
+msgstr "Jepni urdhrin që doni të vihet në punë me një shkurtore."
 
 #. We are editing an existing shortcut
 #: ../dialogs/keyboard-settings/command-dialog.c:154
@@ -1206,36 +1242,43 @@ msgid "Select command"
 msgstr "Përzgjidhni urdhër"
 
 #: ../dialogs/keyboard-settings/command-dialog.c:263
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:396
 msgid "_Open"
 msgstr "_Hape"
 
 #: ../dialogs/keyboard-settings/command-dialog.c:267
 #: ../dialogs/mime-settings/xfce-mime-chooser.c:389
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:402
 msgid "All Files"
 msgstr "Tërë Kartelat"
 
 #: ../dialogs/keyboard-settings/command-dialog.c:272
 #: ../dialogs/mime-settings/xfce-mime-chooser.c:394
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:407
 msgid "Executable Files"
 msgstr "Kartela të Ekzekutueshmish"
 
 #: ../dialogs/keyboard-settings/command-dialog.c:287
 #: ../dialogs/mime-settings/xfce-mime-chooser.c:409
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:422
 msgid "Perl Scripts"
 msgstr "Programthe Perl"
 
 #: ../dialogs/keyboard-settings/command-dialog.c:293
 #: ../dialogs/mime-settings/xfce-mime-chooser.c:415
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:428
 msgid "Python Scripts"
 msgstr "Programthe Python"
 
 #: ../dialogs/keyboard-settings/command-dialog.c:299
 #: ../dialogs/mime-settings/xfce-mime-chooser.c:421
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:434
 msgid "Ruby Scripts"
 msgstr "Programthe Ruby"
 
 #: ../dialogs/keyboard-settings/command-dialog.c:305
 #: ../dialogs/mime-settings/xfce-mime-chooser.c:427
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:440
 msgid "Shell Scripts"
 msgstr "Programthe Shell"
 
@@ -1245,7 +1288,7 @@ msgstr "Përzgjedhje skeme tastiere"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:2
 msgid "Select keyboard layout and variant"
-msgstr ""
+msgstr "Përzgjidhni skemë dhe variant tastiere"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:5
 #: ../dialogs/keyboard-settings/xfce-keyboard-settings.desktop.in.h:1
@@ -1255,11 +1298,11 @@ msgstr "Tastierë"
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:6
 #: ../dialogs/keyboard-settings/xfce-keyboard-settings.desktop.in.h:2
 msgid "Edit keyboard settings and application shortcuts"
-msgstr ""
+msgstr "Përpunoni rregullime tastiere dhe shkurtore aplikacionesh"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:9
 msgid "Restore num l_ock state on startup"
-msgstr ""
+msgstr "Rikthe gjendje për num l_ock gjatë nisjes"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:10
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:33
@@ -1274,7 +1317,7 @@ msgstr "_Aktivizo përsëritje tasti"
 msgid ""
 "When selected, pressing and holding down a key emits the same character over"
 " and over again"
-msgstr ""
+msgstr "Kur përzgjidhet, shtypja dhe mbajtja e shtypur e një tasti prodhon prapë të njëjtën shenjë"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:13
 msgid "_Repeat delay:"
@@ -1282,7 +1325,7 @@ msgstr "_Vonesë përsëritjesh:"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:14
 msgid "The time, in milliseconds, before a pressed key begins repeating"
-msgstr ""
+msgstr "Koha, në milisekonda, përpara se një tast i shtypur fillon të përsërisë"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:15
 msgid "Repe_at speed:"
@@ -1290,7 +1333,7 @@ msgstr "_Shpejtësi përsëritjesh:"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:16
 msgid "The rate at which keystrokes are generated while a key is pressed"
-msgstr ""
+msgstr "Shpejtësia me të cilën prodhohen shtypje të tastit, kur një tast është i shtypur"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:17
 msgid "Typing Settings"
@@ -1302,7 +1345,7 @@ msgstr "Shfaq _xixëllim"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:19
 msgid "Specify whether or not the text cursor blinks"
-msgstr ""
+msgstr "Përcaktoni nëse xixëllon apo jo kursori i tekstit"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:20
 msgid "Blink _delay:"
@@ -1310,7 +1353,7 @@ msgstr "_Vonesë xixëllimi:"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:21
 msgid "The delay, in milliseconds, between successive blinks of the cursor"
-msgstr ""
+msgstr "Koha, në milisekonda, mes xixëllimesh të njëpasnjëshme të kursorit"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:22
 msgid "Cursor"
@@ -1318,15 +1361,15 @@ msgstr "Kursor"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:23
 msgid "_Test area:"
-msgstr "Fushë _prove:"
+msgstr "Fushë _provash:"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:24
 msgid "Beha_vior"
-msgstr ""
+msgstr "_Sjellje"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:25
 msgid "Define shortcuts for la_unching applications:"
-msgstr ""
+msgstr "Përcaktoni shkurtore për _nisje aplikacionesh:"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:26
 msgid "Reset to _Defaults"
@@ -1344,7 +1387,7 @@ msgstr "_Përdor parazgjedhje sistemi"
 msgid ""
 "Specifies whether the keyboard layout is controlled with this settings "
 "dialog, or by the X server"
-msgstr ""
+msgstr "Përcakton nëse skema e tastierës kontrollohet me këtë dialog rregullimesh, apo nga shërbyesi X"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:30
 msgid "_Keyboard model"
@@ -1352,7 +1395,7 @@ msgstr "Model _tastiere"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:31
 msgid "Change la_yout option"
-msgstr ""
+msgstr "Ndryshoni mundësi s_keme"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:32
 msgid "Co_mpose key"
@@ -1360,11 +1403,11 @@ msgstr ""
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:33
 msgid "Move currently selected item up by one row"
-msgstr "Ngjite objektin e përzgjedhur të tanishëm një rresht më sipër"
+msgstr "Ngjite objektin e tanishëm të përzgjedhur një rresht më sipër"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:34
 msgid "Move currently selected item down by one row"
-msgstr "Zbrite objektin e përzgjedhur të tanishëm një rresht më poshtë"
+msgstr "Zbrite objektin e tanishëm të përzgjedhur një rresht më poshtë"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:35
 msgid "Key_board layout"
@@ -1381,7 +1424,7 @@ msgstr "S’arrihet të gatitet dot GTK+."
 #: ../dialogs/keyboard-settings/main.c:104
 #, c-format
 msgid "Failed to connect to xfconf daemon. Reason: %s"
-msgstr ""
+msgstr "S’u arrit të lidhet me demonin xfconf. Arsye: %s"
 
 #: ../dialogs/keyboard-settings/main.c:115
 msgid "Could not create the settings dialog."
@@ -1403,37 +1446,36 @@ msgstr "Skemë"
 msgid "Variant"
 msgstr "Variant"
 
-#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1002
-#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1106
-msgid "Shortcut command may not be empty."
-msgstr "Urdhri i shkurtores s’mund të jetë i zbrazët."
-
-#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1270
-#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1271
+#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1246
+#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1247
 msgid "Reset to Defaults"
 msgstr "Riktheji te Parazgjedhjet"
 
-#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1272
+#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1248
 msgid ""
 "This will reset all shortcuts to their default values. Do you really want to"
 " do this?"
 msgstr "Kjo do të rikthejë tërë shkurtoret te vlerat e tyre parazgjedhje. Doni vërtet të bëhet kjo?"
 
-#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1274
+#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1250
 msgid "No"
 msgstr "Jo"
 
-#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1275
+#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1251
 msgid "Yes"
 msgstr "Po"
 
-#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1351
+#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1327
 msgid "The system defaults will be restored next time you log in."
-msgstr ""
+msgstr "Parazgjedhjet e sistemit do të rikthehen herës tjetër që bëni hyrjen."
 
-#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1353
+#: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1329
 msgid "Warning"
 msgstr "Sinjalizim"
+
+#: ../dialogs/keyboard-settings/xfce-keyboard-settings.desktop.in.h:3
+msgid "numlock;keyboard;layout;shortcuts;"
+msgstr "numlock;tastierë;skemë;shkurtore;"
 
 #: ../dialogs/mime-settings/main.c:115
 msgid "Could not create the mime dialog."
@@ -1488,84 +1530,578 @@ msgstr "Hap <i>%s</i> dhe kartela të tjera të llojit \"%s\" me:"
 msgid "Failed to add new application \"%s\""
 msgstr "S’u arrit të shtohej aplikacion i ri \"%s\""
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:169
-#: ../dialogs/mime-settings/xfce4-mime-settings.desktop.in.h:1
-msgid "MIME Type Editor"
-msgstr "Përpunues Llojesh MIME"
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:145
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:152
+msgid "Press left mouse button to change the selected application."
+msgstr "Shtypni butonin e majtë të miut për të ndryshuar aplikacionin e përzgjedhur."
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:173
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:151
+msgid "Application Chooser Button"
+msgstr "Buton Zgjedhësi Aplikacionesh"
+
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:303
+msgid "No application selected"
+msgstr "S’ka aplikacion të përzgjedhur"
+
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:319
+msgid "Failed to set default Web Browser"
+msgstr "S’u arrit të caktohej Shfletues parazgjedhje"
+
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:320
+msgid "Failed to set default Mail Reader"
+msgstr "S’u arrit të caktohej Lexues parazgjedhje Poste"
+
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:321
+msgid "Failed to set default File Manager"
+msgstr "S’u arrit të caktohej Përgjegjës parazgjedhje Kartelash"
+
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:322
+msgid "Failed to set default Terminal Emulator"
+msgstr "S’u arrit të caktohej Emulues parazgjedhje Terminali"
+
+#. allocate the chooser
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:392
+msgid "Select application"
+msgstr "Përzgjidhni aplikacion"
+
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:505
+msgid "Choose a custom Web Browser"
+msgstr "Zgjidhni një Shfletues vetjak"
+
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:506
+msgid "Choose a custom Mail Reader"
+msgstr "Zgjidhni një Lexues Poste vetjak"
+
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:507
+msgid "Choose a custom File Manager"
+msgstr "Zgjidhni një Përgjegjës Kartelash vetjak"
+
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:508
+msgid "Choose a custom Terminal Emulator"
+msgstr "Zgjidhni një Emulues Terminali vetjak"
+
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:513
+msgid ""
+"Specify the application you want to use\n"
+"as default Web Browser for Xfce:"
+msgstr "Caktoni aplikacionin që doni të përdoret\nsi Shfletues parazgjedhje për Xfce-në:"
+
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:514
+msgid ""
+"Specify the application you want to use\n"
+"as default Mail Reader for Xfce:"
+msgstr "Caktoni aplikacionin që doni të përdoret\nsi Lexues Poste parazgjedhje për Xfce-në:"
+
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:515
+msgid ""
+"Specify the application you want to use\n"
+"as default File Manager for Xfce:"
+msgstr "Caktoni aplikacionin që doni të përdoret\nsi Përgjegjës Kartelash parazgjedhje për Xfce-në:"
+
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:516
+msgid ""
+"Specify the application you want to use\n"
+"as default Terminal Emulator for Xfce:"
+msgstr "Caktoni aplikacionin që doni të përdoret\nsi Emulues Terminal parazgjedhje për Xfce-në:"
+
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:580
+msgid "Browse the file system to choose a custom command."
+msgstr "Shfletoni sistemin e kartelave për të zgjedhur një urdhër vetjak."
+
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:789
+msgid "_Other..."
+msgstr "_Tjetër…"
+
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:790
+msgid "Use a custom application which is not included in the above list."
+msgstr "Përdor një aplikacion vetjak që s’përfshihet në listën më sipër."
+
+#: ../dialogs/mime-settings/xfce-mime-helper-launcher-dialog.c:113
+msgid "Choose Preferred Application"
+msgstr "Zgjidhni Zbatim të Parapëlqyer"
+
+#: ../dialogs/mime-settings/xfce-mime-helper-launcher-dialog.c:256
+msgid ""
+"Please choose your preferred Web\n"
+"Browser now and click OK to proceed."
+msgstr "Ju lutemi, zgjidhni tani Shfletuesin tuaj\nparazgjedhje dhe klikoni OK që të vazhdohet."
+
+#: ../dialogs/mime-settings/xfce-mime-helper-launcher-dialog.c:258
+msgid ""
+"Please choose your preferred Mail Reader\n"
+"now and click OK to proceed."
+msgstr "Ju lutemi, zgjidhni tani Lexuesin tuaj parazgjedhje\ntë Postës dhe klikoni OK që të vazhdohet."
+
+#: ../dialogs/mime-settings/xfce-mime-helper-launcher-dialog.c:260
+msgid ""
+"Please choose your preferred File Manager\n"
+"now and click OK to proceed."
+msgstr "Ju lutemi, zgjidhni tani Përgjegjësin tuaj parazgjedhje\ntë Kartelave dhe klikoni OK që të vazhdohet."
+
+#: ../dialogs/mime-settings/xfce-mime-helper-launcher-dialog.c:262
+msgid ""
+"Please choose your preferred Terminal\n"
+"Emulator now and click OK to proceed."
+msgstr "Ju lutemi, zgjidhni tani Emuluesin tuaj Terminal\nparazgjedhje dhe klikoni OK që të vazhdohet."
+
+#: ../dialogs/mime-settings/xfce-mime-helper-main.c:41
+msgid "Failed to execute default Web Browser"
+msgstr "S’u arrit të vihej në punë Shfletuesi parazgjedhje"
+
+#: ../dialogs/mime-settings/xfce-mime-helper-main.c:42
+msgid "Failed to execute default Mail Reader"
+msgstr "S’u arrit të vihej në punë Lexuesi parazgjedhje i Postës"
+
+#: ../dialogs/mime-settings/xfce-mime-helper-main.c:43
+msgid "Failed to execute default File Manager"
+msgstr "S’u arrit të vihej në punë Përgjegjësi parazgjedhje për Kartelat"
+
+#: ../dialogs/mime-settings/xfce-mime-helper-main.c:44
+msgid "Failed to execute default Terminal Emulator"
+msgstr "S’u arrit të vihej në punë Emulues Terminali parazgjedhje"
+
+#. Enable permanently dismissing this error.
+#: ../dialogs/mime-settings/xfce-mime-helper-main.c:86
+msgid "Do _not show this message again"
+msgstr "_Mos e shfaq prapë këtë mesazh"
+
+#: ../dialogs/mime-settings/xfce-mime-helper-main.c:116
+msgid "Print version information and exit"
+msgstr "Shtyp të dhëna versioni dhe dil"
+
+#: ../dialogs/mime-settings/xfce-mime-helper-main.c:117
+msgid ""
+"Launch the default helper of TYPE with the optional PARAMETER, where TYPE is"
+" one of the following values."
+msgstr "Nis ndihmësin parazgjedhje të LLOJIT me PARAMETRIN opsional, ku LLOJ është një nga vlerat vijuese."
+
+#: ../dialogs/mime-settings/xfce-mime-helper-main.c:117
+#: ../dialogs/mime-settings/xfce-mime-helper-main.c:118
+msgid "TYPE [PARAMETER]"
+msgstr "LLOJ [PARAMETËR]"
+
+#: ../dialogs/mime-settings/xfce-mime-helper-main.c:118
+msgid ""
+"Query the default helper of TYPE, where TYPE is one of the following values."
+msgstr "Kërko ndihmësin parazgjedhje të LLOJIT, ku LLOJ është një nga vlerat vijuese."
+
+#: ../dialogs/mime-settings/xfce-mime-helper-main.c:148
+msgid ""
+"The following TYPEs are supported for the --launch and --query commands:\n"
+"\n"
+"  WebBrowser       - The preferred Web Browser.\n"
+"  MailReader       - The preferred Mail Reader.\n"
+"  FileManager      - The preferred File Manager.\n"
+"  TerminalEmulator - The preferred Terminal Emulator."
+msgstr "Për urdhrat --launch dhe --query mbulohen LLOJET vijuese:\n\n  WebBrowser       - Shfletuesi i parapëlqyer.\n  MailReader       - Lexuesi i parapëlqyer i Postës.\n  FileManager      - Përgjegjësi i parapëlqyer i Kartelave.\n  TerminalEmulator - Emuluesi i parapëlqyer i Terminalit."
+
+#: ../dialogs/mime-settings/xfce-mime-helper-main.c:183
+#: ../dialogs/mime-settings/xfce-mime-helper-main.c:256
+#, c-format
+msgid "Invalid helper type \"%s\""
+msgstr "Lloj i pavlefshëm ndihmësi \"%s\""
+
+#: ../dialogs/mime-settings/xfce-mime-helper-main.c:240
+#, c-format
+msgid ""
+"%s (Xfce %s)\n"
+"\n"
+"Copyright (c) 2003-2006\n"
+"        os-cillation e.K. All rights reserved.\n"
+"\n"
+"Written by Benedikt Meurer <benny@xfce.org>.\n"
+"\n"
+"Built with Gtk+-%d.%d.%d, running Gtk+-%d.%d.%d.\n"
+"\n"
+"Please report bugs to <%s>.\n"
+msgstr "%s (Xfce %s)\n\nTë drejta kopjimi (c) 2003-2006\n        os-cillation e.K. Tërë të drejtat të rezervuara.\n\nShkruar nga Benedikt Meurer <benny@xfce.org>.\n\nNdërtuar me Gtk+-%d.%d.%d, xhiron Gtk+-%d.%d.%d.\n\nJu lutemi, njoftoni të meta te <%s>.\n"
+
+#: ../dialogs/mime-settings/xfce-mime-helper-main.c:266
+#, c-format
+msgid "No helper defined for \"%s\"."
+msgstr "S’ka ndihmës të përkufizuar për \"%s\"."
+
+#: ../dialogs/mime-settings/xfce-mime-helper.c:406
+#, c-format
+msgid "No command specified"
+msgstr "S’u dha urdhër"
+
+#: ../dialogs/mime-settings/xfce-mime-helper.c:742
+#: ../dialogs/mime-settings/xfce-mime-helper.c:781
+#: ../dialogs/mime-settings/xfce-mime-helper.c:878
+#: ../dialogs/mime-settings/xfce-mime-helper.c:917
+#, c-format
+msgid "Failed to open %s for writing"
+msgstr "S’u arrit të hapet %s për shkrim"
+
+#: ../dialogs/mime-settings/xfce-mime-window.c:184
+#: ../dialogs/mime-settings/xfce4-mime-settings.desktop.in.h:1
+msgid "Preferred Applications"
+msgstr "Aplikacione të Parapëlqyera"
+
+#: ../dialogs/mime-settings/xfce-mime-window.c:188
 #: ../dialogs/mime-settings/xfce4-mime-settings.desktop.in.h:2
 msgid "Associate applications with MIME types"
-msgstr ""
+msgstr "Përshoqëroni aplikacione me lloje MIME"
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:192
+#. Internet
+#: ../dialogs/mime-settings/xfce-mime-window.c:211
+msgid "_Internet"
+msgstr "_Internet"
+
+#: ../dialogs/mime-settings/xfce-mime-window.c:224
+#: ../dialogs/mime-settings/xfce4-web-browser.desktop.in.h:1
+msgid "Web Browser"
+msgstr "Shfletues"
+
+#: ../dialogs/mime-settings/xfce-mime-window.c:232
+msgid ""
+"The preferred Web Browser will be used to open hyperlinks and display help "
+"contents."
+msgstr "Shfletuesi i parapëlqyer do të përdoret për të hapur tejlidhje dhe për të shfaqur lëndë ndihme."
+
+#: ../dialogs/mime-settings/xfce-mime-window.c:255
+#: ../dialogs/mime-settings/xfce4-mail-reader.desktop.in.h:1
+msgid "Mail Reader"
+msgstr "Lexues Poste"
+
+#: ../dialogs/mime-settings/xfce-mime-window.c:263
+msgid ""
+"The preferred Mail Reader will be used to compose emails when you click on "
+"email addresses."
+msgstr "Lexuesi i parapëlqyer i Postës do të përdoret për të hartuar email-e, kur klikoni mbi adresa email."
+
+#. Utilities
+#: ../dialogs/mime-settings/xfce-mime-window.c:282
+msgid "_Utilities"
+msgstr "Të _dobishme"
+
+#: ../dialogs/mime-settings/xfce-mime-window.c:295
+#: ../dialogs/mime-settings/xfce4-file-manager.desktop.in.h:1
+msgid "File Manager"
+msgstr "Përgjegjës Kartelash"
+
+#: ../dialogs/mime-settings/xfce-mime-window.c:303
+msgid ""
+"The preferred File Manager will be used to browse the contents of folders."
+msgstr "Përgjegjësi i parapëlqyer i Kartelave do të përdoret për të shfletuar lëndën e dosjeve."
+
+#: ../dialogs/mime-settings/xfce-mime-window.c:326
+#: ../dialogs/mime-settings/xfce4-terminal-emulator.desktop.in.h:1
+msgid "Terminal Emulator"
+msgstr "Emulues Terminali"
+
+#: ../dialogs/mime-settings/xfce-mime-window.c:334
+msgid ""
+"The preferred Terminal Emulator will be used to run commands that require a "
+"CLI environment."
+msgstr "Emuluesi i parapëlqyer i Terminalit do të përdoret për të xhiruar urdhra që lypin mjedis CLI."
+
+#. Mimes
+#: ../dialogs/mime-settings/xfce-mime-window.c:353
+msgid "_Others"
+msgstr "_Të tjerë"
+
+#: ../dialogs/mime-settings/xfce-mime-window.c:363
 msgid "_Filter:"
-msgstr ""
+msgstr "_Filtër:"
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:200
+#: ../dialogs/mime-settings/xfce-mime-window.c:371
 msgid "Clear filter"
-msgstr "Pastroje filtrin"
+msgstr "Spastroje filtrin"
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:249
+#: ../dialogs/mime-settings/xfce-mime-window.c:420
 msgid "MIME Type"
 msgstr "Lloj MIME"
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:277
+#: ../dialogs/mime-settings/xfce-mime-window.c:448
 msgid "Status"
 msgstr "Gjendje"
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:297
+#: ../dialogs/mime-settings/xfce-mime-window.c:468
 msgid "Default Application"
 msgstr "Aplikacion Parazgjedhje"
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:472
-#: ../dialogs/mime-settings/xfce-mime-window.c:597
+#: ../dialogs/mime-settings/xfce-mime-window.c:643
+#: ../dialogs/mime-settings/xfce-mime-window.c:768
 msgid "User Set"
 msgstr "Caktuar Nga Përdoruesi"
 
 #. sort the names but keep Default on top
-#: ../dialogs/mime-settings/xfce-mime-window.c:474
-#: ../dialogs/mime-settings/xfce-mime-window.c:597
+#: ../dialogs/mime-settings/xfce-mime-window.c:645
+#: ../dialogs/mime-settings/xfce-mime-window.c:768
 #: ../dialogs/mouse-settings/main.c:383 ../dialogs/mouse-settings/main.c:385
 #: ../dialogs/mouse-settings/main.c:445
 msgid "Default"
 msgstr "Parazgjedhje"
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:543
+#: ../dialogs/mime-settings/xfce-mime-window.c:714
 #, c-format
 msgid "%d MIME type found"
 msgid_plural "%d MIME types found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "U gjet %d lloj MIME"
+msgstr[1] "U gjetën %d lloje MIME"
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:642
+#: ../dialogs/mime-settings/xfce-mime-window.c:813
 #, c-format
 msgid "Failed to set application \"%s\" for mime type \"%s\"."
-msgstr "Dështoi në caktimin e aplikacionit \"%s\" për lloj mime \"%s\"."
+msgstr "S’u arrit të caktohej aplikacioni \"%s\" për lloj mime \"%s\"."
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:899
+#: ../dialogs/mime-settings/xfce-mime-window.c:1070
 #, c-format
 msgid "Are you sure you want to reset content type \"%s\" to its default value?"
-msgstr ""
+msgstr "Jeni i sigurt se doni të rikthehet te vlera e vet parazgjedhje lloji i lëndës \"%s\"?"
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:903
+#: ../dialogs/mime-settings/xfce-mime-window.c:1074
 msgid "Question"
 msgstr "Pyetje"
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:906
+#: ../dialogs/mime-settings/xfce-mime-window.c:1077
 msgid ""
 "This will remove your custom mime-association and restore the system-wide "
 "default."
-msgstr ""
+msgstr "Kjo do të heqë përshoqërimin tuaj vetjak për lloj MIME dhe do të rikthejë parazgjedhjen e sistemit."
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:910
-#: ../dialogs/mime-settings/xfce-mime-window.c:981
+#: ../dialogs/mime-settings/xfce-mime-window.c:1081
+#: ../dialogs/mime-settings/xfce-mime-window.c:1152
 msgid "Reset to Default"
 msgstr "Riktheje te Parazgjedhjet"
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:976
+#: ../dialogs/mime-settings/xfce-mime-window.c:1147
 msgid "Choose Application..."
 msgstr "Zgjidhni Aplikacion…"
+
+#: ../dialogs/mime-settings/xfce4-mime-settings.desktop.in.h:3
+msgid "file;type;extension;association;open with;"
+msgstr "kartelë;lloj;zgjatim;përshoqërim;hape me;"
+
+#: ../dialogs/mime-settings/xfce4-file-manager.desktop.in.h:2
+msgid "Browse the file system"
+msgstr "Shfleto sistemin e kartelave"
+
+#: ../dialogs/mime-settings/xfce4-mail-reader.desktop.in.h:2
+msgid "Read your email"
+msgstr "Lexoni email-et tuaj"
+
+#: ../dialogs/mime-settings/xfce4-terminal-emulator.desktop.in.h:2
+msgid "Use the command line"
+msgstr "Përdorni rreshtin e urdhrave"
+
+#: ../dialogs/mime-settings/xfce4-web-browser.desktop.in.h:2
+msgid "Browse the web"
+msgstr "Shfletoni në Web"
+
+#: ../dialogs/mime-settings/helpers/aterm.desktop.in.in.h:1
+msgid "aterm"
+msgstr "aterm"
+
+#: ../dialogs/mime-settings/helpers/balsa.desktop.in.in.h:1
+msgid "Balsa"
+msgstr "Balsa"
+
+#: ../dialogs/mime-settings/helpers/brave.desktop.in.in.h:1
+msgid "Brave"
+msgstr "Brave"
+
+#: ../dialogs/mime-settings/helpers/caja.desktop.in.in.h:1
+msgid "Caja File Manager"
+msgstr "Përgjegjësi i Kartelave Caja"
+
+#: ../dialogs/mime-settings/helpers/chromium.desktop.in.in.h:1
+msgid "Chromium"
+msgstr "Chromium"
+
+#: ../dialogs/mime-settings/helpers/debian-sensible-browser.desktop.in.in.h:1
+msgid "Debian Sensible Browser"
+msgstr "Shfletuesi Debian Sensible"
+
+#: ../dialogs/mime-settings/helpers/debian-x-terminal-emulator.desktop.in.in.h:1
+msgid "Debian X Terminal Emulator"
+msgstr "Emulues Debian Terminal X"
+
+#: ../dialogs/mime-settings/helpers/dillo.desktop.in.in.h:1
+msgid "Dillo"
+msgstr "Dillo"
+
+#: ../dialogs/mime-settings/helpers/encompass.desktop.in.in.h:1
+msgid "Encompass"
+msgstr "Encompass"
+
+#: ../dialogs/mime-settings/helpers/epiphany.desktop.in.in.h:1
+msgid "Epiphany Web Browser"
+msgstr "Shfletuesi Epiphany"
+
+#: ../dialogs/mime-settings/helpers/eterm.desktop.in.in.h:1
+msgid "Enlightened Terminal Emulator"
+msgstr "Emulues Terminali Enlightened"
+
+#: ../dialogs/mime-settings/helpers/evolution.desktop.in.in.h:1
+msgid "Evolution"
+msgstr "Evolution"
+
+#: ../dialogs/mime-settings/helpers/firefox.desktop.in.in.h:1
+msgid "Mozilla Firefox"
+msgstr "Mozilla Firefox"
+
+#: ../dialogs/mime-settings/helpers/galeon.desktop.in.in.h:1
+msgid "Galeon Web Browser"
+msgstr "Shfletuesi Galeon"
+
+#: ../dialogs/mime-settings/helpers/geary.desktop.in.in.h:1
+msgid "Geary"
+msgstr "Geary"
+
+#: ../dialogs/mime-settings/helpers/google-chrome.desktop.in.in.h:1
+msgid "Google Chrome"
+msgstr "Google Chrome"
+
+#: ../dialogs/mime-settings/helpers/gnome-terminal.desktop.in.in.h:1
+msgid "GNOME Terminal"
+msgstr "Terminal Gnome"
+
+#: ../dialogs/mime-settings/helpers/icecat.desktop.in.in.h:1
+msgid "Icecat"
+msgstr "Icecat"
+
+#: ../dialogs/mime-settings/helpers/icedove.desktop.in.in.h:1
+msgid "Icedove"
+msgstr "Icedove"
+
+#: ../dialogs/mime-settings/helpers/iceweasel.desktop.in.in.h:1
+msgid "Iceweasel"
+msgstr "Iceweasel"
+
+#: ../dialogs/mime-settings/helpers/jumanji.desktop.in.in.h:1
+msgid "Jumanji"
+msgstr "Jumanji"
+
+#: ../dialogs/mime-settings/helpers/kmail.desktop.in.in.h:1
+msgid "KMail"
+msgstr "KMail"
+
+#: ../dialogs/mime-settings/helpers/konqueror.desktop.in.in.h:1
+msgid "Konqueror Web Browser"
+msgstr "Shfletuesi Konqueror"
+
+#: ../dialogs/mime-settings/helpers/links.desktop.in.in.h:1
+msgid "Links Text Browser"
+msgstr "Shfletues Tekst Lidhjesh"
+
+#: ../dialogs/mime-settings/helpers/lynx.desktop.in.in.h:1
+msgid "Lynx Text Browser"
+msgstr "Shfletues Tekst Lynx"
+
+#: ../dialogs/mime-settings/helpers/midori.desktop.in.in.h:1
+msgid "Midori"
+msgstr "Midori"
+
+#: ../dialogs/mime-settings/helpers/mozilla-browser.desktop.in.in.h:1
+msgid "Mozilla Browser"
+msgstr "Shfletuesi Mozilla"
+
+#: ../dialogs/mime-settings/helpers/mozilla-mailer.desktop.in.in.h:1
+msgid "Mozilla Mail"
+msgstr "Posta Mozilla"
+
+#: ../dialogs/mime-settings/helpers/mutt.desktop.in.in.h:1
+msgid "Mutt"
+msgstr "Mutt"
+
+#: ../dialogs/mime-settings/helpers/nautilus.desktop.in.in.h:1
+msgid "Nautilus"
+msgstr "Nautilus"
+
+#: ../dialogs/mime-settings/helpers/netscape-navigator.desktop.in.in.h:1
+msgid "Netscape Navigator"
+msgstr "Netscape Navigator"
+
+#: ../dialogs/mime-settings/helpers/nxterm.desktop.in.in.h:1
+msgid "NXterm"
+msgstr "NXterm"
+
+#: ../dialogs/mime-settings/helpers/opera-browser.desktop.in.in.h:1
+msgid "Opera Browser"
+msgstr "Shfletuesi Opera"
+
+#: ../dialogs/mime-settings/helpers/pcmanfm.desktop.in.in.h:1
+msgid "PCMan File Manager"
+msgstr "Përgjegjës Kartelash PCMan"
+
+#: ../dialogs/mime-settings/helpers/pcmanfm-qt.desktop.in.in.h:1
+msgid "PCManFM-Qt File Manager"
+msgstr "Përgjegjësi PCManFM-Qt i Kartelave"
+
+#: ../dialogs/mime-settings/helpers/qterminal.desktop.in.in.h:1
+msgid "QTerminal"
+msgstr "QTerminal"
+
+#: ../dialogs/mime-settings/helpers/qtfm.desktop.in.in.h:1
+msgid "qtFM"
+msgstr "qtFM"
+
+#: ../dialogs/mime-settings/helpers/qupzilla.desktop.in.in.h:1
+msgid "QupZilla"
+msgstr "QupZilla"
+
+#: ../dialogs/mime-settings/helpers/rodent.desktop.in.in.h:1
+msgid "Rodent File Manager"
+msgstr "Përgjegjësi i Kartelave Rodent"
+
+#: ../dialogs/mime-settings/helpers/rox-filer.desktop.in.in.h:1
+msgid "ROX-Filer"
+msgstr "ROX-Filer"
+
+#: ../dialogs/mime-settings/helpers/sakura.desktop.in.in.h:1
+msgid "Sakura"
+msgstr "Sakura"
+
+#: ../dialogs/mime-settings/helpers/surf.desktop.in.in.h:1
+msgid "Surf"
+msgstr "Surf"
+
+#: ../dialogs/mime-settings/helpers/sylpheed.desktop.in.in.h:1
+msgid "Sylpheed"
+msgstr "Sylpheed"
+
+#: ../dialogs/mime-settings/helpers/sylpheed-claws.desktop.in.in.h:1
+msgid "Claws Mail"
+msgstr "Claws Mail"
+
+#: ../dialogs/mime-settings/helpers/terminator.desktop.in.in.h:1
+msgid "Terminator"
+msgstr "Terminator"
+
+#: ../dialogs/mime-settings/helpers/Thunar.desktop.in.in.h:1
+msgid "Thunar"
+msgstr "Thunar"
+
+#: ../dialogs/mime-settings/helpers/thunderbird.desktop.in.in.h:1
+msgid "Mozilla Thunderbird"
+msgstr "Mozilla Thunderbird"
+
+#: ../dialogs/mime-settings/helpers/urxvt.desktop.in.in.h:1
+msgid "RXVT Unicode"
+msgstr "RXVT Unikod"
+
+#: ../dialogs/mime-settings/helpers/vimprobable2.desktop.in.in.h:1
+msgid "Vimprobable2"
+msgstr "Vimprobable2"
+
+#: ../dialogs/mime-settings/helpers/w3m.desktop.in.in.h:1
+msgid "W3M Text Browser"
+msgstr "Shfletues Tekst W3M"
+
+#: ../dialogs/mime-settings/helpers/xfce4-terminal.desktop.in.in.h:1
+msgid "Xfce Terminal"
+msgstr "Terminal Xfce"
+
+#: ../dialogs/mime-settings/helpers/xfe.desktop.in.in.h:1
+msgid "Xfe File Manager"
+msgstr "Përgjegjës Kartelash Xfe"
+
+#: ../dialogs/mime-settings/helpers/xterm.desktop.in.in.h:1
+msgid "X Terminal"
+msgstr "Terminal X"
 
 #: ../dialogs/mouse-settings/main.c:83
 msgid "Active device in the dialog"
@@ -1599,31 +2135,31 @@ msgstr "Të çaktivizuar"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:2
 msgid "Edge scrolling"
-msgstr ""
+msgstr "Rrëshqitje prej skaji"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:3
 msgid "Two-finger scrolling"
-msgstr ""
+msgstr "Rrëshqitje me dy gishta"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:4
 msgid "Circular scrolling"
-msgstr ""
+msgstr "Rrëshqitje rrethore"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:5
 msgid "Pen (absolute)"
-msgstr ""
+msgstr "Penë (absolute)"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:6
 msgid "Mouse (relative)"
-msgstr ""
+msgstr "Mi (relative)"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:7
 msgid "None (right-handed)"
-msgstr ""
+msgstr "Asnjë (djathtarash)"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:8
 msgid "Half (left-handed)"
-msgstr ""
+msgstr "Gjysmë (mëngjarash)"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:9
 msgid "Clockwise"
@@ -1641,7 +2177,7 @@ msgstr "Mi dhe Touchpad"
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:12
 #: ../dialogs/mouse-settings/xfce-mouse-settings.desktop.in.h:2
 msgid "Configure pointer device behavior and appearance"
-msgstr ""
+msgstr "Formësoni sjellje dhe dukje pajisjeje kursori"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:15
 msgid "De_vice:"
@@ -1649,19 +2185,19 @@ msgstr "_Pajisje:"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:16
 msgid "Le_ft-handed"
-msgstr ""
+msgstr "_Mëngjarash"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:17
 msgid "Ri_ght-handed"
-msgstr ""
+msgstr "_Djathtarash"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:18
 msgid "Reverse scroll d_irection"
-msgstr ""
+msgstr "Përmbys _kah rrëshqitjeje"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:19
 msgid "When selected, the scroll wheel will work in the opposite direction"
-msgstr ""
+msgstr "Kur përzgjidhet, rrotëza e rrëshqitjes do të funksionojë në kah të kundërt"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:20
 msgid "Buttons"
@@ -1675,7 +2211,7 @@ msgstr "_Riktheji te Parazgjedhjet"
 msgid ""
 "Set the acceleration and sensitivity for the selected device to the default "
 "values"
-msgstr ""
+msgstr "Caktoni përshpejtimin dhe ndjeshmërinë për pajisjen e përzgjedhur sa vlerat parazgjedhje"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:23
 msgid "Sensitivit_y:"
@@ -1688,13 +2224,13 @@ msgstr "_Përshpejtim:"
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:25
 msgid ""
 "The factor at which the pointer's speed will increase as the mouse is moved"
-msgstr ""
+msgstr "Faktori me të cilin do të rritet shpejtësia e treguesit teksa lëvizet miu"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:26
 msgid ""
 "The number of pixels the pointer must move in a short time before it starts "
 "accelerating"
-msgstr ""
+msgstr "Numri i pikselave sa duhet të lëvizë treguesi brenda një kohe të shkurtër, përpara se të fillohet të përshpejtohet"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:27
 msgid "Pointer Speed"
@@ -1702,7 +2238,7 @@ msgstr "Shpejtësi Kursori"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:28
 msgid "B_uttons and Feedback"
-msgstr ""
+msgstr "B_utona dhe Përshtypje"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:29
 msgid "Disable touchpad _while typing"
@@ -1711,7 +2247,7 @@ msgstr "Çaktivizoje touchpad-in teksa shtypet"
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:30
 msgid ""
 "When selected, the touchpad will be disabled when the keyboard is being used"
-msgstr ""
+msgstr "Kur përzgjidhet, touchpad-i do të çaktivizohet, po qe se është duke u përdorur tastiera"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:31
 msgid "Duratio_n:"
@@ -1719,11 +2255,11 @@ msgstr "_Kohëzgjatje:"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:32
 msgid "Tap touchpad to clic_k"
-msgstr ""
+msgstr "Që të _klikohet, prekni touchpad-in"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:34
 msgid "Scrolling _mode:"
-msgstr ""
+msgstr "_Mënyrë rrëshqitjeje:"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:35
 msgid "Enable hori_zontal scrolling"
@@ -1739,7 +2275,7 @@ msgstr "T_ouchpad"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:38
 msgid "Trac_king mode:"
-msgstr ""
+msgstr "Mënyrë ndje_kjeje"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:39
 msgid "_Rotation:"
@@ -1755,13 +2291,13 @@ msgstr "_Pajisje"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:42
 msgid "Th_reshold:"
-msgstr "_Prag:"
+msgstr "Pr_ag:"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:43
 msgid ""
 "The number of pixels the pointer must move before a drag operation will "
 "start"
-msgstr ""
+msgstr "Numri i pikselave sa duhet të lëvizë treguesi përpara se të fillojë një veprim tërheqjeje"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:44
 msgid "Drag and Drop"
@@ -1775,7 +2311,7 @@ msgstr "_Kohë:"
 msgid ""
 "Two mouse clicks in less than this length of time (in milliseconds) will be "
 "considered a double click"
-msgstr ""
+msgstr "Dy klikime miu në më pak se kjo gjatësi kohore (në milisekonda) do të konsiderohet si dyklkim"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:47
 msgid "D_istance:"
@@ -1785,7 +2321,7 @@ msgstr "_Distancë:"
 msgid ""
 "The mouse pointer cannot move farther than this distance between two clicks "
 "for them to be considered a double click"
-msgstr ""
+msgstr "Treguesi i miut s’mund të lëvizë më tej se kjo largësi mes dy klikimesh që këto të konsiderohen një dyklikim"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:49
 msgid "Double Click"
@@ -1810,6 +2346,11 @@ msgstr "Paraparje"
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:54
 msgid "_Theme"
 msgstr "_Temë"
+
+#: ../dialogs/mouse-settings/xfce-mouse-settings.desktop.in.h:3
+msgid ""
+"settings;buttons;scroll;direction;pointer;speed;double click;theme;wheel;"
+msgstr "rregullime;butona;rrëshqitje;drejtim;kursor;shpejtësi;dyklikim;temë;rrotëz;"
 
 #: ../xfce4-settings-editor/main.c:163
 #: ../xfce4-settings-editor/xfce4-settings-editor.desktop.in.h:1
@@ -1884,16 +2425,16 @@ msgstr "Dyshe"
 
 #: ../xfce4-settings-editor/xfce-settings-editor-box.c:817
 msgid "_Reset Channel"
-msgstr ""
+msgstr "Ktheje Kanalin Te Para_zgjedhjet"
 
 #: ../xfce4-settings-editor/xfce-settings-editor-box.c:818
 msgid "Resetting a channel will permanently remove those custom settings."
-msgstr ""
+msgstr "Kthimi i një kanali te parazgjedhjet do të heqë përgjithmonë këto rregullime vetjake."
 
 #: ../xfce4-settings-editor/xfce-settings-editor-box.c:819
 #, c-format
 msgid "Are you sure you want to reset channel \"%s\" and all its properties?"
-msgstr ""
+msgstr "Jeni i sigurt se doni të kthehet te parazgjedhjet kanali \"%s\" dhe krejt vetitë e tij?"
 
 #: ../xfce4-settings-editor/xfce-settings-editor-box.c:894
 msgid "reset"
@@ -1906,11 +2447,11 @@ msgstr "Mbikëqyre %s"
 
 #: ../xfce4-settings-editor/xfce-settings-editor-box.c:959
 msgid "Watch an Xfconf channel for property changes"
-msgstr ""
+msgstr "Mbikëqyr një kanal Xfconf për ndryshime vetish"
 
 #: ../xfce4-settings-editor/xfce-settings-editor-box.c:961
 msgid "Clear"
-msgstr "Pastroje"
+msgstr "Spastroje"
 
 #: ../xfce4-settings-editor/xfce-settings-editor-box.c:962
 msgid "Close"
@@ -1928,7 +2469,7 @@ msgstr "_Riktheje në fillimet"
 
 #: ../xfce4-settings-editor/xfce-settings-editor-box.c:1044
 msgid "_Monitor"
-msgstr ""
+msgstr "_Monitor"
 
 #: ../xfce4-settings-editor/xfce-settings-editor-box.c:1054
 msgid "Refresh"
@@ -1936,7 +2477,7 @@ msgstr "Rifreskoje"
 
 #: ../xfce4-settings-editor/xfce-settings-editor-box.c:1378
 msgid "Resetting a property will permanently remove those custom settings."
-msgstr ""
+msgstr "Kthimi i një vetie te parazgjedhjet do të heqë përgjithmonë këto rregullime vetjake."
 
 #: ../xfce4-settings-editor/xfce-settings-editor-box.c:1379
 #, c-format
@@ -2020,6 +2561,10 @@ msgstr "Përpunoni Veti"
 msgid "Graphical settings editor for Xfconf"
 msgstr "Përpunim grafik vetish Xfconf-i"
 
+#: ../xfce4-settings-editor/xfce4-settings-editor.desktop.in.h:3
+msgid "registry;regedit;configuration file;"
+msgstr "regjistër;regedit;kartelë formësimi;"
+
 #: ../xfce4-settings-manager/main.c:44
 msgid "Settings dialog to show"
 msgstr "Dialog rregullimesh për shfaqje"
@@ -2028,16 +2573,16 @@ msgstr "Dialog rregullimesh për shfaqje"
 msgid "All _Settings"
 msgstr "Krejt _Rregullimet"
 
-#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:491
+#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:449
 msgid "Settings"
 msgstr "Rregullime"
 
-#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:493
+#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:451
 msgid "Customize your desktop"
 msgstr "Përshtatni desktopin tuaj"
 
-#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:1000
-#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:1011
+#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:958
+#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:969
 #, c-format
 msgid "Unable to start \"%s\""
 msgstr "S’arrihet të niset \"%s\""
@@ -2047,8 +2592,12 @@ msgid "Settings Manager"
 msgstr "Përgjegjës Rregullimesh"
 
 #: ../xfce4-settings-manager/xfce-settings-manager.desktop.in.h:2
-msgid "Graphical Settings Manager for Xfce 4"
-msgstr "Përgjegjës Grafik Rregullimesh për Xfce 4"
+msgid "Graphical Settings Manager for Xfce"
+msgstr "Përgjegjës Grafik Rregullimesh për Xfce"
+
+#: ../xfce4-settings-manager/xfce-settings-manager.desktop.in.h:3
+msgid "control;panel;center;system;settings;personalize;hardware;"
+msgstr "kontroll;panel;qendër;sistem;rregullime;personalizojeni;hardware;"
 
 #: ../xfsettingsd/accessibility.c:412
 msgid "Sticky keys are enabled"
@@ -2076,38 +2625,42 @@ msgstr "Taste të ngadaltë"
 
 #: ../xfsettingsd/accessibility.c:430
 msgid "Bounce keys are enabled"
-msgstr ""
+msgstr "Tastet kërcyes janë aktivizuar"
 
 #: ../xfsettingsd/accessibility.c:432
 msgid "Bounce keys are disabled"
-msgstr ""
+msgstr "Tastet kërcyes janë çaktivizuar"
 
 #: ../xfsettingsd/accessibility.c:434
 msgid "Bounce keys"
-msgstr ""
+msgstr "Taste kërcyes"
 
 #: ../xfsettingsd/keyboard-shortcuts.c:242
 #, c-format
 msgid "Failed to launch shortcut \"%s\""
-msgstr "Dështoi në nisjen e shkurtores \"%s\""
+msgstr "S’u arrit të nisej shkurtorja \"%s\""
 
-#: ../xfsettingsd/main.c:102
+#: ../xfsettingsd/main.c:103
 msgid "Do not fork to the background"
 msgstr ""
 
-#: ../xfsettingsd/main.c:103
+#: ../xfsettingsd/main.c:104
+msgid "Do not wait for a window manager on startup"
+msgstr "Mos prit për ndonjë përgjegjës dritaresh gjatë nisjes"
+
+#: ../xfsettingsd/main.c:105
 msgid "Replace running xsettings daemon (if any)"
-msgstr ""
+msgstr "Zëvendëso demonin xsettings që është në punë (në pastë)"
 
 #. value in xfconf isn't a string, so make a default one
-#: ../xfsettingsd/workspaces.c:338 ../xfsettingsd/workspaces.c:396
+#: ../xfsettingsd/workspaces.c:333 ../xfsettingsd/workspaces.c:390
 #, c-format
 msgid "Workspace %d"
 msgstr "Hapësirë pune %d"
 
 #: ../xfsettingsd/xfsettingsd.desktop.in.h:1
 msgid "Xfce Settings Daemon"
-msgstr ""
+msgstr "Demoni Xfce i Rregullimeve"
 
 #: ../xfsettingsd/xfsettingsd.desktop.in.h:2
 msgid "The Xfce Settings Daemon"

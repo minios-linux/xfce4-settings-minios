@@ -394,6 +394,7 @@ POFILES = @POFILES@
 POSUB = @POSUB@
 PO_IN_DATADIR_FALSE = @PO_IN_DATADIR_FALSE@
 PO_IN_DATADIR_TRUE = @PO_IN_DATADIR_TRUE@
+PYTHON = @PYTHON@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -982,19 +983,19 @@ uninstall-am: uninstall-binPROGRAMS uninstall-desktopDATA \
 
 
 @MAINTAINER_MODE_TRUE@confirmation-dialog_ui.h: confirmation-dialog.glade
-@MAINTAINER_MODE_TRUE@	exo-csource --static --strip-comments --strip-content --name=confirmation_dialog_ui $< >$@
+@MAINTAINER_MODE_TRUE@	xdt-csource --static --strip-comments --strip-content --name=confirmation_dialog_ui $< >$@
 
 @MAINTAINER_MODE_TRUE@display-dialog_ui.h: display-dialog.glade
-@MAINTAINER_MODE_TRUE@	exo-csource --static --strip-comments --strip-content --name=display_dialog_ui $< >$@
+@MAINTAINER_MODE_TRUE@	xdt-csource --static --strip-comments --strip-content --name=display_dialog_ui $< >$@
 
 @MAINTAINER_MODE_TRUE@minimal-display-dialog_ui.h: minimal-display-dialog.glade
-@MAINTAINER_MODE_TRUE@	exo-csource --static --strip-comments --strip-content --name=minimal_display_dialog_ui $< >$@
+@MAINTAINER_MODE_TRUE@	xdt-csource --static --strip-comments --strip-content --name=minimal_display_dialog_ui $< >$@
 
 @MAINTAINER_MODE_TRUE@profile-changed-dialog_ui.h: profile-changed-dialog.glade
-@MAINTAINER_MODE_TRUE@	exo-csource --static --strip-comments --strip-content --name=profile_changed_dialog_ui $< >$@
+@MAINTAINER_MODE_TRUE@	xdt-csource --static --strip-comments --strip-content --name=profile_changed_dialog_ui $< >$@
 
 @MAINTAINER_MODE_TRUE@identity-popup_ui.h: identity-popup.glade
-@MAINTAINER_MODE_TRUE@	exo-csource --static --strip-comments --strip-content --name=identity_popup_ui $< >$@
+@MAINTAINER_MODE_TRUE@	xdt-csource --static --strip-comments --strip-content --name=identity_popup_ui $< >$@
 
 @INTLTOOL_DESKTOP_RULE@
 
