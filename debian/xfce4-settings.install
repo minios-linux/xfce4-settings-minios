@@ -1,8 +1,8 @@
 etc/xdg/autostart
 etc/xdg/menus
 etc/xdg/xfce4/xfconf
+usr/bin
 usr/share/applications
 usr/share/icons
 usr/share/locale
-usr/bin
 usr/share/xfce4/settings
