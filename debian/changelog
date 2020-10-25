@@ -1,4 +1,4 @@
-xfce4-settings (4.15.2-1) UNRELEASED; urgency=medium
+xfce4-settings (4.15.2-1) experimental; urgency=medium
 
   [ Debian Janitor ]
   * Set upstream metadata fields: Repository.
@@ -17,7 +17,7 @@ xfce4-settings (4.15.2-1) UNRELEASED; urgency=medium
   * d/control: add dep on exo-utils to xfce4-settings for exo-open
   * run wrap-and-sort
 
- -- Yves-Alexis Perez <corsac@debian.org>  Sun, 25 Oct 2020 10:43:36 +0100
+ -- Yves-Alexis Perez <corsac@debian.org>  Sun, 25 Oct 2020 10:43:49 +0100
 
 xfce4-settings (4.14.2-1) unstable; urgency=medium
 
