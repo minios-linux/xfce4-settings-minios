@@ -1,4 +1,4 @@
-xfce4-settings (4.15.0-1) UNRELEASED; urgency=medium
+xfce4-settings (4.15.2-1) UNRELEASED; urgency=medium
 
   [ Debian Janitor ]
   * Set upstream metadata fields: Repository.
@@ -8,7 +8,16 @@ xfce4-settings (4.15.0-1) UNRELEASED; urgency=medium
   * d/control: Bump minimal depends version of libxfce4ui-2-dev to 4.15.1
   * d/control: update standards version to 4.5.0
 
- -- Debian Janitor <janitor@jelmer.uk>  Thu, 16 Jan 2020 22:19:49 +0000
+  [ Yves-Alexis Perez ]
+  * New upstream version 4.15.2
+  * d/control: update build-dep for new version
+  * introduce xfce4-helpers package
+  * d/copyright updated
+  * d/control: add python3 deps for xfce4-compose-mail
+  * d/control: add dep on exo-utils to xfce4-settings for exo-open
+  * run wrap-and-sort
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Sun, 25 Oct 2020 10:43:36 +0100
 
 xfce4-settings (4.14.2-1) unstable; urgency=medium
 
