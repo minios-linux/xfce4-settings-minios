@@ -50,8 +50,8 @@ Package: xfce4-helpers
 Architecture: any
 Multi-Arch: foreign
 Depends: python3, python3-urllib3, ${misc:Depends}, ${shlibs:Depends}
-Breaks: libexo-helpers
-Replaces: libexo-helpers
+Breaks: libexo-helpers, libexo-common (<< 4.15)
+Replaces: libexo-helpers, libexo-common (<< 4.15)
 Suggests: sensible-utils
 Description: helpers for the Xfce4 desktop environment
  This package contains the helper files in use by Xfce4 for its
