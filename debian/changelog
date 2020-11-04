@@ -1,8 +1,8 @@
-xfce4-settings (4.15.2-2) UNRELEASED; urgency=medium
+xfce4-settings (4.15.2-2) experimental; urgency=medium
 
   * d/control: add breaks+replaces on libexo-common (Closes: #973652)
 
- -- Yves-Alexis Perez <corsac@debian.org>  Tue, 03 Nov 2020 09:10:15 +0100
+ -- Yves-Alexis Perez <corsac@debian.org>  Tue, 03 Nov 2020 11:03:25 +0100
 
 xfce4-settings (4.15.2-1) experimental; urgency=medium
 
