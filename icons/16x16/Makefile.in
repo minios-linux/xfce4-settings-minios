@@ -408,6 +408,10 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 iconsdir = $(datadir)/icons/hicolor/16x16/apps
 icons_DATA = \
+	org.xfce.filemanager.png	\
+	org.xfce.mailreader.png	\
+	org.xfce.terminalemulator.png	\
+	org.xfce.webbrowser.png	\
 	org.xfce.settings.accessibility.png		\
 	org.xfce.settings.appearance.png		\
 	org.xfce.settings.color.png		\
@@ -433,9 +437,9 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__confi
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu icons/16x16/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign icons/16x16/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu icons/16x16/Makefile
+	  $(AUTOMAKE) --foreign icons/16x16/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \

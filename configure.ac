@@ -16,9 +16,9 @@ dnl *** Version information ***
 dnl ***************************
 m4_define([xfce4_settings_version_major], [4])
 m4_define([xfce4_settings_version_minor], [15])
-m4_define([xfce4_settings_version_micro], [2])
+m4_define([xfce4_settings_version_micro], [3])
 m4_define([xfce4_settings_version_nano], [])
-m4_define([xfce4_settings_version_build], [be618350])
+m4_define([xfce4_settings_version_build], [8fe306e5])
 m4_define([xfce4_settings_version_tag], []) # Leave empty for releases
 m4_define([xfce4_settings_version], [xfce4_settings_version_major().xfce4_settings_version_minor().xfce4_settings_version_micro()ifelse(xfce4_settings_version_nano(), [], [], [.xfce4_settings_version_nano()])ifelse(xfce4_settings_version_tag(), [git], [xfce4_settings_version_tag()-xfce4_settings_version_build()], [xfce4_settings_version_tag()])])
 
@@ -42,12 +42,12 @@ AC_COPYRIGHT([Copyright (c) 2008-2019
 AC_INIT([xfce4-settings], [xfce4_settings_version], [https://bugzilla.xfce.org/])
 AC_PREREQ([2.60])
 AC_CONFIG_MACRO_DIRS([m4])
-AC_REVISION([be618350])
+AC_REVISION([8fe306e5])
 
 dnl ***************************
 dnl *** Initialize automake ***
 dnl ***************************
-AM_INIT_AUTOMAKE([1.11 dist-bzip2 tar-ustar no-dist-gzip])
+AM_INIT_AUTOMAKE([1.11 dist-bzip2 tar-ustar no-dist-gzip foreign])
 AC_CONFIG_HEADERS([config.h])
 AM_MAINTAINER_MODE()
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
@@ -84,7 +84,7 @@ AC_CHECK_FUNCS([daemon setsid])
 dnl ******************************
 dnl *** Check for i18n support ***
 dnl ******************************
-XDT_I18N([am ar ast be be@tarask bg bn ca cs da de el en_AU en_CA en_GB es et eu fi fr gl he hr hu hy_AM hye id ie is it ja kk ko lt lv ms nb nl nn oc pa pl pt pt_BR ro ru si sk sl sq sr sv te th tr ug uk ur ur_PK zh_CN zh_HK zh_TW])
+XDT_I18N([en_GB ca zh_CN nb tr en_CA en_AU fr eu gl be zh_TW th sr fi pl ast it he et pt_BR de sl pa zh_HK nl hy_AM ja hu nn si ar ko es kk ur sk am te hr sq pt cs is be@tarask uk hye bn ur_PK id da ug lv el sv ru ie lt ms ro bg oc ])
 
 dnl ***********************************
 dnl *** Version string for the docs ***
@@ -156,7 +156,7 @@ dnl ***********************************
 dnl *** Optional support for UPower ***
 dnl ***********************************
 XDT_CHECK_OPTIONAL_PACKAGE([UPOWERGLIB], [upower-glib], [0.9.8],
-                           [upower-glib], [UPower support])
+                           [upower-glib], [UPower support], [no])
 
 dnl **************************************
 dnl *** Optional support for Libnotify ***
@@ -275,6 +275,8 @@ dialogs/mime-settings/helpers/Makefile
 dialogs/mouse-settings/Makefile
 icons/Makefile
 icons/16x16/Makefile
+icons/24x24/Makefile
+icons/32x32/Makefile
 icons/48x48/Makefile
 icons/128x128/Makefile
 icons/scalable/Makefile
