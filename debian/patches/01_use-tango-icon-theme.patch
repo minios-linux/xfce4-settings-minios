@@ -1,4 +1,5 @@
 Description: Sets the default theme for debian
+Forwarded: not-needed
 
 ---
  xfsettingsd/xsettings.xml |    4 ++--
