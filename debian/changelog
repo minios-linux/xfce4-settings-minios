@@ -1,3 +1,13 @@
+xfce4-settings (4.15.3-1) UNRELEASED; urgency=medium
+
+  * New upstream version 4.15.3
+  * d/rules: enable UPower support (now disabled by default)
+  * d/watch: update to version 4
+  * d/control: update standards version to 4.5.1
+  * d/patches: 01_use-tango-icon-theme is Debian specific
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Sun, 13 Dec 2020 11:55:45 +0100
+
 xfce4-settings (4.15.2-2) experimental; urgency=medium
 
   * d/control: add breaks+replaces on libexo-common (Closes: #973652)
