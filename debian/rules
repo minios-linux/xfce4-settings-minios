@@ -30,6 +30,7 @@ override_dh_auto_configure:
 		--enable-libxklavier \
 		--enable-pluggable-dialogs \
 		--enable-sound-settings \
+		--enable-upower-glib \
 		--enable-xcursor \
 		--with-helper-path-prefix=/usr/share
 
