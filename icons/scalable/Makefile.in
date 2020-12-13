@@ -408,6 +408,10 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 iconsdir = $(datadir)/icons/hicolor/scalable/apps
 icons_DATA = \
+	org.xfce.filemanager.svg	\
+	org.xfce.mailreader.svg	\
+	org.xfce.terminalemulator.svg	\
+	org.xfce.webbrowser.svg	\
 	org.xfce.settings.accessibility.svg		\
 	org.xfce.settings.appearance.svg		\
 	org.xfce.settings.color.svg		\
@@ -433,9 +437,9 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__confi
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu icons/scalable/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign icons/scalable/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu icons/scalable/Makefile
+	  $(AUTOMAKE) --foreign icons/scalable/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \

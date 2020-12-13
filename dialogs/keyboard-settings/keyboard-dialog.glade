@@ -6,7 +6,17 @@
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-revert-to-saved</property>
+    <property name="icon_name">document-revert-symbolic</property>
+  </object>
+  <object class="GtkImage" id="image10">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">document-edit-symbolic</property>
+  </object>
+  <object class="GtkImage" id="image11">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">list-remove-symbolic</property>
   </object>
   <object class="GtkImage" id="image2">
     <property name="visible">True</property>
@@ -17,6 +27,26 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="icon_name">help-browser</property>
+  </object>
+  <object class="GtkImage" id="image6">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">list-add-symbolic</property>
+  </object>
+  <object class="GtkImage" id="image7">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">list-remove-symbolic</property>
+  </object>
+  <object class="GtkImage" id="image8">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">document-edit-symbolic</property>
+  </object>
+  <object class="GtkImage" id="image9">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">list-add-symbolic</property>
   </object>
   <object class="XfceTitledDialog" id="keyboard-layout-selection-dialog">
     <property name="can_focus">False</property>
@@ -555,11 +585,11 @@
                 <property name="can_focus">False</property>
                 <property name="border_width">12</property>
                 <property name="orientation">vertical</property>
-                <property name="spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="label14">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="margin_bottom">6</property>
                     <property name="label" translatable="yes">Define shortcuts for la_unching applications:</property>
                     <property name="use_underline">True</property>
                     <property name="mnemonic_widget">kbd_shortcuts_view</property>
@@ -594,74 +624,95 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButtonBox" id="hbox2">
+                  <object class="GtkBox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="spacing">12</property>
-                    <property name="layout_style">start</property>
                     <child>
-                      <object class="GtkButton" id="add_shortcut_button">
-                        <property name="label">gtk-add</property>
+                      <object class="GtkBox">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkButton" id="add_shortcut_button">
+                            <property name="label">_Add</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="image">image6</property>
+                            <property name="use_underline">True</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="edit_shortcut_button">
+                            <property name="label">_Edit</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="image">image8</property>
+                            <property name="use_underline">True</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="delete_shortcut_button">
+                            <property name="label">_Remove</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="image">image7</property>
+                            <property name="use_underline">True</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
                         <property name="position">0</property>
-                        <property name="non_homogeneous">True</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkButton" id="edit_shortcut_button">
-                        <property name="label">gtk-edit</property>
+                      <object class="GtkBox">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkButton" id="reset_shortcuts_button">
+                            <property name="label" translatable="yes">Reset to _Defaults</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="image">image1</property>
+                            <property name="use_underline">True</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
                         <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">1</property>
-                        <property name="non_homogeneous">True</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkButton" id="delete_shortcut_button">
-                        <property name="label">gtk-remove</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="use_stock">True</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">2</property>
-                        <property name="non_homogeneous">True</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkButton" id="reset_shortcuts_button">
-                        <property name="label" translatable="yes">Reset to _Defaults</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="image">image1</property>
-                        <property name="use_underline">True</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
+                        <property name="fill">True</property>
                         <property name="pack_type">end</property>
-                        <property name="position">3</property>
-                        <property name="secondary">True</property>
-                        <property name="non_homogeneous">True</property>
+                        <property name="position">1</property>
                       </packing>
                     </child>
+                    <style>
+                      <class name="inline-toolbar"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -701,20 +752,40 @@
                         <property name="orientation">vertical</property>
                         <property name="spacing">18</property>
                         <child>
-                          <object class="GtkCheckButton" id="xkb_use_system_default_checkbutton">
-                            <property name="label" translatable="yes">_Use system defaults</property>
+                          <object class="GtkBox">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="tooltip_text" translatable="yes">Specifies whether the keyboard layout is controlled with this settings dialog, or by the X server</property>
-                            <property name="halign">start</property>
-                            <property name="use_underline">True</property>
-                            <property name="active">True</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="can_focus">False</property>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">&lt;b&gt;Use system defaults&lt;/b&gt;</property>
+                                <property name="use_markup">True</property>
+                                <property name="xalign">0</property>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSwitch" id="xkb_use_system_default_switch">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="halign">end</property>
+                                <property name="valign">center</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
-                            <property name="fill">False</property>
+                            <property name="fill">True</property>
                             <property name="position">0</property>
                           </packing>
                         </child>
@@ -860,13 +931,12 @@
                                   <object class="GtkBox" id="vbox8">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="orientation">vertical</property>
                                     <property name="spacing">6</property>
                                     <child>
                                       <object class="GtkBox" id="hbox3">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="spacing">6</property>
+                                        <property name="orientation">vertical</property>
                                         <child>
                                           <object class="GtkScrolledWindow" id="scrolledwindow1">
                                             <property name="visible">True</property>
@@ -890,55 +960,65 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkBox" id="vbuttonbox1">
+                                          <object class="GtkButtonBox" id="hbuttonbox2">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="orientation">vertical</property>
-                                            <property name="spacing">6</property>
+                                            <property name="layout_style">start</property>
                                             <child>
-                                              <object class="GtkButton" id="xkb_layout_up_button">
+                                              <object class="GtkButton" id="xkb_layout_add_button">
+                                                <property name="label">_Add</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
-                                                <property name="tooltip_text" translatable="yes">Move currently selected item up by one row</property>
-                                                <child>
-                                                  <object class="GtkImage" id="image4">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
-                                                    <property name="stock">gtk-go-up</property>
-                                                  </object>
-                                                </child>
+                                                <property name="image">image9</property>
+                                                <property name="use_underline">True</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
                                                 <property name="fill">False</property>
                                                 <property name="position">0</property>
+                                                <property name="non_homogeneous">True</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <object class="GtkButton" id="xkb_layout_down_button">
+                                              <object class="GtkButton" id="xkb_layout_edit_button">
+                                                <property name="label">_Edit</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
-                                                <property name="tooltip_text" translatable="yes">Move currently selected item down by one row</property>
-                                                <child>
-                                                  <object class="GtkImage" id="image3">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
-                                                    <property name="stock">gtk-go-down</property>
-                                                  </object>
-                                                </child>
+                                                <property name="image">image10</property>
+                                                <property name="use_underline">True</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
                                                 <property name="fill">False</property>
                                                 <property name="position">1</property>
+                                                <property name="non_homogeneous">True</property>
                                               </packing>
                                             </child>
+                                            <child>
+                                              <object class="GtkButton" id="xkb_layout_delete_button">
+                                                <property name="label">_Remove</property>
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">True</property>
+                                                <property name="image">image11</property>
+                                                <property name="use_underline">True</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">2</property>
+                                                <property name="non_homogeneous">True</property>
+                                              </packing>
+                                            </child>
+                                            <style>
+                                              <class name="inline-toolbar"/>
+                                            </style>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
-                                            <property name="fill">False</property>
+                                            <property name="fill">True</property>
                                             <property name="position">1</property>
                                           </packing>
                                         </child>
@@ -950,61 +1030,58 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkButtonBox" id="hbuttonbox2">
+                                      <object class="GtkBox" id="vbuttonbox1">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="spacing">12</property>
-                                        <property name="layout_style">start</property>
+                                        <property name="orientation">vertical</property>
                                         <child>
-                                          <object class="GtkButton" id="xkb_layout_add_button">
-                                            <property name="label">gtk-add</property>
+                                          <object class="GtkButton" id="xkb_layout_up_button">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
-                                            <property name="use_stock">True</property>
+                                            <property name="tooltip_text" translatable="yes">Move currently selected item up by one row</property>
+                                            <child>
+                                              <object class="GtkImage" id="image4">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="icon_name">go-up-symbolic</property>
+                                              </object>
+                                            </child>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
                                             <property name="position">0</property>
-                                            <property name="non_homogeneous">True</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkButton" id="xkb_layout_edit_button">
-                                            <property name="label">gtk-edit</property>
+                                          <object class="GtkButton" id="xkb_layout_down_button">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
-                                            <property name="use_stock">True</property>
+                                            <property name="tooltip_text" translatable="yes">Move currently selected item down by one row</property>
+                                            <child>
+                                              <object class="GtkImage" id="image3">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="icon_name">go-down-symbolic</property>
+                                              </object>
+                                            </child>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
                                             <property name="position">1</property>
-                                            <property name="non_homogeneous">True</property>
                                           </packing>
                                         </child>
-                                        <child>
-                                          <object class="GtkButton" id="xkb_layout_delete_button">
-                                            <property name="label">gtk-remove</property>
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="use_stock">True</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">2</property>
-                                            <property name="non_homogeneous">True</property>
-                                          </packing>
-                                        </child>
+                                        <style>
+                                          <class name="linked"/>
+                                        </style>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">1</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">2</property>
                                       </packing>
                                     </child>
                                   </object>

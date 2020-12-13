@@ -546,9 +546,9 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__confi
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu dialogs/keyboard-settings/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign dialogs/keyboard-settings/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu dialogs/keyboard-settings/Makefile
+	  $(AUTOMAKE) --foreign dialogs/keyboard-settings/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \

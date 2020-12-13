@@ -527,9 +527,9 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__confi
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu dialogs/mouse-settings/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign dialogs/mouse-settings/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu dialogs/mouse-settings/Makefile
+	  $(AUTOMAKE) --foreign dialogs/mouse-settings/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \
