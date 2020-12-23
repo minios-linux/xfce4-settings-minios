@@ -133,55 +133,60 @@ static gboolean xfce_settings_editor_box_key_press_event      (GtkTreeView      
 static void     xfce_settings_editor_box_property_new         (XfceSettingsEditorBox  *self);
 static void     xfce_settings_editor_box_property_edit        (XfceSettingsEditorBox  *self);
 static void     xfce_settings_editor_box_property_reset       (XfceSettingsEditorBox  *self);
-
+static gboolean transform_g_value_to_string_type              (GValue                 *subject);
+static gboolean set_tooltip_from_treemodel_iterator           (GtkTreeModel           *model,
+                                                               GtkTreeIter             iter,
+                                                               gint                    treeview_column_idx,
+                                                               GtkTooltip             *tooltip);
 
 
 G_DEFINE_TYPE (XfceSettingsEditorBox, xfce_settings_editor_box, GTK_TYPE_BOX)
 
-static void xfce_settings_editor_box_get_property (GObject *object,
-												   guint prop_id,
-												   GValue *value,
-												   GParamSpec *pspec)
+static void xfce_settings_editor_box_get_property (GObject    *object,
+                                                   guint       prop_id,
+                                                   GValue     *value,
+                                                   GParamSpec *pspec)
 {
     XfceSettingsEditorBox *self;
     self = XFCE_SETTINGS_EDITOR_BOX (object);
 
     switch (prop_id)
     {
-	case PROP_PANED_POSITION:
-	    g_value_set_int (value, gtk_paned_get_position(GTK_PANED(self->paned)));
-	    break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
-		break;
+        case PROP_PANED_POSITION:
+            g_value_set_int (value, gtk_paned_get_position(GTK_PANED(self->paned)));
+            break;
+        default:
+            G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+            break;
     }
 }
 
 
-static void xfce_settings_editor_box_set_property (GObject *object,
-												   guint prop_id,
-												   const GValue *value,
-												   GParamSpec *pspec)
+static void xfce_settings_editor_box_set_property (GObject      *object,
+                                                   guint         prop_id,
+                                                   const GValue *value,
+                                                   GParamSpec   *pspec)
 {
     XfceSettingsEditorBox *self;
     self = XFCE_SETTINGS_EDITOR_BOX (object);
 
     switch (prop_id)
     {
-	case PROP_PANED_POSITION:
-		self->paned_pos = g_value_get_int (value);
-		gtk_paned_set_position(GTK_PANED(self->paned), self->paned_pos);
-	    break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
-		break;
+        case PROP_PANED_POSITION:
+            self->paned_pos = g_value_get_int (value);
+            gtk_paned_set_position(GTK_PANED(self->paned), self->paned_pos);
+            break;
+        default:
+            G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+            break;
     }
 }
+
 
 static void
 xfce_settings_editor_box_init (XfceSettingsEditorBox *self)
 {
-	GtkWidget         *paned;
+    GtkWidget         *paned;
     GtkWidget         *scroll;
     GtkWidget         *treeview;
     GtkCellRenderer   *render;
@@ -193,7 +198,7 @@ xfce_settings_editor_box_init (XfceSettingsEditorBox *self)
     GtkWidget         *image;
     GtkCssProvider    *provider;
 
-	self->channels_store = gtk_list_store_new (N_CHANNEL_COLUMNS,
+    self->channels_store = gtk_list_store_new (N_CHANNEL_COLUMNS,
                                                  G_TYPE_STRING);
     xfce_settings_editor_box_load_channels (self);
     gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self->channels_store),
@@ -232,7 +237,6 @@ xfce_settings_editor_box_init (XfceSettingsEditorBox *self)
     treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL (self->channels_store));
     gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (treeview), TRUE);
     gtk_tree_view_set_headers_clickable (GTK_TREE_VIEW (treeview), FALSE);
-    gtk_tree_view_set_fixed_height_mode (GTK_TREE_VIEW (treeview), TRUE);
     gtk_tree_view_set_enable_search (GTK_TREE_VIEW (treeview), FALSE);
     gtk_container_add (GTK_CONTAINER (scroll), treeview);
     self->channels_treeview = treeview;
@@ -365,21 +369,21 @@ xfce_settings_editor_box_class_init (XfceSettingsEditorBoxClass *klass)
 {
     GObjectClass   *gobject_class;
 
-	gobject_class = G_OBJECT_CLASS (klass);
+    gobject_class = G_OBJECT_CLASS (klass);
 
     gobject_class->set_property = xfce_settings_editor_box_set_property;
     gobject_class->get_property = xfce_settings_editor_box_get_property;
 
 
-	g_object_class_install_property (gobject_class,
-									 PROP_PANED_POSITION,
-									 g_param_spec_int ("paned-pos",
-													   NULL, NULL,
-													   0,
-													   G_MAXINT,
-													   10,
-													   G_PARAM_CONSTRUCT |
-													   G_PARAM_READWRITE));
+    g_object_class_install_property (gobject_class,
+                                     PROP_PANED_POSITION,
+                                     g_param_spec_int ("paned-pos",
+                                                       NULL, NULL,
+                                                       0,
+                                                       G_MAXINT,
+                                                       10,
+                                                       G_PARAM_CONSTRUCT |
+                                                       G_PARAM_READWRITE));
 
     gobject_class->finalize = xfce_settings_editor_box_finalize;
 }
@@ -423,10 +427,10 @@ xfce_settings_editor_box_load_channels (XfceSettingsEditorBox *self)
 
     /* try to restore the selected name (for reload) */
     if (self->props_channel != NULL)
-      {
+    {
         g_object_get (G_OBJECT (self->props_channel),
                       "channel-name", &channel_name, NULL);
-      }
+    }
 
     gtk_list_store_clear (self->channels_store);
 
@@ -491,9 +495,9 @@ xfce_settings_editor_box_type_name (const GValue *value)
 
 static void
 xfce_settings_editor_box_property_load (const gchar               *property,
-										const GValue              *value,
-										XfceSettingsEditorBox     *self,
-										GtkTreePath              **expand_path)
+                                        const GValue              *value,
+                                        XfceSettingsEditorBox     *self,
+                                        GtkTreePath              **expand_path)
 {
     gchar       **paths;
     guint         i;
@@ -594,9 +598,9 @@ DeleteContext;
 
 static gboolean
 xfce_settings_editor_box_property_find (GtkTreeModel *model,
-										GtkTreePath  *path,
-										GtkTreeIter  *iter,
-										gpointer      data)
+                                        GtkTreePath  *path,
+                                        GtkTreeIter  *iter,
+                                        gpointer      data)
 {
     GValue         prop = { 0, };
     DeleteContext *context = data;
@@ -619,9 +623,9 @@ xfce_settings_editor_box_property_find (GtkTreeModel *model,
 
 static void
 xfce_settings_editor_box_property_changed (XfconfChannel            *channel,
-										   const gchar              *property,
-										   const GValue             *value,
-										   XfceSettingsEditorBox    *self)
+                                           const gchar              *property,
+                                           const GValue             *value,
+                                           XfceSettingsEditorBox    *self)
 {
     GtkTreePath      *path = NULL;
     DeleteContext    *context;
@@ -718,8 +722,8 @@ xfce_settings_editor_box_property_changed (XfconfChannel            *channel,
 
 static void
 xfce_settings_editor_box_property_load_hash (gpointer key,
-											 gpointer value,
-											 gpointer data)
+                                             gpointer value,
+                                             gpointer data)
 {
     xfce_settings_editor_box_property_load (key, value, data, NULL);
 }
@@ -728,7 +732,7 @@ xfce_settings_editor_box_property_load_hash (gpointer key,
 
 static void
 xfce_settings_editor_box_properties_load (XfceSettingsEditorBox *self,
-										  XfconfChannel            *channel)
+                                          XfconfChannel         *channel)
 {
     GHashTable *props;
 
@@ -764,7 +768,7 @@ xfce_settings_editor_box_properties_load (XfceSettingsEditorBox *self,
 
 static void
 xfce_settings_editor_box_channel_changed (GtkTreeSelection         *selection,
-										  XfceSettingsEditorBox *self)
+                                          XfceSettingsEditorBox *self)
 {
     GtkTreeIter    iter;
     GValue         value = { 0, };
@@ -854,9 +858,9 @@ xfce_settings_editor_box_channel_reset (XfceSettingsEditorBox *self)
 
 static void
 xfce_settings_editor_box_channel_monitor_changed (XfconfChannel *channel,
-												  const gchar   *property,
-												  const GValue  *value,
-												  GtkWidget     *window)
+                                                  const gchar   *property,
+                                                  const GValue  *value,
+                                                  GtkWidget     *window)
 {
     GtkTextBuffer *buffer;
     gint64         timeval;
@@ -904,8 +908,8 @@ xfce_settings_editor_box_channel_monitor_changed (XfconfChannel *channel,
 
 static void
 xfce_settings_editor_box_channel_monitor_response (GtkWidget     *window,
-												   gint           response_id,
-												   XfconfChannel *channel)
+                                                   gint           response_id,
+                                                   XfconfChannel *channel)
 {
     GtkTextBuffer *buffer;
 
@@ -955,8 +959,6 @@ xfce_settings_editor_box_channel_monitor (XfceSettingsEditorBox *self)
     gtk_window_set_icon_name (GTK_WINDOW (window), "utilities-system-monitor");
     gtk_window_set_default_size (GTK_WINDOW (window), 600, 400);
     gtk_window_set_type_hint (GTK_WINDOW (window), GDK_WINDOW_TYPE_HINT_NORMAL);
-    xfce_titled_dialog_set_subtitle (XFCE_TITLED_DIALOG (window),
-        _("Watch an Xfconf channel for property changes"));
     gtk_dialog_add_buttons (GTK_DIALOG (window),
                             _("Clear"), GTK_RESPONSE_REJECT,
                             _("Close"), GTK_RESPONSE_CLOSE, NULL);
@@ -1072,8 +1074,8 @@ xfce_settings_editor_box_channel_menu (XfceSettingsEditorBox *self)
 
 static gboolean
 xfce_settings_editor_box_channel_button_press (GtkWidget                *treeview,
-											   GdkEventButton           *event,
-											   XfceSettingsEditorBox    *self)
+                                               GdkEventButton           *event,
+                                               XfceSettingsEditorBox    *self)
 {
     guint        modifiers;
     GtkTreePath *path;
@@ -1101,8 +1103,8 @@ xfce_settings_editor_box_channel_button_press (GtkWidget                *treevie
 
 static gchar *
 xfce_settings_editor_box_selected (XfceSettingsEditorBox    *self,
-								   gboolean                 *is_real_prop,
-								   gboolean                 *is_array)
+                                   gboolean                 *is_real_prop,
+                                   gboolean                 *is_array)
 {
     GtkTreeSelection *selection;
     GtkTreeIter       iter;
@@ -1157,9 +1159,9 @@ xfce_settings_editor_box_selected (XfceSettingsEditorBox    *self,
 
 static void
 xfce_settings_editor_box_value_changed (GtkCellRenderer          *renderer,
-										const gchar              *str_path,
-										const GValue             *new_value,
-										XfceSettingsEditorBox    *self)
+                                        const gchar              *str_path,
+                                        const GValue             *new_value,
+                                        XfceSettingsEditorBox    *self)
 {
     GtkTreeModel     *model = GTK_TREE_MODEL (self->props_store);
     GtkTreePath      *path;
@@ -1191,7 +1193,7 @@ xfce_settings_editor_box_value_changed (GtkCellRenderer          *renderer,
 
 static void
 xfce_settings_editor_box_selection_changed (GtkTreeSelection         *selection,
-											XfceSettingsEditorBox    *self)
+                                            XfceSettingsEditorBox    *self)
 {
     gchar    *property;
     gboolean  can_edit = FALSE;
@@ -1223,23 +1225,115 @@ xfce_settings_editor_box_selection_changed (GtkTreeSelection         *selection,
 
 
 
+/**
+ * transform_g_value_to_string:
+ *      Try to transform any GValue type used in the treeview
+ *       to a GValue of type G_TYPE_STRING.
+ * Param:
+ *      subject: Replace the content safely
+ *               or leave it unaltered
+ * Return:
+ *      TRUE, if transformation was successful
+ *      FALSE, if transformation was unsuccessful
+ **/
+static gboolean
+transform_g_value_to_string_type (GValue * subject)
+{
+    if (NULL == subject)
+        return FALSE;
+
+    /* The GValue might contain a GValue */
+    if (G_VALUE_TYPE (subject) == G_TYPE_VALUE)
+    {
+        GValue* g_value_value = g_value_get_boxed (subject);
+        if (g_value_value)
+        {
+            /* transform to string */
+            GValue  string_value = { 0, };
+            g_value_init (&string_value, G_TYPE_STRING);
+            g_value_transform (g_value_value, &string_value);
+            g_value_unset (g_value_value);
+
+            /* replace subject */
+            g_value_unset (subject);
+            *subject = string_value;
+
+            /* @g_value_unset(string_value)
+            Resources of string_value will be returned (through param)
+            so there's no g_value_unset() */
+        }
+    }
+
+    if (G_VALUE_TYPE (subject) == G_TYPE_STRING)
+    {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+
+
+/**
+ * Params:
+ *      All params are expected to be valid and not NULL.
+ * Return:
+ *      TRUE, if a tooltip was actually set
+ *      FALSE, if no tooltip was set
+ **/
+static gboolean
+set_tooltip_from_treemodel_iterator (GtkTreeModel *model,
+                                     GtkTreeIter   iter,
+                                     gint          treeview_column_idx,
+                                     GtkTooltip   *tooltip)
+{
+    gboolean     tooltip_set   = FALSE;
+    GValue       value         = { 0, };
+    gint         treemodel_idx = 0;
+    const gchar *tooltip_text  = "";
+
+    /* map view-index (0-3) to model-index (PROP_COLUMN_*) */
+    if (0 == treeview_column_idx)
+        treemodel_idx = PROP_COLUMN_FULL;
+    else if (3 == treeview_column_idx)
+        treemodel_idx = PROP_COLUMN_VALUE;
+    else
+        treemodel_idx = PROP_COLUMN_TYPE;
+
+    gtk_tree_model_get_value (model, &iter, treemodel_idx, &value);
+    if (transform_g_value_to_string_type (&value) == TRUE)
+    {
+        tooltip_text = g_value_get_string (&value);
+
+        if (tooltip_text &&
+            g_str_equal (tooltip_text,"") == FALSE)
+        {
+            gtk_tooltip_set_text (tooltip, tooltip_text);
+            tooltip_set = TRUE;
+        }
+    }
+
+    g_value_unset (&value);
+
+    return tooltip_set;
+}
+
+
+
 static gboolean
 xfce_settings_editor_box_query_tooltip (GtkWidget                *treeview,
-										gint                      x,
-										gint                      y,
-										gboolean                  keyboard_mode,
-										GtkTooltip               *tooltip,
-										XfceSettingsEditorBox    *self)
+                                        gint                      x,
+                                        gint                      y,
+                                        gboolean                  keyboard_mode,
+                                        GtkTooltip               *tooltip,
+                                        XfceSettingsEditorBox    *self)
 {
     GtkTreeIter        iter;
     GtkTreePath       *path;
-    GValue             value = { 0, };
     GtkTreeModel      *model;
     gboolean           show = FALSE;
-    const gchar       *text;
     GtkTreeViewColumn *column;
     GList             *columns;
-    gint               idx;
+    gint               treeview_column_idx;
 
     gtk_tree_view_convert_widget_to_bin_window_coords (GTK_TREE_VIEW (treeview), x, y, &x, &y);
 
@@ -1247,22 +1341,13 @@ xfce_settings_editor_box_query_tooltip (GtkWidget                *treeview,
                                        &column, NULL, NULL))
     {
         columns = gtk_tree_view_get_columns (GTK_TREE_VIEW (treeview));
-        idx = g_list_index (columns, column);
+        treeview_column_idx = g_list_index (columns, column);
         g_list_free (columns);
 
         model = GTK_TREE_MODEL (self->props_store);
-        if (idx < 2 && gtk_tree_model_get_iter (model, &iter, path))
+        if (gtk_tree_model_get_iter (model, &iter, path))
         {
-            gtk_tree_model_get_value (model, &iter,
-                idx == 0 ? PROP_COLUMN_FULL : PROP_COLUMN_TYPE, &value);
-
-            text = g_value_get_string (&value);
-            if (text != NULL)
-            {
-                gtk_tooltip_set_text (tooltip, text);
-                show = TRUE;
-            }
-            g_value_unset (&value);
+            show = set_tooltip_from_treemodel_iterator (model, iter, treeview_column_idx, tooltip);
         }
 
         gtk_tree_path_free (path);
@@ -1275,9 +1360,9 @@ xfce_settings_editor_box_query_tooltip (GtkWidget                *treeview,
 
 static void
 xfce_settings_editor_box_row_activated (GtkTreeView              *treeview,
-										GtkTreePath              *path,
-										GtkTreeViewColumn        *column,
-										XfceSettingsEditorBox    *self)
+                                        GtkTreePath              *path,
+                                        GtkTreeViewColumn        *column,
+                                        XfceSettingsEditorBox    *self)
 {
     GtkTreeModel *model = GTK_TREE_MODEL (self->props_store);
     GtkTreeIter   iter;
@@ -1302,8 +1387,8 @@ xfce_settings_editor_box_row_activated (GtkTreeView              *treeview,
 
 static gboolean
 xfce_settings_editor_box_key_press_event (GtkTreeView              *treeview,
-										  GdkEventKey              *event,
-										  XfceSettingsEditorBox    *self)
+                                          GdkEventKey              *event,
+                                          XfceSettingsEditorBox    *self)
 {
     if (event->keyval == GDK_KEY_Delete
         && gtk_widget_get_sensitive (self->button_reset))
@@ -1390,6 +1475,6 @@ GtkWidget *
 xfce_settings_editor_box_new (gint paned_pos)
 {
     return g_object_new (XFCE_TYPE_SETTINGS_EDITOR_BOX,
-						 "paned-pos", paned_pos,
-						 NULL);
+                         "paned-pos", paned_pos,
+                         NULL);
 }

@@ -1,3 +1,396 @@
+commit 414f5dcd194a617fcefb205fb901b1bb9d9988a1
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Mon Dec 21 22:18:47 2020 +0100
+
+    display: Fix icon name in settings dialog
+
+commit a1e225612639b186dfd354fd6b2588a04ca1e140
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Wed Dec 16 12:12:17 2020 +0100
+
+    Drop subtitles from settings dialogs (Fixes #239)
+    
+    The subtitles don't add much to the value to the dialog, take up extra
+    space in the window decoration (while at the same time being squeezed
+    in) and oftentimes actually contained pretty much the same string as the
+    window title.
+
+commit dc82390f27ae08eebfffbc4b5e54740da26b0d25
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Thu Dec 17 11:07:29 2020 +0100
+
+    settings-manager: Fix visibility of filterbar
+
+commit 7227b42f06acc0d6de95da7e8430ac560c275343
+Author: Anonymous <noreply@xfce.org>
+Date:   Thu Dec 17 00:46:38 2020 +0100
+
+    I18n: Update translation eu (100%).
+    
+    576 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit c64eac2f92a10328f36e3cdfaa17c450cab4f224
+Author: Alexander Schwinn <alexxcons@xfce.org>
+Date:   Wed Dec 9 09:48:23 2020 +0100
+
+    bump glib (and gio, gthread, etc) minimum to 2.50.0
+    
+    In order to unify dependencies for core components.
+    (See 4.16 roadmap)
+
+commit 2eab077239cf49604c54b5c9361ce694776e80ce
+Author: Anonymous <noreply@xfce.org>
+Date:   Wed Dec 9 00:46:23 2020 +0100
+
+    I18n: Update translation pt_BR (100%).
+    
+    576 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit f2ba9c5f07db629e98d572c4ea8bb3ce851a3960
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Fri Dec 4 00:12:30 2020 +0100
+
+    settings-manager: Correctly show/hide the filterbar
+
+commit 5b2259a10f964d4d9ccd97177016671e24a669ad
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Thu Dec 3 23:48:15 2020 +0100
+
+    settings-manager: Switch to GtkSearchEntry
+    
+    This Gtk3 widget actually does all the things we did by hand in Gtk2.
+    Also make sure the filter entry gets the focus when it's shown.
+
+commit 1f7f40dbac89defb35dccefb3bc06db2a8a30eb2
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Thu Dec 3 23:32:32 2020 +0100
+
+    settings-manager: Put filter in separate bar (Fixes #226)
+    
+    As the visibility of the filter bar is remembered this should not result
+    in a usability problem, because people who use this filter frequently
+    can keep it visible.
+
+commit 1ad76a473549ef667be16c5a25c03081f9934142
+Author: Kevin Brubeck Unhammer <unhammer+dill@mm.st>
+Date:   Sat Dec 5 00:46:34 2020 +0100
+
+    I18n: Update translation nn (80%).
+    
+    463 translated messages, 113 untranslated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 283df2de17f59b7beef334284f819ab558445de3
+Author: Olaf Hering <olaf@aepfle.de>
+Date:   Wed Dec 2 21:09:16 2020 +0100
+
+    Remove GSourceFunc casts
+    
+    Convert the callback into a real GSourceFunc.
+    
+    Install one-shot callbacks only if allocation succeeded.
+    
+    Signed-off-by: Olaf Hering <olaf@aepfle.de>
+
+commit 76d4a835d0123d1a96cbe502c400832eb40c4d70
+Author: Pavlo Marianov <acid@jack.kiev.ua>
+Date:   Thu Dec 3 00:46:18 2020 +0100
+
+    I18n: Update translation uk (87%).
+    
+    502 translated messages, 74 untranslated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit a07aeb66d462a1524735b75f6d219a20735f1ac5
+Author: Theo Linkspfeifer <lastonestanding@tutanota.com>
+Date:   Sun Nov 29 22:31:00 2020 +0100
+
+    mime: Accept Thunar's old id name (Fixes #247)
+
+commit dabcfc430c9e802b5901acf9aa0f0d171bd314cb
+Author: Luna Jernberg <bittin@cafe8bitar.se>
+Date:   Wed Dec 2 00:45:58 2020 +0100
+
+    I18n: Update translation sv (98%).
+    
+    570 translated messages, 6 untranslated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 4c16c6331d81b89c295f1bcce4a03665e292dc67
+Author: Anonymous <noreply@xfce.org>
+Date:   Tue Dec 1 00:45:49 2020 +0100
+
+    I18n: Update translation sl (100%).
+    
+    576 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 67a66c6135528cd9d3e5d154cebdae66d4e61860
+Author: UTUMI Hirosi <utuhiro78@yahoo.co.jp>
+Date:   Mon Nov 30 12:47:17 2020 +0100
+
+    I18n: Update translation ja (100%).
+    
+    576 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 6df3fd6ac748854e832371bfe9a84c658a1394b6
+Author: Hugo Carvalho <hugokarvalho@hotmail.com>
+Date:   Mon Nov 30 00:45:55 2020 +0100
+
+    I18n: Update translation pt (100%).
+    
+    576 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 51afd59eb142b6cff70a58c30d7483b93a9c8be1
+Author: Kjell Cato Heskjestad <cato@heskjestad.xyz>
+Date:   Sun Nov 29 00:46:18 2020 +0100
+
+    I18n: Update translation nb (100%).
+    
+    576 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 3e77c98a7723048c5f0eb48c695ae7cb3e45689f
+Author: Elishai Eliyahu <elishai@mailfence.com>
+Date:   Sun Nov 29 00:46:18 2020 +0100
+
+    I18n: Update translation he (100%).
+    
+    576 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit a1247c4c13c9e4e27b7309a280ffc051ccf795c0
+Author: Yannick Le Guen <leguen.yannick@gmail.com>
+Date:   Sun Nov 29 00:46:18 2020 +0100
+
+    I18n: Update translation fr (100%).
+    
+    576 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 8cd73fe28af242cdfdb42c26a4dc701a273aa29c
+Author: ivmazurenko <ivmazurenko@yandex.ru>
+Date:   Sat Nov 28 12:47:36 2020 +0100
+
+    I18n: Update translation ru (100%).
+    
+    576 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 129b8576ec24c8b36850fee0edf54737b8d96c43
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Sat Nov 28 00:24:41 2020 +0100
+
+    settings-editor: Fix scrollbar for channels
+    
+    Previously there was no scrollbar for the items in the channel treeview
+    when exceeding the pane size (issue #217).
+
+commit f52acd7977a6520297b9c2009ca271ebe6bacbf4
+Author: Саша Петровић <salepetronije@gmail.com>
+Date:   Fri Nov 27 00:46:19 2020 +0100
+
+    I18n: Update translation sr (100%).
+    
+    576 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit d4a2df7d3eca6a16e1f5fcf2877ff50a879476fe
+Author: Andreas Eitel <github-aneitel@online.de>
+Date:   Fri Nov 27 00:46:19 2020 +0100
+
+    I18n: Update translation de (100%).
+    
+    576 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit da2fbb590a79c8774fdc353d209e1e480b0e0bed
+Author: Kiril Kirilov <cybercop_montana@abv.bg>
+Date:   Thu Nov 26 12:47:03 2020 +0100
+
+    I18n: Update translation bg (100%).
+    
+    576 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 8606deb614cf8652b7a88f3463b473a10712b24b
+Author: Emin Tufan Çetin <etcetin@gmail.com>
+Date:   Thu Nov 26 00:46:06 2020 +0100
+
+    I18n: Update translation tr (100%).
+    
+    576 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 8af1e8f7cb4fc084877f403bcd5489e12747237e
+Author: Emanuele Petriglia <transifex@emanuelepetriglia.com>
+Date:   Thu Nov 26 00:46:06 2020 +0100
+
+    I18n: Update translation it (100%).
+    
+    576 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 516586e668af4e4e0db85ae88307bca6dd9d29d1
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Wed Nov 25 00:57:35 2020 +0100
+
+    settings-editor: Point to correct docs URL (#245)
+
+commit bc43331dbba0a1291cd7bd21a5a14f3d5ebe7b2e
+Author: Simon Steinbeiß <ochosi@xfce.org>
+Date:   Wed Nov 25 00:22:19 2020 +0100
+
+    appearance: Add 'Add' button to install themes (Fixes #193)
+    
+    Previously it was already possible to easily install themes by DnD, but
+    having a dedicated button is more discoverable.
+
+commit 16d53cea75b7bc1eb3277e271b2e9bc11ec421a0
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Tue Nov 24 23:47:52 2020 +0100
+
+    Indentation fixes
+
+commit 2df0381caf8741db17d7322ec4e554045068098a
+Author: DarkTrick <notebook22312@gmail.com>
+Date:   Tue Nov 24 23:37:40 2020 +0100
+
+    settings-editor: Enable tooltips and ellipsizing for `Value` column
+    
+    Provides a workaround for #217 (UI lacks the horizontal scrolling).
+    
+    Signed-off-by: DarkTrick <notebook22312@gmail.com>
+
+commit f0632857f1f0fe01da02d1af756677aa6f641f29
+Author: Саша Петровић <salepetronije@gmail.com>
+Date:   Mon Nov 23 12:47:07 2020 +0100
+
+    I18n: Update translation sr (100%).
+    
+    575 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 6b7d6c5aa090334b3880af1700d0a7b3212f19c5
+Author: Arnold Marko <arnold.marko@gmail.com>
+Date:   Sun Nov 22 00:45:56 2020 +0100
+
+    I18n: Update translation sl (100%).
+    
+    575 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 9ca626ee42dc30b9f4d7ac68044501956a084ac8
+Author: Triyan W. Nugroho <triyan.wn@gmail.com>
+Date:   Sat Nov 21 12:47:20 2020 +0100
+
+    I18n: Update translation id (100%).
+    
+    575 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 98cf21e4ec9ae91294be05120d630dbb1f5f2742
+Author: Priit Jõerüüt <transifex@joeruut.com>
+Date:   Fri Nov 20 00:48:17 2020 +0100
+
+    I18n: Update translation et (80%).
+    
+    464 translated messages, 111 untranslated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 71205f8bbfdc7fb60fce7861dfcfc66c12c34ae0
+Author: Anonymous <noreply@xfce.org>
+Date:   Thu Nov 19 00:46:15 2020 +0100
+
+    I18n: Update translation ru (100%).
+    
+    575 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit dc559bbe646715fda7926662f161a4ad34c2c091
+Author: Maurizio Galli (m4u9) <maurizio.galli@gmail.com>
+Date:   Tue Nov 17 09:11:16 2020 +0100
+
+    color: Tweak colors  of icon
+
+commit e535ffcbcd4accf7d59cd2d698e8b7400ec29757
+Author: Emin Tufan <etcetin@gmail.com>
+Date:   Mon Nov 16 12:47:13 2020 +0100
+
+    I18n: Update translation tr (100%).
+    
+    575 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 930510ab76c25ed9cd62e34c5c4a4b54fd4f0a65
+Author: Emin Tufan <etcetin@gmail.com>
+Date:   Mon Nov 16 00:46:12 2020 +0100
+
+    I18n: Update translation tr (100%).
+    
+    575 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 374ecc1228281382a50f2e3c2192fe17c29d6cd4
+Author: Kjell Cato Heskjestad <cato@heskjestad.xyz>
+Date:   Mon Nov 16 00:46:12 2020 +0100
+
+    I18n: Update translation nb (100%).
+    
+    575 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 5a102b1010a1c04797885212b0a9c08f90c91a76
+Author: Priit Jõerüüt <transifex@joeruut.com>
+Date:   Sun Nov 15 12:46:42 2020 +0100
+
+    I18n: Update translation et (77%).
+    
+    446 translated messages, 129 untranslated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit e664ea388165ac2e718a7e486161874330fe6d3c
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Sat Nov 14 23:36:19 2020 +0100
+
+    Back to development
+
+commit 4210d9c631660b719a97365c0dbfc5f6b1c86cfc
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Sat Nov 14 23:35:20 2020 +0100
+
+    Updates for release
+
 commit 8fe306e5317d1a39b72f51854fb9598105be409c
 Author: Yannick Le Guen <leguen.yannick@gmail.com>
 Date:   Sat Nov 14 00:45:55 2020 +0100
