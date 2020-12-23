@@ -1,3 +1,11 @@
+xfce4-settings (4.16.0-1) UNRELEASED; urgency=medium
+
+  * New upstream version 4.16.0
+  * d/control: update Homepage
+  * d/control: version xfce4-dev-tools build-dep for 4.16
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Wed, 23 Dec 2020 13:41:26 +0100
+
 xfce4-settings (4.15.3-1) experimental; urgency=medium
 
   * New upstream version 4.15.3
