@@ -17,7 +17,7 @@ Build-Depends: debhelper-compat (= 12),
                libxfconf-0-dev (>= 4.13.0),
                libxklavier-dev (>= 5.0),
                libxrandr-dev,
-               xfce4-dev-tools,
+               xfce4-dev-tools (>= 4.15),
                xserver-xorg-input-libinput-dev
 Standards-Version: 4.5.1
 Homepage: https://docs.xfce.org/xfce/xfce4-settings/start
