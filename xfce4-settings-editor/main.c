@@ -81,7 +81,7 @@ settings_dialog_response (GtkWidget *dialog,
     if (response_id == GTK_RESPONSE_HELP)
 		xfce_dialog_show_help_with_version (GTK_WINDOW (dialog),
                                             "xfce4-settings",
-                                            "settings-editor", NULL,
+                                            "editor", NULL,
                                             XFCE4_SETTINGS_VERSION_SHORT);
 	else
 	{
@@ -165,9 +165,6 @@ main(gint argc, gchar **argv)
 					"help-browser", _("_Help"), GTK_RESPONSE_HELP,
 					"window-close-symbolic", _("_Close"), GTK_RESPONSE_OK,
 					NULL);
-
-		xfce_titled_dialog_set_subtitle (XFCE_TITLED_DIALOG (dialog),
-										 _("Customize settings stored by Xfconf"));
 
 		gtk_window_set_icon_name (GTK_WINDOW (dialog), "org.xfce.settings.editor");
 		gtk_window_set_type_hint (GTK_WINDOW (dialog), GDK_WINDOW_TYPE_HINT_NORMAL);

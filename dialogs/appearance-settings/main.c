@@ -118,6 +118,8 @@ typedef struct
 } preview_data;
 
 
+static void install_theme (GtkWidget *widget, gchar **uris, GtkBuilder *builder);
+
 static preview_data *
 preview_data_new (GtkListStore *list_store,
                   GtkTreeView *tree_view)
@@ -332,8 +334,9 @@ cb_enable_event_sounds_check_button_toggled (GtkToggleButton *toggle, GtkWidget 
 #endif
 
 static gboolean
-appearance_settings_load_icon_themes (preview_data *pd)
+appearance_settings_load_icon_themes (gpointer user_data)
 {
+    preview_data *pd = user_data;
     GtkListStore *list_store;
     GtkTreeView  *tree_view;
     GDir         *dir;
@@ -504,8 +507,9 @@ appearance_settings_load_icon_themes (preview_data *pd)
 }
 
 static gboolean
-appearance_settings_load_ui_themes (preview_data *pd)
+appearance_settings_load_ui_themes (gpointer user_data)
 {
+    preview_data *pd = user_data;
     GtkListStore *list_store;
     GtkTreeView  *tree_view;
     GDir         *dir;
@@ -523,8 +527,6 @@ appearance_settings_load_ui_themes (preview_data *pd)
     gchar        *comment_escaped;
     gint          i;
     GSList       *check_list = NULL;
-
-    g_return_val_if_fail (pd != NULL, FALSE);
 
     list_store = pd->list_store;
     tree_view = pd->tree_view;
@@ -792,10 +794,11 @@ appearance_settings_dialog_channel_property_changed (XfconfChannel *channel,
 
             gtk_list_store_clear (GTK_LIST_STORE (model));
             pd = preview_data_new (GTK_LIST_STORE (model), GTK_TREE_VIEW (object));
-            g_idle_add_full (G_PRIORITY_DEFAULT_IDLE,
-                             (GSourceFunc) appearance_settings_load_icon_themes,
-                             pd,
-                             (GDestroyNotify) preview_data_free);
+            if (pd)
+                g_idle_add_full (G_PRIORITY_DEFAULT_IDLE,
+                                 appearance_settings_load_icon_themes,
+                                 pd,
+                                 (GDestroyNotify) preview_data_free);
         }
 
         /* Keep gsettings in sync */
@@ -836,6 +839,18 @@ cb_theme_uri_dropped (GtkWidget        *widget,
                       GtkBuilder       *builder)
 {
     gchar        **uris;
+
+    uris = gtk_selection_data_get_uris (data);
+
+    if (uris)
+        install_theme (widget, uris, builder);
+    else
+        return;
+}
+
+static void
+install_theme (GtkWidget *widget, gchar **uris, GtkBuilder *builder)
+{
     gchar         *argv[3];
     guint          i;
     GError        *error = NULL;
@@ -848,10 +863,6 @@ cb_theme_uri_dropped (GtkWidget        *widget,
     GObject       *object;
     GtkTreeModel  *model;
     preview_data  *pd;
-
-    uris = gtk_selection_data_get_uris (data);
-    if (uris == NULL)
-        return;
 
     argv[0] = HELPERDIR G_DIR_SEPARATOR_S "appearance-install-theme";
     argv[2] = NULL;
@@ -929,21 +940,70 @@ cb_theme_uri_dropped (GtkWidget        *widget,
         model = gtk_tree_view_get_model (GTK_TREE_VIEW (object));
         gtk_list_store_clear (GTK_LIST_STORE (model));
         pd = preview_data_new (GTK_LIST_STORE (model), GTK_TREE_VIEW (object));
-        g_idle_add_full (G_PRIORITY_DEFAULT_IDLE,
-                         (GSourceFunc) appearance_settings_load_icon_themes,
-                         pd,
-                         (GDestroyNotify) preview_data_free);
+        if (pd)
+            g_idle_add_full (G_PRIORITY_DEFAULT_IDLE,
+                             appearance_settings_load_icon_themes,
+                             pd,
+                             (GDestroyNotify) preview_data_free);
 
         /* reload gtk theme treeview */
         object = gtk_builder_get_object (builder, "gtk_theme_treeview");
         model = gtk_tree_view_get_model (GTK_TREE_VIEW (object));
         gtk_list_store_clear (GTK_LIST_STORE (model));
         pd = preview_data_new (GTK_LIST_STORE (model), GTK_TREE_VIEW (object));
-        g_idle_add_full (G_PRIORITY_HIGH_IDLE,
-                         (GSourceFunc) appearance_settings_load_ui_themes,
-                         pd,
-                         (GDestroyNotify) preview_data_free);
+        if (pd)
+            g_idle_add_full (G_PRIORITY_HIGH_IDLE,
+                             appearance_settings_load_ui_themes,
+                             pd,
+                             (GDestroyNotify) preview_data_free);
     }
+}
+
+static void
+appearance_settings_install_theme_cb (GtkButton *widget, GtkBuilder *builder)
+{
+    GtkWidget *window;
+    GtkWidget *dialog;
+    GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
+    GtkFileFilter *filter;
+    gint res;
+    gchar *theme;
+    gchar *title;
+
+    window = gtk_widget_get_toplevel (GTK_WIDGET (widget));
+    g_object_get (G_OBJECT (widget), "name", &theme, NULL);
+    title = g_strdup_printf (_("Install %s theme"), theme);
+    dialog = gtk_file_chooser_dialog_new (title,
+                                          GTK_WINDOW (window),
+                                          action,
+                                          _("_Cancel"),
+                                          GTK_RESPONSE_CANCEL,
+                                          _("_Open"),
+                                          GTK_RESPONSE_ACCEPT,
+                                          NULL);
+    filter = gtk_file_filter_new ();
+    gtk_file_filter_add_pattern (filter, "*.tar*");
+    gtk_file_filter_add_pattern (filter, "*.zip");
+    gtk_file_chooser_set_filter (GTK_FILE_CHOOSER (dialog), filter);
+    gtk_file_chooser_set_select_multiple (GTK_FILE_CHOOSER (dialog), FALSE);
+
+    res = gtk_dialog_run (GTK_DIALOG (dialog));
+    if (res == GTK_RESPONSE_ACCEPT)
+    {
+        gchar *filename;
+        gchar **uris;
+        GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
+
+        uris = g_new0 (gchar *, 1);
+        filename = gtk_file_chooser_get_filename (chooser);
+        uris[0] = g_filename_to_uri (filename, NULL, NULL);
+        install_theme (window, uris, builder);
+        g_free (filename);
+    }
+
+    gtk_widget_destroy (dialog);
+    g_free (title);
+    g_free (theme);
 }
 
 static void
@@ -958,6 +1018,10 @@ appearance_settings_dialog_configure_widgets (GtkBuilder *builder)
     preview_data      *pd;
 
     /* Icon themes list */
+    object = gtk_builder_get_object (builder, "install_icon_theme");
+    g_object_set (object, "name", "icon", NULL);
+    g_signal_connect (G_OBJECT (object), "clicked", G_CALLBACK (appearance_settings_install_theme_cb), builder);
+
     object = gtk_builder_get_object (builder, "icon_theme_treeview");
 
     list_store = gtk_list_store_new (N_THEME_COLUMNS, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_BOOLEAN);
@@ -987,10 +1051,11 @@ appearance_settings_dialog_configure_widgets (GtkBuilder *builder)
     g_object_set (G_OBJECT (renderer), "icon-name", "dialog-warning", NULL);
 
     pd = preview_data_new (GTK_LIST_STORE (list_store), GTK_TREE_VIEW (object));
-    g_idle_add_full (G_PRIORITY_DEFAULT_IDLE,
-                     (GSourceFunc) appearance_settings_load_icon_themes,
-                     pd,
-                     (GDestroyNotify) preview_data_free);
+    if (pd)
+        g_idle_add_full (G_PRIORITY_DEFAULT_IDLE,
+                         appearance_settings_load_icon_themes,
+                         pd,
+                         (GDestroyNotify) preview_data_free);
 
     g_object_unref (G_OBJECT (list_store));
 
@@ -1027,10 +1092,11 @@ appearance_settings_dialog_configure_widgets (GtkBuilder *builder)
     g_object_set (G_OBJECT (renderer), "ellipsize", PANGO_ELLIPSIZE_END, NULL);
 
     pd = preview_data_new (list_store, GTK_TREE_VIEW (object));
-    g_idle_add_full (G_PRIORITY_HIGH_IDLE,
-                     (GSourceFunc) appearance_settings_load_ui_themes,
-                     pd,
-                     (GDestroyNotify) preview_data_free);
+    if (pd)
+        g_idle_add_full (G_PRIORITY_HIGH_IDLE,
+                         appearance_settings_load_ui_themes,
+                         pd,
+                         (GDestroyNotify) preview_data_free);
 
     g_object_unref (G_OBJECT (list_store));
 
@@ -1042,6 +1108,9 @@ appearance_settings_dialog_configure_widgets (GtkBuilder *builder)
                        theme_drop_targets, G_N_ELEMENTS (theme_drop_targets),
                        GDK_ACTION_COPY);
     g_signal_connect (G_OBJECT (object), "drag-data-received", G_CALLBACK (cb_theme_uri_dropped), builder);
+    object = gtk_builder_get_object (builder, "install_gtk_theme");
+    g_object_set (object, "name", "Gtk", NULL);
+    g_signal_connect (G_OBJECT (object), "clicked", G_CALLBACK (appearance_settings_install_theme_cb), builder);
 
     /* Subpixel (rgba) hinting Combo */
     object = gtk_builder_get_object (builder, "xft_rgba_store");
