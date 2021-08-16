@@ -161,7 +161,7 @@
     <property name="window_position">center-on-parent</property>
     <property name="default_width">400</property>
     <property name="default_height">600</property>
-    <property name="icon_name">preferences-desktop-keyboard</property>
+    <property name="icon_name">org.xfce.settings.keyboard</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox1">
@@ -631,7 +631,7 @@
                         <property name="can_focus">False</property>
                         <child>
                           <object class="GtkButton" id="add_shortcut_button">
-                            <property name="label">_Add</property>
+                            <property name="label" translatable="yes">_Add</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -646,7 +646,7 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="edit_shortcut_button">
-                            <property name="label">_Edit</property>
+                            <property name="label" translatable="yes">_Edit</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -661,7 +661,7 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="delete_shortcut_button">
-                            <property name="label">_Remove</property>
+                            <property name="label" translatable="yes">_Remove</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -773,6 +773,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="halign">end</property>
                                 <property name="valign">center</property>
+                                <property name="active">True</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -964,7 +965,7 @@
                                             <property name="layout_style">start</property>
                                             <child>
                                               <object class="GtkButton" id="xkb_layout_add_button">
-                                                <property name="label">_Add</property>
+                                                <property name="label" translatable="yes">_Add</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
@@ -980,7 +981,7 @@
                                             </child>
                                             <child>
                                               <object class="GtkButton" id="xkb_layout_edit_button">
-                                                <property name="label">_Edit</property>
+                                                <property name="label" translatable="yes">_Edit</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
@@ -996,7 +997,7 @@
                                             </child>
                                             <child>
                                               <object class="GtkButton" id="xkb_layout_delete_button">
-                                                <property name="label">_Remove</property>
+                                                <property name="label" translatable="yes">_Remove</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>

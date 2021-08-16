@@ -16,9 +16,9 @@ dnl *** Version information ***
 dnl ***************************
 m4_define([xfce4_settings_version_major], [4])
 m4_define([xfce4_settings_version_minor], [16])
-m4_define([xfce4_settings_version_micro], [0])
+m4_define([xfce4_settings_version_micro], [2])
 m4_define([xfce4_settings_version_nano], [])
-m4_define([xfce4_settings_version_build], [414f5dcd])
+m4_define([xfce4_settings_version_build], [61ec6395])
 m4_define([xfce4_settings_version_tag], []) # Leave empty for releases
 m4_define([xfce4_settings_version], [xfce4_settings_version_major().xfce4_settings_version_minor().xfce4_settings_version_micro()ifelse(xfce4_settings_version_nano(), [], [], [.xfce4_settings_version_nano()])ifelse(xfce4_settings_version_tag(), [git], [xfce4_settings_version_tag()-xfce4_settings_version_build()], [xfce4_settings_version_tag()])])
 
@@ -42,7 +42,7 @@ AC_COPYRIGHT([Copyright (c) 2008-2019
 AC_INIT([xfce4-settings], [xfce4_settings_version], [https://bugzilla.xfce.org/])
 AC_PREREQ([2.60])
 AC_CONFIG_MACRO_DIRS([m4])
-AC_REVISION([414f5dcd])
+AC_REVISION([61ec6395])
 
 dnl ***************************
 dnl *** Initialize automake ***
@@ -84,7 +84,7 @@ AC_CHECK_FUNCS([daemon setsid])
 dnl ******************************
 dnl *** Check for i18n support ***
 dnl ******************************
-XDT_I18N([en_GB ca zh_CN nb tr en_CA en_AU fr eu gl be zh_TW th sr fi pl ast it he et pt_BR de sl pa zh_HK nl hy_AM ja hu nn si ar ko es kk ur sk am te hr sq pt cs is be@tarask uk hye bn ur_PK id da ug lv el sv ru ie lt ms ro bg oc ])
+XDT_I18N([])
 
 dnl ***********************************
 dnl *** Version string for the docs ***
