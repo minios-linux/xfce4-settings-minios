@@ -1,3 +1,14 @@
+xfce4-settings (4.16.2-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream version 4.16.2.
+  * d/control:
+    - Bump DH compat to 13.
+    - R³: no.
+  * d/rules: Drop autoreconf workaround.
+
+ -- Unit 193 <unit193@debian.org>  Sun, 15 Aug 2021 20:49:28 -0400
+
 xfce4-settings (4.16.0-1) unstable; urgency=medium
 
   * New upstream version 4.16.0
