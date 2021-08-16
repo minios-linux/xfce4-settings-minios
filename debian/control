@@ -3,7 +3,7 @@ Section: xfce
 Priority: optional
 Maintainer: Debian Xfce Maintainers <debian-xfce@lists.debian.org>
 Uploaders: Yves-Alexis Perez <corsac@debian.org>
-Build-Depends: debhelper-compat (= 12),
+Build-Depends: debhelper-compat (= 13),
                intltool,
                libcolord-dev,
                libexo-2-dev (>= 4.15.1),
