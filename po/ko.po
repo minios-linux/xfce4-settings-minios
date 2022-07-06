@@ -5,6 +5,8 @@
 # 
 # Translators:
 # Xfce Bot <transifex@xfce.org>, 2021
+# Kim, Jeongu, 2022
+# Cybertramp <paran_son@outlook.com>, 2022
 # 
 #, fuzzy
 msgid ""
@@ -13,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-06 12:51+0100\n"
 "PO-Revision-Date: 2020-12-28 17:23+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>, 2021\n"
+"Last-Translator: Cybertramp <paran_son@outlook.com>, 2022\n"
 "Language-Team: Korean (https://www.transifex.com/xfce/teams/16840/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -615,7 +617,7 @@ msgstr "테마 설치에 실패했습니다"
 #: ../dialogs/appearance-settings/main.c:975
 #, c-format
 msgid "Install %s theme"
-msgstr ""
+msgstr "1%s 테마 설치"
 
 #. Create cancel button
 #: ../dialogs/appearance-settings/main.c:979
@@ -662,9 +664,9 @@ msgid ""
 "pixel;subpixel;rendering;ClearType;DPI;RGB;BGR;menu accelerators;keyboard "
 "shortcuts;event;sounds;window scaling;HiDPI;Retina display;"
 msgstr ""
-"themes;테마;user interface;사용자인터페이스;사용자 인터페이스;styles;모양새;icons;아이콘;fonts;글꼴;폰트"
-";anti-aliasing;안티알리아싱;안티에일리어싱;안티애일리어싱;안티 알리아싱;안티 에일리어싱;안티 애일리어싱;hinting;힌팅"
-";sub-"
+"themes;테마;user interface;사용자인터페이스;사용자 "
+"인터페이스;styles;모양새;icons;아이콘;fonts;글꼴;폰트;anti-"
+"aliasing;안티알리아싱;안티에일리어싱;안티애일리어싱;안티 알리아싱;안티 에일리어싱;안티 애일리어싱;hinting;힌팅;sub-"
 "pixel;subpixel;서브픽셀;하위픽셀;rendering;렌더링;표현;ClearType;클리어타입;DPI;RGB;BGR;menu "
 "accelerators;메뉴 가속;메뉴 단축키;메뉴 바로가기 키;메뉴단축키;메뉴바로가기키;keyboard "
 "shortcuts;키보드단축키;키보드 단축키;키보드바로가기키;키보드 바로가기 키;event;이벤트;sounds;사운드;소리;window "
@@ -917,11 +919,11 @@ msgstr "이 질문에 응답하지 않으면 10초 이후 이전 설정으로 �
 
 #: ../dialogs/display-settings/display-dialog.glade.h:1
 msgid "1.5x"
-msgstr ""
+msgstr "1.5배"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:3
 msgid "Custom:"
-msgstr ""
+msgstr "커스텀:"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:4
 msgid "The primary display is currently configured to show:"
@@ -978,15 +980,15 @@ msgstr "적용(_P)"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:19
 msgid "_Scale:"
-msgstr ""
+msgstr "_스케일:"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:20
 msgid "X:"
-msgstr ""
+msgstr "X축:"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:21
 msgid "Y:"
-msgstr ""
+msgstr "Y축:"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:22
 msgid "_General"
@@ -1411,7 +1413,7 @@ msgstr "프로그램 바로 가기(_P)"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:26
 msgid "<b>Use system defaults</b>"
-msgstr ""
+msgstr "<b>시스템 기본 설정 사용</b>"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:27
 msgid "_Keyboard model"
@@ -1797,7 +1799,7 @@ msgstr "%s을(를) 기록하려면 열지 못했습니다."
 #: ../dialogs/mime-settings/xfce-mime-window.c:187
 #: ../dialogs/mime-settings/xfce4-mime-settings.desktop.in.h:1
 msgid "Default Applications"
-msgstr ""
+msgstr "기본 애플리케이션"
 
 #. Internet
 #: ../dialogs/mime-settings/xfce-mime-window.c:212
@@ -1813,7 +1815,7 @@ msgstr "웹 브라우저"
 msgid ""
 "The default Web Browser will be used to open hyperlinks and display help "
 "contents."
-msgstr ""
+msgstr "기본 웹 브라우저는 하이퍼링크를 열거나 화면에 대한 도움말 내용을 표시할 때 사용합니다."
 
 #: ../dialogs/mime-settings/xfce-mime-window.c:256
 #: ../dialogs/mime-settings/xfce4-mail-reader.desktop.in.h:1
@@ -1824,7 +1826,7 @@ msgstr "메일 리더"
 msgid ""
 "The default Mail Reader will be used to compose emails when you click on "
 "email addresses."
-msgstr ""
+msgstr "기본 메일 리더는 전자메일 주소를 눌러 전자 메일을 작성할 때 사용합니다."
 
 #. Utilities
 #: ../dialogs/mime-settings/xfce-mime-window.c:283
@@ -1839,7 +1841,7 @@ msgstr "파일 관리자"
 #: ../dialogs/mime-settings/xfce-mime-window.c:304
 msgid ""
 "The default File Manager will be used to browse the contents of folders."
-msgstr ""
+msgstr "기본 파일 관리자는 폴더의 내용을 탐색할 때 사용합니다."
 
 #: ../dialogs/mime-settings/xfce-mime-window.c:327
 #: ../dialogs/mime-settings/xfce4-terminal-emulator.desktop.in.h:1
@@ -1850,7 +1852,7 @@ msgstr "터미널 에뮬레이터"
 msgid ""
 "The default Terminal Emulator will be used to run commands that require a "
 "CLI environment."
-msgstr ""
+msgstr "기본 터미널 에뮬레이터는 CLI 환경이 필요한 명령을 실행할 때 사용합니다."
 
 #. Mimes
 #: ../dialogs/mime-settings/xfce-mime-window.c:354
@@ -1867,7 +1869,7 @@ msgstr "필터 지우기"
 
 #: ../dialogs/mime-settings/xfce-mime-window.c:402
 msgid "Open with..."
-msgstr ""
+msgstr "다음으로 열기..."
 
 #: ../dialogs/mime-settings/xfce-mime-window.c:449
 msgid "MIME Type"
@@ -1931,13 +1933,15 @@ msgstr "프로그램을 선택하십시오..."
 
 #: ../dialogs/mime-settings/xfce4-mime-settings.desktop.in.h:2
 msgid "Associate preferred applications with MIME types"
-msgstr ""
+msgstr "MIME 형식에 프로그램 연결하기"
 
 #: ../dialogs/mime-settings/xfce4-mime-settings.desktop.in.h:3
 msgid ""
 "file;type;extension;association;open with;web browser;mail reader;file "
 "manager;terminal emulator;"
 msgstr ""
+"file;type;extension;association;open with;web browser;mail reader;file "
+"manager;terminal emulator;"
 
 #: ../dialogs/mime-settings/xfce4-file-manager.desktop.in.h:2
 msgid "Browse the file system"

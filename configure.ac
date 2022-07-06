@@ -16,9 +16,9 @@ dnl *** Version information ***
 dnl ***************************
 m4_define([xfce4_settings_version_major], [4])
 m4_define([xfce4_settings_version_minor], [16])
-m4_define([xfce4_settings_version_micro], [2])
+m4_define([xfce4_settings_version_micro], [3])
 m4_define([xfce4_settings_version_nano], [])
-m4_define([xfce4_settings_version_build], [61ec6395])
+m4_define([xfce4_settings_version_build], [af601e32])
 m4_define([xfce4_settings_version_tag], []) # Leave empty for releases
 m4_define([xfce4_settings_version], [xfce4_settings_version_major().xfce4_settings_version_minor().xfce4_settings_version_micro()ifelse(xfce4_settings_version_nano(), [], [], [.xfce4_settings_version_nano()])ifelse(xfce4_settings_version_tag(), [git], [xfce4_settings_version_tag()-xfce4_settings_version_build()], [xfce4_settings_version_tag()])])
 
@@ -42,7 +42,7 @@ AC_COPYRIGHT([Copyright (c) 2008-2019
 AC_INIT([xfce4-settings], [xfce4_settings_version], [https://bugzilla.xfce.org/])
 AC_PREREQ([2.60])
 AC_CONFIG_MACRO_DIRS([m4])
-AC_REVISION([61ec6395])
+AC_REVISION([af601e32])
 
 dnl ***************************
 dnl *** Initialize automake ***
@@ -55,16 +55,15 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 dnl *******************************
 dnl *** Check for UNIX variants ***
 dnl *******************************
-AC_AIX()
-AC_ISC_POSIX()
-AC_MINIX()
+AC_USE_SYSTEM_EXTENSIONS
+AC_SEARCH_LIBS([strerror],[cposix])
 
 dnl ********************************
 dnl *** Check for basic programs ***
 dnl ********************************
 AC_PROG_CC()
 AM_PROG_CC_C_O
-AC_PROG_LD()
+LT_PATH_LD([])
 AC_PROG_INSTALL()
 IT_PROG_INTLTOOL([0.35.0], [no-xml])
 AC_CHECK_PROGS([PYTHON], [python3 python])
@@ -145,8 +144,7 @@ dnl ***********************************
 dnl *** Optional support for hwdata ***
 dnl ***********************************
 AC_ARG_WITH([pnp-ids-path],
-            [AC_HELP_STRING([--with-pnp-ids-path],
-                            [Specify the path to pnp.ids (default=\${datadir}/hwdata/pnp.ids)])],
+            [AS_HELP_STRING([--with-pnp-ids-path],[Specify the path to pnp.ids (default=\${datadir}/hwdata/pnp.ids)])],
             [with_pnp_ids_path=$withval],
             [with_pnp_ids_path="\${datadir}/hwdata/pnp.ids"])
 PNP_IDS=$with_pnp_ids_path
@@ -201,8 +199,7 @@ XDT_CHECK_OPTIONAL_PACKAGE([LIBXKLAVIER5], [libxklavier], [5.0],
 
 dnl make pluggable settings dialogs optional
 AC_ARG_ENABLE([pluggable-dialogs],
-              [AC_HELP_STRING([--enable-pluggable-dialogs],
-                              [Enable support for embedded settings dialogs (default=disabled)])],
+              [AS_HELP_STRING([--enable-pluggable-dialogs],[Enable support for embedded settings dialogs (default=disabled)])],
               [enable_pluggable_dialogs=$enableval],
               [enable_pluggable_dialogs=no])
 if test x"$enable_pluggable_dialogs" = x"yes"; then
@@ -217,8 +214,7 @@ dnl ****************************************
 
 dnl Camberra XSettings
 AC_ARG_ENABLE([sound-settings],
-              [AC_HELP_STRING([--enable-sound-settings],
-                              [Enable sound XSETTINGS in GUI (from libcanberra) (default=no)])],
+              [AS_HELP_STRING([--enable-sound-settings],[Enable sound XSETTINGS in GUI (from libcanberra) (default=no)])],
               [enable_sound_settings=$enableval],
               [enable_sound_settings=no])
 if test x"$enable_sound_settings" = x"yes"; then
@@ -231,8 +227,7 @@ dnl ******************************
 dnl *** Set helper path prefix ***
 dnl ******************************
 AC_ARG_WITH([helper-path-prefix],
-            [AC_HELP_STRING([--with-helper-path-prefix=PATH],
-                            [Path prefix under which helper executables will be installed (default: $libdir)])],
+            [AS_HELP_STRING([--with-helper-path-prefix=PATH],[Path prefix under which helper executables will be installed (default: $libdir)])],
             [HELPER_PATH_PREFIX="$withval"],
             [HELPER_PATH_PREFIX="$libdir"])
 AC_SUBST([HELPER_PATH_PREFIX])
@@ -260,7 +255,7 @@ AC_MSG_CHECKING([PLATFORM_LDFLAGS])
 AC_MSG_RESULT([$PLATFORM_LDFLAGS])
 AC_SUBST([PLATFORM_LDFLAGS])
 
-AC_OUTPUT([
+AC_CONFIG_FILES([
 Makefile
 po/Makefile.in
 common/Makefile
@@ -284,6 +279,7 @@ xfsettingsd/Makefile
 xfce4-settings-manager/Makefile
 xfce4-settings-editor/Makefile
 ])
+AC_OUTPUT
 
 dnl ***************************
 dnl *** Print configuration ***
