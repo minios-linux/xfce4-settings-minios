@@ -1,3 +1,12 @@
+xfce4-settings (4.16.3-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream version 4.16.3.
+  * d/rules: Drop --as-needed, default in stable now.
+  * Update Standards-Version to 4.6.1.
+
+ -- Unit 193 <unit193@debian.org>  Wed, 06 Jul 2022 05:08:40 -0400
+
 xfce4-settings (4.16.2-1) unstable; urgency=medium
 
   * Team upload.
