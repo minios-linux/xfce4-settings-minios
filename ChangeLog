@@ -1,3 +1,69 @@
+commit 55e3c5fb667e96ad1412cf249879262b369d28d7
+Author: Alexander Schwinn <alexxcons@xfce.org>
+Date:   Mon Nov 7 09:56:31 2022 +0100
+
+    Escape characters which do not belong into an URI/URL (Issue #390)
+    
+    In order to prevent argument injection
+
+commit 7489b73f537584229087e8841b0d2bbb94dea031
+Author: Anonymous <noreply@xfce.org>
+Date:   Mon Oct 31 00:46:51 2022 +0100
+
+    I18n: Update translation pt (100%).
+    
+    569 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit d314651f2421246a2805f9a062e64829d7f9028a
+Author: Anonymous <noreply@xfce.org>
+Date:   Sat Oct 29 00:47:09 2022 +0200
+
+    I18n: Update translation ja (100%).
+    
+    569 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 51a8327d58e4dd96031cc73cd20691eb0c7c03cf
+Author: Anonymous <noreply@xfce.org>
+Date:   Mon Sep 12 00:49:00 2022 +0200
+
+    I18n: Update translation ru (100%).
+    
+    569 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 42aa66d0384a935bd777966ace3e05b5f8dccbe9
+Author: Anonymous <noreply@xfce.org>
+Date:   Sat Sep 10 00:49:08 2022 +0200
+
+    I18n: Update translation ru (100%).
+    
+    569 translated messages.
+    
+    Transifex (https://www.transifex.com/xfce/public/).
+
+commit 341443f88e7dd04c2330754ec03611a1d28bf564
+Author: Sean Davis <sean@bluesabre.org>
+Date:   Fri Apr 8 16:52:59 2022 -0400
+
+    Prefer full command when basic command is env (Fixes #358)
+
+commit 8d4106b35fbbccdbf10d2971133c528a7b7e7938
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Tue Jul 5 16:00:13 2022 +0200
+
+    Back to development
+
+commit 024399b1c8da7ce700bf9b7a42fc8c56bad4d468
+Author: Simon Steinbeiss <simon.steinbeiss@elfenbeinturm.at>
+Date:   Tue Jul 5 15:58:54 2022 +0200
+
+    Updates for release
+
 commit af601e32a7c635fa83e8189c548b546428224ce9
 Author: Romain Bouvier <skunnyk@alteroot.org>
 Date:   Mon May 30 13:39:52 2022 +0200

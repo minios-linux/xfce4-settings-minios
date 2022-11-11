@@ -155,6 +155,46 @@ substitute_binary (const gchar *commands,
 }
 
 
+/**
+ * Substitute env command usage.
+ * For launchers that modify the env, such as snaps, this is required
+ * to get a functional command from the commands_with_parameter. Otherwise
+ * the launcher will only run `env`, quietly doing nothing.
+ */
+static gchar**
+substitute_env (const gchar *commands,
+                const gchar *commands_with_parameter,
+                const gchar *binary)
+{
+  gchar **result;
+
+  result = substitute_binary (commands, binary);
+
+  if (G_UNLIKELY(*result != NULL && exo_str_is_equal (*result, "env")))
+    {
+      gchar **replaced;
+      gchar  *command = exo_str_replace (commands_with_parameter, "%s", "");
+      gchar  *cleaned = exo_str_replace (command, "\"\"", "");
+
+      replaced = substitute_binary (cleaned, binary);
+      if (*replaced != NULL && !exo_str_is_equal (*replaced, "env"))
+        {
+          g_strfreev (result);
+          result = replaced;
+        }
+      else
+        {
+          g_strfreev (replaced);
+        }
+
+      g_free (cleaned);
+      g_free (command);
+    }
+
+  return result;
+}
+
+
 
 static XfceMimeHelper*
 xfce_mime_helper_new (const gchar *id,
@@ -233,7 +273,7 @@ xfce_mime_helper_new (const gchar *id,
     }
 
   /* substitute the binary (if any) */
-  helper->commands = substitute_binary (commands, binary);
+  helper->commands = substitute_env (commands, commands_with_parameter, binary);
   helper->commands_with_flag = substitute_binary (commands_with_flag, binary);
   helper->commands_with_parameter = substitute_binary (commands_with_parameter, binary);
   g_free (binary);
@@ -375,7 +415,7 @@ xfce_mime_helper_execute (XfceMimeHelper   *helper,
   gint          status;
   gint          result;
   gint          pid;
-  const gchar  *real_parameter = parameter;
+  gchar        *real_parameter = NULL;
 
   // FIXME: startup-notification
 
@@ -387,23 +427,43 @@ xfce_mime_helper_execute (XfceMimeHelper   *helper,
   if (G_UNLIKELY (screen == NULL))
     screen = gdk_screen_get_default ();
 
-  /* strip the mailto part if needed */
-  if (real_parameter != NULL && g_str_has_prefix (real_parameter, "mailto:"))
-    real_parameter = parameter + 7;
+  if (parameter != NULL)
+    {
+      if (helper->category == XFCE_MIME_HELPER_WEBBROWSER || helper->category == XFCE_MIME_HELPER_FILEMANAGER)
+        {
+          /* escape characters which do not belong into an URI/URL */
+          real_parameter = g_uri_escape_string (parameter, ":/?#[]@!$&'()*+,;=%", TRUE);
+        }
+      else if (g_str_has_prefix (real_parameter, "mailto:"))
+        {
+          /* strip the mailto part if needed */
+          real_parameter = g_strdup (parameter + 7);
+        }
+      else
+        {
+          real_parameter = g_strdup (parameter);
+        }
+    }
 
   /* determine the command set to use */
-  if (exo_str_is_flag (real_parameter)) {
-    commands = helper->commands_with_flag;
-  } else if (exo_str_is_empty (real_parameter)) {
-    commands = helper->commands;
-  } else {
-    commands = helper->commands_with_parameter;
-  }
+  if (exo_str_is_flag (real_parameter))
+    {
+      commands = helper->commands_with_flag;
+    }
+  else if (exo_str_is_empty (real_parameter))
+    {
+      commands = helper->commands;
+    }
+  else
+    {
+      commands = helper->commands_with_parameter;
+    }
 
   /* verify that we have atleast one command */
   if (G_UNLIKELY (*commands == NULL))
     {
       g_set_error (error, G_SPAWN_ERROR, G_SPAWN_ERROR_INVAL, _("No command specified"));
+      g_free (real_parameter);
       return FALSE;
     }
 
@@ -493,6 +553,7 @@ xfce_mime_helper_execute (XfceMimeHelper   *helper,
   if (G_UNLIKELY (!succeed))
     g_propagate_error (error, err);
 
+  g_free (real_parameter);
   return succeed;
 }
 
