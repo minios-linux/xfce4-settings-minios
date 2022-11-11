@@ -1,3 +1,18 @@
+xfce4-settings (4.16.4-1) unstable; urgency=medium
+
+  * Team upload.
+
+  [ Debian Janitor ]
+  * Remove constraints unnecessary since buster
+
+  [ Unit 193 ]
+  * New upstream version 4.16.4.
+    - Escape characters which do not belong into an URI/URL.
+      Closes: #1023732, CVE-2022-45062.
+  * d/control: Drop version constraints no longer needed.
+
+ -- Unit 193 <unit193@debian.org>  Fri, 11 Nov 2022 18:43:28 -0500
+
 xfce4-settings (4.16.3-1) unstable; urgency=medium
 
   * Team upload.
