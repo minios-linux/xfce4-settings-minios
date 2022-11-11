@@ -15,6 +15,15 @@
 /* Name of default gettext domain */
 #undef GETTEXT_PACKAGE
 
+/* Prevent post 2_50 APIs */
+#undef GLIB_VERSION_MAX_ALLOWED
+
+/* Ignore post 2_50 APIs */
+#undef GLIB_VERSION_MIN_REQUIRED
+
+/* Use GLib structured logging */
+#undef G_LOG_USE_STRUCTURED
+
 /* Define if colord >= 1.0.2 present */
 #undef HAVE_COLORD
 

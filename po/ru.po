@@ -5,6 +5,7 @@
 # 
 # Translators:
 # Xfce Bot <transifex@xfce.org>, 2021
+# Andrei Stepanov, 2022
 # 
 #, fuzzy
 msgid ""
@@ -13,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-06 12:51+0100\n"
 "PO-Revision-Date: 2020-12-28 17:23+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>, 2021\n"
+"Last-Translator: Andrei Stepanov, 2022\n"
 "Language-Team: Russian (https://www.transifex.com/xfce/teams/16840/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -561,7 +562,7 @@ msgstr "Определяет, должны ли значки отображат�
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:38
 msgid "Enable e_ditable accelerators"
-msgstr "Включить редактируемые комбинации к_лавиш"
+msgstr "Включить изменяемые комбинации к_лавиш"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:39
 msgid ""
@@ -583,7 +584,7 @@ msgstr "Включить з_вуки событий"
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:42
 msgid "Enable or disable event sounds globally (requires \"Canberra\" support)"
 msgstr ""
-"Включить или выключить звуки событий глобально (требуется поддержка "
+"Включить или отключить звуки событий глобально (требуется поддержка "
 "«Canberra»)"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:43
@@ -1066,7 +1067,7 @@ msgstr "Настраивать новые дисплеи при подключе
 
 #: ../dialogs/display-settings/display-dialog.glade.h:32
 msgid "Show popup windows to identify displays"
-msgstr "Показать всплывающее окно для идентификации дисплеев"
+msgstr "Показать всплывающее окно для идентификации экранов"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:33
 msgid "<b>Identifying Displays</b>"
@@ -1264,7 +1265,7 @@ msgstr "Зеркальные экраны"
 
 #: ../dialogs/display-settings/main.c:3653
 msgid "(Disabled)"
-msgstr "(выключено)"
+msgstr "(отключено)"
 
 #: ../dialogs/display-settings/main.c:4103
 #, c-format
@@ -1297,8 +1298,7 @@ msgstr "Настройки экрана"
 msgid ""
 "display;settings;screen;resolution;refresh;rate;rotation;external;projectors;monitors;LCD;CRT;HiDPI;"
 msgstr ""
-"дисплей;настройки;экран;разрешение;обновление;частота;поворот;внешний;проекторы;мониторы;LCD;CRT;HiDPI;"
-" "
+"дисплей;настройки;экран;разрешение;обновление;частота;поворот;внешний;проекторы;мониторы;LCD;CRT;HiDPI; "
 
 #. Set dialog title and icon
 #: ../dialogs/keyboard-settings/command-dialog.c:110
@@ -2267,7 +2267,7 @@ msgstr "%.1f с"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:1
 msgid "Disabled"
-msgstr "Выключено"
+msgstr "Отключено"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:2
 msgid "Edge scrolling"
@@ -2752,7 +2752,7 @@ msgstr "Залипание клавиш включено"
 
 #: ../xfsettingsd/accessibility.c:414
 msgid "Sticky keys are disabled"
-msgstr "Залипание клавиш выключено"
+msgstr "Залипание клавиш отключено"
 
 #: ../xfsettingsd/accessibility.c:416
 msgid "Sticky keys"
@@ -2776,7 +2776,7 @@ msgstr "«Прыгающие» клавиши включены"
 
 #: ../xfsettingsd/accessibility.c:432
 msgid "Bounce keys are disabled"
-msgstr "«Прыгающие» клавиши выключены"
+msgstr "«Прыгающие» клавиши отключены"
 
 #: ../xfsettingsd/accessibility.c:434
 msgid "Bounce keys"
