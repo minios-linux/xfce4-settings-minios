@@ -1,3 +1,32 @@
+commit f1cb5bdafc6b9c71c541de267cc84a8c2ac32049
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Sat Nov 12 22:27:36 2022 +0100
+
+    mime-settings: Properly quote command parameters
+    
+    Fixes: #390
+    MR: !85
+
+commit f7707d8b835c3611c647c0da61cd9488e7af2bb7
+Author: Alexander Schwinn <alexxcons@xfce.org>
+Date:   Sat Nov 12 22:15:02 2022 +0100
+
+    Revert "Escape characters which do not belong into an URI/URL (Issue #390)"
+    
+    This reverts commit 55e3c5fb667e96ad1412cf249879262b369d28d7.
+
+commit b532324ffa51ae9b8582df0a577b642163689943
+Author: Alexander Schwinn <alexxcons@xfce.org>
+Date:   Mon Nov 7 21:30:07 2022 +0100
+
+    Back to development
+
+commit b9729c85de00a340d6b6e432fbcd293cf7dedfe1
+Author: Alexander Schwinn <alexxcons@xfce.org>
+Date:   Mon Nov 7 21:27:41 2022 +0100
+
+    Updates for release
+
 commit 55e3c5fb667e96ad1412cf249879262b369d28d7
 Author: Alexander Schwinn <alexxcons@xfce.org>
 Date:   Mon Nov 7 09:56:31 2022 +0100
