@@ -1,3 +1,10 @@
+xfce4-settings (4.16.5-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream version 4.16.5.
+
+ -- Unit 193 <unit193@debian.org>  Mon, 14 Nov 2022 19:50:09 -0500
+
 xfce4-settings (4.16.4-1) unstable; urgency=medium
 
   * Team upload.
