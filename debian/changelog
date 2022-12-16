@@ -1,3 +1,12 @@
+xfce4-settings (4.18.0-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream version 4.18.0.
+  * d/control: Set 4.17 version constraints on libxfce4(util,ui).
+  * d/rules: Opt-out of trimmed changelogs, install NEWS as changelog.
+
+ -- Unit 193 <unit193@debian.org>  Thu, 15 Dec 2022 20:32:56 -0500
+
 xfce4-settings (4.16.5-1) unstable; urgency=medium
 
   * Team upload.
