@@ -15,10 +15,10 @@
 /* Name of default gettext domain */
 #undef GETTEXT_PACKAGE
 
-/* Prevent post 2_50 APIs */
+/* Prevent post 2_66 APIs */
 #undef GLIB_VERSION_MAX_ALLOWED
 
-/* Ignore post 2_50 APIs */
+/* Ignore post 2_66 APIs */
 #undef GLIB_VERSION_MIN_REQUIRED
 
 /* Use GLib structured logging */
@@ -36,7 +36,7 @@
 /* Define to 1 if you have the <errno.h> header file. */
 #undef HAVE_ERRNO_H
 
-/* Define if gio-unix-2.0 >= 2.50.0 present */
+/* Define if gio-unix-2.0 >= 2.66.0 present */
 #undef HAVE_GIO_UNIX
 
 /* Define to 1 if you have the <inttypes.h> header file. */

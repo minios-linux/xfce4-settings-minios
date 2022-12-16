@@ -90,7 +90,7 @@ main (int    argc,
   if (G_UNLIKELY (opt_version))
     {
       g_print ("%s %s (Xfce %s)\n\n", G_LOG_DOMAIN, PACKAGE_VERSION, xfce_version_string ());
-      g_print ("%s\n", "Copyright (c) 2008-2019");
+      g_print ("%s\n", "Copyright (c) 2008-2022");
       g_print ("\t%s\n\n", _("The Xfce development team. All rights reserved."));
       g_print (_("Please report bugs to <%s>."), PACKAGE_BUGREPORT);
       g_print ("\n");
@@ -123,7 +123,6 @@ main (int    argc,
     {
       /* Create and run the settings dialog */
       dialog = xfce_keyboard_settings_create_dialog (settings);
-      gtk_window_set_type_hint (GTK_WINDOW (dialog), GDK_WINDOW_TYPE_HINT_NORMAL);
 
       g_signal_connect (dialog, "response",
           G_CALLBACK (keyboard_settings_dialog_response), NULL);

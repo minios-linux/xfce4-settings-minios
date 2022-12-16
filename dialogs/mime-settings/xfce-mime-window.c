@@ -166,9 +166,6 @@ xfce_mime_window_init (XfceMimeWindow *window)
     gint               n_mime_types;
     GtkTreeViewColumn *column;
     GtkCellRenderer   *renderer;
-    AtkRelationSet    *relations;
-    AtkRelation       *relation;
-    AtkObject         *object;
     GtkWidget         *notebook;
     GtkWidget         *chooser;
     GtkWidget         *frame;
@@ -186,7 +183,6 @@ xfce_mime_window_init (XfceMimeWindow *window)
 
     gtk_window_set_title (GTK_WINDOW (window), _("Default Applications"));
     gtk_window_set_icon_name (GTK_WINDOW (window), "org.xfce.settings.default-applications");
-    gtk_window_set_type_hint (GTK_WINDOW (window), GDK_WINDOW_TYPE_HINT_NORMAL);
     xfce_titled_dialog_create_action_area (XFCE_TITLED_DIALOG (window));
     button = xfce_titled_dialog_add_button (XFCE_TITLED_DIALOG (window), _("_Close"), GTK_RESPONSE_CLOSE);
     image = gtk_image_new_from_icon_name ("window-close-symbolic", GTK_ICON_SIZE_BUTTON);
@@ -239,12 +235,7 @@ xfce_mime_window_init (XfceMimeWindow *window)
     gtk_box_pack_start (GTK_BOX (box), chooser, FALSE, FALSE, 0);
     gtk_widget_show (chooser);
 
-    /* set Atk label relation for the chooser */
-    object = gtk_widget_get_accessible (chooser);
-    relations = atk_object_ref_relation_set (gtk_widget_get_accessible (label));
-    relation = atk_relation_new (&object, 1, ATK_RELATION_LABEL_FOR);
-    atk_relation_set_add (relations, relation);
-    g_object_unref (G_OBJECT (relation));
+    xfce_gtk_label_set_a11y_relation (GTK_LABEL (label), GTK_WIDGET (chooser));
 
     /*
        Mail Reader
@@ -270,12 +261,7 @@ xfce_mime_window_init (XfceMimeWindow *window)
     gtk_box_pack_start (GTK_BOX (box), chooser, FALSE, FALSE, 0);
     gtk_widget_show (chooser);
 
-    /* set Atk label relation for the chooser */
-    object = gtk_widget_get_accessible (chooser);
-    relations = atk_object_ref_relation_set (gtk_widget_get_accessible (label));
-    relation = atk_relation_new (&object, 1, ATK_RELATION_LABEL_FOR);
-    atk_relation_set_add (relations, relation);
-    g_object_unref (G_OBJECT (relation));
+    xfce_gtk_label_set_a11y_relation (GTK_LABEL (label), GTK_WIDGET (chooser));
 
     /*
        Utilities
@@ -310,12 +296,7 @@ xfce_mime_window_init (XfceMimeWindow *window)
     gtk_box_pack_start (GTK_BOX (box), chooser, FALSE, FALSE, 0);
     gtk_widget_show (chooser);
 
-    /* set Atk label relation for the chooser */
-    object = gtk_widget_get_accessible (chooser);
-    relations = atk_object_ref_relation_set (gtk_widget_get_accessible (label));
-    relation = atk_relation_new (&object, 1, ATK_RELATION_LABEL_FOR);
-    atk_relation_set_add (relations, relation);
-    g_object_unref (G_OBJECT (relation));
+    xfce_gtk_label_set_a11y_relation (GTK_LABEL (label), GTK_WIDGET (chooser));
 
     /*
        Terminal Emulator
@@ -341,12 +322,7 @@ xfce_mime_window_init (XfceMimeWindow *window)
     gtk_box_pack_start (GTK_BOX (box), chooser, FALSE, FALSE, 0);
     gtk_widget_show (chooser);
 
-    /* set Atk label relation for the chooser */
-    object = gtk_widget_get_accessible (chooser);
-    relations = atk_object_ref_relation_set (gtk_widget_get_accessible (label));
-    relation = atk_relation_new (&object, 1, ATK_RELATION_LABEL_FOR);
-    atk_relation_set_add (relations, relation);
-    g_object_unref (G_OBJECT (relation));
+    xfce_gtk_label_set_a11y_relation (GTK_LABEL (label), GTK_WIDGET (chooser));
 
     /*
        Mimes
@@ -772,20 +748,42 @@ xfce_mime_window_row_visible_func (GtkTreeModel *model,
                                    gpointer      data)
 {
     XfceMimeWindow *window = XFCE_MIME_WINDOW (data);
-    const gchar    *mime_type;
-    GValue          value = { 0, };
+    const gchar    *mime_type, *app_name;
+    gchar          *normalized, *filtertext_folded, *appname_folded = NULL;
+    GValue          mime_value = { 0, };
+    GValue          app_value = { 0, };
     gboolean        visible;
 
     if (window->filter_text == NULL)
         return TRUE;
 
-    gtk_tree_model_get_value (model, iter, COLUMN_MIME_TYPE, &value);
+    gtk_tree_model_get_value (model, iter, COLUMN_MIME_TYPE, &mime_value);
+    gtk_tree_model_get_value (model, iter, COLUMN_MIME_DEFAULT, &app_value);
 
-    mime_type = g_value_get_string (&value);
-    visible = mime_type != NULL
-        && strstr (mime_type, window->filter_text) != NULL;
+    mime_type = g_value_get_string (&mime_value);
+    app_name = g_value_get_string (&app_value);
 
-    g_value_unset (&value);
+    /* normalize and case-fold filter_text unicode string */
+    normalized = g_utf8_normalize (window->filter_text, -1, G_NORMALIZE_ALL);
+    filtertext_folded = g_utf8_casefold (normalized, -1);
+    g_free (normalized);
+
+    /* normalize and case-fold app_name unicode string */
+    if (app_name != NULL)
+    {
+        normalized = g_utf8_normalize (app_name, -1, G_NORMALIZE_ALL);
+        appname_folded = g_utf8_casefold (normalized, -1);
+        g_free (normalized);
+    }
+
+    visible = (mime_type != NULL && strstr (mime_type, window->filter_text) != NULL) ||
+        (appname_folded != NULL && strstr (appname_folded, filtertext_folded) != NULL);
+
+    g_free (filtertext_folded);
+    g_free (appname_folded);
+
+    g_value_unset (&mime_value);
+    g_value_unset (&app_value);
 
     return visible;
 }

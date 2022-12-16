@@ -64,7 +64,7 @@ enum
     COLUMN_THEME_NAME,
     COLUMN_THEME_DISPLAY_NAME,
     COLUMN_THEME_COMMENT,
-    COLUMN_THEME_NO_CACHE,
+    COLUMN_THEME_WARNING,
     N_THEME_COLUMNS
 };
 
@@ -180,11 +180,12 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 }
 
 static void
-cb_theme_tree_selection_changed (GtkTreeSelection *selection,
-                                 const gchar      *property)
+theme_selection_changed (GtkTreeSelection *selection,
+                         const gchar      *property)
 {
     GtkTreeModel *model;
     gboolean      has_selection;
+    gboolean      has_xfwm4;
     gchar        *name;
     GtkTreeIter   iter;
 
@@ -192,11 +193,26 @@ cb_theme_tree_selection_changed (GtkTreeSelection *selection,
     has_selection = gtk_tree_selection_get_selected (selection, &model, &iter);
     if (G_LIKELY (has_selection))
     {
-        /* Get the theme name */
-        gtk_tree_model_get (model, &iter, COLUMN_THEME_NAME, &name, -1);
+        has_xfwm4 = FALSE;
+
+        /* Get the theme name and whether there is a xfwm4 theme as well */
+        gtk_tree_model_get (model, &iter, COLUMN_THEME_NAME, &name, COLUMN_THEME_WARNING, &has_xfwm4, -1);
 
         /* Store the new theme */
         xfconf_channel_set_string (xsettings_channel, property, name);
+
+        /* Set the matching xfwm4 theme if the selected theme is not an icon theme,
+         * the xfconf setting is on, and a matching theme is available */
+        if (xfconf_channel_get_bool (xsettings_channel, "/Xfce/SyncThemes", FALSE) == TRUE
+            && strcmp (property, "/Net/ThemeName") == 0)
+        {
+            if (!has_xfwm4)
+                xfconf_channel_set_string (xfconf_channel_get ("xfwm4"), "/general/theme", name);
+
+            /* Use the default theme if Adwaita is selected */
+            else if (strcmp (name, "Adwaita") == 0 || strcmp (name, "Adwaita-dark") == 0)
+                xfconf_channel_set_string (xfconf_channel_get ("xfwm4"), "/general/theme", "Default");
+        }
 
         /* Cleanup */
         g_free (name);
@@ -204,17 +220,17 @@ cb_theme_tree_selection_changed (GtkTreeSelection *selection,
 }
 
 static void
-cb_icon_theme_tree_selection_changed (GtkTreeSelection *selection)
+cb_icon_theme_selection_changed (GtkTreeSelection *selection)
 {
     /* Set the new icon theme */
-    cb_theme_tree_selection_changed (selection, "/Net/IconThemeName");
+    theme_selection_changed (selection, "/Net/IconThemeName");
 }
 
 static void
-cb_ui_theme_tree_selection_changed (GtkTreeSelection *selection)
+cb_ui_theme_selection_changed (GtkTreeSelection *selection)
 {
     /* Set the new UI theme */
-    cb_theme_tree_selection_changed (selection, "/Net/ThemeName");
+    theme_selection_changed (selection, "/Net/ThemeName");
 }
 
 static void
@@ -460,7 +476,7 @@ appearance_settings_load_icon_themes (gpointer user_data)
                                         COLUMN_THEME_PREVIEW, preview,
                                         COLUMN_THEME_NAME, file,
                                         COLUMN_THEME_DISPLAY_NAME, visible_name,
-                                        COLUMN_THEME_NO_CACHE, !has_cache,
+                                        COLUMN_THEME_WARNING, !has_cache,
                                         COLUMN_THEME_COMMENT, cache_tooltip,
                                         -1);
 
@@ -524,9 +540,15 @@ appearance_settings_load_ui_themes (gpointer user_data)
     gchar        *active_theme_name;
     gchar        *gtkrc_filename;
     gchar        *gtkcss_filename;
+    gchar        *xfwm4_filename;
+    gchar        *notifyd_filename;
+    gchar        *theme_name_markup;
     gchar        *comment_escaped;
     gint          i;
     GSList       *check_list = NULL;
+    gboolean      has_gtk2;
+    gboolean      has_xfwm4;
+    gboolean      has_notifyd;
 
     list_store = pd->list_store;
     tree_view = pd->tree_view;
@@ -552,11 +574,13 @@ appearance_settings_load_ui_themes (gpointer user_data)
         /* Iterate over filenames in the directory */
         while ((file = g_dir_read_name (dir)) != NULL)
         {
-            /* Build the theme style filename */
+            /* Build the filenames for theme components */
             gtkrc_filename = g_build_filename (ui_theme_dirs[i], file, "gtk-2.0", "gtkrc", NULL);
             gtkcss_filename = g_build_filename (ui_theme_dirs[i], file, "gtk-3.0", "gtk.css", NULL);
+            xfwm4_filename = g_build_filename (ui_theme_dirs[i], file, "xfwm4", "themerc", NULL);
+            notifyd_filename = g_build_filename (ui_theme_dirs[i], file, "xfce-notify-4.0", "gtk.css", NULL);
 
-            /* Check if the gtkrc file exists and the theme is not already in the list */
+            /* Check if the gtk.css file exists and the theme is not already in the list */
             if (g_file_test (gtkcss_filename, G_FILE_TEST_EXISTS)
                 && g_slist_find_custom (check_list, file, (GCompareFunc) g_utf8_collate) == NULL)
             {
@@ -585,17 +609,41 @@ appearance_settings_load_ui_themes (gpointer user_data)
                     comment_escaped = NULL;
                 }
 
+                /* Check if the gtk2 gtkrc, xfwm4 themerc, etc. files exist */
+                has_gtk2 = FALSE;
+                has_xfwm4 = FALSE;
+                has_notifyd = FALSE;
+
+                if (g_file_test (gtkrc_filename, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR))
+                    has_gtk2 = TRUE;
+                if (g_file_test (xfwm4_filename, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR))
+                    has_xfwm4 = TRUE;
+                if (g_file_test (notifyd_filename, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR))
+                    has_notifyd = TRUE;
+
+                /* Compose the final markup text */
+                theme_name_markup = g_strdup_printf ("<b>%s</b>\nGtk3", theme_name);
+
+                if (has_gtk2)
+                    theme_name_markup = g_strconcat (theme_name_markup, ", Gtk2", NULL);
+                if (has_xfwm4)
+                    theme_name_markup = g_strconcat (theme_name_markup, ", Xfwm4", NULL);
+                if (has_notifyd)
+                    theme_name_markup = g_strconcat (theme_name_markup, ", Xfce4-notifyd", NULL);
+
                 /* Append ui theme to the list store */
                 gtk_list_store_append (list_store, &iter);
                 gtk_list_store_set (list_store, &iter,
                                     COLUMN_THEME_NAME, file,
-                                    COLUMN_THEME_DISPLAY_NAME, theme_name,
+                                    COLUMN_THEME_DISPLAY_NAME, theme_name_markup,
+                                    COLUMN_THEME_WARNING, !has_xfwm4,
                                     COLUMN_THEME_COMMENT, comment_escaped, -1);
 
                 /* Cleanup */
                 if (G_LIKELY (index_file != NULL))
                     xfce_rc_close (index_file);
                 g_free (comment_escaped);
+                g_free (theme_name_markup);
 
                 /* Check if this is the active theme, if so, select it */
                 if (G_UNLIKELY (g_utf8_collate (file, active_theme_name) == 0))
@@ -610,9 +658,11 @@ appearance_settings_load_ui_themes (gpointer user_data)
                 g_free (index_filename);
             }
 
-            /* Free gtkrc filename */
+            /* Free filenames */
             g_free (gtkrc_filename);
             g_free (gtkcss_filename);
+            g_free (xfwm4_filename);
+            g_free (notifyd_filename);
         }
 
         /* Close directory handle */
@@ -757,7 +807,16 @@ appearance_settings_dialog_channel_property_changed (XfconfChannel *channel,
         gsettings = g_settings_new (gsettings_category_gnome_interface);
         if (gsettings)
         {
-            g_settings_set_string (gsettings, "gtk-theme", xfconf_channel_get_string (channel, property_name, NULL));
+            str = xfconf_channel_get_string (channel, property_name, NULL);
+            g_settings_set_string (gsettings, "gtk-theme", str);
+
+            /* Also set the preferred color scheme (needed for GTK4) */
+            if (str != NULL && g_str_has_suffix (str, "-dark"))
+                g_settings_set_string (gsettings, "color-scheme", "prefer-dark");
+            else
+                g_settings_reset (gsettings, "color-scheme");
+
+            g_free (str);
         }
     }
     else if (strcmp (property_name, "/Net/IconThemeName") == 0)
@@ -805,7 +864,9 @@ appearance_settings_dialog_channel_property_changed (XfconfChannel *channel,
         gsettings = g_settings_new (gsettings_category_gnome_interface);
         if (gsettings)
         {
-            g_settings_set_string (gsettings, "icon-theme", xfconf_channel_get_string (channel, property_name, NULL));
+            str = xfconf_channel_get_string (channel, property_name, NULL);
+            g_settings_set_string (gsettings, "icon-theme", str);
+            g_free (str);
         }
     }
     else if (strcmp (property_name, "/Gtk/FontName") == 0)
@@ -814,7 +875,9 @@ appearance_settings_dialog_channel_property_changed (XfconfChannel *channel,
         gsettings = g_settings_new (gsettings_category_gnome_interface);
         if (gsettings)
         {
-            g_settings_set_string (gsettings, "font-name", xfconf_channel_get_string (channel, property_name, NULL));
+            str = xfconf_channel_get_string (channel, property_name, NULL);
+            g_settings_set_string (gsettings, "font-name", str);
+            g_free (str);
         }
     }
     else if (strcmp (property_name, "/Gtk/MonospaceFontName") == 0)
@@ -823,7 +886,9 @@ appearance_settings_dialog_channel_property_changed (XfconfChannel *channel,
         gsettings = g_settings_new (gsettings_category_gnome_interface);
         if (gsettings)
         {
-            g_settings_set_string (gsettings, "monospace-font-name", xfconf_channel_get_string (channel, property_name, NULL));
+            str = xfconf_channel_get_string (channel, property_name, NULL);
+            g_settings_set_string (gsettings, "monospace-font-name", str);
+            g_free (str);
         }
     }
 }
@@ -1016,6 +1081,7 @@ appearance_settings_dialog_configure_widgets (GtkBuilder *builder)
     GtkTreeSelection  *selection;
     GtkTreeViewColumn *column;
     preview_data      *pd;
+    gchar             *path;
 
     /* Icon themes list */
     object = gtk_builder_get_object (builder, "install_icon_theme");
@@ -1047,7 +1113,7 @@ appearance_settings_dialog_configure_widgets (GtkBuilder *builder)
     /* Warning Icon */
     renderer = gtk_cell_renderer_pixbuf_new ();
     gtk_tree_view_column_pack_start (column, renderer, FALSE);
-    gtk_tree_view_column_set_attributes (column, renderer, "visible", COLUMN_THEME_NO_CACHE, NULL);
+    gtk_tree_view_column_set_attributes (column, renderer, "visible", COLUMN_THEME_WARNING, NULL);
     g_object_set (G_OBJECT (renderer), "icon-name", "dialog-warning", NULL);
 
     pd = preview_data_new (GTK_LIST_STORE (list_store), GTK_TREE_VIEW (object));
@@ -1061,7 +1127,8 @@ appearance_settings_dialog_configure_widgets (GtkBuilder *builder)
 
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (object));
     gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
-    g_signal_connect (G_OBJECT (selection), "changed", G_CALLBACK (cb_icon_theme_tree_selection_changed), NULL);
+    gtk_tree_view_set_activate_on_single_click (GTK_TREE_VIEW (object), TRUE);
+    g_signal_connect_swapped (G_OBJECT (object), "row-activated", G_CALLBACK (cb_icon_theme_selection_changed), selection);
 
     gtk_drag_dest_set (GTK_WIDGET (object), GTK_DEST_DEFAULT_ALL,
                        theme_drop_targets, G_N_ELEMENTS (theme_drop_targets),
@@ -1088,7 +1155,7 @@ appearance_settings_dialog_configure_widgets (GtkBuilder *builder)
     /* Theme Name and Description */
     renderer = gtk_cell_renderer_text_new ();
     gtk_tree_view_column_pack_start (column, renderer, TRUE);
-    gtk_tree_view_column_set_attributes (column, renderer, "text", COLUMN_THEME_DISPLAY_NAME, NULL);
+    gtk_tree_view_column_set_attributes (column, renderer, "markup", COLUMN_THEME_DISPLAY_NAME, NULL);
     g_object_set (G_OBJECT (renderer), "ellipsize", PANGO_ELLIPSIZE_END, NULL);
 
     pd = preview_data_new (list_store, GTK_TREE_VIEW (object));
@@ -1102,7 +1169,8 @@ appearance_settings_dialog_configure_widgets (GtkBuilder *builder)
 
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (object));
     gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
-    g_signal_connect (G_OBJECT (selection), "changed", G_CALLBACK (cb_ui_theme_tree_selection_changed), NULL);
+    gtk_tree_view_set_activate_on_single_click (GTK_TREE_VIEW (object), TRUE);
+    g_signal_connect_swapped (G_OBJECT (object), "row-activated", G_CALLBACK (cb_ui_theme_selection_changed), selection);
 
     gtk_drag_dest_set (GTK_WIDGET (object), GTK_DEST_DEFAULT_ALL,
                        theme_drop_targets, G_N_ELEMENTS (theme_drop_targets),
@@ -1111,6 +1179,20 @@ appearance_settings_dialog_configure_widgets (GtkBuilder *builder)
     object = gtk_builder_get_object (builder, "install_gtk_theme");
     g_object_set (object, "name", "Gtk", NULL);
     g_signal_connect (G_OBJECT (object), "clicked", G_CALLBACK (appearance_settings_install_theme_cb), builder);
+
+    /* Switch for xfwm4 theme matching, gets hidden if xfwm4 is not installed */
+    path = g_find_program_in_path ("xfwm4");
+    if (path != NULL)
+    {
+        object = gtk_builder_get_object (builder, "xfwm4_sync_switch");
+        xfconf_g_property_bind (xsettings_channel, "/Xfce/SyncThemes", G_TYPE_BOOLEAN, G_OBJECT (object), "state");
+    }
+    else
+    {
+        object = gtk_builder_get_object (builder, "xfwm4_sync");
+        gtk_widget_hide (GTK_WIDGET (object));
+    }
+    g_free (path);
 
     /* Subpixel (rgba) hinting Combo */
     object = gtk_builder_get_object (builder, "xft_rgba_store");
@@ -1138,6 +1220,11 @@ appearance_settings_dialog_configure_widgets (GtkBuilder *builder)
     object = gtk_builder_get_object (builder, "xft_rgba_combo_box");
     appearance_settings_dialog_channel_property_changed (xsettings_channel, "/Xft/RGBA", NULL, builder);
     g_signal_connect (G_OBJECT (object), "changed", G_CALLBACK (cb_rgba_style_combo_changed), NULL);
+
+    /* Enable buttons in native GTK dialog headers */
+    object = gtk_builder_get_object (builder, "gtk_dialog_button_header_check_button");
+    xfconf_g_property_bind (xsettings_channel, "/Gtk/DialogsUseHeader", G_TYPE_BOOLEAN,
+                            G_OBJECT (object), "active");
 
     /* Enable editable menu accelerators */
     object = gtk_builder_get_object (builder, "gtk_caneditaccels_check_button");
@@ -1254,7 +1341,7 @@ main (gint argc, gchar **argv)
     if (G_UNLIKELY (opt_version))
     {
         g_print ("%s %s (Xfce %s)\n\n", G_LOG_DOMAIN, PACKAGE_VERSION, xfce_version_string ());
-        g_print ("%s\n", "Copyright (c) 2008-2019");
+        g_print ("%s\n", "Copyright (c) 2008-2022");
         g_print ("\t%s\n\n", _("The Xfce development team. All rights reserved."));
         g_print (_("Please report bugs to <%s>."), PACKAGE_BUGREPORT);
         g_print ("\n");
@@ -1295,7 +1382,6 @@ main (gint argc, gchar **argv)
             {
                 /* build the dialog */
                 dialog = gtk_builder_get_object (builder, "dialog");
-                gtk_window_set_type_hint (GTK_WINDOW (dialog), GDK_WINDOW_TYPE_HINT_NORMAL);
 
                 g_signal_connect (dialog, "response",
                     G_CALLBACK (appearance_settings_dialog_response), NULL);

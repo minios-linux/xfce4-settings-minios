@@ -128,8 +128,6 @@ xfce_mime_helper_chooser_class_init (XfceMimeHelperChooserClass *klass)
 static void
 xfce_mime_helper_chooser_init (XfceMimeHelperChooser *chooser)
 {
-  AtkRelationSet *relations;
-  AtkRelation    *relation;
   AtkObject      *object;
   GtkWidget      *separator;
   GtkWidget      *button;
@@ -163,12 +161,7 @@ xfce_mime_helper_chooser_init (XfceMimeHelperChooser *chooser)
   gtk_box_pack_start (GTK_BOX (hbox), chooser->label, TRUE, TRUE, 0);
   gtk_widget_show (chooser->label);
 
-  /* set Atk label relation for the button */
-  object = gtk_widget_get_accessible (button);
-  relations = atk_object_ref_relation_set (gtk_widget_get_accessible (chooser->label));
-  relation = atk_relation_new (&object, 1, ATK_RELATION_LABEL_FOR);
-  atk_relation_set_add (relations, relation);
-  g_object_unref (G_OBJECT (relation));
+  xfce_gtk_label_set_a11y_relation (GTK_LABEL (chooser->label), GTK_WIDGET (button));
 
   separator = g_object_new (GTK_TYPE_SEPARATOR, "orientation", GTK_ORIENTATION_VERTICAL, "height-request", 16, NULL);
   gtk_box_pack_start (GTK_BOX (hbox), separator, FALSE, FALSE, 0);
@@ -618,48 +611,6 @@ menu_activate_other (GtkWidget        *item,
 }
 
 
-#if !GTK_CHECK_VERSION (3, 22, 0)
-static void
-menu_position (GtkMenu  *menu,
-               gint     *x,
-               gint     *y,
-               gboolean *push_in,
-               gpointer  chooser)
-{
-  GtkAllocation  chooser_allocation;
-  GtkAllocation  menu_allocation;
-  GdkRectangle   geometry;
-  GdkScreen     *screen;
-  GtkWidget     *toplevel = gtk_widget_get_toplevel (chooser);
-  gint           monitor;
-  gint           x0;
-  gint           y0;
-
-  gtk_widget_translate_coordinates (GTK_WIDGET (chooser), toplevel, 0, 0, &x0, &y0);
-
-  gtk_widget_get_allocation (GTK_WIDGET (chooser), &chooser_allocation);
-  gtk_widget_get_allocation (GTK_WIDGET (menu), &menu_allocation);
-
-  gdk_window_get_position (gtk_widget_get_window (GTK_WIDGET (chooser)), x, y);
-
-  *y += y0;
-  *x += x0;
-
-  /* verify the the menu is on-screen */
-  screen = gtk_widget_get_screen (GTK_WIDGET (chooser));
-  if (G_LIKELY (screen != NULL))
-    {
-      monitor = gdk_screen_get_monitor_at_point (screen, *x, *y);
-      gdk_screen_get_monitor_geometry (screen, monitor, &geometry);
-      if (*y + menu_allocation.height > geometry.y + geometry.height)
-        *y -= menu_allocation.height - chooser_allocation.height;
-    }
-
-  *push_in = TRUE;
-}
-#endif
-
-
 
 static void
 xfce_mime_helper_chooser_pressed (XfceMimeHelperChooser *chooser,
@@ -808,11 +759,7 @@ xfce_mime_helper_chooser_pressed (XfceMimeHelperChooser *chooser,
 
   /* run the loop for the menu */
   gtk_grab_add (menu);
-#if GTK_CHECK_VERSION (3, 22, 0)
   gtk_menu_popup_at_widget (GTK_MENU (menu), button, GDK_GRAVITY_SOUTH_WEST, GDK_GRAVITY_NORTH_WEST, NULL);
-#else
-  gtk_menu_popup (GTK_MENU (menu), NULL, NULL, menu_position, button, 0, gtk_get_current_event_time ());
-#endif
   g_main_loop_run (loop);
   gtk_grab_remove (menu);
   g_main_loop_unref (loop);

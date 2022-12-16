@@ -30,6 +30,7 @@
 #include <gdk/gdkx.h>
 
 #include <libxfce4util/libxfce4util.h>
+#include <libxfce4ui/libxfce4ui.h>
 #include <xfconf/xfconf.h>
 
 #include "xfce-mime-window.h"
@@ -51,7 +52,11 @@ static void
 mime_window_dialog_response (GtkWidget *dialog,
                              gint       response_id)
 {
-    gtk_main_quit ();
+    if (response_id == GTK_RESPONSE_HELP)
+        xfce_dialog_show_help_with_version (GTK_WINDOW (dialog), "xfce4-settings", "mime",
+                                            NULL, XFCE4_SETTINGS_VERSION_SHORT);
+    else
+        gtk_main_quit ();
 }
 
 
@@ -93,7 +98,7 @@ main (gint argc, gchar **argv)
     if (G_UNLIKELY (opt_version))
     {
         g_print ("%s %s (Xfce %s)\n\n", G_LOG_DOMAIN, PACKAGE_VERSION, xfce_version_string ());
-        g_print ("%s\n", "Copyright (c) 2008-2019");
+        g_print ("%s\n", "Copyright (c) 2008-2022");
         g_print ("\t%s\n\n", _("The Xfce development team. All rights reserved."));
         g_print (_("Please report bugs to <%s>."), PACKAGE_BUGREPORT);
         g_print ("\n");
