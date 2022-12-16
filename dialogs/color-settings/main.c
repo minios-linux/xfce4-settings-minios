@@ -173,9 +173,7 @@ color_settings_liststore_add_profile (ColorSettings *settings,
     gchar *escaped = NULL;
     guint kind = 0;
     const gchar *warning = NULL;
-#if CD_CHECK_VERSION(0,1,25)
     gchar **warnings;
-#endif
 
     /* iter is optional */
     if (iter == NULL)
@@ -193,7 +191,6 @@ color_settings_liststore_add_profile (ColorSettings *settings,
         g_string_prepend (string, _("Default: "));
         kind = 1;
     }
-#if CD_CHECK_VERSION(0,1,14)
     if (g_strcmp0 (id, CD_PROFILE_METADATA_DATA_SOURCE_STANDARD) == 0) {
         /* TRANSLATORS: this is a profile prefix to signify the
          * profile his a standard space like AdobeRGB */
@@ -206,14 +203,11 @@ color_settings_liststore_add_profile (ColorSettings *settings,
         g_string_prepend (string, _("Test profile: "));
         kind = 3;
     }
-#endif
 
     /* is the profile faulty */
-#if CD_CHECK_VERSION(0,1,25)
     warnings = cd_profile_get_warnings (profile);
     if (warnings != NULL && warnings[0] != NULL)
         warning = "dialog-warning-symbolic";
-#endif
 
     escaped = g_markup_escape_text (string->str, -1);
     gtk_list_store_append (GTK_LIST_STORE (settings->liststore_assign), iter);
@@ -377,11 +371,9 @@ color_settings_add_profiles_suitable_for_devices (ColorSettings *settings,
         if (!ret)
             continue;
 
-  #if CD_CHECK_VERSION(0,1,13)
         /* ignore profiles from other user accounts */
         if (!cd_profile_has_access (profile_tmp))
             continue;
-  #endif
 
         /* add */
         color_settings_liststore_add_profile (settings,
@@ -538,7 +530,6 @@ color_settings_profile_import_cb (GtkWidget *widget,
         return;
     }
 
-#if CD_CHECK_VERSION(0,1,12)
     profile = cd_client_import_profile_sync (settings->client,
                                              file,
                                              settings->cancellable,
@@ -547,7 +538,6 @@ color_settings_profile_import_cb (GtkWidget *widget,
         g_warning ("failed to get imported profile: %s", error->message);
         return;
     }
-#endif
 
     color_settings_profile_add_cb (NULL, settings);
 }
@@ -1402,7 +1392,7 @@ main (gint argc, gchar **argv)
     /* check if we should print version information */
     if (G_UNLIKELY (opt_version)) {
         g_print ("%s %s (Xfce %s)\n\n", G_LOG_DOMAIN, PACKAGE_VERSION, xfce_version_string ());
-        g_print ("%s\n", "Copyright (c) 2008-2019");
+        g_print ("%s\n", "Copyright (c) 2008-2022");
         g_print ("\t%s\n\n", _("The Xfce development team. All rights reserved."));
         g_print (_("Please report bugs to <%s>."), PACKAGE_BUGREPORT);
         g_print ("\n");
@@ -1424,7 +1414,6 @@ main (gint argc, gchar **argv)
         if (G_UNLIKELY (opt_socket_id == 0)) {
             /* Get the dialog widget */
             settings->dialog = gtk_builder_get_object (builder, "dialog");
-            gtk_window_set_type_hint (GTK_WINDOW (settings->dialog), GDK_WINDOW_TYPE_HINT_NORMAL);
 
             g_signal_connect (settings->dialog, "response",
                               G_CALLBACK (color_settings_dialog_response), settings);
@@ -1438,7 +1427,8 @@ main (gint argc, gchar **argv)
         else {
             /* Create plug widget */
             plug = gtk_plug_new (opt_socket_id);
-            g_signal_connect (plug, "delete-event", G_CALLBACK (color_settings_dialog_destroy), settings);
+            g_signal_connect_swapped (plug, "delete-event",
+                                      G_CALLBACK (color_settings_dialog_destroy), settings);
             gtk_widget_show (plug);
 
             /* Stop startup notification */

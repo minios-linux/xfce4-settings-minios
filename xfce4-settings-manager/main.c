@@ -76,7 +76,7 @@ main(int argc,
     if (G_UNLIKELY (opt_version))
     {
         g_print ("%s %s (Xfce %s)\n\n", G_LOG_DOMAIN, PACKAGE_VERSION, xfce_version_string());
-        g_print ("%s\n", "Copyright (c) 2008-2019");
+        g_print ("%s\n", "Copyright (c) 2008-2022");
         g_print ("\t%s\n\n", _("The Xfce development team. All rights reserved."));
         g_print (_("Please report bugs to <%s>."), PACKAGE_BUGREPORT);
         g_print ("\n");
@@ -100,7 +100,6 @@ main(int argc,
     garcon_set_environment ("XFCE");
 
     dialog = xfce_settings_manager_dialog_new ();
-    gtk_window_set_type_hint (GTK_WINDOW (dialog), GDK_WINDOW_TYPE_HINT_NORMAL);
     gtk_window_present (GTK_WINDOW (dialog));
 
     if (opt_dialog != NULL

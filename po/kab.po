@@ -1,21 +1,20 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Kahina Messaoudi, 2021
-# ZiriSut, 2021
-# 
-#, fuzzy
+# ButterflyOfFire, 2020
+# ButterflyOfFire, 2020
+# Slimane Selyan AMIRI <selyan.kab@protonmail.com>, 2020
+# Slimane Selyan AMIRI <selyan.kab@protonmail.com>, 2020
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Xfce4-settings\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-06 12:51+0100\n"
-"PO-Revision-Date: 2020-12-28 17:23+0000\n"
-"Last-Translator: ZiriSut, 2021\n"
-"Language-Team: Kabyle (https://www.transifex.com/xfce/teams/16840/kab/)\n"
+"POT-Creation-Date: 2022-04-03 00:49+0200\n"
+"PO-Revision-Date: 2013-07-02 20:47+0000\n"
+"Last-Translator: Slimane Selyan AMIRI <selyan.kab@protonmail.com>, 2020\n"
+"Language-Team: Kabyle (http://www.transifex.com/xfce/xfce4-settings/language/kab/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -30,36 +29,34 @@ msgctxt "Monitor vendor"
 msgid "Unknown"
 msgstr "Arussin"
 
-#: ../common/xfce-randr.c:296 ../dialogs/display-settings/main.c:4297
+#: ../common/xfce-randr.c:299 ../dialogs/display-settings/main.c:4361
 #, c-format
 msgid "Unable to query the version of the RandR extension being used"
 msgstr "Asuter n lqem n usiɣzef RandR yettusqedcen d awezɣi"
 
 #. 1.2 is required
-#: ../common/xfce-randr.c:304
+#: ../common/xfce-randr.c:307
 #, c-format
 msgid ""
 "This system is using RandR %d.%d. For the display settings to work version "
 "1.2 is required at least"
-msgstr ""
-"Anagraw-a isseqdac RandR %d.%d. I wakken ad ddun yiɣewwaren n uskan, xerṣum "
-"lqem 1.2 yettusra"
+msgstr "Anagraw-a isseqdac RandR %d.%d. I wakken ad ddun yiɣewwaren n uskan, xerṣum lqem 1.2 yettusra"
 
-#: ../common/xfce-randr.c:594
+#: ../common/xfce-randr.c:597
 msgid "Laptop"
-msgstr "Laptop"
+msgstr "Aselkim aziraz"
 
 #. TRANSLATORS: an externally connected display, where %s is either the
 #. * model, vendor or ID, e.g. 'LP2480zx Monitor'
-#: ../common/xfce-randr.c:607 ../dialogs/color-settings/color-device.c:65
+#: ../common/xfce-randr.c:610 ../dialogs/color-settings/color-device.c:65
 msgid "Monitor"
-msgstr "Asefrak"
+msgstr "Agdil"
 
-#: ../common/xfce-randr.c:610
+#: ../common/xfce-randr.c:613
 msgid "Television"
 msgstr "Tiliẓri"
 
-#: ../common/xfce-randr.c:614
+#: ../common/xfce-randr.c:617
 msgid "Digital display"
 msgstr "Askan umḍin"
 
@@ -69,29 +66,29 @@ msgid "Accessibility"
 msgstr "Tanekcumt"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:2
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:12
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:13
 #: ../dialogs/color-settings/color-dialog.glade.h:2
-#: ../dialogs/display-settings/display-dialog.glade.h:11
+#: ../dialogs/display-settings/display-dialog.glade.h:17
 #: ../dialogs/display-settings/minimal-display-dialog.glade.h:8
 #: ../dialogs/display-settings/profile-changed-dialog.glade.h:2
-#: ../dialogs/display-settings/main.c:4337
+#: ../dialogs/display-settings/main.c:4401
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:5
-#: ../dialogs/mime-settings/xfce-mime-window.c:191
+#: ../dialogs/mime-settings/xfce-mime-window.c:188
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:13
 #: ../xfce4-settings-editor/main.c:166
-#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:236
+#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:232
 msgid "_Close"
 msgstr "_Mdel"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:3
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:13
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:12
 #: ../dialogs/color-settings/color-dialog.glade.h:3
-#: ../dialogs/display-settings/display-dialog.glade.h:10
+#: ../dialogs/display-settings/display-dialog.glade.h:16
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:6
-#: ../dialogs/mime-settings/xfce-mime-window.c:194
+#: ../dialogs/mime-settings/xfce-mime-window.c:191
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:12
 #: ../xfce4-settings-editor/main.c:165
-#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:225
+#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:221
 msgid "_Help"
 msgstr "Ta_llalt"
 
@@ -126,11 +123,7 @@ msgid ""
 "When enabled, modifier keys (such as Control, Alt, and Shift) do not need to"
 " be held down (they can be pressed and then released) when multiple keys "
 "would normally need to be pressed at the same time."
-msgstr ""
-"Mi ara tturemdent, Tisura n umyibdel (am Control, Alt d Shift) ur ḥwaǧent "
-"ara ad teqqimeḍ kra n wakud deg tussda fell-asen (ad tesdeḍ kan fell-asent "
-"syen ad asent-tserḥeḍ) ma yili aṭas n tqeffalin tewwi-d tussda fell-asent "
-"ɣef tikkelt."
+msgstr "Mi ara tturemdent, Tisura n umyibdel (am Control, Alt d Shift) ur ḥwaǧent ara ad teqqimeḍ kra n wakud deg tussda fell-asen (ad tesdeḍ kan fell-asent syen ad asent-tserḥeḍ) ma yili aṭas n tqeffalin tewwi-d tussda fell-asent ɣef tikkelt."
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:11
 msgid "_Use sticky keys"
@@ -144,9 +137,7 @@ msgstr "_Sekkeṛ tisura ineṭṭḍen"
 msgid ""
 "When selected, modifier keys (such as Control, Alt, and Shift) will remain "
 "locked in the pressed state until pressed again"
-msgstr ""
-"Mi ara ttufernent, tisura n umesnifal (am Control, Alt d Shift) ad qqiment "
-"sekkṛent deg waddad n tussda alamma tules tussda fell-asent tikkelt-nniḍen"
+msgstr "Mi ara ttufernent, tisura n umesnifal (am Control, Alt d Shift) ad qqiment sekkṛent deg waddad n tussda alamma tules tussda fell-asent tikkelt-nniḍen"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:14
 msgid "Disable sticky keys if two keys are _pressed"
@@ -156,13 +147,11 @@ msgstr "Sens tiqeffalin inetḍen ma yella snat tqeffalin ttwassdent"
 msgid ""
 "When selected, the \"sticky keys\" feature will be disabled if two keys are "
 "pressed simultaneously"
-msgstr ""
-"Mi ara tettwafran, tamahilt n \"tqeffalin inetḍen\" ad nsent ma yella snat n"
-" tqeffalin ttwassdent ɣef tikkelt"
+msgstr "Mi ara tettwafran, tamahilt n \"tqeffalin inetḍen\" ad nsent ma yella snat n tqeffalin ttwassdent ɣef tikkelt"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:16
 msgid "Sticky Keys"
-msgstr "Tisura inetḍen"
+msgstr "Tisura ineṭṭḍen"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:17
 msgid ""
@@ -208,7 +197,7 @@ msgstr ""
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:26
 msgid "Bounce Keys"
-msgstr "Tiqeffalin yettbumbin"
+msgstr "Tisura i d-yettuɣalen"
 
 #: ../dialogs/accessibility-settings/accessibility-dialog.glade.h:27
 msgid "Keyboa_rd"
@@ -304,34 +293,34 @@ msgstr "_Taɣerdayt"
 
 #: ../dialogs/accessibility-settings/main.c:46
 #: ../dialogs/appearance-settings/main.c:106
-#: ../dialogs/color-settings/main.c:48 ../dialogs/display-settings/main.c:139
-#: ../dialogs/keyboard-settings/main.c:40 ../dialogs/mime-settings/main.c:43
+#: ../dialogs/color-settings/main.c:48 ../dialogs/display-settings/main.c:140
+#: ../dialogs/keyboard-settings/main.c:40 ../dialogs/mime-settings/main.c:44
 #: ../dialogs/mouse-settings/main.c:86 ../xfce4-settings-editor/main.c:49
 msgid "Settings manager socket"
 msgstr "Agrudem n umsefrak n yiɣewwaren"
 
 #: ../dialogs/accessibility-settings/main.c:46
 #: ../dialogs/appearance-settings/main.c:106
-#: ../dialogs/color-settings/main.c:48 ../dialogs/display-settings/main.c:139
-#: ../dialogs/keyboard-settings/main.c:40 ../dialogs/mime-settings/main.c:43
+#: ../dialogs/color-settings/main.c:48 ../dialogs/display-settings/main.c:140
+#: ../dialogs/keyboard-settings/main.c:40 ../dialogs/mime-settings/main.c:44
 #: ../dialogs/mouse-settings/main.c:86 ../xfce4-settings-editor/main.c:49
 msgid "SOCKET ID"
 msgstr "ASULAY N UGRUDEM"
 
 #: ../dialogs/accessibility-settings/main.c:47
 #: ../dialogs/appearance-settings/main.c:107
-#: ../dialogs/color-settings/main.c:49 ../dialogs/display-settings/main.c:140
-#: ../dialogs/keyboard-settings/main.c:41 ../dialogs/mime-settings/main.c:44
+#: ../dialogs/color-settings/main.c:49 ../dialogs/display-settings/main.c:141
+#: ../dialogs/keyboard-settings/main.c:41 ../dialogs/mime-settings/main.c:45
 #: ../dialogs/mouse-settings/main.c:87 ../xfce4-settings-editor/main.c:50
 #: ../xfce4-settings-manager/main.c:43 ../xfsettingsd/main.c:102
 msgid "Version information"
 msgstr "Talɣut n lqem"
 
 #: ../dialogs/accessibility-settings/main.c:200
-#: ../dialogs/appearance-settings/main.c:1239
+#: ../dialogs/appearance-settings/main.c:1301
 #: ../dialogs/color-settings/main.c:1389
-#: ../dialogs/display-settings/main.c:4265
-#: ../dialogs/keyboard-settings/main.c:78 ../dialogs/mime-settings/main.c:78
+#: ../dialogs/display-settings/main.c:4329
+#: ../dialogs/keyboard-settings/main.c:78 ../dialogs/mime-settings/main.c:83
 #: ../dialogs/mime-settings/xfce-mime-helper-main.c:158
 #: ../dialogs/mouse-settings/main.c:1886 ../xfce4-settings-editor/main.c:120
 #: ../xfce4-settings-manager/main.c:64 ../xfsettingsd/main.c:242
@@ -341,20 +330,20 @@ msgid "Type '%s --help' for usage."
 msgstr "Aru '%s --help' i useqdec."
 
 #: ../dialogs/accessibility-settings/main.c:219
-#: ../dialogs/appearance-settings/main.c:1258
+#: ../dialogs/appearance-settings/main.c:1320
 #: ../dialogs/color-settings/main.c:1406
-#: ../dialogs/display-settings/main.c:4284
-#: ../dialogs/keyboard-settings/main.c:94 ../dialogs/mime-settings/main.c:97
+#: ../dialogs/display-settings/main.c:4348
+#: ../dialogs/keyboard-settings/main.c:94 ../dialogs/mime-settings/main.c:102
 #: ../dialogs/mouse-settings/main.c:1905 ../xfce4-settings-editor/main.c:139
 #: ../xfce4-settings-manager/main.c:80 ../xfsettingsd/main.c:258
 msgid "The Xfce development team. All rights reserved."
 msgstr "Tarbaɛt n tneflit n Xfce. Izerfan akk ttwaḥerzen."
 
 #: ../dialogs/accessibility-settings/main.c:220
-#: ../dialogs/appearance-settings/main.c:1259
+#: ../dialogs/appearance-settings/main.c:1321
 #: ../dialogs/color-settings/main.c:1407
-#: ../dialogs/display-settings/main.c:4285
-#: ../dialogs/keyboard-settings/main.c:95 ../dialogs/mime-settings/main.c:98
+#: ../dialogs/display-settings/main.c:4349
+#: ../dialogs/keyboard-settings/main.c:95 ../dialogs/mime-settings/main.c:103
 #: ../dialogs/mouse-settings/main.c:1906 ../xfce4-settings-editor/main.c:140
 #: ../xfce4-settings-manager/main.c:81 ../xfsettingsd/main.c:259
 #, c-format
@@ -372,9 +361,9 @@ msgid ""
 msgstr ""
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:1
-#: ../dialogs/appearance-settings/main.c:1119
-#: ../dialogs/display-settings/main.c:106
-#: ../dialogs/display-settings/main.c:117
+#: ../dialogs/appearance-settings/main.c:1181
+#: ../dialogs/display-settings/main.c:107
+#: ../dialogs/display-settings/main.c:118
 msgid "None"
 msgstr "Ulac"
 
@@ -388,11 +377,11 @@ msgstr "D alemmas"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:4
 msgid "Full"
-msgstr "Aččuran"
+msgstr "Ačuran"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:5
 msgid "Icons"
-msgstr "Tignitin"
+msgstr "Icônes"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:6
 msgid "Text"
@@ -411,243 +400,248 @@ msgid "1x (no scaling)"
 msgstr ""
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:10
-#: ../dialogs/display-settings/display-dialog.glade.h:2
+#: ../dialogs/display-settings/display-dialog.glade.h:4
 msgid "2x"
 msgstr "2x"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:11
 #: ../dialogs/appearance-settings/xfce-ui-settings.desktop.in.h:1
 msgid "Appearance"
-msgstr "Arwes"
+msgstr "Timeẓri"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:14
 #: ../dialogs/color-settings/color-dialog.glade.h:10
+#: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:24
 #: ../xfce4-settings-editor/xfce-settings-editor-box.c:327
 msgid "_Add"
-msgstr "_Rnu"
+msgstr "Rnu (_A)"
 
 #: ../dialogs/appearance-settings/appearance-dialog.glade.h:15
+msgid "Set matching Xfwm4 theme if there is one"
+msgstr ""
+
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:16
 msgid "St_yle"
 msgstr "Aɣ_anib"
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:16
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:17
 msgid "_Icons"
 msgstr "_Tignitin"
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:17
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:18
 msgid ""
 "This font will be used as the default font used when drawing user interface "
 "text"
 msgstr ""
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:18
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:19
 msgid "Select a default font"
 msgstr "Fren tasefsit tamezwert"
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:19
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:20
 msgid "Default Fon_t"
 msgstr "Tasef_sit tamezwert"
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:20
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:21
 msgid ""
 "This font will be used as the default monospace font, for example by "
 "terminal emulators."
 msgstr ""
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:21
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:22
 msgid "Select a default monospace font"
 msgstr ""
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:22
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:23
 msgid "Default _Monospace Font"
 msgstr ""
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:23
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:24
 msgid "_Enable anti-aliasing"
 msgstr ""
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:24
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:25
 msgid ""
 "Anti-aliasing, or font smoothing, can improve the look of text on the screen"
 msgstr ""
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:25
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:26
 msgid "Hintin_g:"
 msgstr ""
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:26
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:27
 msgid ""
 "Many fonts contain information that provides extra hints as to how best draw"
 " the font; pick whichever looks best according to personal preference"
 msgstr ""
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:27
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:28
 msgid "Sub-_pixel order:"
 msgstr ""
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:28
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:29
 msgid ""
 "Font quality on a TFT or LCD screen can be greatly improved by choosing the "
 "correct sub-pixel order of the screen"
 msgstr ""
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:29
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:30
 msgid "Rendering"
 msgstr ""
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:30
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:31
 msgid "Custom _DPI setting:"
 msgstr "Sagen _aɣewwar DPI:"
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:31
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:32
 msgid ""
 "Override the detected monitor resolution if fonts look too large or too "
 "small"
 msgstr ""
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:32
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:33
 msgid "DPI"
 msgstr "DPI"
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:33
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:34
 msgid "_Fonts"
 msgstr "_Tisefsiyin"
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:34
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:35
 msgid "Show images on _buttons"
 msgstr ""
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:35
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:36
 msgid "Specify whether icons should be displayed next to text in buttons"
 msgstr ""
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:36
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:37
 msgid "Show images in _menus"
 msgstr ""
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:37
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:38
 msgid "Specify whether icons should be displayed next to items in menus"
 msgstr ""
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:38
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:39
 msgid "Enable e_ditable accelerators"
 msgstr ""
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:39
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:40
 msgid ""
 "If selected, keyboard shortcuts for menu items can be changed by hovering "
 "the mouse over the menu item and pressing the new key combination for the "
 "shortcut"
 msgstr ""
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:40
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:41
 msgid "Menus and Buttons"
 msgstr "Umuɣen d tqeffalin"
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:41
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:42
 msgid "Enable _event sounds"
 msgstr ""
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:42
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:43
 msgid "Enable or disable event sounds globally (requires \"Canberra\" support)"
 msgstr ""
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:43
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:44
 msgid "Enable input feedbac_k sounds"
 msgstr ""
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:44
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:45
 msgid ""
 "Specify whether mouse clicks and other user input will cause event sounds to"
 " play"
 msgstr ""
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:45
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:46
 msgid "Event sounds"
 msgstr "Imesliyen n uneḍru"
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:46
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:47
 msgid "Adjust the system-wide display scaling"
 msgstr ""
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:47
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:48
 msgid "_Window Scaling"
 msgstr ""
 
-#: ../dialogs/appearance-settings/appearance-dialog.glade.h:48
+#: ../dialogs/appearance-settings/appearance-dialog.glade.h:49
 msgid "Setti_ngs"
-msgstr "Iɣewwa_ren"
+msgstr "Iɣewware_n"
 
-#: ../dialogs/appearance-settings/main.c:451
+#: ../dialogs/appearance-settings/main.c:467
 #, c-format
 msgid ""
 "Warning: this icon theme has no cache file. You can create this by running "
 "<i>gtk-update-icon-cache %s/%s/</i> in a terminal emulator."
 msgstr ""
 
-#: ../dialogs/appearance-settings/main.c:894
+#: ../dialogs/appearance-settings/main.c:944
 #, c-format
 msgid "File is larger than %d MB, installation aborted"
 msgstr ""
 
-#: ../dialogs/appearance-settings/main.c:899
+#: ../dialogs/appearance-settings/main.c:949
 msgid "Failed to create temporary directory"
 msgstr ""
 
-#: ../dialogs/appearance-settings/main.c:904
+#: ../dialogs/appearance-settings/main.c:954
 msgid "Failed to extract archive"
 msgstr ""
 
-#: ../dialogs/appearance-settings/main.c:909
+#: ../dialogs/appearance-settings/main.c:959
 msgid "Unknown format, only archives and directories are supported"
 msgstr "Amasal arussin, ala iɣbaren d yikaramen i yettusefraken"
 
-#: ../dialogs/appearance-settings/main.c:914
+#: ../dialogs/appearance-settings/main.c:964
 #, c-format
 msgid "An unknown error, exit code is %d"
 msgstr "Tuccḍa tarussint, tangalt yellan d %d"
 
-#: ../dialogs/appearance-settings/main.c:921
+#: ../dialogs/appearance-settings/main.c:971
 msgid "Failed to install theme"
 msgstr "Asebded n usentel ur yeddi ara"
 
-#: ../dialogs/appearance-settings/main.c:975
+#: ../dialogs/appearance-settings/main.c:1025
 #, c-format
 msgid "Install %s theme"
 msgstr "Sebded asentel %s"
 
 #. Create cancel button
-#: ../dialogs/appearance-settings/main.c:979
+#: ../dialogs/appearance-settings/main.c:1029
 #: ../dialogs/color-settings/color-dialog.glade.h:18
 #: ../dialogs/color-settings/main.c:130
 #: ../dialogs/keyboard-settings/command-dialog.c:116
 #: ../dialogs/keyboard-settings/command-dialog.c:280
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:2
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:395
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:540
-#: ../dialogs/mime-settings/xfce-mime-helper-launcher-dialog.c:109
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:388
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:533
+#: ../dialogs/mime-settings/xfce-mime-helper-launcher-dialog.c:107
 msgid "_Cancel"
-msgstr "_Sefsex"
+msgstr "Sefsex (_C)"
 
-#: ../dialogs/appearance-settings/main.c:981
+#: ../dialogs/appearance-settings/main.c:1031
 #: ../dialogs/keyboard-settings/command-dialog.c:281
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:396
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:389
 msgid "_Open"
 msgstr "_Ldi"
 
-#: ../dialogs/appearance-settings/main.c:1123
+#: ../dialogs/appearance-settings/main.c:1185
 msgid "RGB"
 msgstr "RGB"
 
-#: ../dialogs/appearance-settings/main.c:1127
+#: ../dialogs/appearance-settings/main.c:1189
 msgid "BGR"
 msgstr "BGR"
 
-#: ../dialogs/appearance-settings/main.c:1131
+#: ../dialogs/appearance-settings/main.c:1193
 msgid "Vertical RGB"
 msgstr "RGB ubdid"
 
-#: ../dialogs/appearance-settings/main.c:1135
+#: ../dialogs/appearance-settings/main.c:1197
 msgid "Vertical BGR"
 msgstr "RGB ubdid"
 
@@ -731,6 +725,7 @@ msgid "Add a profile to the currently selected device"
 msgstr ""
 
 #: ../dialogs/color-settings/color-dialog.glade.h:12
+#: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:26
 msgid "_Remove"
 msgstr "_Kkes"
 
@@ -744,7 +739,7 @@ msgstr "Sken talɣut leqqayen ɣef umaɣnu yettwafernen"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:15
 msgid "Enable"
-msgstr "Rmed"
+msgstr "Sermed"
 
 #: ../dialogs/color-settings/color-dialog.glade.h:16
 msgid "Enable the selected profile"
@@ -757,8 +752,8 @@ msgstr "Rnu amaɣnu i yibenk"
 #: ../dialogs/color-settings/color-dialog.glade.h:19
 #: ../dialogs/keyboard-settings/command-dialog.c:120
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:3
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:541
-#: ../dialogs/mime-settings/xfce-mime-helper-launcher-dialog.c:110
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:534
+#: ../dialogs/mime-settings/xfce-mime-helper-launcher-dialog.c:108
 msgid "_OK"
 msgstr "_IH"
 
@@ -785,7 +780,7 @@ msgstr "Sekyed amaɣnu"
 #: ../dialogs/color-settings/color-profile.c:106
 msgctxt "Automatically generated profile"
 msgid "Automatic"
-msgstr "Awurman"
+msgstr "Automatique"
 
 #. TRANSLATORS: the profile quality - low quality profiles take
 #. * much less time to generate but may be a poor reflection of the
@@ -814,21 +809,21 @@ msgstr "Taɣara εlayen"
 #: ../dialogs/color-settings/color-profile.c:140
 msgctxt "Colorspace fallback"
 msgid "Default RGB"
-msgstr "RGB amezwer"
+msgstr "Ixuṣṣ RGB"
 
 #. TRANSLATORS: this default CMYK space is used for printers that
 #. * do not have additional printer profiles specified in the PPD
 #: ../dialogs/color-settings/color-profile.c:146
 msgctxt "Colorspace fallback"
 msgid "Default CMYK"
-msgstr "CMYK amezwer"
+msgstr "Ixuṣṣ CMYK"
 
 #. TRANSLATORS: this default gray space is used for printers that
 #. * do not have additional printer profiles specified in the PPD
 #: ../dialogs/color-settings/color-profile.c:152
 msgctxt "Colorspace fallback"
 msgid "Default Gray"
-msgstr "Amelliɣdi amezwer"
+msgstr "Amelliɣdi n lexṣas"
 
 #. TRANSLATORS: an ICC profile is a file containing colorspace data
 #: ../dialogs/color-settings/main.c:128
@@ -842,30 +837,30 @@ msgstr "_Kter"
 #. TRANSLATORS: filter name on the file->open dialog
 #: ../dialogs/color-settings/main.c:142
 msgid "Supported ICC profiles"
-msgstr "Imaɣunen ICC i yettεeddin"
+msgstr "Imaɣnuten ICC i yettεeddin"
 
 #. TRANSLATORS: filter name on the file->open dialog
 #: ../dialogs/color-settings/main.c:149
 msgid "All files"
-msgstr "Meṛṛa ifuyla"
+msgstr "Akk ifuyla"
 
 #. TRANSLATORS: this is a profile prefix to signify the
 #. * profile has been auto-generated for this hardware
 #: ../dialogs/color-settings/main.c:193
 msgid "Default: "
-msgstr "Amezwer:"
+msgstr "Lexṣas "
 
 #. TRANSLATORS: this is a profile prefix to signify the
 #. * profile his a standard space like AdobeRGB
 #: ../dialogs/color-settings/main.c:200
 msgid "Colorspace: "
-msgstr "Tallunt n yiniten"
+msgstr "Tallunt n yiniyen "
 
 #. TRANSLATORS: this is a profile prefix to signify the
 #. * profile is a test profile
 #: ../dialogs/color-settings/main.c:206
 msgid "Test profile: "
-msgstr "Amaɣnu n usekyed "
+msgstr "Asenqed n umaɣnu "
 
 #: ../dialogs/color-settings/main.c:244
 msgid "Compatible Profiles"
@@ -885,168 +880,188 @@ msgid "color;settings;management;display;monitors;printers;webcams;scanners;"
 msgstr ""
 
 #: ../dialogs/display-settings/confirmation-dialog.glade.h:1
-msgid "Confirmation"
-msgstr "Asentem"
+msgid "<b><big>Would you like to keep this configuration?</big></b>"
+msgstr ""
 
 #: ../dialogs/display-settings/confirmation-dialog.glade.h:2
+msgid ""
+"The previous configuration will be restored in <b>10 seconds</b> if you do "
+"not reply to this question."
+msgstr ""
+
+#: ../dialogs/display-settings/confirmation-dialog.glade.h:3
 msgid "Keep this configuration"
 msgstr "Eǧǧ tawila-a"
 
-#: ../dialogs/display-settings/confirmation-dialog.glade.h:3
+#: ../dialogs/display-settings/confirmation-dialog.glade.h:4
 msgid "Restore the previous configuration"
 msgstr "Err-d tawila yezrin"
 
-#: ../dialogs/display-settings/confirmation-dialog.glade.h:4
-msgid "<big><b>Would you like to keep this configuration?</b></big>"
-msgstr "<big><b>Tebɣiḍ ad teǧǧeḍ tawila-a?</b></big>"
-
-#: ../dialogs/display-settings/confirmation-dialog.glade.h:5
-msgid ""
-"The previous configuration will be restored in 10 seconds if you do not "
-"reply to this question."
+#: ../dialogs/display-settings/display-dialog.glade.h:1
+msgid "1.25x"
 msgstr ""
 
-#: ../dialogs/display-settings/display-dialog.glade.h:1
+#: ../dialogs/display-settings/display-dialog.glade.h:2
 msgid "1.5x"
 msgstr "1.5x"
 
 #: ../dialogs/display-settings/display-dialog.glade.h:3
-msgid "Custom:"
-msgstr "Sagen:"
-
-#: ../dialogs/display-settings/display-dialog.glade.h:4
-msgid "The primary display is currently configured to show:"
+msgid "1.75x"
 msgstr ""
 
 #: ../dialogs/display-settings/display-dialog.glade.h:5
+msgid "Custom:"
+msgstr "Asagen:"
+
+#: ../dialogs/display-settings/display-dialog.glade.h:6
+msgid "Do nothing"
+msgstr "Ur teg kra"
+
+#: ../dialogs/display-settings/display-dialog.glade.h:7
+msgid "Show dialog"
+msgstr ""
+
+#: ../dialogs/display-settings/display-dialog.glade.h:8
+msgid "Mirror"
+msgstr ""
+
+#: ../dialogs/display-settings/display-dialog.glade.h:9
+msgid "Extend"
+msgstr ""
+
+#: ../dialogs/display-settings/display-dialog.glade.h:10
+msgid "The primary display is currently configured to show:"
+msgstr ""
+
+#: ../dialogs/display-settings/display-dialog.glade.h:11
 msgid "Xfce Panel"
 msgstr "Agalis Xfce"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:6
+#: ../dialogs/display-settings/display-dialog.glade.h:12
 msgid "Desktop icons"
 msgstr "Tignitin n tnarit"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:7
+#: ../dialogs/display-settings/display-dialog.glade.h:13
 msgid "Notifications"
 msgstr "Ilɣa"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:8
+#: ../dialogs/display-settings/display-dialog.glade.h:14
 msgid "Configure..."
 msgstr "Swel..."
 
-#: ../dialogs/display-settings/display-dialog.glade.h:9
+#: ../dialogs/display-settings/display-dialog.glade.h:15
 #: ../dialogs/display-settings/xfce-display-settings.desktop.in.h:1
 msgid "Display"
-msgstr "Sken"
+msgstr "Affichage"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:12
+#: ../dialogs/display-settings/display-dialog.glade.h:18
 msgid "_Mirror displays"
 msgstr "_Tisit yettwaskanen"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:13
+#: ../dialogs/display-settings/display-dialog.glade.h:19
 msgid "Primary Display:"
 msgstr "Askan agejdan:"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:14
+#: ../dialogs/display-settings/display-dialog.glade.h:20
 msgid "R_esolution:"
 msgstr "A_fray:"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:15
+#: ../dialogs/display-settings/display-dialog.glade.h:21
 msgid "Refresh _rate:"
 msgstr "Smiren _afmiḍi:"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:16
+#: ../dialogs/display-settings/display-dialog.glade.h:22
 msgid "Ro_tation:"
 msgstr "Tu_zzya"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:17
+#: ../dialogs/display-settings/display-dialog.glade.h:23
 msgid "Ref_lection:"
 msgstr ""
 
-#: ../dialogs/display-settings/display-dialog.glade.h:18
+#: ../dialogs/display-settings/display-dialog.glade.h:24
 msgid "A_pply"
 msgstr "S_nes"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:19
+#: ../dialogs/display-settings/display-dialog.glade.h:25
 msgid "_Scale:"
 msgstr "_Sellum"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:20
+#: ../dialogs/display-settings/display-dialog.glade.h:26
 msgid "X:"
 msgstr "X:"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:21
+#: ../dialogs/display-settings/display-dialog.glade.h:27
 msgid "Y:"
 msgstr "Y:"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:22
+#: ../dialogs/display-settings/display-dialog.glade.h:28
 msgid "_General"
 msgstr "_Amatu"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:23
+#: ../dialogs/display-settings/display-dialog.glade.h:29
 msgid "<b>Profiles</b>"
 msgstr "<b>Imaɣunen</b>"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:24
+#: ../dialogs/display-settings/display-dialog.glade.h:30
 msgid "<b>Connecting Displays</b>"
 msgstr "<b>Tuqqna n yigdilen</b>"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:25
+#: ../dialogs/display-settings/display-dialog.glade.h:31
 msgid "Delete the currently selected display profile."
 msgstr "Kkes amaɣnu n uskan yettwafernen melmi kan."
 
-#: ../dialogs/display-settings/display-dialog.glade.h:26
+#: ../dialogs/display-settings/display-dialog.glade.h:32
 msgid "Apply"
 msgstr "Snes"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:27
+#: ../dialogs/display-settings/display-dialog.glade.h:33
 msgid "Apply the currently selected display profile."
 msgstr "Snes amaɣnu n uskan yettwafernen melmi kan."
 
-#: ../dialogs/display-settings/display-dialog.glade.h:28
+#: ../dialogs/display-settings/display-dialog.glade.h:34
 msgid "Create a new display profile."
 msgstr "Rnu amaɣnu n ugdil amaynut."
 
-#: ../dialogs/display-settings/display-dialog.glade.h:29
+#: ../dialogs/display-settings/display-dialog.glade.h:35
 msgid "Update an existing profile."
 msgstr "Leqqem amaɣnu i yellan."
 
-#: ../dialogs/display-settings/display-dialog.glade.h:30
+#: ../dialogs/display-settings/display-dialog.glade.h:36
 msgid "Automatically enable profiles when new display is connected"
 msgstr ""
 
-#: ../dialogs/display-settings/display-dialog.glade.h:31
-msgid "Configure new displays when connected"
-msgstr "Swel igdilen imaynuten mi ara yeqqen"
+#: ../dialogs/display-settings/display-dialog.glade.h:37
+msgid "When new displays are connected:"
+msgstr ""
 
-#: ../dialogs/display-settings/display-dialog.glade.h:32
+#: ../dialogs/display-settings/display-dialog.glade.h:38
 msgid "Show popup windows to identify displays"
 msgstr "Sken isfuyla udhimen i yigdilen n timagit"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:33
+#: ../dialogs/display-settings/display-dialog.glade.h:39
 msgid "<b>Identifying Displays</b>"
 msgstr "<b>Asbadu n yigdilen</b>"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:34
+#: ../dialogs/display-settings/display-dialog.glade.h:40
 #: ../dialogs/display-settings/minimal-display-dialog.glade.h:6
 msgid "_Advanced"
 msgstr "_Leqqayen"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:35
+#: ../dialogs/display-settings/display-dialog.glade.h:41
 msgid "<b>Profile Name</b>"
 msgstr "<b>Isem n umaɣnu</b>"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:36
+#: ../dialogs/display-settings/display-dialog.glade.h:42
 msgid "Create"
-msgstr "Rnu"
+msgstr "Snulfu-d"
 
-#: ../dialogs/display-settings/display-dialog.glade.h:37
+#: ../dialogs/display-settings/display-dialog.glade.h:43
 msgid "A profile of this name already exists."
 msgstr "Amaɣnu s yisem-a yella yakan."
 
 #: ../dialogs/display-settings/minimal-display-dialog.glade.h:1
 msgid "Displays"
-msgstr "Yeskan"
+msgstr "Ibeqqiḍen"
 
 #: ../dialogs/display-settings/minimal-display-dialog.glade.h:2
 msgid "Only Display 1"
@@ -1085,127 +1100,118 @@ msgstr "<big><b>Tgiḍ isenfal yakan i umaɣnu-inek·inem urmid</b></big>"
 msgid ""
 "If you don't update the profile your changes will be lost upon restarting "
 "your session or disconnecting or connecting a display."
-msgstr ""
-"Ma yella ur tleqqmeḍ ara amaɣnu, isenfal-inek·inem ad ṛuḥen mi ara talseḍ "
-"asenker n tɣimit-ik·im neɣ teffɣeḍ seg tuqqna neɣ teqqneḍ n ugdil."
+msgstr "Ma yella ur tleqqmeḍ ara amaɣnu, isenfal-inek·inem ad ṛuḥen mi ara talseḍ asenker n tɣimit-ik·im neɣ teffɣeḍ seg tuqqna neɣ teqqneḍ n ugdil."
 
-#: ../dialogs/display-settings/main.c:107
+#: ../dialogs/display-settings/main.c:108
 msgid "Left"
 msgstr "Zelmaḍ"
 
-#: ../dialogs/display-settings/main.c:108
+#: ../dialogs/display-settings/main.c:109
 msgid "Inverted"
 msgstr "Yetti"
 
-#: ../dialogs/display-settings/main.c:109
+#: ../dialogs/display-settings/main.c:110
 msgid "Right"
 msgstr "Ayfus"
 
-#: ../dialogs/display-settings/main.c:118
-msgid "Horizontal"
-msgstr "Aglawan"
-
 #: ../dialogs/display-settings/main.c:119
-msgid "Vertical"
-msgstr "Ubdid"
+msgid "Horizontal"
+msgstr "Horizontale"
 
 #: ../dialogs/display-settings/main.c:120
+msgid "Vertical"
+msgstr "Verticale"
+
+#: ../dialogs/display-settings/main.c:121
 msgid "Horizontal and Vertical"
 msgstr "Aglawan akked Ubdid"
 
-#: ../dialogs/display-settings/main.c:141
+#: ../dialogs/display-settings/main.c:142
 msgid "Minimal interface to set up an external output"
-msgstr "Agrudem adday i usbadu n tuffɣa tazɣarayt"
+msgstr "Agrudem adday i usbadu n tuffɣa tanmeggagt"
 
 #: ../dialogs/display-settings/main.c:324
 #, c-format
 msgid ""
-"The previous configuration will be restored in %i seconds if you do not "
-"reply to this question."
+"The previous configuration will be restored in <b>%i seconds</b> if you do "
+"not reply to this question."
 msgstr ""
-"Tawila yezrin ad d-tettwarr deg %i tsinin ma yella ur d-terriḍ ara ɣef "
-"usteqsi-a."
 
 #. Insert the mode
-#: ../dialogs/display-settings/main.c:784
+#: ../dialogs/display-settings/main.c:783
 #, c-format
-msgid "%.1f Hz"
-msgstr "%.1f Hz"
+msgid "%.2f Hz"
+msgstr ""
 
-#: ../dialogs/display-settings/main.c:1182
+#: ../dialogs/display-settings/main.c:1181
 msgid "Display:"
 msgstr "Sken:"
 
-#: ../dialogs/display-settings/main.c:1187
+#: ../dialogs/display-settings/main.c:1186
 msgid "Resolution:"
-msgstr "Afray:"
+msgstr "Ferru:"
 
-#: ../dialogs/display-settings/main.c:1464
+#: ../dialogs/display-settings/main.c:1463
 msgid ""
 "The last active output must not be disabled, the system would be unusable."
-msgstr ""
-"Anekcum aneggaru urmid ur ilaq ara ad yens, anagraw ad yuɣal ur yettuseqdac "
-"ara."
+msgstr "Anekcum aneggaru urmid ur ilaq ara ad yens, anagraw ad yuɣal ur yettuseqdac ara."
 
-#: ../dialogs/display-settings/main.c:1466
+#: ../dialogs/display-settings/main.c:1465
 msgid "Selected output not disabled"
 msgstr "Tuffɣa i yettwafernen ur tensi ara"
 
-#: ../dialogs/display-settings/main.c:1643
+#: ../dialogs/display-settings/main.c:1642
 msgid "Profiles matching the currently connected displays"
 msgstr "Imuɣna yemṣadan d teskanin yeqqnen akka tura"
 
-#: ../dialogs/display-settings/main.c:1849
+#: ../dialogs/display-settings/main.c:1848
 #, c-format
 msgid "Update changed display profile '%s'?"
 msgstr "Leqqem amaɣnu n uskan yettusneflen '%s'?"
 
-#: ../dialogs/display-settings/main.c:1854
+#: ../dialogs/display-settings/main.c:1853
 #, c-format
 msgid "_Update '%s'"
 msgstr "_Leqqem '%s'"
 
-#: ../dialogs/display-settings/main.c:2142
+#: ../dialogs/display-settings/main.c:2141
 #, c-format
 msgid "Do you want to delete the display profile '%s'?"
 msgstr "Tebɣiḍ ad tekkseḍ amaɣnu yettwaskanen '%s'?"
 
-#: ../dialogs/display-settings/main.c:2144
+#: ../dialogs/display-settings/main.c:2143
 msgid "Delete Profile"
 msgstr "Kkes amaɣnu"
 
-#: ../dialogs/display-settings/main.c:2147
+#: ../dialogs/display-settings/main.c:2146
 msgid "Once a display profile is deleted it cannot be restored."
-msgstr ""
-"Akken ara yettwakkes umaɣnu n uskan, ur tettizmireḍ ara ad t-id-terreḍ."
+msgstr "Akken ara yettwakkes umaɣnu n uskan, ur tettizmireḍ ara ad t-id-terreḍ."
 
-#: ../dialogs/display-settings/main.c:2148
+#: ../dialogs/display-settings/main.c:2147
 #: ../dialogs/mime-settings/xfce-mime-chooser.c:134
 #: ../dialogs/mime-settings/xfce-mime-chooser.c:382
-#: ../dialogs/mime-settings/xfce-mime-window.c:1131
+#: ../dialogs/mime-settings/xfce-mime-window.c:1130
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:144
 msgid "Cancel"
 msgstr "Sefex"
 
-#: ../dialogs/display-settings/main.c:2149
+#: ../dialogs/display-settings/main.c:2148
 msgid "Delete"
 msgstr "Kkes"
 
-#: ../dialogs/display-settings/main.c:2251
+#: ../dialogs/display-settings/main.c:2253
 #, c-format
 msgid "%d Xfce Panels"
 msgstr "%d n yigalisen Xfce"
 
-#: ../dialogs/display-settings/main.c:3282
+#: ../dialogs/display-settings/main.c:3288
 msgid ""
 "Select a monitor to change its properties; drag it to rearrange its "
 "placement."
-msgstr ""
-"Fren agdil i wakken ad tbeddleḍ iraten-is; zuɣer-it i wakken ad talseḍ "
-"aṣeggem n wadig-ines."
+msgstr "Fren agdil iwakken ad tbeddeleḍ iraten-is, zuɣer-it iwakken ad alseḍ aseggem n wadig-ines."
 
-#: ../dialogs/display-settings/main.c:3325
-#: ../dialogs/display-settings/main.c:3401
+#: ../dialogs/display-settings/main.c:3331
+#: ../dialogs/display-settings/main.c:3407
 #, c-format
 msgid "(%i, %i)"
 msgstr "(%i, %i)"
@@ -1214,34 +1220,34 @@ msgstr "(%i, %i)"
 #. * screen is the same as your external monitor.  Here, "Mirror" is being
 #. * used as an adjective, not as a verb.  For example, the Spanish
 #. * translation could be "Pantallas en Espejo", *not* "Espejar Pantallas".
-#: ../dialogs/display-settings/main.c:3603
+#: ../dialogs/display-settings/main.c:3609
 msgid "Mirror Screens"
 msgstr "Igdilen n tisit"
 
-#: ../dialogs/display-settings/main.c:3653
+#: ../dialogs/display-settings/main.c:3659
 msgid "(Disabled)"
 msgstr "(Yensa)"
 
-#: ../dialogs/display-settings/main.c:4103
+#: ../dialogs/display-settings/main.c:4167
 #, c-format
 msgid "Only %s (1)"
 msgstr "Ala %s (1)"
 
-#: ../dialogs/display-settings/main.c:4114
+#: ../dialogs/display-settings/main.c:4178
 #, c-format
 msgid "Only %s (2)"
 msgstr "Ala %s (2)"
 
-#: ../dialogs/display-settings/main.c:4298
-#: ../dialogs/display-settings/main.c:4335
+#: ../dialogs/display-settings/main.c:4362
+#: ../dialogs/display-settings/main.c:4399
 msgid "Unable to start the Xfce Display Settings"
 msgstr "D awezɣi beddu n yiɣewwaren n uskan Xfce"
 
-#: ../dialogs/display-settings/main.c:4330
+#: ../dialogs/display-settings/main.c:4394
 msgid "ATI Settings"
 msgstr "Iɣewwaren n ATI"
 
-#: ../dialogs/display-settings/main.c:4345
+#: ../dialogs/display-settings/main.c:4409
 msgid "Unable to launch the proprietary driver settings"
 msgstr "D awezɣi usenker n yiɣewwaren n unuḍaf amaẓlay"
 
@@ -1252,8 +1258,7 @@ msgstr "Swel iɣewwaren d tneɣruft n ugdil"
 #: ../dialogs/display-settings/xfce-display-settings.desktop.in.h:3
 msgid ""
 "display;settings;screen;resolution;refresh;rate;rotation;external;projectors;monitors;LCD;CRT;HiDPI;"
-msgstr ""
-"sken;iɣewwaren;agdil;afray;smiren;afmiḍi;tuzzya;azɣaray;imagaren;isefraken;LCD;CRT;HiDPI;"
+msgstr "sken;iɣewwaren;agdil;afray;smiren;afmiḍi;tuzzya;azɣaray;imagaren;isefraken;LCD;CRT;HiDPI;"
 
 #. Set dialog title and icon
 #: ../dialogs/keyboard-settings/command-dialog.c:110
@@ -1279,7 +1284,7 @@ msgstr "Seqdec alɣu _startup"
 
 #: ../dialogs/keyboard-settings/command-dialog.c:257
 msgid "The command may not be empty."
-msgstr "Taladna yezmer mačči d tilemt"
+msgstr "Taladna ur ilaq ara ad tili d tilemt"
 
 #: ../dialogs/keyboard-settings/command-dialog.c:277
 msgid "Select command"
@@ -1287,39 +1292,39 @@ msgstr "Fren taladna"
 
 #: ../dialogs/keyboard-settings/command-dialog.c:285
 #: ../dialogs/mime-settings/xfce-mime-chooser.c:389
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:402
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:395
 msgid "All Files"
-msgstr "Akk ifuyla"
+msgstr "Meṛṛa  ifuyla"
 
 #: ../dialogs/keyboard-settings/command-dialog.c:290
 #: ../dialogs/mime-settings/xfce-mime-chooser.c:394
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:407
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:400
 msgid "Executable Files"
 msgstr "Ifuyla yettuselkamen"
 
 #: ../dialogs/keyboard-settings/command-dialog.c:305
 #: ../dialogs/mime-settings/xfce-mime-chooser.c:409
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:422
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:415
 msgid "Perl Scripts"
-msgstr "Isekripten n Perl"
+msgstr "Isekripten Perl"
 
 #: ../dialogs/keyboard-settings/command-dialog.c:311
 #: ../dialogs/mime-settings/xfce-mime-chooser.c:415
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:428
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:421
 msgid "Python Scripts"
-msgstr "Isekripten n Python"
+msgstr "Isekripten Python"
 
 #: ../dialogs/keyboard-settings/command-dialog.c:317
 #: ../dialogs/mime-settings/xfce-mime-chooser.c:421
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:434
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:427
 msgid "Ruby Scripts"
-msgstr "Isekripten n Ruby"
+msgstr "Isekripten Ruby"
 
 #: ../dialogs/keyboard-settings/command-dialog.c:323
 #: ../dialogs/mime-settings/xfce-mime-chooser.c:427
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:440
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:433
 msgid "Shell Scripts"
-msgstr "Isekripten n Shell"
+msgstr "Isekripten Shell"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:1
 msgid "Keyboard layout selection"
@@ -1347,9 +1352,7 @@ msgstr "_Rmed allus n tsarut"
 msgid ""
 "When selected, pressing and holding down a key emits the same character over"
 " and over again"
-msgstr ""
-"Mi ara yettufren, tussda s war tukksa n uḍad ɣef tqeffalt ad isuffuɣ yiwen "
-"kan usekkil yal tikelt"
+msgstr "Mi ara yettufren, tussda s war tukksa n uḍad ɣef tqeffalt ad isuffuɣ yiwen kan usekkil yal tikelt"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:11
 msgid "_Repeat delay:"
@@ -1361,7 +1364,7 @@ msgstr "Akud, s militasinin, send taqeffalt yettwassden ad tebdu allus"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:13
 msgid "Repe_at speed:"
-msgstr "Arured n wall_us::"
+msgstr "Arured n repe_at:"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:14
 msgid "The rate at which keystrokes are generated while a key is pressed"
@@ -1389,7 +1392,7 @@ msgstr ""
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:20
 msgid "Cursor"
-msgstr "Taḥnaccaḍt"
+msgstr "Asmutti akked ubeddel n tiddi n isfuyla"
 
 #: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:21
 msgid "_Test area:"
@@ -1403,43 +1406,48 @@ msgstr ""
 msgid "Define shortcuts for la_unching applications:"
 msgstr ""
 
-#: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:24
+#: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:25
+#: ../xfce4-settings-editor/xfce-settings-editor-box.c:340
+msgid "_Edit"
+msgstr "Ẓr_eg"
+
+#: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:27
 msgid "Reset to _Defaults"
 msgstr "Wennez ɣer _Yiɣewwaren imezwer"
 
-#: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:25
+#: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:28
 msgid "A_pplication Shortcuts"
 msgstr ""
 
-#: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:26
+#: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:29
 msgid "<b>Use system defaults</b>"
 msgstr "<b>Seqdec imezwer n unagraw</b>"
 
-#: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:27
+#: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:30
 msgid "_Keyboard model"
 msgstr "_Taneɣruft n unasiw"
 
-#: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:28
+#: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:31
 msgid "Change la_yout option"
 msgstr "Senfel taxtiṛit n tneɣ_ruft"
 
-#: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:29
+#: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:32
 msgid "Co_mpose key"
 msgstr "Su_ddes tasarut"
 
-#: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:30
+#: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:33
 msgid "Move currently selected item up by one row"
 msgstr ""
 
-#: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:31
+#: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:34
 msgid "Move currently selected item down by one row"
 msgstr ""
 
-#: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:32
+#: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:35
 msgid "Key_board layout"
 msgstr "Taneɣruft n una_siw"
 
-#: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:33
+#: ../dialogs/keyboard-settings/keyboard-dialog.glade.h:36
 msgid "_Layout"
 msgstr "_Taneɣruft"
 
@@ -1458,15 +1466,15 @@ msgstr "Ur issaweḍ ara ad yernu adiwenni n yiɣewwaren."
 
 #: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:399
 msgid "Command"
-msgstr "Taladna"
+msgstr "Anezḍay"
 
 #: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:407
 msgid "Shortcut"
-msgstr "Anegzum"
+msgstr "Raccourci"
 
 #: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:484
 msgid "Layout"
-msgstr "Taneɣruft"
+msgstr "Asettef"
 
 #: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:485
 msgid "Variant"
@@ -1475,7 +1483,7 @@ msgstr "Tulmist"
 #: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1252
 #: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1253
 msgid "Reset to Defaults"
-msgstr "Wennez ɣer yimezwer"
+msgstr "Wennez iɣewwaren imezwer"
 
 #: ../dialogs/keyboard-settings/xfce-keyboard-settings.c:1254
 msgid ""
@@ -1507,7 +1515,7 @@ msgstr ""
 msgid "numlock;keyboard;layout;shortcuts;"
 msgstr ""
 
-#: ../dialogs/mime-settings/main.c:115
+#: ../dialogs/mime-settings/main.c:120
 msgid "Could not create the mime dialog."
 msgstr ""
 
@@ -1532,7 +1540,7 @@ msgstr ""
 
 #: ../dialogs/mime-settings/xfce-mime-chooser.c:224
 msgid "_Browse..."
-msgstr "_Snirem..."
+msgstr "S_nirem..."
 
 #: ../dialogs/mime-settings/xfce-mime-chooser.c:379
 msgid "Select an Application"
@@ -1560,115 +1568,115 @@ msgstr "Ldi <i>%s</i> akked yifuyla-nniḍen n wanaw \"%s\" s:"
 msgid "Failed to add new application \"%s\""
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:145
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:152
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:143
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:150
 msgid "Press left mouse button to change the selected application."
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:151
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:149
 msgid "Application Chooser Button"
 msgstr "Taqeffalt n umafran n usnas"
 
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:303
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:296
 msgid "No application selected"
 msgstr "Ulac asnas yettwafernen"
 
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:319
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:312
 msgid "Failed to set default Web Browser"
 msgstr "Asbadu n yiminig web amezwer ur yeddi ara"
 
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:320
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:313
 msgid "Failed to set default Mail Reader"
 msgstr "Asbadu n yimeɣri n yimaylen amezwer ur yeddi ara"
 
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:321
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:314
 msgid "Failed to set default File Manager"
 msgstr "Asbadu n umsefra n yifuyla amezwer ur yeddi ara"
 
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:322
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:315
 msgid "Failed to set default Terminal Emulator"
 msgstr ""
 
 #. allocate the chooser
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:392
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:385
 msgid "Select application"
 msgstr "Fren asnas"
 
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:505
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:498
 msgid "Choose a custom Web Browser"
-msgstr "Fren iminig udmawan n web"
+msgstr "Fren iminig udmawan web"
 
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:506
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:499
 msgid "Choose a custom Mail Reader"
 msgstr "Fren imeɣri udmawan n yimayl"
 
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:507
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:500
 msgid "Choose a custom File Manager"
 msgstr "Fren amsefra udmawan n yifuyla"
 
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:508
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:501
 msgid "Choose a custom Terminal Emulator"
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:513
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:506
 msgid ""
 "Specify the application you want to use\n"
 "as default Web Browser for Xfce:"
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:514
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:507
 msgid ""
 "Specify the application you want to use\n"
 "as default Mail Reader for Xfce:"
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:515
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:508
 msgid ""
 "Specify the application you want to use\n"
 "as default File Manager for Xfce:"
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:516
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:509
 msgid ""
 "Specify the application you want to use\n"
 "as default Terminal Emulator for Xfce:"
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:580
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:573
 msgid "Browse the file system to choose a custom command."
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:789
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:782
 msgid "_Other..."
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:790
+#: ../dialogs/mime-settings/xfce-mime-helper-chooser.c:783
 msgid "Use a custom application which is not included in the above list."
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-helper-launcher-dialog.c:113
+#: ../dialogs/mime-settings/xfce-mime-helper-launcher-dialog.c:111
 msgid "Choose Preferred Application"
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-helper-launcher-dialog.c:256
+#: ../dialogs/mime-settings/xfce-mime-helper-launcher-dialog.c:249
 msgid ""
 "Please choose your preferred Web\n"
 "Browser now and click OK to proceed."
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-helper-launcher-dialog.c:258
+#: ../dialogs/mime-settings/xfce-mime-helper-launcher-dialog.c:251
 msgid ""
 "Please choose your preferred Mail Reader\n"
 "now and click OK to proceed."
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-helper-launcher-dialog.c:260
+#: ../dialogs/mime-settings/xfce-mime-helper-launcher-dialog.c:253
 msgid ""
 "Please choose your preferred File Manager\n"
 "now and click OK to proceed."
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-helper-launcher-dialog.c:262
+#: ../dialogs/mime-settings/xfce-mime-helper-launcher-dialog.c:255
 msgid ""
 "Please choose your preferred Terminal\n"
 "Emulator now and click OK to proceed."
@@ -1697,7 +1705,7 @@ msgstr ""
 
 #: ../dialogs/mime-settings/xfce-mime-helper-main.c:116
 msgid "Print version information and exit"
-msgstr "Siggez talɣut n lqem teffɣeḍ"
+msgstr "Siggez talɣut n lqem syen ffeɣ"
 
 #: ../dialogs/mime-settings/xfce-mime-helper-main.c:117
 msgid ""
@@ -1764,139 +1772,139 @@ msgstr "Ulac taladna yettwafernen"
 msgid "Failed to open %s for writing"
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:187
+#: ../dialogs/mime-settings/xfce-mime-window.c:184
 #: ../dialogs/mime-settings/xfce4-mime-settings.desktop.in.h:1
 msgid "Default Applications"
 msgstr ""
 
 #. Internet
-#: ../dialogs/mime-settings/xfce-mime-window.c:212
+#: ../dialogs/mime-settings/xfce-mime-window.c:209
 msgid "_Internet"
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:225
+#: ../dialogs/mime-settings/xfce-mime-window.c:222
 #: ../dialogs/mime-settings/xfce4-web-browser.desktop.in.h:1
 msgid "Web Browser"
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:233
+#: ../dialogs/mime-settings/xfce-mime-window.c:230
 msgid ""
 "The default Web Browser will be used to open hyperlinks and display help "
 "contents."
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:256
+#: ../dialogs/mime-settings/xfce-mime-window.c:248
 #: ../dialogs/mime-settings/xfce4-mail-reader.desktop.in.h:1
 msgid "Mail Reader"
 msgstr "Ameɣri n yimaylen"
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:264
+#: ../dialogs/mime-settings/xfce-mime-window.c:256
 msgid ""
 "The default Mail Reader will be used to compose emails when you click on "
 "email addresses."
 msgstr ""
 
 #. Utilities
-#: ../dialogs/mime-settings/xfce-mime-window.c:283
+#: ../dialogs/mime-settings/xfce-mime-window.c:270
 msgid "_Utilities"
 msgstr "_Tanfiwin"
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:296
+#: ../dialogs/mime-settings/xfce-mime-window.c:283
 #: ../dialogs/mime-settings/xfce4-file-manager.desktop.in.h:1
 msgid "File Manager"
-msgstr "Asefrak n yifuyla"
+msgstr "Asefrak n ifuyla"
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:304
+#: ../dialogs/mime-settings/xfce-mime-window.c:291
 msgid ""
 "The default File Manager will be used to browse the contents of folders."
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:327
+#: ../dialogs/mime-settings/xfce-mime-window.c:309
 #: ../dialogs/mime-settings/xfce4-terminal-emulator.desktop.in.h:1
 msgid "Terminal Emulator"
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:335
+#: ../dialogs/mime-settings/xfce-mime-window.c:317
 msgid ""
 "The default Terminal Emulator will be used to run commands that require a "
 "CLI environment."
 msgstr ""
 
 #. Mimes
-#: ../dialogs/mime-settings/xfce-mime-window.c:354
+#: ../dialogs/mime-settings/xfce-mime-window.c:331
 msgid "_Others"
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:364
+#: ../dialogs/mime-settings/xfce-mime-window.c:341
 msgid "_Filter:"
 msgstr "_Imsizdig:"
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:372
+#: ../dialogs/mime-settings/xfce-mime-window.c:349
 msgid "Clear filter"
-msgstr ""
+msgstr "Sfeḍ asizdeg"
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:402
+#: ../dialogs/mime-settings/xfce-mime-window.c:379
 msgid "Open with..."
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:449
+#: ../dialogs/mime-settings/xfce-mime-window.c:426
 msgid "MIME Type"
 msgstr "Anaw MIME"
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:477
+#: ../dialogs/mime-settings/xfce-mime-window.c:454
 msgid "Status"
-msgstr ""
+msgstr "Addad"
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:497
+#: ../dialogs/mime-settings/xfce-mime-window.c:474
 msgid "Default Application"
-msgstr "Asnas amezwer"
+msgstr "Asnas n lexṣas"
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:672
-#: ../dialogs/mime-settings/xfce-mime-window.c:814
+#: ../dialogs/mime-settings/xfce-mime-window.c:649
+#: ../dialogs/mime-settings/xfce-mime-window.c:813
 msgid "User Set"
 msgstr "Taggayt n yiseqdacen"
 
 #. sort the names but keep Default on top
-#: ../dialogs/mime-settings/xfce-mime-window.c:674
-#: ../dialogs/mime-settings/xfce-mime-window.c:814
+#: ../dialogs/mime-settings/xfce-mime-window.c:651
+#: ../dialogs/mime-settings/xfce-mime-window.c:813
 #: ../dialogs/mouse-settings/main.c:397 ../dialogs/mouse-settings/main.c:399
 #: ../dialogs/mouse-settings/main.c:459
 msgid "Default"
 msgstr "Amezwer"
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:760
+#: ../dialogs/mime-settings/xfce-mime-window.c:737
 #, c-format
 msgid "%d MIME type found"
 msgid_plural "%d MIME types found"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:859
+#: ../dialogs/mime-settings/xfce-mime-window.c:858
 #, c-format
 msgid "Failed to set application \"%s\" for mime type \"%s\"."
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:1122
+#: ../dialogs/mime-settings/xfce-mime-window.c:1121
 #, c-format
 msgid "Are you sure you want to reset content type \"%s\" to its default value?"
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:1126
+#: ../dialogs/mime-settings/xfce-mime-window.c:1125
 msgid "Question"
 msgstr "Asteqsi"
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:1129
+#: ../dialogs/mime-settings/xfce-mime-window.c:1128
 msgid ""
 "This will remove your custom mime-association and restore the system-wide "
 "default."
 msgstr ""
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:1133
-#: ../dialogs/mime-settings/xfce-mime-window.c:1204
+#: ../dialogs/mime-settings/xfce-mime-window.c:1132
+#: ../dialogs/mime-settings/xfce-mime-window.c:1203
 msgid "Reset to Default"
 msgstr "Wennez ɣer umezwer"
 
-#: ../dialogs/mime-settings/xfce-mime-window.c:1199
+#: ../dialogs/mime-settings/xfce-mime-window.c:1198
 msgid "Choose Application..."
 msgstr "Fren asnas..."
 
@@ -1920,11 +1928,11 @@ msgstr " Γeṛ imayl-inek·inem"
 
 #: ../dialogs/mime-settings/xfce4-terminal-emulator.desktop.in.h:2
 msgid "Use the command line"
-msgstr ""
+msgstr "Seqdec izirig n unezḍay"
 
 #: ../dialogs/mime-settings/xfce4-web-browser.desktop.in.h:2
 msgid "Browse the web"
-msgstr "Inig deg web"
+msgstr "Snirem Web"
 
 #: ../dialogs/mime-settings/helpers/aterm.desktop.in.in.h:1
 msgid "aterm"
@@ -1944,7 +1952,7 @@ msgstr "Asefrak n yifuyla Caja"
 
 #: ../dialogs/mime-settings/helpers/chromium.desktop.in.in.h:1
 msgid "Chromium"
-msgstr "Chromium"
+msgstr "Kṛum"
 
 #: ../dialogs/mime-settings/helpers/debian-sensible-browser.desktop.in.in.h:1
 msgid "Debian Sensible Browser"
@@ -2032,7 +2040,7 @@ msgstr "Midori"
 
 #: ../dialogs/mime-settings/helpers/mozilla-browser.desktop.in.in.h:1
 msgid "Mozilla Browser"
-msgstr "Mozilla Browser"
+msgstr "Iminig n Mozilla"
 
 #: ../dialogs/mime-settings/helpers/mozilla-mailer.desktop.in.in.h:1
 msgid "Mozilla Mail"
@@ -2060,7 +2068,7 @@ msgstr "Iminig Opera"
 
 #: ../dialogs/mime-settings/helpers/pcmanfm.desktop.in.in.h:1
 msgid "PCMan File Manager"
-msgstr "Asefrak n yifuyla PCMan"
+msgstr "PCMan File Manager"
 
 #: ../dialogs/mime-settings/helpers/pcmanfm-qt.desktop.in.in.h:1
 msgid "PCManFM-Qt File Manager"
@@ -2174,7 +2182,7 @@ msgstr "Adrurem n yiri"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:3
 msgid "Two-finger scrolling"
-msgstr "Adrurem s sin yiḍudan"
+msgstr "Adrurem s sin iḍudan"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:4
 msgid "Circular scrolling"
@@ -2198,16 +2206,16 @@ msgstr ""
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:9
 msgid "Clockwise"
-msgstr ""
+msgstr "Asragan"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:10
 msgid "Counterclockwise"
-msgstr "Mgal asragan"
+msgstr "Mgal asrag"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:11
 #: ../dialogs/mouse-settings/xfce-mouse-settings.desktop.in.h:1
 msgid "Mouse and Touchpad"
-msgstr ""
+msgstr "Taɣerdayt d telwiḥt tawallsant"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:14
 msgid "De_vice:"
@@ -2231,7 +2239,7 @@ msgstr ""
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:19
 msgid "Buttons"
-msgstr "Tiqeffalin"
+msgstr "Tiqfalin"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:20
 msgid "_Reset to Defaults"
@@ -2249,7 +2257,7 @@ msgstr ""
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:23
 msgid "Acceleratio_n:"
-msgstr "Tasɣiwe_lt:"
+msgstr "Tasɣiwe_lt"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:24
 msgid ""
@@ -2297,7 +2305,7 @@ msgstr ""
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:35
 msgid "Scrolling"
-msgstr "Adrurem"
+msgstr "Adrudem"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:36
 msgid "T_ouchpad"
@@ -2331,7 +2339,7 @@ msgstr ""
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:43
 msgid "Drag and Drop"
-msgstr "Ẓuɣer syen Sers"
+msgstr "Ẓuɣer & Sers"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:44
 msgid "Ti_me:"
@@ -2355,7 +2363,7 @@ msgstr ""
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:48
 msgid "Double Click"
-msgstr "Asiti berdayen"
+msgstr "Asiti uslig"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:49
 msgid "_Behavior"
@@ -2367,7 +2375,7 @@ msgstr "Teɣ_zi n teḥnaccaḍt"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:51
 msgid "Size"
-msgstr "Teɣzi"
+msgstr "Tiddi"
 
 #: ../dialogs/mouse-settings/mouse-dialog.glade.h:52
 msgid "Preview"
@@ -2405,7 +2413,7 @@ msgstr "Anaw"
 
 #: ../xfce4-settings-editor/xfce-settings-editor-box.c:305
 msgid "Locked"
-msgstr "Isekkeṛ"
+msgstr "Yergel"
 
 #: ../xfce4-settings-editor/xfce-settings-editor-box.c:312
 msgid "Value"
@@ -2414,10 +2422,6 @@ msgstr "Azal"
 #: ../xfce4-settings-editor/xfce-settings-editor-box.c:332
 msgid "New property"
 msgstr "Timeẓli tamaynut"
-
-#: ../xfce4-settings-editor/xfce-settings-editor-box.c:340
-msgid "_Edit"
-msgstr "_Ẓreg"
 
 #: ../xfce4-settings-editor/xfce-settings-editor-box.c:345
 msgid "Edit selected property"
@@ -2438,7 +2442,7 @@ msgstr "Wennez timeẓli yettwafernen"
 #: ../xfce4-settings-editor/xfce-settings-editor-box.c:675
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:89
 msgid "Empty"
-msgstr "D ilem"
+msgstr "Ilem"
 
 #: ../xfce4-settings-editor/xfce-settings-editor-box.c:468
 msgid "Array"
@@ -2478,7 +2482,7 @@ msgstr "D tidet tebɣiḍ ad twennzeḍ abadu \"%s\" akked meṛṛa timeẓla-i
 
 #: ../xfce4-settings-editor/xfce-settings-editor-box.c:898
 msgid "reset"
-msgstr "wennez"
+msgstr "aɛiwed"
 
 #: ../xfce4-settings-editor/xfce-settings-editor-box.c:955
 #, c-format
@@ -2545,7 +2549,7 @@ msgstr "_Tulmist:"
 
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:174
 msgid "_Type:"
-msgstr "_Anaw:"
+msgstr "Anaw:"
 
 #. strings
 #. integers
@@ -2554,7 +2558,7 @@ msgstr "_Anaw:"
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:213
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:224
 msgid "_Value:"
-msgstr "_Azal:"
+msgstr "A_zal:"
 
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:381
 #, c-format
@@ -2572,16 +2576,12 @@ msgid ""
 "Property names can only include the ASCII characters A-Z, a-z, 0-9, '_', "
 "'-', ':', '.', ',', '[', ']', '{', '}', '<' and '>', as well as '/' as a "
 "separator"
-msgstr ""
-"Ismawen n yibuda zemren kan ad gebren isekkilen ASCII, A-Z, a-z, 0-9, '_', "
-"'-', ':', '.', ',', '[', ']', '{', '}', '<' d '>', akked '/' am unabraz"
+msgstr "Ismawen n yibuda zemren kan ad gebren isekkilen ASCII, A-Z, a-z, 0-9, '_', '-', ':', '.', ',', '[', ']', '{', '}', '<' d '>', akked '/' am unabraz"
 
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:423
 #, c-format
 msgid "Property names cannot have two or more consecutive '/' characters"
-msgstr ""
-"Ismawen n tɣara ur zmiren ara ad gebren sin neɣ ugar n yisekkilen'/' "
-"mseḍfaren"
+msgstr "Ismawen n tɣara ur zmiren ara ad gebren sin neɣ ugar n yisekkilen'/' mseḍfaren"
 
 #: ../xfce4-settings-editor/xfce-settings-prop-dialog.c:437
 #, c-format
@@ -2604,16 +2604,16 @@ msgstr ""
 msgid "Settings dialog to show"
 msgstr "Adiwenni n yiɣewwaren i uskan"
 
-#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:229
+#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:225
 msgid "All _Settings"
 msgstr "Meṛṛa _Iɣewwaren"
 
-#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:438
+#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:422
 msgid "Settings"
 msgstr "Iɣewwaren"
 
-#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:950
-#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:961
+#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:916
+#: ../xfce4-settings-manager/xfce-settings-manager-dialog.c:927
 #, c-format
 msgid "Unable to start \"%s\""
 msgstr "Yugguma ad yebdu \"%s\""
@@ -2640,7 +2640,7 @@ msgstr "Tisura inetḍen ttwasensent"
 
 #: ../xfsettingsd/accessibility.c:416
 msgid "Sticky keys"
-msgstr "Asenteḍ n  tqeffalin"
+msgstr "Asenṭeḍ n  tqeffalin"
 
 #: ../xfsettingsd/accessibility.c:421
 msgid "Slow keys are enabled"
@@ -2652,7 +2652,7 @@ msgstr "Tisura ẓẓayen ttwasensent"
 
 #: ../xfsettingsd/accessibility.c:425
 msgid "Slow keys"
-msgstr "Tisura ẓẓayen"
+msgstr "Ẓẓayit tqeffalin"
 
 #: ../xfsettingsd/accessibility.c:430
 msgid "Bounce keys are enabled"

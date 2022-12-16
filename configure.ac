@@ -4,7 +4,7 @@ dnl Edit that file instead!
 dnl
 
 dnl
-dnl Copyright (c) 2006 - 2019
+dnl Copyright (c) 2006 - 2022
 dnl         The Xfce development team. All rights reserved.
 dnl
 dnl Originally written for Xfce by Benedikt Meurer <benny@xfce.org>
@@ -15,10 +15,10 @@ dnl ***************************
 dnl *** Version information ***
 dnl ***************************
 m4_define([xfce4_settings_version_major], [4])
-m4_define([xfce4_settings_version_minor], [16])
-m4_define([xfce4_settings_version_micro], [5])
+m4_define([xfce4_settings_version_minor], [18])
+m4_define([xfce4_settings_version_micro], [0])
 m4_define([xfce4_settings_version_nano], [])
-m4_define([xfce4_settings_version_build], [f1cb5bda])
+m4_define([xfce4_settings_version_build], [0d547fd1])
 m4_define([xfce4_settings_version_tag], []) # Leave empty for releases
 m4_define([xfce4_settings_version], [xfce4_settings_version_major().xfce4_settings_version_minor().xfce4_settings_version_micro()ifelse(xfce4_settings_version_nano(), [], [], [.xfce4_settings_version_nano()])ifelse(xfce4_settings_version_tag(), [git], [xfce4_settings_version_tag()-xfce4_settings_version_build()], [xfce4_settings_version_tag()])])
 
@@ -37,12 +37,12 @@ m4_define([xfce4_settings_debug_default], [ifelse(xfce4_settings_version_tag(), 
 dnl ***************************
 dnl *** Initialize autoconf ***
 dnl ***************************
-AC_COPYRIGHT([Copyright (c) 2008-2019
+AC_COPYRIGHT([Copyright (c) 2008-2022
         The Xfce development team. All rights reserved.])
 AC_INIT([xfce4-settings], [xfce4_settings_version], [https://bugzilla.xfce.org/])
 AC_PREREQ([2.60])
 AC_CONFIG_MACRO_DIRS([m4])
-AC_REVISION([f1cb5bda])
+AC_REVISION([0d547fd1])
 
 dnl ***************************
 dnl *** Initialize automake ***
@@ -94,12 +94,12 @@ dnl ***********************************
 dnl *** Check for required packages ***
 dnl ***********************************
 XDT_CHECK_PACKAGE([EXO], [exo-2], [0.11.0])
-XDT_CHECK_PACKAGE([GTK], [gtk+-3.0], [3.20.0])
-XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [2.50.0])
-XDT_CHECK_PACKAGE([GIO], [gio-2.0], [2.50.0])
+XDT_CHECK_PACKAGE([GTK], [gtk+-3.0], [3.24.0])
+XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [2.66.0])
+XDT_CHECK_PACKAGE([GIO], [gio-2.0], [2.66.0])
 XDT_CHECK_PACKAGE([GARCON], [garcon-1], [0.1.10])
-XDT_CHECK_PACKAGE([LIBXFCE4UTIL], [libxfce4util-1.0], [4.15.2])
-XDT_CHECK_PACKAGE([LIBXFCE4UI], [libxfce4ui-2], [4.15.1])
+XDT_CHECK_PACKAGE([LIBXFCE4UTIL], [libxfce4util-1.0], [4.17.2])
+XDT_CHECK_PACKAGE([LIBXFCE4UI], [libxfce4ui-2], [4.17.0])
 XDT_CHECK_PACKAGE([LIBXFCE4KBD_PRIVATE], [libxfce4kbd-private-3], [4.12.0])
 XDT_CHECK_PACKAGE([XFCONF], [libxfconf-0], [4.13.0])
 XDT_CHECK_PACKAGE([FONTCONFIG], [fontconfig], [2.6.0])
@@ -172,7 +172,7 @@ XDT_CHECK_OPTIONAL_PACKAGE([COLORD], [colord], [1.0.2],
 dnl *********************
 dnl *** Mime settings ***
 dnl *********************
-XDT_CHECK_OPTIONAL_PACKAGE([GIO_UNIX], [gio-unix-2.0], [2.50.0],
+XDT_CHECK_OPTIONAL_PACKAGE([GIO_UNIX], [gio-unix-2.0], [2.66.0],
                            [gio-unix], [Mime settings])
 
 dnl ************************************
