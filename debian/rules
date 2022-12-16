@@ -3,6 +3,20 @@
 export DEB_LDFLAGS_MAINT_APPEND=-Wl,-O1 -Wl,-z,defs
 export DEB_BUILD_MAINT_OPTIONS=hardening=+all
 
+%:
+	dh $@
+
+override_dh_auto_configure:
+	dh_auto_configure -- \
+		--enable-colord \
+		--enable-libnotify \
+		--enable-libxklavier \
+		--enable-pluggable-dialogs \
+		--enable-sound-settings \
+		--enable-upower-glib \
+		--enable-xcursor \
+		--with-helper-path-prefix=/usr/share
+
 override_dh_install:
 	# Debianise helpers
 	sed -i -e 's/^WebBrowser=.*/WebBrowser=debian-sensible-browser/' \
@@ -19,19 +33,8 @@ override_dh_install:
 
 	dh_install
 
-override_dh_auto_configure:
-	dh_auto_configure -- \
-		--enable-colord \
-		--enable-libnotify \
-		--enable-libxklavier \
-		--enable-pluggable-dialogs \
-		--enable-sound-settings \
-		--enable-upower-glib \
-		--enable-xcursor \
-		--with-helper-path-prefix=/usr/share
+override_dh_installchangelogs:
+	DEB_BUILD_OPTIONS=notrimdch dh_installchangelogs NEWS
 
 override_dh_installman:
 	dh_installman debian/*.1
-
-%:
-	dh $@
