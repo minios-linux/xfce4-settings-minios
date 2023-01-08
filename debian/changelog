@@ -1,3 +1,12 @@
+xfce4-settings (4.18.1-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream version 4.18.1.
+    - xfsettingsd: Make CSD (client side decorations) for dialogs opt-in.
+  * Update Standards-Version to 4.6.2.
+
+ -- Unit 193 <unit193@debian.org>  Sun, 08 Jan 2023 00:26:57 -0500
+
 xfce4-settings (4.18.0-1) unstable; urgency=medium
 
   * Team upload.
