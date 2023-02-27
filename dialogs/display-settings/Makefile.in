@@ -112,7 +112,7 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(desktopdir)" \
-	"$(DESTDIR)$(iconsdir)"
+	"$(DESTDIR)$(iconsdir)" "$(DESTDIR)$(scalableiconsdir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_xfce4_display_settings_OBJECTS =  \
 	xfce4_display_settings-main.$(OBJEXT) \
@@ -207,7 +207,7 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-DATA = $(desktop_DATA) $(icons_DATA)
+DATA = $(desktop_DATA) $(icons_DATA) $(scalableicons_DATA)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
@@ -266,6 +266,7 @@ EXO_LIBS = @EXO_LIBS@
 EXO_REQUIRED_VERSION = @EXO_REQUIRED_VERSION@
 EXO_VERSION = @EXO_VERSION@
 FGREP = @FGREP@
+FILECMD = @FILECMD@
 FONTCONFIG_CFLAGS = @FONTCONFIG_CFLAGS@
 FONTCONFIG_LIBS = @FONTCONFIG_LIBS@
 FONTCONFIG_REQUIRED_VERSION = @FONTCONFIG_REQUIRED_VERSION@
@@ -522,8 +523,17 @@ icons_DATA = \
 	xfce-display-mirror.png \
 	xfce-display-profile.png
 
+scalableiconsdir = $(datadir)/icons/hicolor/scalable/devices
+scalableicons_DATA = \
+	xfce-display-extend.svg \
+	xfce-display-external.svg \
+	xfce-display-internal.svg \
+	xfce-display-mirror.svg \
+	xfce-display-profile.svg
+
 EXTRA_DIST = \
 	$(icons_DATA) \
+	$(scalableicons_DATA) \
 	$(desktop_in_files) \
 	confirmation-dialog.glade \
 	display-dialog.glade \
@@ -748,6 +758,27 @@ uninstall-iconsDATA:
 	@list='$(icons_DATA)'; test -n "$(iconsdir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
 	dir='$(DESTDIR)$(iconsdir)'; $(am__uninstall_files_from_dir)
+install-scalableiconsDATA: $(scalableicons_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(scalableicons_DATA)'; test -n "$(scalableiconsdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(scalableiconsdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(scalableiconsdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(scalableiconsdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(scalableiconsdir)" || exit $$?; \
+	done
+
+uninstall-scalableiconsDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(scalableicons_DATA)'; test -n "$(scalableiconsdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(scalableiconsdir)'; $(am__uninstall_files_from_dir)
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -838,7 +869,7 @@ check: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) check-am
 all-am: Makefile $(PROGRAMS) $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(desktopdir)" "$(DESTDIR)$(iconsdir)"; do \
+	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(desktopdir)" "$(DESTDIR)$(iconsdir)" "$(DESTDIR)$(scalableiconsdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: $(BUILT_SOURCES)
@@ -899,7 +930,8 @@ info: info-am
 
 info-am:
 
-install-data-am: install-desktopDATA install-iconsDATA
+install-data-am: install-desktopDATA install-iconsDATA \
+	install-scalableiconsDATA
 
 install-dvi: install-dvi-am
 
@@ -948,7 +980,7 @@ ps: ps-am
 ps-am:
 
 uninstall-am: uninstall-binPROGRAMS uninstall-desktopDATA \
-	uninstall-iconsDATA
+	uninstall-iconsDATA uninstall-scalableiconsDATA
 
 .MAKE: all check install install-am install-exec install-strip
 
@@ -961,12 +993,13 @@ uninstall-am: uninstall-binPROGRAMS uninstall-desktopDATA \
 	install-dvi-am install-exec install-exec-am install-html \
 	install-html-am install-iconsDATA install-info install-info-am \
 	install-man install-pdf install-pdf-am install-ps \
-	install-ps-am install-strip installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-compile mostlyclean-generic \
-	mostlyclean-libtool pdf pdf-am ps ps-am tags tags-am uninstall \
-	uninstall-am uninstall-binPROGRAMS uninstall-desktopDATA \
-	uninstall-iconsDATA
+	install-ps-am install-scalableiconsDATA install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS \
+	uninstall-desktopDATA uninstall-iconsDATA \
+	uninstall-scalableiconsDATA
 
 .PRECIOUS: Makefile
 

@@ -1,3 +1,253 @@
+commit abc6136b5d835863fab0859d17dfda5639d47204
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Sat Feb 11 10:12:53 2023 +0100
+
+    Update copyright year
+    
+    (cherry picked from commit 292af71c37fdfc46102af8246da140e88b20e864)
+
+commit 0e04c5f483cdc848e1f743bacef5527b280c2623
+Author: Theo Linkspfeifer <lastonestanding@tutanota.com>
+Date:   Sat Dec 31 13:39:39 2022 +0100
+
+    mime-settings: Increase dialog size
+    
+    (cherry picked from commit 9eaeba174c6ad62b17ea3d024e8ad2210a228bae)
+
+commit 3e90a330e193cef97bd61cf94d49c7a891ec7096
+Author: Brian J. Tarricone <brian@tarricone.org>
+Date:   Tue Jan 3 00:11:57 2023 -0800
+
+    display: fix blurry 'help' indicator on output
+    
+    (cherry picked from commit 57ac632b6ba185c2254d4dfc0ca58f41dd41f9dc)
+
+commit 0bec36321c505360314c8d82020eea378daeb2a5
+Author: Brian J. Tarricone <brian@tarricone.org>
+Date:   Tue Jan 3 00:00:50 2023 -0800
+
+    display: fix blurry icon in profiles treeview
+    
+    (cherry picked from commit cc64b44f0992425d523b5f37fb2b8b2e950d3620)
+
+commit 04fbd797ba6c94da6dcff70e1591cfc057701d83
+Author: Brian J. Tarricone <brian@tarricone.org>
+Date:   Mon Jan 2 23:56:24 2023 -0800
+
+    display: fix blurry icons in minimal display settings dialog
+    
+    (cherry picked from commit 3bfe806e65a7d8903f892a40a4917e3ec3b02bd5)
+
+commit 2751757650cd17bf90a85973c1557f314693511f
+Author: Brian J. Tarricone <brian@tarricone.org>
+Date:   Mon Jan 2 23:48:46 2023 -0800
+
+    mime: fix blurry icons in default app menus
+    
+    (cherry picked from commit 3093a7cfe21067e6cd989675ac9e20284fbd248e)
+
+commit 216ea493675c6d28cd6ae4e648c15a50ef6c1048
+Author: Brian J. Tarricone <brian@tarricone.org>
+Date:   Mon Jan 2 23:45:24 2023 -0800
+
+    mouse: fix blurriness in cursor theme previews
+    
+    (cherry picked from commit 3eb5f6e8bac3954a8040167ed22adea59232c3b9)
+
+commit cb0d6308ac853ef124a700540944088f30c91c50
+Author: Brian J. Tarricone <brian@tarricone.org>
+Date:   Mon Jan 2 23:35:03 2023 -0800
+
+    appearance: fix blurry subpixel antialias icons
+    
+    (cherry picked from commit ef50f9a03999ffca777b5a9efdc93354610dab01)
+
+commit c8b6d26f533d08d00cb086fefe96a2a45b5897cc
+Author: Brian J. Tarricone <brian@tarricone.org>
+Date:   Mon Jan 2 23:33:00 2023 -0800
+
+    appearance: fix blurry icon theme previews
+    
+    (cherry picked from commit d8cfccdee49bf780df916b854582fad597ebeefd)
+
+commit 2a2ed2ce256772db58e569b7c132c33215c9c012
+Author: Joel Barrios <darkshram@gmail.com>
+Date:   Fri Dec 30 15:45:14 2022 +0000
+
+    xfsettingsd: Make xsettings.xml well-formed (Fixes #431)
+    
+    (cherry picked from commit 2962764c870fd6d602dcb8c8190bae3fbd20072f)
+
+commit 15aa6187223ddb05f5dab278e0582c864e489571
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Thu Dec 22 23:55:55 2022 +0100
+
+    xfsettingsd: Remove duplicated config line (Fixes #425)
+    
+    (cherry picked from commit bf1804ed873e065774d6da2b71c5ee5ca786d23c)
+
+commit 5af518f22cea7363a595c3e152a5d6b767510d97
+Author: Anonymous <noreply@xfce.org>
+Date:   Sat Feb 4 12:48:32 2023 +0100
+
+    I18n: Update translation el (100%).
+    
+    579 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 78de242201b6dfed2738c7fc92f045c1d53060c6
+Author: Anonymous <noreply@xfce.org>
+Date:   Thu Feb 2 12:49:54 2023 +0100
+
+    I18n: Update translation en_CA (100%).
+    
+    579 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 09d530c5ce815554f04d16b41b5b1f2b1d380adb
+Author: Anonymous <noreply@xfce.org>
+Date:   Wed Feb 1 00:47:01 2023 +0100
+
+    I18n: Update translation en_GB (100%).
+    
+    579 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit e724b972b4d35190a1a6ec057e432df02a3f0372
+Author: Anonymous <noreply@xfce.org>
+Date:   Mon Jan 30 12:48:52 2023 +0100
+
+    I18n: Update translation el (100%).
+    
+    579 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 92e2b6e04311f411e7a50fde5c8f94056b88856f
+Author: Anonymous <noreply@xfce.org>
+Date:   Mon Jan 30 00:48:16 2023 +0100
+
+    I18n: Update translation tr (100%).
+    
+    579 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 1ad51ebe4f47e7517054caeabe9b8cff158dc47a
+Author: Anonymous <noreply@xfce.org>
+Date:   Sat Jan 21 12:49:21 2023 +0100
+
+    I18n: Update translation el (100%).
+    
+    579 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit f2aad5665700ca382abdf66c1327de6baeaa21d5
+Author: Anonymous <noreply@xfce.org>
+Date:   Tue Jan 17 00:48:08 2023 +0100
+
+    I18n: Update translation sq (98%).
+    
+    569 translated messages, 10 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 06acb1b98557d6c885b8b0e103c4189aff268bd8
+Author: Anonymous <noreply@xfce.org>
+Date:   Sat Jan 14 12:48:42 2023 +0100
+
+    I18n: Update translation el (100%).
+    
+    579 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 8c7619da4f8e48708cb19ca3e36120bffd3bf9b3
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Jan 13 00:48:13 2023 +0100
+
+    I18n: Update translation el (100%).
+    
+    579 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 7a92ea6e1e0efcaa71067e87c0febe3ec00cdf66
+Author: Anonymous <noreply@xfce.org>
+Date:   Wed Jan 11 12:49:03 2023 +0100
+
+    I18n: Update translation fi (95%).
+    
+    555 translated messages, 24 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit a258b94538777019cca3c77c581f8d9303444497
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Jan 6 00:47:57 2023 +0100
+
+    I18n: Update translation el (98%).
+    
+    572 translated messages, 7 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 7c47bdaa8c9d7ae06df88646f04ab4cae072737d
+Author: Anonymous <noreply@xfce.org>
+Date:   Sat Dec 31 12:51:14 2022 +0100
+
+    I18n: Update translation pt_BR (100%).
+    
+    579 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 9e59aee9f3ce00bbaa826662916806150e521aa6
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Dec 30 12:58:04 2022 +0100
+
+    I18n: Update translation ko (100%).
+    
+    579 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 6cc9606f7883d51557fdbce0c0c3c77b53400d11
+Author: Anonymous <noreply@xfce.org>
+Date:   Mon Dec 26 12:52:02 2022 +0100
+
+    I18n: Update translation zh_CN (100%).
+    
+    579 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit ff306e821dc7a27a07f3af414a2c5b6c1f288a4b
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Dec 23 00:53:06 2022 +0100
+
+    I18n: Update translation nl (100%).
+    
+    579 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 85591852c6ac16339565ad0522e1efbef1ed9716
+Author: Alexander Schwinn <alexxcons@xfce.org>
+Date:   Thu Dec 22 15:30:46 2022 +0100
+
+    Back to development
+
+commit 1ce79a5572039bf6dec7e9f4804e9d12d55eca3d
+Author: Alexander Schwinn <alexxcons@xfce.org>
+Date:   Thu Dec 22 15:28:34 2022 +0100
+
+    Updates for release
+
 commit 226ecbcadf5878579a01dc9e372fe4773fa90c9e
 Author: Anonymous <noreply@xfce.org>
 Date:   Thu Dec 22 12:57:12 2022 +0100

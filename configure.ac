@@ -4,7 +4,7 @@ dnl Edit that file instead!
 dnl
 
 dnl
-dnl Copyright (c) 2006 - 2022
+dnl Copyright (c) 2006 - 2023
 dnl         The Xfce development team. All rights reserved.
 dnl
 dnl Originally written for Xfce by Benedikt Meurer <benny@xfce.org>
@@ -16,9 +16,9 @@ dnl *** Version information ***
 dnl ***************************
 m4_define([xfce4_settings_version_major], [4])
 m4_define([xfce4_settings_version_minor], [18])
-m4_define([xfce4_settings_version_micro], [1])
+m4_define([xfce4_settings_version_micro], [2])
 m4_define([xfce4_settings_version_nano], [])
-m4_define([xfce4_settings_version_build], [226ecbca])
+m4_define([xfce4_settings_version_build], [abc6136b])
 m4_define([xfce4_settings_version_tag], []) # Leave empty for releases
 m4_define([xfce4_settings_version], [xfce4_settings_version_major().xfce4_settings_version_minor().xfce4_settings_version_micro()ifelse(xfce4_settings_version_nano(), [], [], [.xfce4_settings_version_nano()])ifelse(xfce4_settings_version_tag(), [git], [xfce4_settings_version_tag()-xfce4_settings_version_build()], [xfce4_settings_version_tag()])])
 
@@ -37,12 +37,12 @@ m4_define([xfce4_settings_debug_default], [ifelse(xfce4_settings_version_tag(), 
 dnl ***************************
 dnl *** Initialize autoconf ***
 dnl ***************************
-AC_COPYRIGHT([Copyright (c) 2008-2022
+AC_COPYRIGHT([Copyright (c) 2008-2023
         The Xfce development team. All rights reserved.])
 AC_INIT([xfce4-settings], [xfce4_settings_version], [https://bugzilla.xfce.org/])
 AC_PREREQ([2.60])
 AC_CONFIG_MACRO_DIRS([m4])
-AC_REVISION([226ecbca])
+AC_REVISION([abc6136b])
 
 dnl ***************************
 dnl *** Initialize automake ***
