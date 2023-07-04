@@ -1,12 +1,16 @@
-Description: Sets the default theme for debian
-Forwarded: not-needed
+From: Debian Xfce Maintainers <debian-xfce@lists.debian.org>
+Date: Tue, 4 Jul 2023 21:16:36 +0200
+Subject: Sets the default theme for debian
 
+Forwarded: not-needed
 ---
- xfsettingsd/xsettings.xml |    4 ++--
+ xfsettingsd/xsettings.xml | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
---- a/xfsettingsd/xsettings.xml	2023-02-27 00:29:27.096084977 -0500
-+++ b/xfsettingsd/xsettings.xml	2023-02-27 00:29:27.092084995 -0500
+diff --git a/xfsettingsd/xsettings.xml b/xfsettingsd/xsettings.xml
+index d8fe2ac..56c6dde 100644
+--- a/xfsettingsd/xsettings.xml
++++ b/xfsettingsd/xsettings.xml
 @@ -6,8 +6,8 @@
  
  <channel name="xsettings" version="1.0">
