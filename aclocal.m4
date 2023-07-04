@@ -20,1212 +20,6 @@ You have another version of autoconf.  It may work, but is not guaranteed to.
 If you have problems, you may need to regenerate the build system entirely.
 To do so, use the procedure documented by the package, typically 'autoreconf'.])])
 
-
-dnl IT_PROG_INTLTOOL([MINIMUM-VERSION], [no-xml])
-# serial 42 IT_PROG_INTLTOOL
-AC_DEFUN([IT_PROG_INTLTOOL], [
-AC_PREREQ([2.50])dnl
-AC_REQUIRE([AM_NLS])dnl
-
-case "$am__api_version" in
-    1.[01234])
-	AC_MSG_ERROR([Automake 1.5 or newer is required to use intltool])
-    ;;
-    *)
-    ;;
-esac
-
-INTLTOOL_REQUIRED_VERSION_AS_INT=`echo $1 | awk -F. '{ print $ 1 * 1000 + $ 2 * 100 + $ 3; }'`
-INTLTOOL_APPLIED_VERSION=`intltool-update --version | head -1 | cut -d" " -f3`
-INTLTOOL_APPLIED_VERSION_AS_INT=`echo $INTLTOOL_APPLIED_VERSION | awk -F. '{ print $ 1 * 1000 + $ 2 * 100 + $ 3; }'`
-if test -n "$1"; then
-    AC_MSG_CHECKING([for intltool >= $1])
-    AC_MSG_RESULT([$INTLTOOL_APPLIED_VERSION found])
-    test "$INTLTOOL_APPLIED_VERSION_AS_INT" -ge "$INTLTOOL_REQUIRED_VERSION_AS_INT" ||
-	AC_MSG_ERROR([Your intltool is too old.  You need intltool $1 or later.])
-fi
-
-AC_PATH_PROG(INTLTOOL_UPDATE, [intltool-update])
-AC_PATH_PROG(INTLTOOL_MERGE, [intltool-merge])
-AC_PATH_PROG(INTLTOOL_EXTRACT, [intltool-extract])
-if test -z "$INTLTOOL_UPDATE" -o -z "$INTLTOOL_MERGE" -o -z "$INTLTOOL_EXTRACT"; then
-    AC_MSG_ERROR([The intltool scripts were not found. Please install intltool.])
-fi
-
-if test -z "$AM_DEFAULT_VERBOSITY"; then
-  AM_DEFAULT_VERBOSITY=1
-fi
-AC_SUBST([AM_DEFAULT_VERBOSITY])
-
-INTLTOOL_V_MERGE='$(INTLTOOL__v_MERGE_$(V))'
-INTLTOOL__v_MERGE_='$(INTLTOOL__v_MERGE_$(AM_DEFAULT_VERBOSITY))'
-INTLTOOL__v_MERGE_0='@echo "  ITMRG " [$]@;'
-AC_SUBST(INTLTOOL_V_MERGE)
-AC_SUBST(INTLTOOL__v_MERGE_)
-AC_SUBST(INTLTOOL__v_MERGE_0)
-
-INTLTOOL_V_MERGE_OPTIONS='$(intltool__v_merge_options_$(V))'
-intltool__v_merge_options_='$(intltool__v_merge_options_$(AM_DEFAULT_VERBOSITY))'
-intltool__v_merge_options_0='-q'
-AC_SUBST(INTLTOOL_V_MERGE_OPTIONS)
-AC_SUBST(intltool__v_merge_options_)
-AC_SUBST(intltool__v_merge_options_0)
-
-  INTLTOOL_DESKTOP_RULE='%.desktop:   %.desktop.in   $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-INTLTOOL_DIRECTORY_RULE='%.directory: %.directory.in $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-     INTLTOOL_KEYS_RULE='%.keys:      %.keys.in      $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -k -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-     INTLTOOL_PROP_RULE='%.prop:      %.prop.in      $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-      INTLTOOL_OAF_RULE='%.oaf:       %.oaf.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -o -p $(top_srcdir)/po $< [$]@'
-     INTLTOOL_PONG_RULE='%.pong:      %.pong.in      $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-   INTLTOOL_SERVER_RULE='%.server:    %.server.in    $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -o -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-    INTLTOOL_SHEET_RULE='%.sheet:     %.sheet.in     $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-INTLTOOL_SOUNDLIST_RULE='%.soundlist: %.soundlist.in $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-       INTLTOOL_UI_RULE='%.ui:        %.ui.in        $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-      INTLTOOL_XML_RULE='%.xml:       %.xml.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-if test "$INTLTOOL_APPLIED_VERSION_AS_INT" -ge 5000; then
-      INTLTOOL_XML_NOMERGE_RULE='%.xml:       %.xml.in       $(INTLTOOL_MERGE) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u --no-translations $< [$]@'
-else
-      INTLTOOL_XML_NOMERGE_RULE='%.xml:       %.xml.in       $(INTLTOOL_MERGE) ; $(INTLTOOL_V_MERGE)_it_tmp_dir=tmp.intltool.[$][$]RANDOM && mkdir [$][$]_it_tmp_dir && LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u [$][$]_it_tmp_dir $< [$]@ && rmdir [$][$]_it_tmp_dir'
-fi
-      INTLTOOL_XAM_RULE='%.xam:       %.xml.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-      INTLTOOL_KBD_RULE='%.kbd:       %.kbd.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -m -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-    INTLTOOL_CAVES_RULE='%.caves:     %.caves.in     $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-  INTLTOOL_SCHEMAS_RULE='%.schemas:   %.schemas.in   $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -s -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-    INTLTOOL_THEME_RULE='%.theme:     %.theme.in     $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-    INTLTOOL_SERVICE_RULE='%.service: %.service.in   $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@'
-   INTLTOOL_POLICY_RULE='%.policy:    %.policy.in    $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@'
-
-_IT_SUBST(INTLTOOL_DESKTOP_RULE)
-_IT_SUBST(INTLTOOL_DIRECTORY_RULE)
-_IT_SUBST(INTLTOOL_KEYS_RULE)
-_IT_SUBST(INTLTOOL_PROP_RULE)
-_IT_SUBST(INTLTOOL_OAF_RULE)
-_IT_SUBST(INTLTOOL_PONG_RULE)
-_IT_SUBST(INTLTOOL_SERVER_RULE)
-_IT_SUBST(INTLTOOL_SHEET_RULE)
-_IT_SUBST(INTLTOOL_SOUNDLIST_RULE)
-_IT_SUBST(INTLTOOL_UI_RULE)
-_IT_SUBST(INTLTOOL_XAM_RULE)
-_IT_SUBST(INTLTOOL_KBD_RULE)
-_IT_SUBST(INTLTOOL_XML_RULE)
-_IT_SUBST(INTLTOOL_XML_NOMERGE_RULE)
-_IT_SUBST(INTLTOOL_CAVES_RULE)
-_IT_SUBST(INTLTOOL_SCHEMAS_RULE)
-_IT_SUBST(INTLTOOL_THEME_RULE)
-_IT_SUBST(INTLTOOL_SERVICE_RULE)
-_IT_SUBST(INTLTOOL_POLICY_RULE)
-
-# Check the gettext tools to make sure they are GNU
-AC_PATH_PROG(XGETTEXT, xgettext)
-AC_PATH_PROG(MSGMERGE, msgmerge)
-AC_PATH_PROG(MSGFMT, msgfmt)
-AC_PATH_PROG(GMSGFMT, gmsgfmt, $MSGFMT)
-if test -z "$XGETTEXT" -o -z "$MSGMERGE" -o -z "$MSGFMT"; then
-    AC_MSG_ERROR([GNU gettext tools not found; required for intltool])
-fi
-xgversion="`$XGETTEXT --version|grep '(GNU ' 2> /dev/null`"
-mmversion="`$MSGMERGE --version|grep '(GNU ' 2> /dev/null`"
-mfversion="`$MSGFMT --version|grep '(GNU ' 2> /dev/null`"
-if test -z "$xgversion" -o -z "$mmversion" -o -z "$mfversion"; then
-    AC_MSG_ERROR([GNU gettext tools not found; required for intltool])
-fi
-
-AC_PATH_PROG(INTLTOOL_PERL, perl)
-if test -z "$INTLTOOL_PERL"; then
-   AC_MSG_ERROR([perl not found])
-fi
-AC_MSG_CHECKING([for perl >= 5.8.1])
-$INTLTOOL_PERL -e "use 5.8.1;" > /dev/null 2>&1
-if test $? -ne 0; then
-   AC_MSG_ERROR([perl 5.8.1 is required for intltool])
-else
-   IT_PERL_VERSION=`$INTLTOOL_PERL -e "printf '%vd', $^V"`
-   AC_MSG_RESULT([$IT_PERL_VERSION])
-fi
-if test "x$2" != "xno-xml"; then
-   AC_MSG_CHECKING([for XML::Parser])
-   if `$INTLTOOL_PERL -e "require XML::Parser" 2>/dev/null`; then
-       AC_MSG_RESULT([ok])
-   else
-       AC_MSG_ERROR([XML::Parser perl module is required for intltool])
-   fi
-fi
-
-# Substitute ALL_LINGUAS so we can use it in po/Makefile
-AC_SUBST(ALL_LINGUAS)
-
-IT_PO_SUBDIR([po])
-
-])
-
-
-# IT_PO_SUBDIR(DIRNAME)
-# ---------------------
-# All po subdirs have to be declared with this macro; the subdir "po" is
-# declared by IT_PROG_INTLTOOL.
-#
-AC_DEFUN([IT_PO_SUBDIR],
-[AC_PREREQ([2.53])dnl We use ac_top_srcdir inside AC_CONFIG_COMMANDS.
-dnl
-dnl The following CONFIG_COMMANDS should be executed at the very end
-dnl of config.status.
-AC_CONFIG_COMMANDS_PRE([
-  AC_CONFIG_COMMANDS([$1/stamp-it], [
-    if [ ! grep "^# INTLTOOL_MAKEFILE$" "$1/Makefile.in" > /dev/null ]; then
-       AC_MSG_ERROR([$1/Makefile.in.in was not created by intltoolize.])
-    fi
-    rm -f "$1/stamp-it" "$1/stamp-it.tmp" "$1/POTFILES" "$1/Makefile.tmp"
-    >"$1/stamp-it.tmp"
-    [sed '/^#/d
-	 s/^[[].*] *//
-	 /^[ 	]*$/d
-	'"s|^|	$ac_top_srcdir/|" \
-      "$srcdir/$1/POTFILES.in" | sed '$!s/$/ \\/' >"$1/POTFILES"
-    ]
-    [sed '/^POTFILES =/,/[^\\]$/ {
-		/^POTFILES =/!d
-		r $1/POTFILES
-	  }
-	 ' "$1/Makefile.in" >"$1/Makefile"]
-    rm -f "$1/Makefile.tmp"
-    mv "$1/stamp-it.tmp" "$1/stamp-it"
-  ])
-])dnl
-])
-
-# _IT_SUBST(VARIABLE)
-# -------------------
-# Abstract macro to do either _AM_SUBST_NOTMAKE or AC_SUBST
-#
-AC_DEFUN([_IT_SUBST],
-[
-AC_SUBST([$1])
-m4_ifdef([_AM_SUBST_NOTMAKE], [_AM_SUBST_NOTMAKE([$1])])
-]
-)
-
-# deprecated macros
-AU_ALIAS([AC_PROG_INTLTOOL], [IT_PROG_INTLTOOL])
-# A hint is needed for aclocal from Automake <= 1.9.4:
-# AC_DEFUN([AC_PROG_INTLTOOL], ...)
-
-
-# nls.m4 serial 6 (gettext-0.20.2)
-dnl Copyright (C) 1995-2003, 2005-2006, 2008-2014, 2016, 2019-2022 Free
-dnl Software Foundation, Inc.
-dnl This file is free software; the Free Software Foundation
-dnl gives unlimited permission to copy and/or distribute it,
-dnl with or without modifications, as long as this notice is preserved.
-dnl
-dnl This file can be used in projects which are not available under
-dnl the GNU General Public License or the GNU Lesser General Public
-dnl License but which still want to provide support for the GNU gettext
-dnl functionality.
-dnl Please note that the actual code of the GNU gettext library is covered
-dnl by the GNU Lesser General Public License, and the rest of the GNU
-dnl gettext package is covered by the GNU General Public License.
-dnl They are *not* in the public domain.
-
-dnl Authors:
-dnl   Ulrich Drepper <drepper@cygnus.com>, 1995-2000.
-dnl   Bruno Haible <haible@clisp.cons.org>, 2000-2003.
-
-AC_PREREQ([2.50])
-
-AC_DEFUN([AM_NLS],
-[
-  AC_MSG_CHECKING([whether NLS is requested])
-  dnl Default is enabled NLS
-  AC_ARG_ENABLE([nls],
-    [  --disable-nls           do not use Native Language Support],
-    USE_NLS=$enableval, USE_NLS=yes)
-  AC_MSG_RESULT([$USE_NLS])
-  AC_SUBST([USE_NLS])
-])
-
-# pkg.m4 - Macros to locate and utilise pkg-config.   -*- Autoconf -*-
-# serial 11 (pkg-config-0.29.1)
-
-dnl Copyright © 2004 Scott James Remnant <scott@netsplit.com>.
-dnl Copyright © 2012-2015 Dan Nicholson <dbn.lists@gmail.com>
-dnl
-dnl This program is free software; you can redistribute it and/or modify
-dnl it under the terms of the GNU General Public License as published by
-dnl the Free Software Foundation; either version 2 of the License, or
-dnl (at your option) any later version.
-dnl
-dnl This program is distributed in the hope that it will be useful, but
-dnl WITHOUT ANY WARRANTY; without even the implied warranty of
-dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-dnl General Public License for more details.
-dnl
-dnl You should have received a copy of the GNU General Public License
-dnl along with this program; if not, write to the Free Software
-dnl Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-dnl 02111-1307, USA.
-dnl
-dnl As a special exception to the GNU General Public License, if you
-dnl distribute this file as part of a program that contains a
-dnl configuration script generated by Autoconf, you may include it under
-dnl the same distribution terms that you use for the rest of that
-dnl program.
-
-dnl PKG_PREREQ(MIN-VERSION)
-dnl -----------------------
-dnl Since: 0.29
-dnl
-dnl Verify that the version of the pkg-config macros are at least
-dnl MIN-VERSION. Unlike PKG_PROG_PKG_CONFIG, which checks the user's
-dnl installed version of pkg-config, this checks the developer's version
-dnl of pkg.m4 when generating configure.
-dnl
-dnl To ensure that this macro is defined, also add:
-dnl m4_ifndef([PKG_PREREQ],
-dnl     [m4_fatal([must install pkg-config 0.29 or later before running autoconf/autogen])])
-dnl
-dnl See the "Since" comment for each macro you use to see what version
-dnl of the macros you require.
-m4_defun([PKG_PREREQ],
-[m4_define([PKG_MACROS_VERSION], [0.29.1])
-m4_if(m4_version_compare(PKG_MACROS_VERSION, [$1]), -1,
-    [m4_fatal([pkg.m4 version $1 or higher is required but ]PKG_MACROS_VERSION[ found])])
-])dnl PKG_PREREQ
-
-dnl PKG_PROG_PKG_CONFIG([MIN-VERSION])
-dnl ----------------------------------
-dnl Since: 0.16
-dnl
-dnl Search for the pkg-config tool and set the PKG_CONFIG variable to
-dnl first found in the path. Checks that the version of pkg-config found
-dnl is at least MIN-VERSION. If MIN-VERSION is not specified, 0.9.0 is
-dnl used since that's the first version where most current features of
-dnl pkg-config existed.
-AC_DEFUN([PKG_PROG_PKG_CONFIG],
-[m4_pattern_forbid([^_?PKG_[A-Z_]+$])
-m4_pattern_allow([^PKG_CONFIG(_(PATH|LIBDIR|SYSROOT_DIR|ALLOW_SYSTEM_(CFLAGS|LIBS)))?$])
-m4_pattern_allow([^PKG_CONFIG_(DISABLE_UNINSTALLED|TOP_BUILD_DIR|DEBUG_SPEW)$])
-AC_ARG_VAR([PKG_CONFIG], [path to pkg-config utility])
-AC_ARG_VAR([PKG_CONFIG_PATH], [directories to add to pkg-config's search path])
-AC_ARG_VAR([PKG_CONFIG_LIBDIR], [path overriding pkg-config's built-in search path])
-
-if test "x$ac_cv_env_PKG_CONFIG_set" != "xset"; then
-	AC_PATH_TOOL([PKG_CONFIG], [pkg-config])
-fi
-if test -n "$PKG_CONFIG"; then
-	_pkg_min_version=m4_default([$1], [0.9.0])
-	AC_MSG_CHECKING([pkg-config is at least version $_pkg_min_version])
-	if $PKG_CONFIG --atleast-pkgconfig-version $_pkg_min_version; then
-		AC_MSG_RESULT([yes])
-	else
-		AC_MSG_RESULT([no])
-		PKG_CONFIG=""
-	fi
-fi[]dnl
-])dnl PKG_PROG_PKG_CONFIG
-
-dnl PKG_CHECK_EXISTS(MODULES, [ACTION-IF-FOUND], [ACTION-IF-NOT-FOUND])
-dnl -------------------------------------------------------------------
-dnl Since: 0.18
-dnl
-dnl Check to see whether a particular set of modules exists. Similar to
-dnl PKG_CHECK_MODULES(), but does not set variables or print errors.
-dnl
-dnl Please remember that m4 expands AC_REQUIRE([PKG_PROG_PKG_CONFIG])
-dnl only at the first occurence in configure.ac, so if the first place
-dnl it's called might be skipped (such as if it is within an "if", you
-dnl have to call PKG_CHECK_EXISTS manually
-AC_DEFUN([PKG_CHECK_EXISTS],
-[AC_REQUIRE([PKG_PROG_PKG_CONFIG])dnl
-if test -n "$PKG_CONFIG" && \
-    AC_RUN_LOG([$PKG_CONFIG --exists --print-errors "$1"]); then
-  m4_default([$2], [:])
-m4_ifvaln([$3], [else
-  $3])dnl
-fi])
-
-dnl _PKG_CONFIG([VARIABLE], [COMMAND], [MODULES])
-dnl ---------------------------------------------
-dnl Internal wrapper calling pkg-config via PKG_CONFIG and setting
-dnl pkg_failed based on the result.
-m4_define([_PKG_CONFIG],
-[if test -n "$$1"; then
-    pkg_cv_[]$1="$$1"
- elif test -n "$PKG_CONFIG"; then
-    PKG_CHECK_EXISTS([$3],
-                     [pkg_cv_[]$1=`$PKG_CONFIG --[]$2 "$3" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes ],
-		     [pkg_failed=yes])
- else
-    pkg_failed=untried
-fi[]dnl
-])dnl _PKG_CONFIG
-
-dnl _PKG_SHORT_ERRORS_SUPPORTED
-dnl ---------------------------
-dnl Internal check to see if pkg-config supports short errors.
-AC_DEFUN([_PKG_SHORT_ERRORS_SUPPORTED],
-[AC_REQUIRE([PKG_PROG_PKG_CONFIG])
-if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
-        _pkg_short_errors_supported=yes
-else
-        _pkg_short_errors_supported=no
-fi[]dnl
-])dnl _PKG_SHORT_ERRORS_SUPPORTED
-
-
-dnl PKG_CHECK_MODULES(VARIABLE-PREFIX, MODULES, [ACTION-IF-FOUND],
-dnl   [ACTION-IF-NOT-FOUND])
-dnl --------------------------------------------------------------
-dnl Since: 0.4.0
-dnl
-dnl Note that if there is a possibility the first call to
-dnl PKG_CHECK_MODULES might not happen, you should be sure to include an
-dnl explicit call to PKG_PROG_PKG_CONFIG in your configure.ac
-AC_DEFUN([PKG_CHECK_MODULES],
-[AC_REQUIRE([PKG_PROG_PKG_CONFIG])dnl
-AC_ARG_VAR([$1][_CFLAGS], [C compiler flags for $1, overriding pkg-config])dnl
-AC_ARG_VAR([$1][_LIBS], [linker flags for $1, overriding pkg-config])dnl
-
-pkg_failed=no
-AC_MSG_CHECKING([for $1])
-
-_PKG_CONFIG([$1][_CFLAGS], [cflags], [$2])
-_PKG_CONFIG([$1][_LIBS], [libs], [$2])
-
-m4_define([_PKG_TEXT], [Alternatively, you may set the environment variables $1[]_CFLAGS
-and $1[]_LIBS to avoid the need to call pkg-config.
-See the pkg-config man page for more details.])
-
-if test $pkg_failed = yes; then
-   	AC_MSG_RESULT([no])
-        _PKG_SHORT_ERRORS_SUPPORTED
-        if test $_pkg_short_errors_supported = yes; then
-	        $1[]_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$2" 2>&1`
-        else 
-	        $1[]_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$2" 2>&1`
-        fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$$1[]_PKG_ERRORS" >&AS_MESSAGE_LOG_FD
-
-	m4_default([$4], [AC_MSG_ERROR(
-[Package requirements ($2) were not met:
-
-$$1_PKG_ERRORS
-
-Consider adjusting the PKG_CONFIG_PATH environment variable if you
-installed software in a non-standard prefix.
-
-_PKG_TEXT])[]dnl
-        ])
-elif test $pkg_failed = untried; then
-     	AC_MSG_RESULT([no])
-	m4_default([$4], [AC_MSG_FAILURE(
-[The pkg-config script could not be found or is too old.  Make sure it
-is in your PATH or set the PKG_CONFIG environment variable to the full
-path to pkg-config.
-
-_PKG_TEXT
-
-To get pkg-config, see <http://pkg-config.freedesktop.org/>.])[]dnl
-        ])
-else
-	$1[]_CFLAGS=$pkg_cv_[]$1[]_CFLAGS
-	$1[]_LIBS=$pkg_cv_[]$1[]_LIBS
-        AC_MSG_RESULT([yes])
-	$3
-fi[]dnl
-])dnl PKG_CHECK_MODULES
-
-
-dnl PKG_CHECK_MODULES_STATIC(VARIABLE-PREFIX, MODULES, [ACTION-IF-FOUND],
-dnl   [ACTION-IF-NOT-FOUND])
-dnl ---------------------------------------------------------------------
-dnl Since: 0.29
-dnl
-dnl Checks for existence of MODULES and gathers its build flags with
-dnl static libraries enabled. Sets VARIABLE-PREFIX_CFLAGS from --cflags
-dnl and VARIABLE-PREFIX_LIBS from --libs.
-dnl
-dnl Note that if there is a possibility the first call to
-dnl PKG_CHECK_MODULES_STATIC might not happen, you should be sure to
-dnl include an explicit call to PKG_PROG_PKG_CONFIG in your
-dnl configure.ac.
-AC_DEFUN([PKG_CHECK_MODULES_STATIC],
-[AC_REQUIRE([PKG_PROG_PKG_CONFIG])dnl
-_save_PKG_CONFIG=$PKG_CONFIG
-PKG_CONFIG="$PKG_CONFIG --static"
-PKG_CHECK_MODULES($@)
-PKG_CONFIG=$_save_PKG_CONFIG[]dnl
-])dnl PKG_CHECK_MODULES_STATIC
-
-
-dnl PKG_INSTALLDIR([DIRECTORY])
-dnl -------------------------
-dnl Since: 0.27
-dnl
-dnl Substitutes the variable pkgconfigdir as the location where a module
-dnl should install pkg-config .pc files. By default the directory is
-dnl $libdir/pkgconfig, but the default can be changed by passing
-dnl DIRECTORY. The user can override through the --with-pkgconfigdir
-dnl parameter.
-AC_DEFUN([PKG_INSTALLDIR],
-[m4_pushdef([pkg_default], [m4_default([$1], ['${libdir}/pkgconfig'])])
-m4_pushdef([pkg_description],
-    [pkg-config installation directory @<:@]pkg_default[@:>@])
-AC_ARG_WITH([pkgconfigdir],
-    [AS_HELP_STRING([--with-pkgconfigdir], pkg_description)],,
-    [with_pkgconfigdir=]pkg_default)
-AC_SUBST([pkgconfigdir], [$with_pkgconfigdir])
-m4_popdef([pkg_default])
-m4_popdef([pkg_description])
-])dnl PKG_INSTALLDIR
-
-
-dnl PKG_NOARCH_INSTALLDIR([DIRECTORY])
-dnl --------------------------------
-dnl Since: 0.27
-dnl
-dnl Substitutes the variable noarch_pkgconfigdir as the location where a
-dnl module should install arch-independent pkg-config .pc files. By
-dnl default the directory is $datadir/pkgconfig, but the default can be
-dnl changed by passing DIRECTORY. The user can override through the
-dnl --with-noarch-pkgconfigdir parameter.
-AC_DEFUN([PKG_NOARCH_INSTALLDIR],
-[m4_pushdef([pkg_default], [m4_default([$1], ['${datadir}/pkgconfig'])])
-m4_pushdef([pkg_description],
-    [pkg-config arch-independent installation directory @<:@]pkg_default[@:>@])
-AC_ARG_WITH([noarch-pkgconfigdir],
-    [AS_HELP_STRING([--with-noarch-pkgconfigdir], pkg_description)],,
-    [with_noarch_pkgconfigdir=]pkg_default)
-AC_SUBST([noarch_pkgconfigdir], [$with_noarch_pkgconfigdir])
-m4_popdef([pkg_default])
-m4_popdef([pkg_description])
-])dnl PKG_NOARCH_INSTALLDIR
-
-
-dnl PKG_CHECK_VAR(VARIABLE, MODULE, CONFIG-VARIABLE,
-dnl [ACTION-IF-FOUND], [ACTION-IF-NOT-FOUND])
-dnl -------------------------------------------
-dnl Since: 0.28
-dnl
-dnl Retrieves the value of the pkg-config variable for the given module.
-AC_DEFUN([PKG_CHECK_VAR],
-[AC_REQUIRE([PKG_PROG_PKG_CONFIG])dnl
-AC_ARG_VAR([$1], [value of $3 for $2, overriding pkg-config])dnl
-
-_PKG_CONFIG([$1], [variable="][$3]["], [$2])
-AS_VAR_COPY([$1], [pkg_cv_][$1])
-
-AS_VAR_IF([$1], [""], [$5], [$4])dnl
-])dnl PKG_CHECK_VAR
-
-dnl PKG_WITH_MODULES(VARIABLE-PREFIX, MODULES,
-dnl   [ACTION-IF-FOUND],[ACTION-IF-NOT-FOUND],
-dnl   [DESCRIPTION], [DEFAULT])
-dnl ------------------------------------------
-dnl
-dnl Prepare a "--with-" configure option using the lowercase
-dnl [VARIABLE-PREFIX] name, merging the behaviour of AC_ARG_WITH and
-dnl PKG_CHECK_MODULES in a single macro.
-AC_DEFUN([PKG_WITH_MODULES],
-[
-m4_pushdef([with_arg], m4_tolower([$1]))
-
-m4_pushdef([description],
-           [m4_default([$5], [build with ]with_arg[ support])])
-
-m4_pushdef([def_arg], [m4_default([$6], [auto])])
-m4_pushdef([def_action_if_found], [AS_TR_SH([with_]with_arg)=yes])
-m4_pushdef([def_action_if_not_found], [AS_TR_SH([with_]with_arg)=no])
-
-m4_case(def_arg,
-            [yes],[m4_pushdef([with_without], [--without-]with_arg)],
-            [m4_pushdef([with_without],[--with-]with_arg)])
-
-AC_ARG_WITH(with_arg,
-     AS_HELP_STRING(with_without, description[ @<:@default=]def_arg[@:>@]),,
-    [AS_TR_SH([with_]with_arg)=def_arg])
-
-AS_CASE([$AS_TR_SH([with_]with_arg)],
-            [yes],[PKG_CHECK_MODULES([$1],[$2],$3,$4)],
-            [auto],[PKG_CHECK_MODULES([$1],[$2],
-                                        [m4_n([def_action_if_found]) $3],
-                                        [m4_n([def_action_if_not_found]) $4])])
-
-m4_popdef([with_arg])
-m4_popdef([description])
-m4_popdef([def_arg])
-
-])dnl PKG_WITH_MODULES
-
-dnl PKG_HAVE_WITH_MODULES(VARIABLE-PREFIX, MODULES,
-dnl   [DESCRIPTION], [DEFAULT])
-dnl -----------------------------------------------
-dnl
-dnl Convenience macro to trigger AM_CONDITIONAL after PKG_WITH_MODULES
-dnl check._[VARIABLE-PREFIX] is exported as make variable.
-AC_DEFUN([PKG_HAVE_WITH_MODULES],
-[
-PKG_WITH_MODULES([$1],[$2],,,[$3],[$4])
-
-AM_CONDITIONAL([HAVE_][$1],
-               [test "$AS_TR_SH([with_]m4_tolower([$1]))" = "yes"])
-])dnl PKG_HAVE_WITH_MODULES
-
-dnl PKG_HAVE_DEFINE_WITH_MODULES(VARIABLE-PREFIX, MODULES,
-dnl   [DESCRIPTION], [DEFAULT])
-dnl ------------------------------------------------------
-dnl
-dnl Convenience macro to run AM_CONDITIONAL and AC_DEFINE after
-dnl PKG_WITH_MODULES check. HAVE_[VARIABLE-PREFIX] is exported as make
-dnl and preprocessor variable.
-AC_DEFUN([PKG_HAVE_DEFINE_WITH_MODULES],
-[
-PKG_HAVE_WITH_MODULES([$1],[$2],[$3],[$4])
-
-AS_IF([test "$AS_TR_SH([with_]m4_tolower([$1]))" = "yes"],
-        [AC_DEFINE([HAVE_][$1], 1, [Enable ]m4_tolower([$1])[ support])])
-])dnl PKG_HAVE_DEFINE_WITH_MODULES
-
-dnl Copyright (c) 2002-2015
-dnl         The Xfce development team. All rights reserved.
-dnl
-dnl Written for Xfce by Benedikt Meurer <benny@xfce.org>.
-dnl
-dnl This program is free software; you can redistribute it and/or modify
-dnl it under the terms of the GNU General Public License as published by
-dnl the Free Software Foundation; either version 2 of the License, or
-dnl (at your option) any later version.
-dnl
-dnl This program is distributed in the hope that it will be useful,
-dnl but WITHOUT ANY WARRANTY; without even the implied warranty of
-dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-dnl GNU General Public License for more details.
-dnl
-dnl You should have received a copy of the GNU General Public License along
-dnl with this program; if not, write to the Free Software Foundation, Inc.,
-dnl 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-dnl
-dnl xdt-depends
-dnl -----------
-dnl  Contains M4 macros to check for software dependencies.
-dnl  Partly based on prior work of the XDG contributors.
-dnl
-
-
-
-dnl We need recent a autoconf version
-AC_PREREQ([2.69])
-
-
-
-dnl XDT_PROG_PKG_CONFIG()
-dnl
-dnl Checks for the freedesktop.org pkg-config
-dnl utility and sets the PKG_CONFIG environment
-dnl variable to the full path if found.
-dnl
-AC_DEFUN([XDT_PROG_PKG_CONFIG],
-[
-  # minimum supported version of pkg-config
-  xdt_cv_PKG_CONFIG_MIN_VERSION=0.9.0
-
-  m4_ifdef([PKG_PROG_PKG_CONFIG],
-    [
-      PKG_PROG_PKG_CONFIG([$xdt_cv_PKG_CONFIG_MIN_VERSION])
-
-      if test x"$PKG_CONFIG" = x""; then
-        echo
-        echo "*** Your version of pkg-config is too old. You need atleast"
-        echo "*** pkg-config $xdt_cv_PKG_CONFIG_MIN_VERSION or newer. You can download pkg-config"
-        echo "*** from the freedesktop.org software repository at"
-        echo "***"
-        echo "***    https://www.freedesktop.org/wiki/Software/pkg-config/"
-        echo "***"
-        exit 1;
-      fi
-    ],
-    [
-      echo
-      echo "*** The pkg-config utility could not be found on your system."
-      echo "*** Make sure it is in your path, or set the PKG_CONFIG"
-      echo "*** environment variable to the full path to pkg-config."
-      echo "*** You can download pkg-config from the freedesktop.org"
-      echo "*** software repository at"
-      echo "***"
-      echo "***    https://www.freedesktop.org/wiki/Software/pkg-config/"
-      echo "***"
-      exit 1
-    ])
-])
-
-
-
-dnl XDT_CHECK_PACKAGE(varname, package, version, [action-if], [action-if-not])
-dnl
-dnl Checks if "package" >= "version" is installed on the
-dnl target system, using the pkg-config utility. If the
-dnl dependency is met, "varname"_CFLAGS, "varname"_LIBS,
-dnl "varname"_VERSION and "varname"_REQUIRED_VERSION
-dnl will be set and marked for substition.
-dnl
-dnl "varname"_REQUIRED_VERSION will be set to the value of
-dnl "version". This is mostly useful to automatically
-dnl place the correct version information into the RPM
-dnl .spec file.
-dnl
-dnl In addition, if the dependency is met, "action-if" will
-dnl be executed if given.
-dnl
-dnl If the package check fails, "action-if-not" will be
-dnl executed. If this parameter isn't specified, a diagnostic
-dnl message will be printed and the configure script will
-dnl be terminated with exit code 1.
-dnl
-AC_DEFUN([XDT_CHECK_PACKAGE],
-[
-  XDT_PROG_PKG_CONFIG()
-
-  AC_MSG_CHECKING([for $2 >= $3])
-  if $PKG_CONFIG "--atleast-version=$3" "$2" >/dev/null 2>&1; then
-    $1_VERSION=`$PKG_CONFIG --modversion "$2"`
-    AC_MSG_RESULT([$$1_VERSION])
-
-    AC_MSG_CHECKING([$1_CFLAGS])
-    $1_CFLAGS=`$PKG_CONFIG --cflags "$2"`
-    AC_MSG_RESULT([$$1_CFLAGS])
-
-    AC_MSG_CHECKING([$1_LIBS])
-    $1_LIBS=`$PKG_CONFIG --libs "$2"`
-    AC_MSG_RESULT([$$1_LIBS])
-
-    $1_REQUIRED_VERSION=$3
-
-    AC_SUBST([$1_VERSION])
-    AC_SUBST([$1_CFLAGS])
-    AC_SUBST([$1_LIBS])
-    AC_SUBST([$1_REQUIRED_VERSION])
-
-    if test x"$1" = x"GLIB"; then
-      dnl Use GLib structured logging, see https://docs.gtk.org/glib/logging.html
-      dnl XFCE apps&libraries can override this setting after XDT_CHECK_PACKAGE(GLIB)
-      dnl using AC_DEFINE.
-      dnl Note that it requires GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_56 to work
-      dnl properly in GLib logging macros (not documented, see glib/gmessages.h).
-      AC_DEFINE(G_LOG_USE_STRUCTURED, 1, [Use GLib structured logging])
-    fi
-
-    ifelse([$1], GLIB, [
-      dnl Report uses of GLib functions newer than $3 as C compiler warnings.
-      dnl XFCE apps&libraries can override this setting after XDT_CHECK_PACKAGE(GLIB)
-      dnl using AC_DEFINE, in which case it is recommended to override both MAX and MIN.
-      AC_MSG_NOTICE([setting GLIB_VERSION_MAX_ALLOWED and GLIB_VERSION_MIN_REQUIRED according to $3])
-      m4_pushdef([SUFFIX], translit($3, `.', `_'))
-      m4_define([SUFFIX], ifelse(regexp(SUFFIX, [[0-9]+_[0-9]+_[0-9]+]), -1, SUFFIX, patsubst(SUFFIX, [_[0-9]+$])))
-      AC_DEFINE(GLIB_VERSION_MAX_ALLOWED, m4_format(GLIB_VERSION_%s, SUFFIX), m4_format(Prevent post %s APIs, SUFFIX))
-      AC_DEFINE(GLIB_VERSION_MIN_REQUIRED, m4_format(GLIB_VERSION_%s, SUFFIX), m4_format(Ignore post %s APIs, SUFFIX))
-      m4_popdef([SUFFIX])
-    ])
-
-    ifelse([$4], , , [$4])
-  elif $PKG_CONFIG --exists "$2" >/dev/null 2>&1; then
-    xdt_cv_version=`$PKG_CONFIG --modversion "$2"`
-    AC_MSG_RESULT([found, but $xdt_cv_version])
-
-    ifelse([$5], ,
-    [
-      echo "*** The required package $2 was found on your system,"
-      echo "*** but the installed version ($xdt_cv_version) is too old."
-      echo "*** Please upgrade $2 to atleast version $3, or adjust"
-      echo "*** the PKG_CONFIG_PATH environment variable if you installed"
-      echo "*** the new version of the package in a nonstandard prefix so"
-      echo "*** pkg-config is able to find it."
-      exit 1
-    ], [$5])
-  else
-    AC_MSG_RESULT([not found])
-
-    ifelse([$5], ,
-    [
-      echo "*** The required package $2 was not found on your system."
-      echo "*** Please install $2 (atleast version $3) or adjust"
-      echo "*** the PKG_CONFIG_PATH environment variable if you"
-      echo "*** installed the package in a nonstandard prefix so that"
-      echo "*** pkg-config is able to find it."
-      exit 1
-    ], [$5])
-  fi
-])
-
-
-
-dnl XDT_CHECK_OPTIONAL_PACKAGE(varname, package, version, optionname, helpstring, [default])
-dnl
-dnl Checks for an optional dependency on "package" >= "version". "default"
-dnl can be "yes" or "no" (defaults to "yes" if not specified) and controls
-dnl whether configure should check this dependency by default, or only if
-dnl the user explicitly enables it using a command line switch.
-dnl
-dnl This macro automatically adds a commandline switch based on the "optionname"
-dnl parameter (--enable-optionname/--disable-optionname), which allows the
-dnl user to explicitly control whether this optional dependency should be
-dnl enabled or not. The "helpstring" parameter gives a brief(!) description
-dnl about this dependency.
-dnl
-dnl If the user chose to enable this dependency and the required package
-dnl was found, this macro defines the variable "varname"_FOUND and sets it
-dnl to the string "yes", in addition to the 4 variables set by XDT_CHECK_PACKAGE.
-dnl But "varname"_FOUND will not be marked for substition. Furthermore,
-dnl a CPP define HAVE_"varname" will be placed in config.h (or added to
-dnl the cc command line, depending on your configure.ac) and set to
-dnl 1.
-dnl
-AC_DEFUN([XDT_CHECK_OPTIONAL_PACKAGE],
-[
-  AC_REQUIRE([XDT_PROG_PKG_CONFIG])
-
-  AC_ARG_ENABLE([$4],
-AS_HELP_STRING([--enable-$4],[Enable checking for $5 (default=m4_default([$6], [yes]))])
-AS_HELP_STRING([--disable-$4],[Disable checking for $5]),
-    [xdt_cv_$1_check=$enableval], [xdt_cv_$1_check=m4_default([$6], [yes])])
-
-  if test x"$xdt_cv_$1_check" = x"yes"; then
-    if $PKG_CONFIG --exists "$2 >= $3" >/dev/null 2>&1; then
-      XDT_CHECK_PACKAGE([$1], [$2], [$3],
-      [
-        AC_DEFINE([HAVE_$1], [1], [Define if $2 >= $3 present])
-        $1_FOUND="yes"
-      ])
-    else
-      AC_MSG_CHECKING([for optional package $2 >= $3])
-      AC_MSG_RESULT([not found])
-    fi
-  else
-    AC_MSG_CHECKING([for optional package $2])
-    AC_MSG_RESULT([disabled])
-  fi
-
-  AM_CONDITIONAL([HAVE_$1], [test x"$$1_FOUND" = x"yes"])
-])
-
-
-
-dnl XDT_CHECK_LIBX11()
-dnl
-dnl Executes various checks for X11. Sets LIBX11_CFLAGS, LIBX11_LDFLAGS
-dnl and LIBX11_LIBS (and marks them for substitution). In addition
-dnl HAVE_LIBX11 is set to 1 in config.h, if the X window system and
-dnl the development files are detected on the target system.
-dnl
-AC_DEFUN([XDT_CHECK_LIBX11],
-[
-  AC_REQUIRE([AC_PATH_XTRA])
-
-  LIBX11_CFLAGS= LIBX11_LDFLAGS= LIBX11_LIBS=
-  if test x"$no_x" != x"yes"; then
-    AC_CHECK_LIB([X11], [main],
-    [
-      AC_DEFINE([HAVE_LIBX11], [1], [Define if libX11 is available])
-      LIBX11_CFLAGS="$X_CFLAGS"
-      for option in $X_PRE_LIBS $X_EXTRA_LIBS $X_LIBS; do
-      	case "$option" in
-        -L*)
-          path=`echo $option | sed 's/^-L//'`
-          if test x"$path" != x""; then
-            LIBX11_LDFLAGS="$LIBX11_LDFLAGS -L$path"
-          fi
-          ;;
-        *)
-          LIBX11_LIBS="$LIBX11_LIBS $option"
-          ;;
-        esac
-      done
-      if ! echo $LIBX11_LIBS | grep -- '-lX11' >/dev/null; then
-        LIBX11_LIBS="$LIBX11_LIBS -lX11"
-      fi
-    ], [], [$X_CFLAGS $X_PRE_LIBS $X_EXTRA_LIBS $X_LIBS])
-  fi
-  AC_SUBST([LIBX11_CFLAGS])
-  AC_SUBST([LIBX11_LDFLAGS])
-  AC_SUBST([LIBX11_LIBS])
-])
-
-
-
-dnl XDT_CHECK_LIBX11_REQUIRE()
-dnl
-dnl Similar to XDT_CHECK_LIBX11(), but terminates with an error if
-dnl the X window system and development files aren't detected on the
-dnl target system.
-dnl
-AC_DEFUN([XDT_CHECK_LIBX11_REQUIRE],
-[
-  AC_REQUIRE([XDT_CHECK_LIBX11])
-  
-  if test x"$no_x" = x"yes"; then
-    AC_MSG_ERROR([X Window system libraries and header files are required])
-  fi
-])
-
-
-
-dnl XDT_CHECK_LIBSM()
-dnl
-dnl Checks whether the session management library is present on the
-dnl target system, and sets LIBSM_CFLAGS, LIBSM_LDFLAGS and LIBSM_LIBS
-dnl properly. In addition, HAVE_LIBSM will be set to 1 in config.h
-dnl if libSM is detected.
-dnl
-AC_DEFUN([XDT_CHECK_LIBSM],
-[
-  AC_REQUIRE([XDT_CHECK_LIBX11])
-
-  LIBSM_CFLAGS= LIBSM_LDFLAGS= LIBSM_LIBS=
-  if test x"$no_x" != x"yes"; then
-    AC_CHECK_LIB([SM], [SmcSaveYourselfDone],
-    [
-      AC_DEFINE([HAVE_LIBSM], [1], [Define if libSM is available])
-      LIBSM_CFLAGS="$LIBX11_CFLAGS"
-      LIBSM_LDFLAGS="$LIBX11_LDFLAGS"
-      LIBSM_LIBS="$LIBX11_LIBS"
-      if ! echo $LIBSM_LIBS | grep -- '-lSM' >/dev/null; then
-        LIBSM_LIBS="$LIBSM_LIBS -lSM -lICE"
-      fi
-    ], [], [$LIBX11_CFLAGS $LIBX11_LDFLAGS $LIBX11_LIBS -lICE])
-  fi
-  AC_SUBST([LIBSM_CFLAGS])
-  AC_SUBST([LIBSM_LDFLAGS])
-  AC_SUBST([LIBSM_LIBS])
-])
-
-
-
-dnl XDT_CHECK_LIBXPM()
-dnl
-dnl Checks if the Xpm library is present on the target system, and
-dnl sets LIBXPM_CFLAGS, LIBXPM_LDFLAGS and LIBXPM_LIBS. In addition,
-dnl HAVE_LIBXPM will be set to 1 in config.h if libXpm is detected.
-dnl
-AC_DEFUN([XDT_CHECK_LIBXPM],
-[
-  AC_REQUIRE([XDT_CHECK_LIBX11])
-
-  LIBXPM_CFLAGS= LIBXPM_LDFLAGS= LIBXPM_LIBS=
-  if test "$no_x" != "yes"; then
-    AC_CHECK_LIB([Xpm], [main],
-    [
-      AC_DEFINE([HAVE_LIBXPM], [1], [Define if libXpm is available])
-      LIBXPM_CFLAGS="$LIBX11_CFLAGS"
-      LIBXPM_LDFLAGS="$LIBX11_LDFLAGS"
-      LIBXPM_LIBS="$LIBX11_LIBS"
-      if ! echo $LIBXPM_LIBS | grep -- '-lXpm' >/dev/null; then
-        LIBXPM_LIBS="$LIBXPM_LIBS -lXpm"
-      fi
-    ], [], [$LIBX11_CFLAGS $LIBX11_LDFLAGS $LIBX11_LIBS -lXpm])
-  fi
-  AC_SUBST([LIBXPM_CFLAGS])
-  AC_SUBST([LIBXPM_LDFLAGS])
-  AC_SUBST([LIBXPM_LIBS])
-])
-
-
-
-dnl XDT_CHECK_LIBXPM_REQUIRE()
-dnl
-dnl Similar to XDT_CHECK_LIBXPM(), but fails if the Xpm library isn't
-dnl present on the target system.
-dnl
-AC_DEFUN([XDT_CHECK_LIBXPM_REQUIRE],
-[
-  AC_REQUIRE([XDT_CHECK_LIBX11_REQUIRE])
-  AC_REQUIRE([XDT_CHECK_LIBXPM])
-
-  if test x"$LIBXPM_LIBS" = x""; then
-    AC_MSG_ERROR([The Xpm library was not found on your system])
-  fi
-])
-
-
-dnl Copyright (c) 2002-2015
-dnl         The Xfce development team. All rights reserved.
-dnl
-dnl Written for Xfce by Benedikt Meurer <benny@xfce.org>.
-dnl
-dnl This program is free software; you can redistribute it and/or modify
-dnl it under the terms of the GNU General Public License as published by
-dnl the Free Software Foundation; either version 2 of the License, or
-dnl (at your option) any later version.
-dnl
-dnl This program is distributed in the hope that it will be useful,
-dnl but WITHOUT ANY WARRANTY; without even the implied warranty of
-dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-dnl GNU General Public License for more details.
-dnl
-dnl You should have received a copy of the GNU General Public License along
-dnl with this program; if not, write to the Free Software Foundation, Inc.,
-dnl 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-dnl
-dnl xdt-depends
-dnl -----------
-dnl  Contains M4 macros to check for software dependencies.
-dnl  Partly based on prior work of the XDG contributors.
-dnl
-
-
-
-dnl We need recent a autoconf version
-AC_PREREQ([2.69])
-
-
-dnl XDT_SUPPORTED_FLAGS(VAR, FLAGS)
-dnl
-dnl For each token in FLAGS, checks to be sure the compiler supports
-dnl the flag, and if so, adds each one to VAR.
-dnl
-AC_DEFUN([XDT_SUPPORTED_FLAGS],
-[
-  for flag in $2; do
-    AC_MSG_CHECKING([if $CC supports $flag])
-    saved_CFLAGS="$CFLAGS"
-    CFLAGS="$CFLAGS $flag"
-    AC_COMPILE_IFELSE([AC_LANG_SOURCE([ ])], [flag_supported=yes], [flag_supported=no])
-    CFLAGS="$saved_CFLAGS"
-    AC_MSG_RESULT([$flag_supported])
-
-    if test "x$flag_supported" = "xyes"; then
-      $1="$$1 $flag"
-    fi
-  done
-])
-
-
-
-dnl XDT_FEATURE_DEBUG(default_level=minimum)
-dnl
-AC_DEFUN([XDT_FEATURE_DEBUG],
-[
-  dnl weird indentation to keep output indentation correct
-  AC_ARG_ENABLE([debug],
-                AS_HELP_STRING([--enable-debug@<:@=no|minimum|yes|full@:>@],[Build with debugging support @<:@default=m4_default([$1], [minimum])@:>@])
-AS_HELP_STRING([--disable-debug],[Include no debugging support]),
-                [enable_debug=$enableval], [enable_debug=m4_default([$1], [minimum])])
-
-  dnl Enable most warnings regardless of debug level. Common flags for both C and C++.
-  xdt_cv_additional_COMMON_FLAGS="-Wall -Wextra \
-                                  -Wno-missing-field-initializers \
-                                  -Wno-unused-parameter \
-                                  -Wmissing-declarations \
-                                  -Wmissing-noreturn -Wpointer-arith \
-                                  -Wcast-align -Wformat -Wformat-security -Wformat-y2k \
-                                  -Winit-self -Wmissing-include-dirs -Wundef \
-                                  -Wredundant-decls"
-
-  AC_MSG_CHECKING([whether to build with debugging support])
-  if test x"$enable_debug" = x"full" -o x"$enable_debug" = x"yes"; then
-    AC_DEFINE([DEBUG], [1], [Define for debugging support])
-
-    CPPFLAGS="$CPPFLAGS"
-
-    if test x`uname` = x"Linux"; then
-      xdt_cv_additional_COMMON_FLAGS="$xdt_cv_additional_COMMON_FLAGS -fstack-protector"
-    fi
-
-    if test x"$enable_debug" = x"full"; then
-      AC_DEFINE([DEBUG_TRACE], [1], [Define for tracing support])
-      xdt_cv_additional_COMMON_FLAGS="$xdt_cv_additional_COMMON_FLAGS -O0 -g"
-      CPPFLAGS="$CPPFLAGS -DG_ENABLE_DEBUG"
-      AC_MSG_RESULT([full])
-    else
-      xdt_cv_additional_COMMON_FLAGS="$xdt_cv_additional_COMMON_FLAGS -g -Wshadow"
-      AC_MSG_RESULT([yes])
-    fi
-  else
-    xdt_cv_additional_COMMON_FLAGS="$xdt_cv_additional_COMMON_FLAGS -Wshadow"
-    CPPFLAGS="$CPPFLAGS -DNDEBUG"
-
-    if test x"$enable_debug" = x"no"; then
-      CPPFLAGS="$CPPFLAGS -DG_DISABLE_CAST_CHECKS -DG_DISABLE_ASSERT"
-      AC_MSG_RESULT([no])
-    else
-      AC_MSG_RESULT([minimum])
-    fi
-  fi
-
-  xdt_cv_additional_CFLAGS="$xdt_cv_additional_COMMON_FLAGS \
-                            -Wdeclaration-after-statement \
-                            -Wnested-externs \
-                            -Wold-style-definition"
-  xdt_cv_additional_CXXFLAGS="$xdt_cv_additional_COMMON_FLAGS"
-
-  XDT_SUPPORTED_FLAGS([supported_CFLAGS], [$xdt_cv_additional_CFLAGS])
-  XDT_SUPPORTED_FLAGS([supported_CXXFLAGS], [$xdt_cv_additional_CXXFLAGS])
-
-  CFLAGS="$CFLAGS $supported_CFLAGS"
-  CXXFLAGS="$CXXFLAGS $supported_CXXFLAGS"
-])
-
-
-dnl XDT_FEATURE_VISIBILITY()
-dnl
-dnl Checks to see if the compiler supports the 'visibility' attribute
-dnl If so, adds -DHAVE_GNUC_VISIBILTY to CPPFLAGS.  Also sets the
-dnl automake conditional HAVE_GNUC_VISIBILITY.
-dnl
-AC_DEFUN([XDT_FEATURE_VISIBILITY],
-[
-  AC_ARG_ENABLE([visibility],
-                AS_HELP_STRING([--disable-visibility],[Don't use ELF visibility attributes]),
-                [enable_visibility=$enableval], [enable_visibility=yes])
-  have_gnuc_visibility=no
-  if test "x$enable_visibility" != "xno"; then
-    XDT_SUPPORTED_FLAGS([xdt_vis_test_cflags], [-Wall -Werror -Wno-unused-parameter])
-    saved_CFLAGS="$CFLAGS"
-    CFLAGS="$CFLAGS $xdt_vis_test_cflags"
-    AC_MSG_CHECKING([whether $CC supports the GNUC visibility attribute])
-    AC_COMPILE_IFELSE([AC_LANG_SOURCE(
-    [
-      void test_default (void);
-      void test_hidden (void);
-
-      void __attribute__ ((visibility("default"))) test_default (void) {}
-      void __attribute__ ((visibility("hidden"))) test_hidden (void) {}
-
-      int main (int argc, char **argv) {
-        test_default ();
-        test_hidden ();
-        return 0;
-      }
-    ])],
-    [
-      have_gnuc_visibility=yes
-      AC_MSG_RESULT([yes])
-    ],
-    [
-      AC_MSG_RESULT([no])
-    ])
-    CFLAGS="$saved_CFLAGS"
-  fi
-
-  if test "x$have_gnuc_visibility" = "xyes"; then
-    CPPFLAGS="$CPPFLAGS -DHAVE_GNUC_VISIBILITY"
-    xdt_vis_hidden_cflags=""
-    XDT_SUPPORTED_FLAGS([xdt_vis_hidden_cflags], [-xldscope=hidden])
-    if test "x$xdt_vis_hidden_cflags" = "x"; then
-      XDT_SUPPORTED_FLAGS([xdt_vis_hidden_cflags], [-fvisibility=hidden])
-    fi
-    CFLAGS="$CFLAGS $xdt_vis_hidden_cflags"
-  fi
-
-  AM_CONDITIONAL([HAVE_GNUC_VISIBILITY], [test "x$have_gnuc_visibility" = "xyes"])
-])
-
-dnl XDT_FEATURE_LINKER_OPTS
-dnl
-dnl Checks for and enables any special linker optimizations.
-dnl
-AC_DEFUN([XDT_FEATURE_LINKER_OPTS],
-[
-  AC_ARG_ENABLE([linker-opts],
-                AS_HELP_STRING([--disable-linker-opts],[Disable linker optimizations]),
-                [enable_linker_opts=$enableval], [enable_linker_opts=yes])
-
-  if test "x$enable_linker_opts" != "xno"; then
-    if test x`uname` != x"OpenBSD"; then
-      AC_MSG_CHECKING([whether $LD accepts --as-needed])
-      case `$LD --as-needed -v 2>&1 </dev/null` in
-      *GNU* | *'with BFD'*)
-        LDFLAGS="$LDFLAGS -Wl,--as-needed"
-        AC_MSG_RESULT([yes])
-        ;;
-      *)
-        AC_MSG_RESULT([no])
-        ;;
-      esac
-    fi
-    AC_MSG_CHECKING([whether $LD accepts -O1])
-    case `$LD -O1 -v 2>&1 </dev/null` in
-    *GNU* | *'with BFD'*)
-      LDFLAGS="$LDFLAGS -Wl,-O1"
-      AC_MSG_RESULT([yes])
-      ;;
-    *)
-      AC_MSG_RESULT([no])
-      ;;
-    esac
-  fi
-])
-
-dnl Copyright (c) 2002-2015
-dnl         The Xfce development team. All rights reserved.
-dnl
-dnl Written for Xfce by Benedikt Meurer <benny@xfce.org>.
-dnl
-dnl This program is free software; you can redistribute it and/or modify
-dnl it under the terms of the GNU General Public License as published by
-dnl the Free Software Foundation; either version 2 of the License, or
-dnl (at your option) any later version.
-dnl
-dnl This program is distributed in the hope that it will be useful,
-dnl but WITHOUT ANY WARRANTY; without even the implied warranty of
-dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-dnl GNU General Public License for more details.
-dnl
-dnl You should have received a copy of the GNU General Public License along
-dnl with this program; if not, write to the Free Software Foundation, Inc.,
-dnl 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-dnl
-dnl xdt-i18n
-dnl --------
-dnl  Internalization M4 macros.
-dnl
-
-
-dnl XDT_I18N([LINGUAS][, PACKAGE])
-dnl
-dnl This macro takes care of setting up everything for i18n support.
-dnl
-dnl If LINGUAS isn't specified, it will automatically extract the linguas
-dnl from po/*.po.
-dnl
-dnl If PACKAGE isn't specified, it defaults to the package tarname; see
-dnl the description of AC_INIT() for an explanation of what makes up
-dnl the package tarname. Normally, you don't need to specify PACKAGE,
-dnl but you can stick with the default.
-dnl
-AC_DEFUN([XDT_I18N],
-[
-  dnl Substitute GETTEXT_PACKAGE variable
-  GETTEXT_PACKAGE=m4_default([$2], [AC_PACKAGE_TARNAME()])
-  AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], ["$GETTEXT_PACKAGE"], [Name of default gettext domain])
-  AC_SUBST([GETTEXT_PACKAGE])
-
-  dnl gettext and stuff
-  ALL_LINGUAS="m4_ifblank(
-    [$1],
-    [esyscmd([echo $(for i in po/*.po; do test -e "$i" && basename -- "$i" .po; done) | tr -d '\n'])],
-    [$1])"
-
-  dnl This is required on some Linux systems
-  AC_CHECK_FUNC([bind_textdomain_codeset])
-
-  dnl Determine where to install locale files
-  AC_MSG_CHECKING([for locales directory])
-  AC_ARG_WITH([locales-dir], 
-  [
-    AS_HELP_STRING([--with-locales-dir=DIR],[Install locales into DIR])
-  ], [localedir=$withval],
-  [
-    if test x"$CATOBJEXT" = x".mo"; then
-      localedir=$libdir/locale
-    else
-      localedir=$datarootdir/locale
-    fi
-  ])
-  AC_MSG_RESULT([$localedir])
-  AC_SUBST([localedir])
-])
-
-
 # Copyright (C) 2002-2021 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
@@ -2389,6 +1183,1370 @@ m4_if([$1], [v7],
 AC_SUBST([am__tar])
 AC_SUBST([am__untar])
 ]) # _AM_PROG_TAR
+
+
+dnl IT_PROG_INTLTOOL([MINIMUM-VERSION], [no-xml])
+# serial 42 IT_PROG_INTLTOOL
+AC_DEFUN([IT_PROG_INTLTOOL], [
+AC_PREREQ([2.50])dnl
+AC_REQUIRE([AM_NLS])dnl
+
+case "$am__api_version" in
+    1.[01234])
+	AC_MSG_ERROR([Automake 1.5 or newer is required to use intltool])
+    ;;
+    *)
+    ;;
+esac
+
+INTLTOOL_REQUIRED_VERSION_AS_INT=`echo $1 | awk -F. '{ print $ 1 * 1000 + $ 2 * 100 + $ 3; }'`
+INTLTOOL_APPLIED_VERSION=`intltool-update --version | head -1 | cut -d" " -f3`
+INTLTOOL_APPLIED_VERSION_AS_INT=`echo $INTLTOOL_APPLIED_VERSION | awk -F. '{ print $ 1 * 1000 + $ 2 * 100 + $ 3; }'`
+if test -n "$1"; then
+    AC_MSG_CHECKING([for intltool >= $1])
+    AC_MSG_RESULT([$INTLTOOL_APPLIED_VERSION found])
+    test "$INTLTOOL_APPLIED_VERSION_AS_INT" -ge "$INTLTOOL_REQUIRED_VERSION_AS_INT" ||
+	AC_MSG_ERROR([Your intltool is too old.  You need intltool $1 or later.])
+fi
+
+AC_PATH_PROG(INTLTOOL_UPDATE, [intltool-update])
+AC_PATH_PROG(INTLTOOL_MERGE, [intltool-merge])
+AC_PATH_PROG(INTLTOOL_EXTRACT, [intltool-extract])
+if test -z "$INTLTOOL_UPDATE" -o -z "$INTLTOOL_MERGE" -o -z "$INTLTOOL_EXTRACT"; then
+    AC_MSG_ERROR([The intltool scripts were not found. Please install intltool.])
+fi
+
+if test -z "$AM_DEFAULT_VERBOSITY"; then
+  AM_DEFAULT_VERBOSITY=1
+fi
+AC_SUBST([AM_DEFAULT_VERBOSITY])
+
+INTLTOOL_V_MERGE='$(INTLTOOL__v_MERGE_$(V))'
+INTLTOOL__v_MERGE_='$(INTLTOOL__v_MERGE_$(AM_DEFAULT_VERBOSITY))'
+INTLTOOL__v_MERGE_0='@echo "  ITMRG " [$]@;'
+AC_SUBST(INTLTOOL_V_MERGE)
+AC_SUBST(INTLTOOL__v_MERGE_)
+AC_SUBST(INTLTOOL__v_MERGE_0)
+
+INTLTOOL_V_MERGE_OPTIONS='$(intltool__v_merge_options_$(V))'
+intltool__v_merge_options_='$(intltool__v_merge_options_$(AM_DEFAULT_VERBOSITY))'
+intltool__v_merge_options_0='-q'
+AC_SUBST(INTLTOOL_V_MERGE_OPTIONS)
+AC_SUBST(intltool__v_merge_options_)
+AC_SUBST(intltool__v_merge_options_0)
+
+  INTLTOOL_DESKTOP_RULE='%.desktop:   %.desktop.in   $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+INTLTOOL_DIRECTORY_RULE='%.directory: %.directory.in $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+     INTLTOOL_KEYS_RULE='%.keys:      %.keys.in      $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -k -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+     INTLTOOL_PROP_RULE='%.prop:      %.prop.in      $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+      INTLTOOL_OAF_RULE='%.oaf:       %.oaf.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -o -p $(top_srcdir)/po $< [$]@'
+     INTLTOOL_PONG_RULE='%.pong:      %.pong.in      $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+   INTLTOOL_SERVER_RULE='%.server:    %.server.in    $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -o -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+    INTLTOOL_SHEET_RULE='%.sheet:     %.sheet.in     $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+INTLTOOL_SOUNDLIST_RULE='%.soundlist: %.soundlist.in $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+       INTLTOOL_UI_RULE='%.ui:        %.ui.in        $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+      INTLTOOL_XML_RULE='%.xml:       %.xml.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+if test "$INTLTOOL_APPLIED_VERSION_AS_INT" -ge 5000; then
+      INTLTOOL_XML_NOMERGE_RULE='%.xml:       %.xml.in       $(INTLTOOL_MERGE) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u --no-translations $< [$]@'
+else
+      INTLTOOL_XML_NOMERGE_RULE='%.xml:       %.xml.in       $(INTLTOOL_MERGE) ; $(INTLTOOL_V_MERGE)_it_tmp_dir=tmp.intltool.[$][$]RANDOM && mkdir [$][$]_it_tmp_dir && LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u [$][$]_it_tmp_dir $< [$]@ && rmdir [$][$]_it_tmp_dir'
+fi
+      INTLTOOL_XAM_RULE='%.xam:       %.xml.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+      INTLTOOL_KBD_RULE='%.kbd:       %.kbd.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -m -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+    INTLTOOL_CAVES_RULE='%.caves:     %.caves.in     $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+  INTLTOOL_SCHEMAS_RULE='%.schemas:   %.schemas.in   $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -s -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+    INTLTOOL_THEME_RULE='%.theme:     %.theme.in     $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+    INTLTOOL_SERVICE_RULE='%.service: %.service.in   $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@'
+   INTLTOOL_POLICY_RULE='%.policy:    %.policy.in    $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@'
+
+_IT_SUBST(INTLTOOL_DESKTOP_RULE)
+_IT_SUBST(INTLTOOL_DIRECTORY_RULE)
+_IT_SUBST(INTLTOOL_KEYS_RULE)
+_IT_SUBST(INTLTOOL_PROP_RULE)
+_IT_SUBST(INTLTOOL_OAF_RULE)
+_IT_SUBST(INTLTOOL_PONG_RULE)
+_IT_SUBST(INTLTOOL_SERVER_RULE)
+_IT_SUBST(INTLTOOL_SHEET_RULE)
+_IT_SUBST(INTLTOOL_SOUNDLIST_RULE)
+_IT_SUBST(INTLTOOL_UI_RULE)
+_IT_SUBST(INTLTOOL_XAM_RULE)
+_IT_SUBST(INTLTOOL_KBD_RULE)
+_IT_SUBST(INTLTOOL_XML_RULE)
+_IT_SUBST(INTLTOOL_XML_NOMERGE_RULE)
+_IT_SUBST(INTLTOOL_CAVES_RULE)
+_IT_SUBST(INTLTOOL_SCHEMAS_RULE)
+_IT_SUBST(INTLTOOL_THEME_RULE)
+_IT_SUBST(INTLTOOL_SERVICE_RULE)
+_IT_SUBST(INTLTOOL_POLICY_RULE)
+
+# Check the gettext tools to make sure they are GNU
+AC_PATH_PROG(XGETTEXT, xgettext)
+AC_PATH_PROG(MSGMERGE, msgmerge)
+AC_PATH_PROG(MSGFMT, msgfmt)
+AC_PATH_PROG(GMSGFMT, gmsgfmt, $MSGFMT)
+if test -z "$XGETTEXT" -o -z "$MSGMERGE" -o -z "$MSGFMT"; then
+    AC_MSG_ERROR([GNU gettext tools not found; required for intltool])
+fi
+xgversion="`$XGETTEXT --version|grep '(GNU ' 2> /dev/null`"
+mmversion="`$MSGMERGE --version|grep '(GNU ' 2> /dev/null`"
+mfversion="`$MSGFMT --version|grep '(GNU ' 2> /dev/null`"
+if test -z "$xgversion" -o -z "$mmversion" -o -z "$mfversion"; then
+    AC_MSG_ERROR([GNU gettext tools not found; required for intltool])
+fi
+
+AC_PATH_PROG(INTLTOOL_PERL, perl)
+if test -z "$INTLTOOL_PERL"; then
+   AC_MSG_ERROR([perl not found])
+fi
+AC_MSG_CHECKING([for perl >= 5.8.1])
+$INTLTOOL_PERL -e "use 5.8.1;" > /dev/null 2>&1
+if test $? -ne 0; then
+   AC_MSG_ERROR([perl 5.8.1 is required for intltool])
+else
+   IT_PERL_VERSION=`$INTLTOOL_PERL -e "printf '%vd', $^V"`
+   AC_MSG_RESULT([$IT_PERL_VERSION])
+fi
+if test "x$2" != "xno-xml"; then
+   AC_MSG_CHECKING([for XML::Parser])
+   if `$INTLTOOL_PERL -e "require XML::Parser" 2>/dev/null`; then
+       AC_MSG_RESULT([ok])
+   else
+       AC_MSG_ERROR([XML::Parser perl module is required for intltool])
+   fi
+fi
+
+# Substitute ALL_LINGUAS so we can use it in po/Makefile
+AC_SUBST(ALL_LINGUAS)
+
+IT_PO_SUBDIR([po])
+
+])
+
+
+# IT_PO_SUBDIR(DIRNAME)
+# ---------------------
+# All po subdirs have to be declared with this macro; the subdir "po" is
+# declared by IT_PROG_INTLTOOL.
+#
+AC_DEFUN([IT_PO_SUBDIR],
+[AC_PREREQ([2.53])dnl We use ac_top_srcdir inside AC_CONFIG_COMMANDS.
+dnl
+dnl The following CONFIG_COMMANDS should be executed at the very end
+dnl of config.status.
+AC_CONFIG_COMMANDS_PRE([
+  AC_CONFIG_COMMANDS([$1/stamp-it], [
+    if [ ! grep "^# INTLTOOL_MAKEFILE$" "$1/Makefile.in" > /dev/null ]; then
+       AC_MSG_ERROR([$1/Makefile.in.in was not created by intltoolize.])
+    fi
+    rm -f "$1/stamp-it" "$1/stamp-it.tmp" "$1/POTFILES" "$1/Makefile.tmp"
+    >"$1/stamp-it.tmp"
+    [sed '/^#/d
+	 s/^[[].*] *//
+	 /^[ 	]*$/d
+	'"s|^|	$ac_top_srcdir/|" \
+      "$srcdir/$1/POTFILES.in" | sed '$!s/$/ \\/' >"$1/POTFILES"
+    ]
+    [sed '/^POTFILES =/,/[^\\]$/ {
+		/^POTFILES =/!d
+		r $1/POTFILES
+	  }
+	 ' "$1/Makefile.in" >"$1/Makefile"]
+    rm -f "$1/Makefile.tmp"
+    mv "$1/stamp-it.tmp" "$1/stamp-it"
+  ])
+])dnl
+])
+
+# _IT_SUBST(VARIABLE)
+# -------------------
+# Abstract macro to do either _AM_SUBST_NOTMAKE or AC_SUBST
+#
+AC_DEFUN([_IT_SUBST],
+[
+AC_SUBST([$1])
+m4_ifdef([_AM_SUBST_NOTMAKE], [_AM_SUBST_NOTMAKE([$1])])
+]
+)
+
+# deprecated macros
+AU_ALIAS([AC_PROG_INTLTOOL], [IT_PROG_INTLTOOL])
+# A hint is needed for aclocal from Automake <= 1.9.4:
+# AC_DEFUN([AC_PROG_INTLTOOL], ...)
+
+
+# nls.m4 serial 6 (gettext-0.20.2)
+dnl Copyright (C) 1995-2003, 2005-2006, 2008-2014, 2016, 2019-2023 Free
+dnl Software Foundation, Inc.
+dnl This file is free software; the Free Software Foundation
+dnl gives unlimited permission to copy and/or distribute it,
+dnl with or without modifications, as long as this notice is preserved.
+dnl
+dnl This file can be used in projects which are not available under
+dnl the GNU General Public License or the GNU Lesser General Public
+dnl License but which still want to provide support for the GNU gettext
+dnl functionality.
+dnl Please note that the actual code of the GNU gettext library is covered
+dnl by the GNU Lesser General Public License, and the rest of the GNU
+dnl gettext package is covered by the GNU General Public License.
+dnl They are *not* in the public domain.
+
+dnl Authors:
+dnl   Ulrich Drepper <drepper@cygnus.com>, 1995-2000.
+dnl   Bruno Haible <haible@clisp.cons.org>, 2000-2003.
+
+AC_PREREQ([2.50])
+
+AC_DEFUN([AM_NLS],
+[
+  AC_MSG_CHECKING([whether NLS is requested])
+  dnl Default is enabled NLS
+  AC_ARG_ENABLE([nls],
+    [  --disable-nls           do not use Native Language Support],
+    USE_NLS=$enableval, USE_NLS=yes)
+  AC_MSG_RESULT([$USE_NLS])
+  AC_SUBST([USE_NLS])
+])
+
+# pkg.m4 - Macros to locate and utilise pkg-config.   -*- Autoconf -*-
+# serial 11 (pkg-config-0.29.1)
+
+dnl Copyright © 2004 Scott James Remnant <scott@netsplit.com>.
+dnl Copyright © 2012-2015 Dan Nicholson <dbn.lists@gmail.com>
+dnl
+dnl This program is free software; you can redistribute it and/or modify
+dnl it under the terms of the GNU General Public License as published by
+dnl the Free Software Foundation; either version 2 of the License, or
+dnl (at your option) any later version.
+dnl
+dnl This program is distributed in the hope that it will be useful, but
+dnl WITHOUT ANY WARRANTY; without even the implied warranty of
+dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+dnl General Public License for more details.
+dnl
+dnl You should have received a copy of the GNU General Public License
+dnl along with this program; if not, write to the Free Software
+dnl Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+dnl 02111-1307, USA.
+dnl
+dnl As a special exception to the GNU General Public License, if you
+dnl distribute this file as part of a program that contains a
+dnl configuration script generated by Autoconf, you may include it under
+dnl the same distribution terms that you use for the rest of that
+dnl program.
+
+dnl PKG_PREREQ(MIN-VERSION)
+dnl -----------------------
+dnl Since: 0.29
+dnl
+dnl Verify that the version of the pkg-config macros are at least
+dnl MIN-VERSION. Unlike PKG_PROG_PKG_CONFIG, which checks the user's
+dnl installed version of pkg-config, this checks the developer's version
+dnl of pkg.m4 when generating configure.
+dnl
+dnl To ensure that this macro is defined, also add:
+dnl m4_ifndef([PKG_PREREQ],
+dnl     [m4_fatal([must install pkg-config 0.29 or later before running autoconf/autogen])])
+dnl
+dnl See the "Since" comment for each macro you use to see what version
+dnl of the macros you require.
+m4_defun([PKG_PREREQ],
+[m4_define([PKG_MACROS_VERSION], [0.29.1])
+m4_if(m4_version_compare(PKG_MACROS_VERSION, [$1]), -1,
+    [m4_fatal([pkg.m4 version $1 or higher is required but ]PKG_MACROS_VERSION[ found])])
+])dnl PKG_PREREQ
+
+dnl PKG_PROG_PKG_CONFIG([MIN-VERSION])
+dnl ----------------------------------
+dnl Since: 0.16
+dnl
+dnl Search for the pkg-config tool and set the PKG_CONFIG variable to
+dnl first found in the path. Checks that the version of pkg-config found
+dnl is at least MIN-VERSION. If MIN-VERSION is not specified, 0.9.0 is
+dnl used since that's the first version where most current features of
+dnl pkg-config existed.
+AC_DEFUN([PKG_PROG_PKG_CONFIG],
+[m4_pattern_forbid([^_?PKG_[A-Z_]+$])
+m4_pattern_allow([^PKG_CONFIG(_(PATH|LIBDIR|SYSROOT_DIR|ALLOW_SYSTEM_(CFLAGS|LIBS)))?$])
+m4_pattern_allow([^PKG_CONFIG_(DISABLE_UNINSTALLED|TOP_BUILD_DIR|DEBUG_SPEW)$])
+AC_ARG_VAR([PKG_CONFIG], [path to pkg-config utility])
+AC_ARG_VAR([PKG_CONFIG_PATH], [directories to add to pkg-config's search path])
+AC_ARG_VAR([PKG_CONFIG_LIBDIR], [path overriding pkg-config's built-in search path])
+
+if test "x$ac_cv_env_PKG_CONFIG_set" != "xset"; then
+	AC_PATH_TOOL([PKG_CONFIG], [pkg-config])
+fi
+if test -n "$PKG_CONFIG"; then
+	_pkg_min_version=m4_default([$1], [0.9.0])
+	AC_MSG_CHECKING([pkg-config is at least version $_pkg_min_version])
+	if $PKG_CONFIG --atleast-pkgconfig-version $_pkg_min_version; then
+		AC_MSG_RESULT([yes])
+	else
+		AC_MSG_RESULT([no])
+		PKG_CONFIG=""
+	fi
+fi[]dnl
+])dnl PKG_PROG_PKG_CONFIG
+
+dnl PKG_CHECK_EXISTS(MODULES, [ACTION-IF-FOUND], [ACTION-IF-NOT-FOUND])
+dnl -------------------------------------------------------------------
+dnl Since: 0.18
+dnl
+dnl Check to see whether a particular set of modules exists. Similar to
+dnl PKG_CHECK_MODULES(), but does not set variables or print errors.
+dnl
+dnl Please remember that m4 expands AC_REQUIRE([PKG_PROG_PKG_CONFIG])
+dnl only at the first occurence in configure.ac, so if the first place
+dnl it's called might be skipped (such as if it is within an "if", you
+dnl have to call PKG_CHECK_EXISTS manually
+AC_DEFUN([PKG_CHECK_EXISTS],
+[AC_REQUIRE([PKG_PROG_PKG_CONFIG])dnl
+if test -n "$PKG_CONFIG" && \
+    AC_RUN_LOG([$PKG_CONFIG --exists --print-errors "$1"]); then
+  m4_default([$2], [:])
+m4_ifvaln([$3], [else
+  $3])dnl
+fi])
+
+dnl _PKG_CONFIG([VARIABLE], [COMMAND], [MODULES])
+dnl ---------------------------------------------
+dnl Internal wrapper calling pkg-config via PKG_CONFIG and setting
+dnl pkg_failed based on the result.
+m4_define([_PKG_CONFIG],
+[if test -n "$$1"; then
+    pkg_cv_[]$1="$$1"
+ elif test -n "$PKG_CONFIG"; then
+    PKG_CHECK_EXISTS([$3],
+                     [pkg_cv_[]$1=`$PKG_CONFIG --[]$2 "$3" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes ],
+		     [pkg_failed=yes])
+ else
+    pkg_failed=untried
+fi[]dnl
+])dnl _PKG_CONFIG
+
+dnl _PKG_SHORT_ERRORS_SUPPORTED
+dnl ---------------------------
+dnl Internal check to see if pkg-config supports short errors.
+AC_DEFUN([_PKG_SHORT_ERRORS_SUPPORTED],
+[AC_REQUIRE([PKG_PROG_PKG_CONFIG])
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi[]dnl
+])dnl _PKG_SHORT_ERRORS_SUPPORTED
+
+
+dnl PKG_CHECK_MODULES(VARIABLE-PREFIX, MODULES, [ACTION-IF-FOUND],
+dnl   [ACTION-IF-NOT-FOUND])
+dnl --------------------------------------------------------------
+dnl Since: 0.4.0
+dnl
+dnl Note that if there is a possibility the first call to
+dnl PKG_CHECK_MODULES might not happen, you should be sure to include an
+dnl explicit call to PKG_PROG_PKG_CONFIG in your configure.ac
+AC_DEFUN([PKG_CHECK_MODULES],
+[AC_REQUIRE([PKG_PROG_PKG_CONFIG])dnl
+AC_ARG_VAR([$1][_CFLAGS], [C compiler flags for $1, overriding pkg-config])dnl
+AC_ARG_VAR([$1][_LIBS], [linker flags for $1, overriding pkg-config])dnl
+
+pkg_failed=no
+AC_MSG_CHECKING([for $1])
+
+_PKG_CONFIG([$1][_CFLAGS], [cflags], [$2])
+_PKG_CONFIG([$1][_LIBS], [libs], [$2])
+
+m4_define([_PKG_TEXT], [Alternatively, you may set the environment variables $1[]_CFLAGS
+and $1[]_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.])
+
+if test $pkg_failed = yes; then
+   	AC_MSG_RESULT([no])
+        _PKG_SHORT_ERRORS_SUPPORTED
+        if test $_pkg_short_errors_supported = yes; then
+	        $1[]_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$2" 2>&1`
+        else 
+	        $1[]_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$2" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$$1[]_PKG_ERRORS" >&AS_MESSAGE_LOG_FD
+
+	m4_default([$4], [AC_MSG_ERROR(
+[Package requirements ($2) were not met:
+
+$$1_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+_PKG_TEXT])[]dnl
+        ])
+elif test $pkg_failed = untried; then
+     	AC_MSG_RESULT([no])
+	m4_default([$4], [AC_MSG_FAILURE(
+[The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+_PKG_TEXT
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.])[]dnl
+        ])
+else
+	$1[]_CFLAGS=$pkg_cv_[]$1[]_CFLAGS
+	$1[]_LIBS=$pkg_cv_[]$1[]_LIBS
+        AC_MSG_RESULT([yes])
+	$3
+fi[]dnl
+])dnl PKG_CHECK_MODULES
+
+
+dnl PKG_CHECK_MODULES_STATIC(VARIABLE-PREFIX, MODULES, [ACTION-IF-FOUND],
+dnl   [ACTION-IF-NOT-FOUND])
+dnl ---------------------------------------------------------------------
+dnl Since: 0.29
+dnl
+dnl Checks for existence of MODULES and gathers its build flags with
+dnl static libraries enabled. Sets VARIABLE-PREFIX_CFLAGS from --cflags
+dnl and VARIABLE-PREFIX_LIBS from --libs.
+dnl
+dnl Note that if there is a possibility the first call to
+dnl PKG_CHECK_MODULES_STATIC might not happen, you should be sure to
+dnl include an explicit call to PKG_PROG_PKG_CONFIG in your
+dnl configure.ac.
+AC_DEFUN([PKG_CHECK_MODULES_STATIC],
+[AC_REQUIRE([PKG_PROG_PKG_CONFIG])dnl
+_save_PKG_CONFIG=$PKG_CONFIG
+PKG_CONFIG="$PKG_CONFIG --static"
+PKG_CHECK_MODULES($@)
+PKG_CONFIG=$_save_PKG_CONFIG[]dnl
+])dnl PKG_CHECK_MODULES_STATIC
+
+
+dnl PKG_INSTALLDIR([DIRECTORY])
+dnl -------------------------
+dnl Since: 0.27
+dnl
+dnl Substitutes the variable pkgconfigdir as the location where a module
+dnl should install pkg-config .pc files. By default the directory is
+dnl $libdir/pkgconfig, but the default can be changed by passing
+dnl DIRECTORY. The user can override through the --with-pkgconfigdir
+dnl parameter.
+AC_DEFUN([PKG_INSTALLDIR],
+[m4_pushdef([pkg_default], [m4_default([$1], ['${libdir}/pkgconfig'])])
+m4_pushdef([pkg_description],
+    [pkg-config installation directory @<:@]pkg_default[@:>@])
+AC_ARG_WITH([pkgconfigdir],
+    [AS_HELP_STRING([--with-pkgconfigdir], pkg_description)],,
+    [with_pkgconfigdir=]pkg_default)
+AC_SUBST([pkgconfigdir], [$with_pkgconfigdir])
+m4_popdef([pkg_default])
+m4_popdef([pkg_description])
+])dnl PKG_INSTALLDIR
+
+
+dnl PKG_NOARCH_INSTALLDIR([DIRECTORY])
+dnl --------------------------------
+dnl Since: 0.27
+dnl
+dnl Substitutes the variable noarch_pkgconfigdir as the location where a
+dnl module should install arch-independent pkg-config .pc files. By
+dnl default the directory is $datadir/pkgconfig, but the default can be
+dnl changed by passing DIRECTORY. The user can override through the
+dnl --with-noarch-pkgconfigdir parameter.
+AC_DEFUN([PKG_NOARCH_INSTALLDIR],
+[m4_pushdef([pkg_default], [m4_default([$1], ['${datadir}/pkgconfig'])])
+m4_pushdef([pkg_description],
+    [pkg-config arch-independent installation directory @<:@]pkg_default[@:>@])
+AC_ARG_WITH([noarch-pkgconfigdir],
+    [AS_HELP_STRING([--with-noarch-pkgconfigdir], pkg_description)],,
+    [with_noarch_pkgconfigdir=]pkg_default)
+AC_SUBST([noarch_pkgconfigdir], [$with_noarch_pkgconfigdir])
+m4_popdef([pkg_default])
+m4_popdef([pkg_description])
+])dnl PKG_NOARCH_INSTALLDIR
+
+
+dnl PKG_CHECK_VAR(VARIABLE, MODULE, CONFIG-VARIABLE,
+dnl [ACTION-IF-FOUND], [ACTION-IF-NOT-FOUND])
+dnl -------------------------------------------
+dnl Since: 0.28
+dnl
+dnl Retrieves the value of the pkg-config variable for the given module.
+AC_DEFUN([PKG_CHECK_VAR],
+[AC_REQUIRE([PKG_PROG_PKG_CONFIG])dnl
+AC_ARG_VAR([$1], [value of $3 for $2, overriding pkg-config])dnl
+
+_PKG_CONFIG([$1], [variable="][$3]["], [$2])
+AS_VAR_COPY([$1], [pkg_cv_][$1])
+
+AS_VAR_IF([$1], [""], [$5], [$4])dnl
+])dnl PKG_CHECK_VAR
+
+dnl PKG_WITH_MODULES(VARIABLE-PREFIX, MODULES,
+dnl   [ACTION-IF-FOUND],[ACTION-IF-NOT-FOUND],
+dnl   [DESCRIPTION], [DEFAULT])
+dnl ------------------------------------------
+dnl
+dnl Prepare a "--with-" configure option using the lowercase
+dnl [VARIABLE-PREFIX] name, merging the behaviour of AC_ARG_WITH and
+dnl PKG_CHECK_MODULES in a single macro.
+AC_DEFUN([PKG_WITH_MODULES],
+[
+m4_pushdef([with_arg], m4_tolower([$1]))
+
+m4_pushdef([description],
+           [m4_default([$5], [build with ]with_arg[ support])])
+
+m4_pushdef([def_arg], [m4_default([$6], [auto])])
+m4_pushdef([def_action_if_found], [AS_TR_SH([with_]with_arg)=yes])
+m4_pushdef([def_action_if_not_found], [AS_TR_SH([with_]with_arg)=no])
+
+m4_case(def_arg,
+            [yes],[m4_pushdef([with_without], [--without-]with_arg)],
+            [m4_pushdef([with_without],[--with-]with_arg)])
+
+AC_ARG_WITH(with_arg,
+     AS_HELP_STRING(with_without, description[ @<:@default=]def_arg[@:>@]),,
+    [AS_TR_SH([with_]with_arg)=def_arg])
+
+AS_CASE([$AS_TR_SH([with_]with_arg)],
+            [yes],[PKG_CHECK_MODULES([$1],[$2],$3,$4)],
+            [auto],[PKG_CHECK_MODULES([$1],[$2],
+                                        [m4_n([def_action_if_found]) $3],
+                                        [m4_n([def_action_if_not_found]) $4])])
+
+m4_popdef([with_arg])
+m4_popdef([description])
+m4_popdef([def_arg])
+
+])dnl PKG_WITH_MODULES
+
+dnl PKG_HAVE_WITH_MODULES(VARIABLE-PREFIX, MODULES,
+dnl   [DESCRIPTION], [DEFAULT])
+dnl -----------------------------------------------
+dnl
+dnl Convenience macro to trigger AM_CONDITIONAL after PKG_WITH_MODULES
+dnl check._[VARIABLE-PREFIX] is exported as make variable.
+AC_DEFUN([PKG_HAVE_WITH_MODULES],
+[
+PKG_WITH_MODULES([$1],[$2],,,[$3],[$4])
+
+AM_CONDITIONAL([HAVE_][$1],
+               [test "$AS_TR_SH([with_]m4_tolower([$1]))" = "yes"])
+])dnl PKG_HAVE_WITH_MODULES
+
+dnl PKG_HAVE_DEFINE_WITH_MODULES(VARIABLE-PREFIX, MODULES,
+dnl   [DESCRIPTION], [DEFAULT])
+dnl ------------------------------------------------------
+dnl
+dnl Convenience macro to run AM_CONDITIONAL and AC_DEFINE after
+dnl PKG_WITH_MODULES check. HAVE_[VARIABLE-PREFIX] is exported as make
+dnl and preprocessor variable.
+AC_DEFUN([PKG_HAVE_DEFINE_WITH_MODULES],
+[
+PKG_HAVE_WITH_MODULES([$1],[$2],[$3],[$4])
+
+AS_IF([test "$AS_TR_SH([with_]m4_tolower([$1]))" = "yes"],
+        [AC_DEFINE([HAVE_][$1], 1, [Enable ]m4_tolower([$1])[ support])])
+])dnl PKG_HAVE_DEFINE_WITH_MODULES
+
+dnl Copyright (c) 2002-2015
+dnl         The Xfce development team. All rights reserved.
+dnl
+dnl Written for Xfce by Benedikt Meurer <benny@xfce.org>.
+dnl
+dnl This program is free software; you can redistribute it and/or modify
+dnl it under the terms of the GNU General Public License as published by
+dnl the Free Software Foundation; either version 2 of the License, or
+dnl (at your option) any later version.
+dnl
+dnl This program is distributed in the hope that it will be useful,
+dnl but WITHOUT ANY WARRANTY; without even the implied warranty of
+dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+dnl GNU General Public License for more details.
+dnl
+dnl You should have received a copy of the GNU General Public License along
+dnl with this program; if not, write to the Free Software Foundation, Inc.,
+dnl 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+dnl
+dnl xdt-depends
+dnl -----------
+dnl  Contains M4 macros to check for software dependencies.
+dnl  Partly based on prior work of the XDG contributors.
+dnl
+
+
+
+dnl We need recent a autoconf version
+AC_PREREQ([2.69])
+
+
+
+dnl XDT_PROG_PKG_CONFIG()
+dnl
+dnl Checks for the freedesktop.org pkg-config
+dnl utility and sets the PKG_CONFIG environment
+dnl variable to the full path if found.
+dnl
+AC_DEFUN([XDT_PROG_PKG_CONFIG],
+[
+  # minimum supported version of pkg-config
+  xdt_cv_PKG_CONFIG_MIN_VERSION=0.9.0
+
+  m4_ifdef([PKG_PROG_PKG_CONFIG],
+    [
+      PKG_PROG_PKG_CONFIG([$xdt_cv_PKG_CONFIG_MIN_VERSION])
+
+      if test x"$PKG_CONFIG" = x""; then
+        echo
+        echo "*** Your version of pkg-config is too old. You need atleast"
+        echo "*** pkg-config $xdt_cv_PKG_CONFIG_MIN_VERSION or newer. You can download pkg-config"
+        echo "*** from the freedesktop.org software repository at"
+        echo "***"
+        echo "***    https://www.freedesktop.org/wiki/Software/pkg-config/"
+        echo "***"
+        exit 1;
+      fi
+    ],
+    [
+      echo
+      echo "*** The pkg-config utility could not be found on your system."
+      echo "*** Make sure it is in your path, or set the PKG_CONFIG"
+      echo "*** environment variable to the full path to pkg-config."
+      echo "*** You can download pkg-config from the freedesktop.org"
+      echo "*** software repository at"
+      echo "***"
+      echo "***    https://www.freedesktop.org/wiki/Software/pkg-config/"
+      echo "***"
+      exit 1
+    ])
+])
+
+
+
+dnl XDT_CHECK_PACKAGE(varname, package, version, [action-if], [action-if-not])
+dnl
+dnl Checks if "package" >= "version" is installed on the
+dnl target system, using the pkg-config utility. If the
+dnl dependency is met, "varname"_CFLAGS, "varname"_LIBS,
+dnl "varname"_VERSION and "varname"_REQUIRED_VERSION
+dnl will be set and marked for substition.
+dnl
+dnl "varname"_REQUIRED_VERSION will be set to the value of
+dnl "version". This is mostly useful to automatically
+dnl place the correct version information into the RPM
+dnl .spec file.
+dnl
+dnl In addition, if the dependency is met, "action-if" will
+dnl be executed if given.
+dnl
+dnl If the package check fails, "action-if-not" will be
+dnl executed. If this parameter isn't specified, a diagnostic
+dnl message will be printed and the configure script will
+dnl be terminated with exit code 1.
+dnl
+AC_DEFUN([XDT_CHECK_PACKAGE],
+[
+  XDT_PROG_PKG_CONFIG()
+
+  AC_MSG_CHECKING([for $2 >= $3])
+  if $PKG_CONFIG "--atleast-version=$3" "$2" >/dev/null 2>&1; then
+    $1_VERSION=`$PKG_CONFIG --modversion "$2"`
+    AC_MSG_RESULT([$$1_VERSION])
+
+    AC_MSG_CHECKING([$1_CFLAGS])
+    $1_CFLAGS=`$PKG_CONFIG --cflags "$2"`
+    AC_MSG_RESULT([$$1_CFLAGS])
+
+    AC_MSG_CHECKING([$1_LIBS])
+    $1_LIBS=`$PKG_CONFIG --libs "$2"`
+    AC_MSG_RESULT([$$1_LIBS])
+
+    $1_REQUIRED_VERSION=$3
+
+    AC_SUBST([$1_VERSION])
+    AC_SUBST([$1_CFLAGS])
+    AC_SUBST([$1_LIBS])
+    AC_SUBST([$1_REQUIRED_VERSION])
+
+    if test x"$1" = x"GLIB"; then
+      dnl Use GLib structured logging, see https://docs.gtk.org/glib/logging.html
+      dnl XFCE apps&libraries can override this setting after XDT_CHECK_PACKAGE(GLIB)
+      dnl using AC_DEFINE.
+      dnl Note that it requires GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_56 to work
+      dnl properly in GLib logging macros (not documented, see glib/gmessages.h).
+      AC_DEFINE(G_LOG_USE_STRUCTURED, 1, [Use GLib structured logging])
+    fi
+
+    ifelse([$1], GLIB, [
+      dnl Report uses of GLib functions newer than $3 as C compiler warnings.
+      dnl XFCE apps&libraries can override this setting after XDT_CHECK_PACKAGE(GLIB)
+      dnl using AC_DEFINE, in which case it is recommended to override both MAX and MIN.
+      AC_MSG_NOTICE([setting GLIB_VERSION_MAX_ALLOWED and GLIB_VERSION_MIN_REQUIRED according to $3])
+      m4_pushdef([SUFFIX], translit($3, `.', `_'))
+      m4_define([SUFFIX], ifelse(regexp(SUFFIX, [[0-9]+_[0-9]+_[0-9]+]), -1, SUFFIX, patsubst(SUFFIX, [_[0-9]+$])))
+      AC_DEFINE(GLIB_VERSION_MAX_ALLOWED, m4_format(GLIB_VERSION_%s, SUFFIX), m4_format(Prevent post %s APIs, SUFFIX))
+      AC_DEFINE(GLIB_VERSION_MIN_REQUIRED, m4_format(GLIB_VERSION_%s, SUFFIX), m4_format(Ignore post %s APIs, SUFFIX))
+      m4_popdef([SUFFIX])
+    ])
+
+    ifelse([$4], , , [$4])
+  elif $PKG_CONFIG --exists "$2" >/dev/null 2>&1; then
+    xdt_cv_version=`$PKG_CONFIG --modversion "$2"`
+    AC_MSG_RESULT([found, but $xdt_cv_version])
+
+    ifelse([$5], ,
+    [
+      echo "*** The required package $2 was found on your system,"
+      echo "*** but the installed version ($xdt_cv_version) is too old."
+      echo "*** Please upgrade $2 to atleast version $3, or adjust"
+      echo "*** the PKG_CONFIG_PATH environment variable if you installed"
+      echo "*** the new version of the package in a nonstandard prefix so"
+      echo "*** pkg-config is able to find it."
+      exit 1
+    ], [$5])
+  else
+    AC_MSG_RESULT([not found])
+
+    ifelse([$5], ,
+    [
+      echo "*** The required package $2 was not found on your system."
+      echo "*** Please install $2 (atleast version $3) or adjust"
+      echo "*** the PKG_CONFIG_PATH environment variable if you"
+      echo "*** installed the package in a nonstandard prefix so that"
+      echo "*** pkg-config is able to find it."
+      exit 1
+    ], [$5])
+  fi
+])
+
+
+
+dnl XDT_CHECK_OPTIONAL_PACKAGE(varname, package, version, optionname, helpstring, [default])
+dnl
+dnl Checks for an optional dependency on "package" >= "version". "default"
+dnl can be "yes" or "no" (defaults to "yes" if not specified) and controls
+dnl whether configure should check this dependency by default, or only if
+dnl the user explicitly enables it using a command line switch.
+dnl
+dnl This macro automatically adds a commandline switch based on the "optionname"
+dnl parameter (--enable-optionname/--disable-optionname), which allows the
+dnl user to explicitly control whether this optional dependency should be
+dnl enabled or not. The "helpstring" parameter gives a brief(!) description
+dnl about this dependency.
+dnl
+dnl If the user chose to enable this dependency and the required package
+dnl was found, this macro defines the variable "varname"_FOUND and sets it
+dnl to the string "yes", in addition to the 4 variables set by XDT_CHECK_PACKAGE.
+dnl But "varname"_FOUND will not be marked for substition. Furthermore,
+dnl a CPP define HAVE_"varname" will be placed in config.h (or added to
+dnl the cc command line, depending on your configure.ac) and set to
+dnl 1.
+dnl
+AC_DEFUN([XDT_CHECK_OPTIONAL_PACKAGE],
+[
+  AC_REQUIRE([XDT_PROG_PKG_CONFIG])
+
+  AC_ARG_ENABLE([$4],
+AS_HELP_STRING([--enable-$4],[Enable checking for $5 (default=m4_default([$6], [yes]))])
+AS_HELP_STRING([--disable-$4],[Disable checking for $5]),
+    [xdt_cv_$1_check=$enableval], [xdt_cv_$1_check=m4_default([$6], [yes])])
+
+  if test x"$xdt_cv_$1_check" = x"yes"; then
+    if $PKG_CONFIG --exists "$2 >= $3" >/dev/null 2>&1; then
+      XDT_CHECK_PACKAGE([$1], [$2], [$3],
+      [
+        AC_DEFINE([HAVE_$1], [1], [Define if $2 >= $3 present])
+        $1_FOUND="yes"
+      ])
+    else
+      AC_MSG_CHECKING([for optional package $2 >= $3])
+      AC_MSG_RESULT([not found])
+    fi
+  else
+    AC_MSG_CHECKING([for optional package $2])
+    AC_MSG_RESULT([disabled])
+  fi
+
+  AM_CONDITIONAL([HAVE_$1], [test x"$$1_FOUND" = x"yes"])
+])
+
+
+
+dnl XDT_FEATURE_DEPENDENCY(varname, package, version)
+dnl
+dnl Used only as an argument to XDT_CHECK_OPTIONAL_FEATURE(), this macro
+dnl declares a dependency required for the feature to be enabled.
+dnl
+dnl If the dependency is checked and found, variables and substitutions will be
+dnl created and set as in XDT_CHECK_PACKAGE(), plus varname_FOUND will be set
+dnl to "yes", and HAVE_varname will be set in config.h.
+dnl
+dnl Note that, unlike with XDT_CHECK_OPTIONAL_PACKAGE(), no automake
+dnl conditional is set for this dependency.
+dnl
+dnl See XDT_CHECK_OPTIONAL_FEATURE() for more information.
+dnl
+AC_DEFUN([XDT_FEATURE_DEPENDENCY],
+[
+  AC_REQUIRE([XDT_PROG_PKG_CONFIG])
+
+  if test x"$xdt_feature_deps_check_only" = x"yes"; then
+    if ! $PKG_CONFIG --exists "$2 >= $3" >/dev/null 2>&1; then
+      if test x"$xdt_feature_deps_missing" = x""; then
+        xdt_feature_deps_missing="$2 >= $3"
+      else
+        xdt_feature_deps_missing="$xdt_feature_deps_missing, $2 >= $3"
+      fi
+    fi
+  else
+    XDT_CHECK_PACKAGE([$1], [$2], [$3],
+    [
+      AC_DEFINE([HAVE_$1], [1], [Define if $2 >= $3 present])
+      $1_FOUND="yes"
+    ])
+  fi
+])
+
+
+
+dnl XDT_CHECK_OPTIONAL_FEATURE(varname, optionname, dependency-checks, [helpstring], [default])
+dnl
+dnl Introduces an --enable-optionname/--disable-optionname flag pair for a
+dnl named feature. If neither flag is provided, the feature will be enabled or
+dnl disabled depending on whether or not dependency-checks succeed or fail.
+dnl If --enable-optionname is provided, the configure script will error out if
+dnl the dependencies are not met.  If --disable-optionname is provided, the
+dnl feature will be disabled, and dependencies will not be checked.
+dnl
+dnl The dependency-checks argument should be a series of
+dnl XDT_FEATURE_DEPENDENCY() macro calls, passed as a single quoted argument to
+dnl XDT_CHECK_OPTIONAL_FEATURE().
+dnl
+dnl If helpstring is not provided, optionname is used instead.
+dnl
+dnl The default is "auto", and semantics are as described above. If default is
+dnl set to "yes", then the feature will be required unless --disable-optionname
+dnl is passed to configure.  If default is set to "no", the feature will not be
+dnl built unless --enable-optionname is passed.
+dnl
+dnl If the feature is enabled and dependencies are met, ENABLE_varname will be
+dnl defined in config.h. Additionally, an automake conditional called
+dnl ENABLE_varname will be created, and a shell variable called ENABLE_varname
+dnl will set to "yes" or "no".
+dnl
+dnl Example usage:
+dnl
+dnl XDT_CHECK_OPTIONAL_FEATURE([WAYLAND],
+dnl                            [wayland],
+dnl                            [
+dnl                              XDT_FEATURE_DEPENDENCY([GDK_WAYLAND], [gdk-wayland-3.0], [3.24.0])
+dnl                              XDT_FEATURE_DEPENDENCY([GTK_LAYER_SHELL], [gtk-layer-shell-0], [0.7.0])
+dnl                            ],
+dnl                            [the Wayland windowing system])
+dnl
+dnl Note that there are no commas between the XDT_FEATURE_DEPENDENCY()
+dnl invocations; they should all form a single "argument" to
+dnl XDT_CHECK_OPTIONAL_FEATURE().
+dnl
+dnl Also note that you must quote the dependency-checks argument with square
+dnl brackets, or you will get syntax errors in the generated configure script.
+dnl
+AC_DEFUN([XDT_CHECK_OPTIONAL_FEATURE],
+[
+  AC_ARG_ENABLE([$2],
+AS_HELP_STRING([--enable-$2], [Enable support for m4_default($4, $2) (default=m4_default([$5], [auto]))])
+AS_HELP_STRING([--disable-$2], [Disable support for m4_default($4, $2)]),
+    [xdt_cv_$1_enabled=$enableval], [xdt_cv_$1_enabled=m4_default([$5], [auto])])
+
+  if test x"$xdt_cv_$1_enabled" != x"no"; then
+    xdt_feature_deps_check_only=yes
+    xdt_feature_deps_missing=
+    $3
+    if test x"$xdt_feature_deps_missing" = x""; then
+      xdt_feature_deps_check_only=
+      $3
+      ENABLE_$1="yes"
+      AC_DEFINE([ENABLE_$1], [1], [Define if m4_default($4, $2) is enabled])
+      AC_MSG_CHECKING([if m4_default($4, $2) is enabled])
+      AC_MSG_RESULT([yes])
+    else
+      AC_MSG_CHECKING([if m4_default($4, $2) is enabled])
+      AC_MSG_RESULT([dependencies missing: $xdt_feature_deps_missing])
+      if test x"$xdt_cv_$1_enabled" = x"yes"; then
+        AC_MSG_ERROR([support for m4_default($4, $2) was required, but dependencies were not met])
+      else
+        ENABLE_$1="no"
+      fi
+    fi
+    xdt_feature_deps_check_only=
+    xdt_feature_deps_missing=
+  else
+    ENABLE_$1="no"
+    AC_MSG_CHECKING([if m4_default($4, $2) is enabled])
+    AC_MSG_RESULT([disabled])
+  fi
+
+  AM_CONDITIONAL([ENABLE_$1], [test x"$ENABLE_$1" = x"yes"])
+])
+
+
+
+dnl XDT_CHECK_PACKAGE_BINARY(varname, package, pkgvarname, [binname])
+dnl
+dnl Finds a program by looking for a variable named pkgvarname in the
+dnl pkg-config file for package. If found, varname (both a shell variable and
+dnl automake substitution) is set to the name of the binary (and possibly full
+dnl path, if that is how it is specified in the pkg-config file). If not found,
+dnl or not present and executable, configure will exit with an error.
+dnl
+dnl Users can also override this detection by specfying a varname on the
+dnl configure command line. In that case, the provided value is still checked
+dnl to ensure it exists and is executable.
+dnl
+dnl If binname is not provided (for documentation purposes), pkgvarname will be
+dnl used instead.
+dnl
+dnl Example usage:
+dnl
+dnl XDT_CHECK_PACKAGE_BINARY([GLIB_GENMARSHAL], [glib-2.0], [glib_genmarshal], [glib-genmarshal])
+dnl
+AC_DEFUN([XDT_CHECK_PACKAGE_BINARY],
+[
+  AC_REQUIRE([XDT_PROG_PKG_CONFIG])
+
+  AC_ARG_VAR([$1], [Location of program ]m4_default($4, $3))
+  AC_MSG_CHECKING([for m4_default($4, $3)])
+
+  if test x"$$1" = x""; then
+    $1=`$PKG_CONFIG --variable=$3 $2`
+  fi
+  if test x"$$1" != x"" -a -x "$$1"; then
+    AC_MSG_RESULT([$$1])
+  else
+    AC_MSG_ERROR([could not find m4_default($4, $3). You can run:
+./configure $1=/path/to/m4_default($4, $3)
+to provide a custom location for it.])
+  fi
+])
+
+
+
+dnl XDT_CHECK_LIBX11()
+dnl
+dnl Executes various checks for X11. Sets LIBX11_CFLAGS, LIBX11_LDFLAGS
+dnl and LIBX11_LIBS (and marks them for substitution). In addition
+dnl HAVE_LIBX11 is set to 1 in config.h, if the X window system and
+dnl the development files are detected on the target system.
+dnl
+AC_DEFUN([XDT_CHECK_LIBX11],
+[
+  AC_REQUIRE([AC_PATH_XTRA])
+
+  LIBX11_CFLAGS= LIBX11_LDFLAGS= LIBX11_LIBS=
+  if test x"$no_x" != x"yes"; then
+    AC_CHECK_LIB([X11], [main],
+    [
+      AC_DEFINE([HAVE_LIBX11], [1], [Define if libX11 is available])
+      LIBX11_CFLAGS="$X_CFLAGS"
+      for option in $X_PRE_LIBS $X_EXTRA_LIBS $X_LIBS; do
+      	case "$option" in
+        -L*)
+          path=`echo $option | sed 's/^-L//'`
+          if test x"$path" != x""; then
+            LIBX11_LDFLAGS="$LIBX11_LDFLAGS -L$path"
+          fi
+          ;;
+        *)
+          LIBX11_LIBS="$LIBX11_LIBS $option"
+          ;;
+        esac
+      done
+      if ! echo $LIBX11_LIBS | grep -- '-lX11' >/dev/null; then
+        LIBX11_LIBS="$LIBX11_LIBS -lX11"
+      fi
+    ], [], [$X_CFLAGS $X_PRE_LIBS $X_EXTRA_LIBS $X_LIBS])
+  fi
+  AC_SUBST([LIBX11_CFLAGS])
+  AC_SUBST([LIBX11_LDFLAGS])
+  AC_SUBST([LIBX11_LIBS])
+])
+
+
+
+dnl XDT_CHECK_LIBX11_REQUIRE()
+dnl
+dnl Similar to XDT_CHECK_LIBX11(), but terminates with an error if
+dnl the X window system and development files aren't detected on the
+dnl target system.
+dnl
+AC_DEFUN([XDT_CHECK_LIBX11_REQUIRE],
+[
+  AC_REQUIRE([XDT_CHECK_LIBX11])
+  
+  if test x"$no_x" = x"yes"; then
+    AC_MSG_ERROR([X Window system libraries and header files are required])
+  fi
+])
+
+
+
+dnl XDT_CHECK_LIBSM()
+dnl
+dnl Checks whether the session management library is present on the
+dnl target system, and sets LIBSM_CFLAGS, LIBSM_LDFLAGS and LIBSM_LIBS
+dnl properly. In addition, HAVE_LIBSM will be set to 1 in config.h
+dnl if libSM is detected.
+dnl
+AC_DEFUN([XDT_CHECK_LIBSM],
+[
+  AC_REQUIRE([XDT_CHECK_LIBX11])
+
+  LIBSM_CFLAGS= LIBSM_LDFLAGS= LIBSM_LIBS=
+  if test x"$no_x" != x"yes"; then
+    AC_CHECK_LIB([SM], [SmcSaveYourselfDone],
+    [
+      AC_DEFINE([HAVE_LIBSM], [1], [Define if libSM is available])
+      LIBSM_CFLAGS="$LIBX11_CFLAGS"
+      LIBSM_LDFLAGS="$LIBX11_LDFLAGS"
+      LIBSM_LIBS="$LIBX11_LIBS"
+      if ! echo $LIBSM_LIBS | grep -- '-lSM' >/dev/null; then
+        LIBSM_LIBS="$LIBSM_LIBS -lSM -lICE"
+      fi
+    ], [], [$LIBX11_CFLAGS $LIBX11_LDFLAGS $LIBX11_LIBS -lICE])
+  fi
+  AC_SUBST([LIBSM_CFLAGS])
+  AC_SUBST([LIBSM_LDFLAGS])
+  AC_SUBST([LIBSM_LIBS])
+])
+
+
+
+dnl XDT_CHECK_LIBXPM()
+dnl
+dnl Checks if the Xpm library is present on the target system, and
+dnl sets LIBXPM_CFLAGS, LIBXPM_LDFLAGS and LIBXPM_LIBS. In addition,
+dnl HAVE_LIBXPM will be set to 1 in config.h if libXpm is detected.
+dnl
+AC_DEFUN([XDT_CHECK_LIBXPM],
+[
+  AC_REQUIRE([XDT_CHECK_LIBX11])
+
+  LIBXPM_CFLAGS= LIBXPM_LDFLAGS= LIBXPM_LIBS=
+  if test "$no_x" != "yes"; then
+    AC_CHECK_LIB([Xpm], [main],
+    [
+      AC_DEFINE([HAVE_LIBXPM], [1], [Define if libXpm is available])
+      LIBXPM_CFLAGS="$LIBX11_CFLAGS"
+      LIBXPM_LDFLAGS="$LIBX11_LDFLAGS"
+      LIBXPM_LIBS="$LIBX11_LIBS"
+      if ! echo $LIBXPM_LIBS | grep -- '-lXpm' >/dev/null; then
+        LIBXPM_LIBS="$LIBXPM_LIBS -lXpm"
+      fi
+    ], [], [$LIBX11_CFLAGS $LIBX11_LDFLAGS $LIBX11_LIBS -lXpm])
+  fi
+  AC_SUBST([LIBXPM_CFLAGS])
+  AC_SUBST([LIBXPM_LDFLAGS])
+  AC_SUBST([LIBXPM_LIBS])
+])
+
+
+
+dnl XDT_CHECK_LIBXPM_REQUIRE()
+dnl
+dnl Similar to XDT_CHECK_LIBXPM(), but fails if the Xpm library isn't
+dnl present on the target system.
+dnl
+AC_DEFUN([XDT_CHECK_LIBXPM_REQUIRE],
+[
+  AC_REQUIRE([XDT_CHECK_LIBX11_REQUIRE])
+  AC_REQUIRE([XDT_CHECK_LIBXPM])
+
+  if test x"$LIBXPM_LIBS" = x""; then
+    AC_MSG_ERROR([The Xpm library was not found on your system])
+  fi
+])
+
+
+dnl Copyright (c) 2002-2015
+dnl         The Xfce development team. All rights reserved.
+dnl
+dnl Written for Xfce by Benedikt Meurer <benny@xfce.org>.
+dnl
+dnl This program is free software; you can redistribute it and/or modify
+dnl it under the terms of the GNU General Public License as published by
+dnl the Free Software Foundation; either version 2 of the License, or
+dnl (at your option) any later version.
+dnl
+dnl This program is distributed in the hope that it will be useful,
+dnl but WITHOUT ANY WARRANTY; without even the implied warranty of
+dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+dnl GNU General Public License for more details.
+dnl
+dnl You should have received a copy of the GNU General Public License along
+dnl with this program; if not, write to the Free Software Foundation, Inc.,
+dnl 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+dnl
+dnl xdt-depends
+dnl -----------
+dnl  Contains M4 macros to check for software dependencies.
+dnl  Partly based on prior work of the XDG contributors.
+dnl
+
+
+
+dnl We need recent a autoconf version
+AC_PREREQ([2.69])
+
+
+dnl XDT_SUPPORTED_FLAGS(VAR, FLAGS)
+dnl
+dnl For each token in FLAGS, checks to be sure the compiler supports
+dnl the flag, and if so, adds each one to VAR.
+dnl
+AC_DEFUN([XDT_SUPPORTED_FLAGS],
+[
+  for flag in $2; do
+    AC_MSG_CHECKING([if $CC supports $flag])
+    saved_CFLAGS="$CFLAGS"
+    CFLAGS="$CFLAGS $flag"
+    AC_COMPILE_IFELSE([AC_LANG_SOURCE([ ])], [flag_supported=yes], [flag_supported=no])
+    CFLAGS="$saved_CFLAGS"
+    AC_MSG_RESULT([$flag_supported])
+
+    if test "x$flag_supported" = "xyes"; then
+      $1="$$1 $flag"
+    fi
+  done
+])
+
+
+
+dnl XDT_FEATURE_DEBUG(default_level=minimum)
+dnl
+AC_DEFUN([XDT_FEATURE_DEBUG],
+[
+  dnl weird indentation to keep output indentation correct
+  AC_ARG_ENABLE([debug],
+                AS_HELP_STRING([--enable-debug@<:@=no|minimum|yes|full@:>@],[Build with debugging support @<:@default=m4_default([$1], [minimum])@:>@])
+AS_HELP_STRING([--disable-debug],[Include no debugging support]),
+                [enable_debug=$enableval], [enable_debug=m4_default([$1], [minimum])])
+
+  dnl Enable most warnings regardless of debug level. Common flags for both C and C++.
+  xdt_cv_additional_COMMON_FLAGS="-Wall -Wextra \
+                                  -Wno-missing-field-initializers \
+                                  -Wno-unused-parameter \
+                                  -Wmissing-declarations \
+                                  -Wmissing-noreturn -Wpointer-arith \
+                                  -Wcast-align -Wformat -Wformat-security -Wformat-y2k \
+                                  -Winit-self -Wmissing-include-dirs -Wundef \
+                                  -Wredundant-decls"
+
+  AC_MSG_CHECKING([whether to build with debugging support])
+  if test x"$enable_debug" = x"full" -o x"$enable_debug" = x"yes"; then
+    AC_DEFINE([DEBUG], [1], [Define for debugging support])
+
+    CPPFLAGS="$CPPFLAGS"
+
+    if test x`uname` = x"Linux"; then
+      xdt_cv_additional_COMMON_FLAGS="$xdt_cv_additional_COMMON_FLAGS -fstack-protector"
+    fi
+
+    if test x"$enable_debug" = x"full"; then
+      AC_DEFINE([DEBUG_TRACE], [1], [Define for tracing support])
+      xdt_cv_additional_COMMON_FLAGS="$xdt_cv_additional_COMMON_FLAGS -O0 -g"
+      CPPFLAGS="$CPPFLAGS -DG_ENABLE_DEBUG"
+      AC_MSG_RESULT([full])
+    else
+      xdt_cv_additional_COMMON_FLAGS="$xdt_cv_additional_COMMON_FLAGS -g -Wshadow"
+      AC_MSG_RESULT([yes])
+    fi
+  else
+    xdt_cv_additional_COMMON_FLAGS="$xdt_cv_additional_COMMON_FLAGS -Wshadow"
+    CPPFLAGS="$CPPFLAGS -DNDEBUG"
+
+    if test x"$enable_debug" = x"no"; then
+      CPPFLAGS="$CPPFLAGS -DG_DISABLE_CAST_CHECKS -DG_DISABLE_ASSERT"
+      AC_MSG_RESULT([no])
+    else
+      AC_MSG_RESULT([minimum])
+    fi
+  fi
+
+  xdt_cv_additional_CFLAGS="$xdt_cv_additional_COMMON_FLAGS \
+                            -Wnested-externs \
+                            -Wold-style-definition"
+  xdt_cv_additional_CXXFLAGS="$xdt_cv_additional_COMMON_FLAGS"
+
+  XDT_SUPPORTED_FLAGS([supported_CFLAGS], [$xdt_cv_additional_CFLAGS])
+  XDT_SUPPORTED_FLAGS([supported_CXXFLAGS], [$xdt_cv_additional_CXXFLAGS])
+
+  CFLAGS="$CFLAGS $supported_CFLAGS"
+  CXXFLAGS="$CXXFLAGS $supported_CXXFLAGS"
+])
+
+
+dnl XDT_FEATURE_VISIBILITY()
+dnl
+dnl Checks to see if the compiler supports the 'visibility' attribute
+dnl If so, adds -DHAVE_GNUC_VISIBILTY to CPPFLAGS.  Also sets the
+dnl automake conditional HAVE_GNUC_VISIBILITY.
+dnl
+AC_DEFUN([XDT_FEATURE_VISIBILITY],
+[
+  AC_ARG_ENABLE([visibility],
+                AS_HELP_STRING([--disable-visibility],[Don't use ELF visibility attributes]),
+                [enable_visibility=$enableval], [enable_visibility=yes])
+  have_gnuc_visibility=no
+  if test "x$enable_visibility" != "xno"; then
+    XDT_SUPPORTED_FLAGS([xdt_vis_test_cflags], [-Wall -Werror -Wno-unused-parameter])
+    saved_CFLAGS="$CFLAGS"
+    CFLAGS="$CFLAGS $xdt_vis_test_cflags"
+    AC_MSG_CHECKING([whether $CC supports the GNUC visibility attribute])
+    AC_COMPILE_IFELSE([AC_LANG_SOURCE(
+    [
+      void test_default (void);
+      void test_hidden (void);
+
+      void __attribute__ ((visibility("default"))) test_default (void) {}
+      void __attribute__ ((visibility("hidden"))) test_hidden (void) {}
+
+      int main (int argc, char **argv) {
+        test_default ();
+        test_hidden ();
+        return 0;
+      }
+    ])],
+    [
+      have_gnuc_visibility=yes
+      AC_MSG_RESULT([yes])
+    ],
+    [
+      AC_MSG_RESULT([no])
+    ])
+    CFLAGS="$saved_CFLAGS"
+  fi
+
+  if test "x$have_gnuc_visibility" = "xyes"; then
+    CPPFLAGS="$CPPFLAGS -DHAVE_GNUC_VISIBILITY"
+    xdt_vis_hidden_cflags=""
+    XDT_SUPPORTED_FLAGS([xdt_vis_hidden_cflags], [-xldscope=hidden])
+    if test "x$xdt_vis_hidden_cflags" = "x"; then
+      XDT_SUPPORTED_FLAGS([xdt_vis_hidden_cflags], [-fvisibility=hidden])
+    fi
+    CFLAGS="$CFLAGS $xdt_vis_hidden_cflags"
+  fi
+
+  AM_CONDITIONAL([HAVE_GNUC_VISIBILITY], [test "x$have_gnuc_visibility" = "xyes"])
+])
+
+dnl XDT_FEATURE_LINKER_OPTS
+dnl
+dnl Checks for and enables any special linker optimizations.
+dnl
+AC_DEFUN([XDT_FEATURE_LINKER_OPTS],
+[
+  AC_ARG_ENABLE([linker-opts],
+                AS_HELP_STRING([--disable-linker-opts],[Disable linker optimizations]),
+                [enable_linker_opts=$enableval], [enable_linker_opts=yes])
+
+  if test "x$enable_linker_opts" != "xno"; then
+    if test x`uname` != x"OpenBSD"; then
+      AC_MSG_CHECKING([whether $LD accepts --as-needed])
+      case `$LD --as-needed -v 2>&1 </dev/null` in
+      *GNU* | *'with BFD'*)
+        LDFLAGS="$LDFLAGS -Wl,--as-needed"
+        AC_MSG_RESULT([yes])
+        ;;
+      *)
+        AC_MSG_RESULT([no])
+        ;;
+      esac
+    fi
+    AC_MSG_CHECKING([whether $LD accepts -O1])
+    case `$LD -O1 -v 2>&1 </dev/null` in
+    *GNU* | *'with BFD'*)
+      LDFLAGS="$LDFLAGS -Wl,-O1"
+      AC_MSG_RESULT([yes])
+      ;;
+    *)
+      AC_MSG_RESULT([no])
+      ;;
+    esac
+  fi
+])
+
+dnl Copyright (c) 2002-2015
+dnl         The Xfce development team. All rights reserved.
+dnl
+dnl Written for Xfce by Benedikt Meurer <benny@xfce.org>.
+dnl
+dnl This program is free software; you can redistribute it and/or modify
+dnl it under the terms of the GNU General Public License as published by
+dnl the Free Software Foundation; either version 2 of the License, or
+dnl (at your option) any later version.
+dnl
+dnl This program is distributed in the hope that it will be useful,
+dnl but WITHOUT ANY WARRANTY; without even the implied warranty of
+dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+dnl GNU General Public License for more details.
+dnl
+dnl You should have received a copy of the GNU General Public License along
+dnl with this program; if not, write to the Free Software Foundation, Inc.,
+dnl 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+dnl
+dnl xdt-i18n
+dnl --------
+dnl  Internalization M4 macros.
+dnl
+
+
+dnl XDT_I18N([LINGUAS][, PACKAGE])
+dnl
+dnl This macro takes care of setting up everything for i18n support.
+dnl
+dnl If LINGUAS isn't specified, it will automatically extract the linguas
+dnl from po/*.po.
+dnl
+dnl If PACKAGE isn't specified, it defaults to the package tarname; see
+dnl the description of AC_INIT() for an explanation of what makes up
+dnl the package tarname. Normally, you don't need to specify PACKAGE,
+dnl but you can stick with the default.
+dnl
+AC_DEFUN([XDT_I18N],
+[
+  dnl Substitute GETTEXT_PACKAGE variable
+  GETTEXT_PACKAGE=m4_default([$2], [AC_PACKAGE_TARNAME()])
+  AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], ["$GETTEXT_PACKAGE"], [Name of default gettext domain])
+  AC_SUBST([GETTEXT_PACKAGE])
+
+  dnl gettext and stuff
+  ALL_LINGUAS="m4_ifblank(
+    [$1],
+    [esyscmd([echo $(for i in po/*.po; do test -e "$i" && basename -- "$i" .po; done) | tr -d '\n'])],
+    [$1])"
+
+  dnl This is required on some Linux systems
+  AC_CHECK_FUNC([bind_textdomain_codeset])
+
+  dnl Determine where to install locale files
+  AC_MSG_CHECKING([for locales directory])
+  AC_ARG_WITH([locales-dir], 
+  [
+    AS_HELP_STRING([--with-locales-dir=DIR],[Install locales into DIR])
+  ], [localedir=$withval],
+  [
+    if test x"$CATOBJEXT" = x".mo"; then
+      localedir=$libdir/locale
+    else
+      localedir=$datarootdir/locale
+    fi
+  ])
+  AC_MSG_RESULT([$localedir])
+  AC_SUBST([localedir])
+])
+
 
 m4_include([m4/libtool.m4])
 m4_include([m4/ltoptions.m4])
