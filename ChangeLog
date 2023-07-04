@@ -1,3 +1,1033 @@
+commit 67f48eccacbb79c4ce0373ac629c979a44407407
+Author: Błażej Szczygieł <mumei6102@gmail.com>
+Date:   Sat Jun 17 11:38:47 2023 +0000
+
+    Displays: Fix finding a valid mode by refresh rate
+    
+    Round to 2 decimals to distinguish refresh rates like:
+    - 23.98 Hz and 24.00 Hz
+    - 29.97 Hz and 30.00 Hz
+    
+    Completes: !68
+    (cherry picked from commit 80f704d35910cbfe007a42253554f71dedd85853)
+
+commit bbf2c827cb7500110f403ae373987f6818115764
+Author: Anonymous <noreply@xfce.org>
+Date:   Tue Jun 13 00:48:46 2023 +0200
+
+    I18n: Update translation ca (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit dfff08db8a9180007fb7e6850425e41ec1bb3b92
+Author: Anonymous <noreply@xfce.org>
+Date:   Tue Jun 6 00:48:05 2023 +0200
+
+    I18n: Update translation eu (99%).
+    
+    579 translated messages, 1 untranslated message.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit cfcc96dedbe638845b5012c1485e9abab0656f6e
+Author: Anonymous <noreply@xfce.org>
+Date:   Wed May 3 12:49:19 2023 +0200
+
+    I18n: Update translation ko (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 419d7363631952e28ba2b31dc2f0bf59113a2a9a
+Author: Anonymous <noreply@xfce.org>
+Date:   Wed Apr 19 01:14:05 2023 +0200
+
+    I18n: Update translation it (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit db2f4547e7651a14862651d946c62c4bd72a048f
+Author: Anonymous <noreply@xfce.org>
+Date:   Wed Apr 12 00:59:23 2023 +0200
+
+    I18n: Update translation de (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit f210ec3c66bbe54a0a44d0c0672e9e1585df0fba
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Apr 7 01:45:53 2023 +0200
+
+    I18n: Update translation et (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 708f6d75f1af798aa1984742b8f74be188a588ff
+Author: Anonymous <noreply@xfce.org>
+Date:   Wed Apr 5 12:49:33 2023 +0200
+
+    I18n: Update translation ru (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 9106b095a82600d93ef59b3676feed27069f1713
+Author: Anonymous <noreply@xfce.org>
+Date:   Sat Apr 1 12:49:17 2023 +0200
+
+    I18n: Update translation ru (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit aae8e6797b760bfd2d3bf69666641ae59ad726fe
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Tue Mar 28 13:15:02 2023 +0200
+
+    dialogs: Secure use of GSettings
+    
+    (cherry picked from commit 6ef050a893f293f70df2b465a77a64fa30c7250b)
+
+commit 56f8c2f9efcf0c93abf3c65d9cd0d52224242bb9
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Sun Mar 26 12:10:10 2023 +0200
+
+    xfsettingsd: Fix wrong test for property removal
+    
+    Fixes criticals when removing a property from the "xsettings" channel.
+    
+    (cherry picked from commit 40e91df67564fca53bb44a1fd8c9679110e654c7)
+
+commit 98a4d52da7076ea2d026255f6a63020059f855fc
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Tue Feb 28 23:38:05 2023 +0100
+
+    xfsettingsd: Update also the type when updating a value
+    
+    (cherry picked from commit e94e42832f05f9c01ddcb7cf809888f1e9c1ca9c)
+
+commit bcf3a0049fc01b8f782ceafb4cecc239245decc7
+Author: Anonymous <noreply@xfce.org>
+Date:   Sun Mar 26 00:47:26 2023 +0100
+
+    I18n: Update translation pt_BR (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 1c22c2c943139d5ff28ff49f351600ccc99266e3
+Author: Anonymous <noreply@xfce.org>
+Date:   Thu Mar 16 00:47:54 2023 +0100
+
+    I18n: Update translation el (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit dd3d79ea0fed64153b6ce0efe44dc84ec87934b1
+Author: Anonymous <noreply@xfce.org>
+Date:   Sun Mar 12 00:47:29 2023 +0100
+
+    I18n: Update translation es (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 9cf0534c2f4a5b1a8f04a02d691cf2a6a17dbffe
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 10 00:56:46 2023 +0100
+
+    I18n: Update translation uk (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit bcecf4f42952156b18513cb32ee8a33725915a29
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Wed Mar 8 19:34:10 2023 +0100
+
+    keyboard-settings: Fix critical when opening layout selection dialog
+    
+    gtk_widget_grab_default: assertion 'gtk_widget_get_can_default (widget)'
+    failed
+    
+    (cherry picked from commit 32de5c98a8aad9f8dab5775cd78ecfe0b188e994)
+
+commit d268c93039ad87cc88984dd74aff3eecc3a8d293
+Author: Anonymous <noreply@xfce.org>
+Date:   Wed Mar 8 12:48:06 2023 +0100
+
+    I18n: Update translation ru (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit e9d928d16f4d9de383487ce33236b108816f4875
+Author: Anonymous <noreply@xfce.org>
+Date:   Tue Mar 7 12:48:48 2023 +0100
+
+    I18n: Update translation sl (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 88bbb17487d44f10d24f91120f0df7c2822d78f8
+Author: Anonymous <noreply@xfce.org>
+Date:   Tue Mar 7 00:51:04 2023 +0100
+
+    I18n: Update translation it (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 527a9d6dc6165a3274816dc4bbdc5fd532f21dbc
+Author: Anonymous <noreply@xfce.org>
+Date:   Mon Mar 6 12:48:35 2023 +0100
+
+    I18n: Update translation zh_CN (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 3b343f2b1912b5f68f2bb3597c4688f36252215c
+Author: Anonymous <noreply@xfce.org>
+Date:   Mon Mar 6 12:48:35 2023 +0100
+
+    I18n: Update translation pt_BR (99%).
+    
+    579 translated messages, 1 untranslated message.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit c0da0b2db19e6b94ae99a7c3fabde7ff1ef9b8bd
+Author: Anonymous <noreply@xfce.org>
+Date:   Mon Mar 6 00:47:27 2023 +0100
+
+    I18n: Update translation pt (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit b222eeb42f7b8771eb6c8530dff54b52a108057d
+Author: Anonymous <noreply@xfce.org>
+Date:   Sun Mar 5 00:47:31 2023 +0100
+
+    I18n: Update translation sr (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 2865cd5e0e138f24cd983a1b3a452c439c60e26a
+Author: Anonymous <noreply@xfce.org>
+Date:   Sun Mar 5 00:47:30 2023 +0100
+
+    I18n: Update translation nb (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit c0c4b2ad9e13554e3d85836f4ecd41eb6458e3e9
+Author: Anonymous <noreply@xfce.org>
+Date:   Sun Mar 5 00:47:30 2023 +0100
+
+    I18n: Update translation he (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit e974d7f3270747654ba7c0b5518211122a58640a
+Author: Anonymous <noreply@xfce.org>
+Date:   Sun Mar 5 00:47:30 2023 +0100
+
+    I18n: Update translation en_GB (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 2ee84db9228dde97aef279ad0004606cec313b8d
+Author: Anonymous <noreply@xfce.org>
+Date:   Sat Mar 4 00:52:06 2023 +0100
+
+    I18n: Update translation nl (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 38a1947422bd9b3c8e792b13f0a03ce970e2c07a
+Author: Anonymous <noreply@xfce.org>
+Date:   Sat Mar 4 00:52:06 2023 +0100
+
+    I18n: Update translation ja (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit c5a5bbede5a8019e824d791365a90c21f4fcb60a
+Author: Anonymous <noreply@xfce.org>
+Date:   Sat Mar 4 00:52:06 2023 +0100
+
+    I18n: Update translation de (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 17f75e64256e74ba4e8dc9260d14b2fd17bd2e29
+Author: Anonymous <noreply@xfce.org>
+Date:   Sat Mar 4 00:52:06 2023 +0100
+
+    I18n: Update translation bg (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 8e059c267987143f670ede291065c33d38bfa9d0
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:26 2023 +0100
+
+    I18n: Update translation zh_TW (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 09a0070e70966cec1102cdf7eb7dce208dff3a69
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:26 2023 +0100
+
+    I18n: Update translation zh_HK (73%).
+    
+    425 translated messages, 155 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 2a78b09aa44c6703e2b8d2b971ab0dbdf55e76a2
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:26 2023 +0100
+
+    I18n: Update translation zh_CN (99%).
+    
+    578 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 59d5c54b88351817d8202cf248983b6e3c49187d
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:26 2023 +0100
+
+    I18n: Update translation uk (99%).
+    
+    578 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 0735c727ea0abf9d0883f9e1bb7cc2718048c59f
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:26 2023 +0100
+
+    I18n: Update translation ug (65%).
+    
+    377 translated messages, 203 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit f56cde50600999bd6047d998cfa6f231fcdecc96
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:25 2023 +0100
+
+    I18n: Update translation tr (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit d001a10a0f81691f883355cc69027b6f9c177da3
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:25 2023 +0100
+
+    I18n: Update translation th (98%).
+    
+    569 translated messages, 11 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit e13c5cd52c7b0ac5775fcdc5b791d2f66b9f17e3
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:25 2023 +0100
+
+    I18n: Update translation sv (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit cc4fa90bbad6d6ff937bbf803210ff117d8ac27e
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:25 2023 +0100
+
+    I18n: Update translation sr (99%).
+    
+    578 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit fbb94ef86ae35c5114a79bff0c6aaa4b5be3f704
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:25 2023 +0100
+
+    I18n: Update translation sq (98%).
+    
+    572 translated messages, 8 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 8f4710075356056a9bb6bcc17e0567f04c1754bd
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:25 2023 +0100
+
+    I18n: Update translation sl (99%).
+    
+    578 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 76344d472e189e8a2449be9a5a8a0903115cf9d7
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:25 2023 +0100
+
+    I18n: Update translation sk (97%).
+    
+    564 translated messages, 16 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit c7ae7a1369515716e5825b8d6b73b8edb7160e22
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:24 2023 +0100
+
+    I18n: Update translation ru (99%).
+    
+    578 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 11f689270eddc0a0e949aba5dd0acbc476825950
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:24 2023 +0100
+
+    I18n: Update translation ro (81%).
+    
+    471 translated messages, 109 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 93429f284dd653a4ea2fd39a5d3e5ed71dd2b621
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:24 2023 +0100
+
+    I18n: Update translation pt_BR (99%).
+    
+    578 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit cf1a6e97d56db032b358376f38f1812a45f56191
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:24 2023 +0100
+
+    I18n: Update translation pt (99%).
+    
+    578 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 4ba6a8c01a776a1e64720573b00bb5969e352a8c
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:24 2023 +0100
+
+    I18n: Update translation pl (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 2ca1be76a344f6ffcef93036627f82931b8d48f9
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:24 2023 +0100
+
+    I18n: Update translation oc (99%).
+    
+    578 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 81da02d51b4a212e7e2e1cef519981faa6792e26
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:24 2023 +0100
+
+    I18n: Update translation nn (78%).
+    
+    453 translated messages, 127 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit a9ac87e71ab21c4db683a06d9525b847f3553b3a
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:23 2023 +0100
+
+    I18n: Update translation nl (99%).
+    
+    578 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit f16df20ce89362aa682b8b7408211abd0416f99b
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:23 2023 +0100
+
+    I18n: Update translation nb (99%).
+    
+    578 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit d99d4e5bfcacfe7d8d6ad5ca36e947e81318ac25
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:23 2023 +0100
+
+    I18n: Update translation ms (98%).
+    
+    574 translated messages, 6 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 00086e282ae47c4a5ce6cec77d5e6a738b34a645
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:23 2023 +0100
+
+    I18n: Update translation lt (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 63af66fe3a6c829d7e50740b3f797cb646535c41
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:23 2023 +0100
+
+    I18n: Update translation ko (99%).
+    
+    578 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit a5aa7ba2fc56e20560667251b403ab7ab45dbd9d
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:23 2023 +0100
+
+    I18n: Update translation kk (99%).
+    
+    578 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit b65017357f1f3d596725168b06cc10dd7ace62aa
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:23 2023 +0100
+
+    I18n: Update translation ja (99%).
+    
+    578 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit fb360238382cf9961baa404049d80a89cb3e17b3
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:23 2023 +0100
+
+    I18n: Update translation it (99%).
+    
+    578 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit a70c6deaa32c9a1d7cc4db1c6ed499e2f4a0b479
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:22 2023 +0100
+
+    I18n: Update translation is (91%).
+    
+    532 translated messages, 48 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit c8cbf3b892e918fbcb4847fa209761aa75013293
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:22 2023 +0100
+
+    I18n: Update translation ie (86%).
+    
+    499 translated messages, 81 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit b3f1b156628651fb5b9436d702c45895f924c70e
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:22 2023 +0100
+
+    I18n: Update translation id (99%).
+    
+    578 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit b28f490a6d7990f6cded45712df521774b61c7cd
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:22 2023 +0100
+
+    I18n: Update translation hye (91%).
+    
+    533 translated messages, 47 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit dbaf676afd5fea334448a8c610ec0ba40f0a06be
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:22 2023 +0100
+
+    I18n: Update translation hy_AM (96%).
+    
+    562 translated messages, 18 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit de9fc83a630189e7beee76219629e9cab877e529
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:22 2023 +0100
+
+    I18n: Update translation hu (97%).
+    
+    564 translated messages, 16 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 811b57aacb9ce3aceb8792739f7b63dfe0cece02
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:22 2023 +0100
+
+    I18n: Update translation hr (95%).
+    
+    556 translated messages, 24 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit b944e7f070c0a2c15903247d3204cdc5219efd61
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:21 2023 +0100
+
+    I18n: Update translation he (99%).
+    
+    578 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit e906ba69a0bff31ffadc9fd2d48b392369bd63fc
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:21 2023 +0100
+
+    I18n: Update translation gl (98%).
+    
+    574 translated messages, 6 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 1d517cba30a0a8b044efb7bcffabaa61fa7a52cf
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:21 2023 +0100
+
+    I18n: Update translation fr (100%).
+    
+    580 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 617936c4bc538cbdfc472e32999fed9d97595cc4
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:21 2023 +0100
+
+    I18n: Update translation fi (95%).
+    
+    554 translated messages, 26 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 8f10816d846263f99c8f9ca41546bacae3dd86f7
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:21 2023 +0100
+
+    I18n: Update translation eu (99%).
+    
+    578 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 7fcedf28691535fe7603f0aa7fc2c0008167820d
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:21 2023 +0100
+
+    I18n: Update translation et (99%).
+    
+    578 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 8d04a228019212e91b9fe4d87dd7658e744112ec
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:21 2023 +0100
+
+    I18n: Update translation es (99%).
+    
+    578 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 68a5b97fd757813bcfe9426e90562211cab912e7
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:21 2023 +0100
+
+    I18n: Update translation en_GB (99%).
+    
+    578 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 213d6db3e41be779ed69b5f78f64c48f4afffaf0
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:21 2023 +0100
+
+    I18n: Update translation en_CA (99%).
+    
+    578 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit db39846c7b2f0c5b8537e890eca5736625e6ce68
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:20 2023 +0100
+
+    I18n: Update translation en_AU (92%).
+    
+    534 translated messages, 46 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 06d5592c9441c960e397c497779a89301f30df8c
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:20 2023 +0100
+
+    I18n: Update translation el (99%).
+    
+    578 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit d3c1c1cf03b8a183b6c19f0f8d353f9b13fbae30
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:20 2023 +0100
+
+    I18n: Update translation de (99%).
+    
+    578 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 8aafbdfbb396cd3d678d48c114fcce917427d034
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:20 2023 +0100
+
+    I18n: Update translation da (98%).
+    
+    574 translated messages, 6 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 1abb6ffe270be4870053d523480bbfcaacf58dc5
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:20 2023 +0100
+
+    I18n: Update translation cs (98%).
+    
+    569 translated messages, 11 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 5295331d5208335f45848ec784d8daad7f336e99
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:20 2023 +0100
+
+    I18n: Update translation ca (98%).
+    
+    569 translated messages, 11 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit c337036c1cf259d576069d9969a830025139c539
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:20 2023 +0100
+
+    I18n: Update translation bg (99%).
+    
+    578 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 0a52013c5adad8398adecf3972111337dd4e9efd
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:20 2023 +0100
+
+    I18n: Update translation be@tarask (93%).
+    
+    542 translated messages, 38 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 3fc5cdd5b5fa6d4a3bc8d2dfe0b44e7f9597ccd7
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:19 2023 +0100
+
+    I18n: Update translation be (98%).
+    
+    569 translated messages, 11 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 7a9ed401b2705adb5981447b390b48a7ee1808d3
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:19 2023 +0100
+
+    I18n: Update translation ast (76%).
+    
+    446 translated messages, 134 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 13a03c33c79adcc293c8d4361afa00afed52ebd7
+Author: Anonymous <noreply@xfce.org>
+Date:   Fri Mar 3 12:49:19 2023 +0100
+
+    I18n: Update translation ar (85%).
+    
+    493 translated messages, 87 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 35380ec5d97418acb7ef7ee475b05247134016a8
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Thu Mar 2 19:51:56 2023 +0100
+
+    appearance-install-theme: Fix error message
+    
+    Redundant with main message.
+    
+    Fixes: 9bc9b7251812c1f9e52bf6f3683702ef6a4deeed
+    Related: !53
+    (cherry picked from commit f2819d4a2bdccc82f1eb20800afba073f15a778f)
+
+commit 83bf0eccac7682be239d0ae6422e0b78aba014d0
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Thu Mar 2 19:07:29 2023 +0100
+
+    appearance-install-theme: Do not mention file size in error message
+    
+    This is subject to change as it was in f8aa9af2, and it seems overkill
+    to set a file size at configure time for this (with AC_SUBST, .in, etc.)
+    
+    (cherry picked from commit 0337b4f9537b7d8a54a2cfc97c5d7db9a1b6cc33)
+
+commit 2431069a91aa13d0826ead208ff6ab524dc9755a
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Thu Mar 2 19:04:50 2023 +0100
+
+    appearance-install-theme: Check for theme package validity
+    
+    It seems that index.theme is mandatory, although there doesn't seem to
+    be any real specification about it. In any case it seems better not to
+    blindly install the archive contents.
+    
+    (cherry picked from commit 9bc9b7251812c1f9e52bf6f3683702ef6a4deeed)
+
+commit 7d9a9a33c58ebe8ed549346f4997acfaf81f9375
+Author: Jarno Ilari Suni <8@iki.fi>
+Date:   Thu Apr 29 08:17:58 2021 +0300
+
+    appearance-install-theme: Update GTK icon cache after installing
+    
+    Otherwise Appearance dialog shows warning for the icon themes.
+    
+    (cherry picked from commit c265fa3edfbb92a3e7996efffb607ae796f93c30)
+
+commit 56b4c175ce72423212822a82ea6820a2304a1eee
+Author: Jarno Ilari Suni <8@iki.fi>
+Date:   Thu Apr 29 08:01:21 2021 +0300
+
+    appearance-install-theme: detect icon themes first (#271)
+    
+    If no icon themes were found, treat the argument as style theme and
+    simply move all the extracted data to ~/.themes.
+    
+    (cherry picked from commit aee4cfb91b71fce9066ddf60d836e82cce55ad1d)
+
+commit 48de20374e838caabf760224f26767393b0c722f
+Author: Jarno Ilari Suni <8@iki.fi>
+Date:   Sun Apr 25 10:01:38 2021 +0300
+
+    appearance-install-theme: make cleanup safer
+    
+    Remove temporary directory more likely when terminating.
+    
+    (cherry picked from commit 4fb42a25af4f3a3a133853d591153a3b3e36f311)
+
+commit 708f82f6b852af8d3fba3da47455ad41ee397f73
+Author: Jarno Ilari Suni <8@iki.fi>
+Date:   Sat Apr 24 16:44:57 2021 +0300
+
+    appearance-install-theme: Use recommended way of command substitution.
+    
+    (cherry picked from commit 11faa614c2af6eae8f9f5ecb8216bf92c73d24de)
+
+commit ec6c6aba61924ff72a742d9665c5fd5412c07e99
+Author: Jarno Ilari Suni <8@iki.fi>
+Date:   Sat Apr 24 16:41:41 2021 +0300
+
+    appearance-install-theme: Convert to POSIX
+    
+    Get rid of using which command; use command builtin (with -v), instead.
+    
+    Get rid of using stat command; use ls and awk, instead. Update file
+    size limit to 100 MiB.
+    
+    Use Freedesktop directory for user-specific cached data as base
+    directory for extracting theme.
+    
+    Fix creating tmpdir by using a more portable way, and check, if a new
+    directory was created. RANDOM might be unset, so do not use it.
+    
+    Fixes: #405
+    (cherry picked from commit f8aa9af2125818193f664e649538b270c82a39bc)
+
+commit 6c51fd4a3656c9ece59555891f6508b34cb4fdb6
+Author: Anonymous <noreply@xfce.org>
+Date:   Sat Feb 25 12:48:54 2023 +0100
+
+    I18n: Update translation hr (96%).
+    
+    557 translated messages, 22 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 812fc575bee7910263bb2442f8059bedce7d0b3b
+Author: Anonymous <noreply@xfce.org>
+Date:   Wed Feb 22 00:47:27 2023 +0100
+
+    I18n: Update translation et (100%).
+    
+    579 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit c51dc35a8126b2507f4281491095904767b02fe8
+Author: Anonymous <noreply@xfce.org>
+Date:   Tue Feb 21 00:47:14 2023 +0100
+
+    I18n: Update translation ast (77%).
+    
+    447 translated messages, 132 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 50aa3ac3b52cc39c3f592ae30389c519847fae9c
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Sat Feb 18 17:07:35 2023 +0100
+
+    Update bug report address
+    
+    (cherry picked from commit b17859844cea3fe9cad46f86cbf431271b64bdcc)
+
+commit e0f8b8b0b58d38bc904c7edffaa3c7718ecb17aa
+Author: Anonymous <noreply@xfce.org>
+Date:   Wed Feb 15 00:47:27 2023 +0100
+
+    I18n: Update translation el (100%).
+    
+    579 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 0c7ac0cd6e7a03bcee32546cebc0f46ad05e4491
+Author: Olivier Fourdan <fourdan@xfce.org>
+Date:   Mon Feb 13 16:38:14 2023 +0000
+
+    display: Check for XError on transform apply
+    
+    Even with XRandR 1.3, not all DDXen support transformations, such as,
+    for example Xwayland rootful.
+    
+    Unfortunately, there is no way in the XRandR protocol for the clients to
+    actually determine that.
+    
+    And when a client tries to apply a transformation with a DDX which does
+    not support transformations, the Xserver will raise an XError which will
+    be fatal to the X11 client if it does not handle such errors.
+    
+    Even worse, when that happens, the display settings leaves the XRandR
+    configuration in a broken state where all monitors are removed and
+    restarting the display settings cannot restore a usable configuration.
+    
+    To avoid that, make sure to check for an X11 error when applying an
+    XRandR transformation and log a warning message if that fails.
+    
+    Signed-off-by: Olivier Fourdan <fourdan@xfce.org>
+    (cherry picked from commit 319ebf14e438250e6e229dc21491a6ff38912e74)
+
+commit 518ad39785c03ab36c305070d58c4f0c2c90cc1a
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Sat Feb 11 10:27:00 2023 +0100
+
+    Back to development
+
+commit f9cb09a7da7a56e355bb09e24ee30deeb1bb1ced
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Sat Feb 11 10:26:04 2023 +0100
+
+    Updates for release
+
 commit abc6136b5d835863fab0859d17dfda5639d47204
 Author: Gaël Bonithon <gael@xfce.org>
 Date:   Sat Feb 11 10:12:53 2023 +0100
