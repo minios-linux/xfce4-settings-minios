@@ -1,9 +1,9 @@
-xfce4-settings (4.18.3-1) UNRELEASED; urgency=medium
+xfce4-settings (4.18.3-1) unstable; urgency=medium
 
   * New upstream version 4.18.3
   * d/patches: rebase for new upstream
 
- -- Yves-Alexis Perez <corsac@debian.org>  Tue, 04 Jul 2023 21:17:26 +0200
+ -- Yves-Alexis Perez <corsac@debian.org>  Thu, 06 Jul 2023 18:35:02 +0200
 
 xfce4-settings (4.18.2-1) unstable; urgency=medium
 
