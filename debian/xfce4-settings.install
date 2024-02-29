@@ -6,3 +6,4 @@ usr/share/applications
 usr/share/icons
 usr/share/locale
 usr/share/xfce4/settings
+usr/lib/*/gtk-3.0/modules
