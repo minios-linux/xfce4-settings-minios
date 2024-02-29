@@ -1,20 +1,83 @@
-4.18.3 (2023-07-04)
+4.19.1 (2023-11-15)
 ======
+- build: Fix make dist when configured with --disable-wayland
+- display-settings: Fix crash when using minimal dialog
+- display-settings: Use GTK Layer Shell for popups on Wayland
+- display-settings: Hide primary monitor widgets on Wayland
+- display-settings: Add XfceDisplaySettingsWayland
+- xfsettingsd: Add XfceDisplaysHelperWayland
+- wayland: Add support for wlr-output-management
+- display-settings: Add XfceDisplaySettings and move X11 code to X11 
+impl
+- display-settings: Remove dead code
+- xfsettingsd: Clean up displays.c a bit
+- xfsettingsd: Make XfceDisplaysHelper derivable and add X11 impl
+- build: Properly distinguish X11/Wayland code paths
+- display-settings: Fix memory management of confirmation dialog
+- xfsettingsd: displays: Always do some actions on RRScreenChangeNotify
+- xfsettingsd: displays: Fix memory leak
+- Fix xfce_titled_dialog_create_action_area() deprecation
+- settings-manager: Support absolute path as icon name
+- Replace deprecated xfce_spawn(_command_line)?_on_screen
+- appearance: Match more dark themes (fixes #495)
+- build: Check for gmodule-2.0
+- appearance: Check for presence of color-scheme key
+- build: Properly check for xmllint at configure time
+- mime-settings: Add multiselection (Fixes #346)
+- Apply matching xfwm4 when the switch is clicked
+- displays: Lower warning level
 - Displays: Fix finding a valid mode by refresh rate
+- I18n: Update po/LINGUAS list
+- I18n: Update po/LINGUAS list
+- Translation Updates:
+  Albanian, Basque, Bulgarian, Catalan, Chinese (China), Chinese
+  (Taiwan), Czech, Danish, Dutch, English (United Kingdom), Estonian,
+  French, German, Greek, Hebrew, Italian, Japanese, Kazakh, Korean,
+  Lithuanian, Norwegian Bokmål, Polish, Portuguese, Portuguese
+  (Brazil), Russian, Serbian, Slovenian, Spanish, Swedish, Ukrainian
+
+4.19.0 (2023-04-18)
+======
+- build: Use m4_defined min versions and cleanup
+- build: Use XDT_VERSION_INIT and get rid of configure.ac.in
+- build: Switch from intltool to gettext
+- Add UI to toggle libinput's hires scrolling events
+- xfsettingsd: Add comment about GTK 3.24.38 required for gtk-modules
+- xfsettingsd: Add GtkSettings synchronization via gtk-modules
+- dialogs: Remove GSettings syncs handled by XfceGtkSettingsHelper
+- xfsettingsd: Add XfceGtkSettingsHelper
+- xfsettingsd: Guard X11-specific code
+- xfsettingsd: xsettings.xml cleanup
+- Hide libinput UI when we don't use libinput
 - dialogs: Secure use of GSettings
 - xfsettingsd: Fix wrong test for property removal
 - xfsettingsd: Update also the type when updating a value
+- Add combo box to set click method with libinput
+- Add check box for libinput disable while typing
 - keyboard-settings: Fix critical when opening layout selection dialog
 - appearance-install-theme: Fix error message
 - appearance-install-theme: Do not mention file size in error message
 - appearance-install-theme: Check for theme package validity
 - appearance-install-theme: Update GTK icon cache after installing
 - appearance-install-theme: detect icon themes first (#271)
+- Update bug report address
+- display: Check for XError on transform apply
+- Update copyright year
 - appearance-install-theme: make cleanup safer
 - appearance-install-theme: Use recommended way of command substitution.
 - appearance-install-theme: Convert to POSIX
-- Update bug report address
-- display: Check for XError on transform apply
+- mime-settings: Increase dialog size
+- display: fix blurry 'help' indicator on output
+- display: fix blurry icon in profiles treeview
+- display: fix blurry icons in minimal display settings dialog
+- mime: fix blurry icons in default app menus
+- mouse: fix blurriness in cursor theme previews
+- appearance: fix blurry subpixel antialias icons
+- appearance: fix blurry icon theme previews
+- xfsettingsd: Make xsettings.xml well-formed (Fixes #431)
+- xfsettingsd: Remove duplicated config line (Fixes #425)
+- appearance: Add clickable link to xfwm4_sync label
+- xfsettingsd: Make CSD opt-in
 - Translation Updates:
   Albanian, Arabic, Armenian (Armenia), Asturian, Basque, Belarusian,
   Belarusian (Tarask), Bulgarian, Catalan, Chinese (China), Chinese
@@ -22,42 +85,10 @@
   Eastern Armenian, English (Australia), English (Canada), English
   (United Kingdom), Estonian, Finnish, French, Galician, German, Greek,
   Hebrew, Hungarian, Icelandic, Indonesian, Interlingue, Italian,
-  Japanese, Kazakh, Korean, Lithuanian, Malay, Norwegian Bokmål,
-  Norwegian Nynorsk, Occitan (post 1500), Polish, Portuguese,
+  Japanese, Kabyle, Kazakh, Korean, Lithuanian, Malay, Norwegian
+  Bokmål, Norwegian Nynorsk, Occitan (post 1500), Polish, Portuguese,
   Portuguese (Brazil), Romanian, Russian, Serbian, Slovak, Slovenian,
   Spanish, Swedish, Thai, Turkish, Ukrainian, Uyghur
-
-4.18.2 (2023-02-11)
-======
-- Update copyright year
-- mime-settings: Increase dialog size (!96)
-- display: fix blurry 'help' indicator on output (#400, !95)
-- display: fix blurry icon in profiles treeview
-- display: fix blurry icons in minimal display settings dialog
-- mime: fix blurry icons in default app menus
-- mouse: fix blurriness in cursor theme previews
-- appearance: fix blurry subpixel antialias icons
-- appearance: fix blurry icon theme previews
-- xfsettingsd: Make xsettings.xml well-formed (Fixes #431, !94)
-- xfsettingsd: Remove duplicated config line (Fixes #425)
-- Translation Updates:
-  Albanian, Chinese (China), Dutch, English (Canada), English (United
-  Kingdom), Finnish, Greek, Korean, Portuguese (Brazil), Turkish
-
-4.18.1 (2022-12-22)
-======
-- xfsettingsd: Make CSD (client side decorations) for dialogs opt-in
-- Translation Updates:
-  Albanian, Arabic, Armenian (Armenia), Asturian, Basque, Belarusian,
-  Belarusian (Tarask), Bulgarian, Catalan, Chinese (China), Chinese
-  (Hong Kong), Chinese (Taiwan), Croatian, Czech, Danish, Dutch,
-  Eastern Armenian, English (Australia), English (Canada), English
-  (United Kingdom), Estonian, Finnish, French, Galician, Georgian,
-  German, Greek, Hebrew, Hungarian, Icelandic, Indonesian, Interlingue,
-  Italian, Japanese, Kabyle, Kazakh, Korean, Lithuanian, Malay,
-  Norwegian Bokmål, Norwegian Nynorsk, Occitan (post 1500), Polish,
-  Portuguese, Portuguese (Brazil), Romanian, Russian, Serbian, Slovak,
-  Slovenian, Spanish, Swedish, Thai, Turkish, Ukrainian, Uyghur
 
 4.18.0 (2022-12-15)
 ======

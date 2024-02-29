@@ -38,9 +38,11 @@
 #include <glib/gstdio.h>
 #include <gio/gio.h>
 #include <cairo-gobject.h>
-#include <gdk/gdkx.h>
 #include <gtk/gtk.h>
+#ifdef ENABLE_X11
+#include <gdk/gdkx.h>
 #include <gtk/gtkx.h>
+#endif
 
 #include <libxfce4ui/libxfce4ui.h>
 #include <libxfce4util/libxfce4util.h>
@@ -233,6 +235,33 @@ cb_ui_theme_selection_changed (GtkTreeSelection *selection)
 }
 
 static void
+cb_xfwm4_sync_label_link_activated (GtkLabel *label)
+{
+    gchar  *command;
+    GError *error = NULL;
+
+    command = g_find_program_in_path ("xfwm4-settings");
+    if (command != NULL && !g_spawn_command_line_async (command, &error))
+    {
+         xfce_dialog_show_error (NULL, error, _("Failed to display Xfwm4 Settings"));
+         g_error_free (error);
+    }
+
+    g_free (command);
+}
+
+static void
+cb_xfwm4_sync_switch_toggled (GObject *self, GParamSpec* pspec, gpointer user_data)
+{
+    /* Set the new XFWM4 theme */
+    if (gtk_switch_get_active (GTK_SWITCH (self)))
+        theme_selection_changed (GTK_TREE_SELECTION (user_data), "/Net/ThemeName");
+    else
+        xfconf_channel_set_string (xfconf_channel_get ("xfwm4"), "/general/theme", "Default");
+}
+
+#ifdef ENABLE_X11
+static void
 cb_window_scaling_factor_combo_changed (GtkComboBox *combo)
 {
     gint active;
@@ -243,6 +272,7 @@ cb_window_scaling_factor_combo_changed (GtkComboBox *combo)
     /* Save setting */
     xfconf_channel_set_int (xsettings_channel, "/Gdk/WindowScalingFactor", active);
 }
+#endif
 
 static void
 cb_antialias_check_button_toggled (GtkToggleButton *toggle)
@@ -816,19 +846,28 @@ appearance_settings_dialog_channel_property_changed (XfconfChannel *channel,
             g_free (new_name);
         }
 
-        /* Keep gsettings in sync */
+        /* Set the preferred color scheme (needed for GTK4) */
         if (desktop_interface_gsettings != NULL)
         {
-            str = xfconf_channel_get_string (channel, property_name, NULL);
-            g_settings_set_string (desktop_interface_gsettings, "gtk-theme", str);
-
-            /* Also set the preferred color scheme (needed for GTK4) */
-            if (str != NULL && g_str_has_suffix (str, "-dark"))
-                g_settings_set_string (desktop_interface_gsettings, "color-scheme", "prefer-dark");
-            else
-                g_settings_reset (desktop_interface_gsettings, "color-scheme");
-
-            g_free (str);
+            GSettingsSchema *schema;
+            g_object_get (desktop_interface_gsettings, "settings-schema", &schema, NULL);
+            if (g_settings_schema_has_key (schema, "color-scheme"))
+              {
+                str = xfconf_channel_get_string (channel, property_name, NULL);
+                if (str != NULL)
+                {
+                    gchar *strdown = g_ascii_strdown (str, -1);
+                    if (g_strstr_len (strdown, -1, "-dark-") || g_str_has_suffix (strdown, "-dark"))
+                        g_settings_set_string (desktop_interface_gsettings, "color-scheme", "prefer-dark");
+                    else
+                        g_settings_reset (desktop_interface_gsettings, "color-scheme");
+                    g_free (strdown);
+                    g_free (str);
+                }
+                else
+                    g_settings_reset (desktop_interface_gsettings, "color-scheme");
+              }
+            g_settings_schema_unref (schema);
         }
     }
     else if (strcmp (property_name, "/Net/IconThemeName") == 0)
@@ -870,24 +909,6 @@ appearance_settings_dialog_channel_property_changed (XfconfChannel *channel,
                                  appearance_settings_load_icon_themes,
                                  pd,
                                  (GDestroyNotify) preview_data_free);
-        }
-
-        /* Keep gsettings in sync */
-        if (desktop_interface_gsettings != NULL)
-        {
-            str = xfconf_channel_get_string (channel, property_name, NULL);
-            g_settings_set_string (desktop_interface_gsettings, "icon-theme", str);
-            g_free (str);
-        }
-    }
-    else if (strcmp (property_name, "/Gtk/FontName") == 0)
-    {
-        /* Keep gsettings in sync */
-        if (desktop_interface_gsettings != NULL)
-        {
-            str = xfconf_channel_get_string (channel, property_name, NULL);
-            g_settings_set_string (desktop_interface_gsettings, "font-name", str);
-            g_free (str);
         }
     }
     else if (strcmp (property_name, "/Gtk/MonospaceFontName") == 0)
@@ -1252,7 +1273,11 @@ appearance_settings_dialog_configure_widgets (GtkBuilder *builder)
     if (path != NULL)
     {
         object = gtk_builder_get_object (builder, "xfwm4_sync_switch");
-        xfconf_g_property_bind (xsettings_channel, "/Xfce/SyncThemes", G_TYPE_BOOLEAN, G_OBJECT (object), "state");
+        xfconf_g_property_bind (xsettings_channel, "/Xfce/SyncThemes", G_TYPE_BOOLEAN, G_OBJECT (object), "active");
+        g_signal_connect (G_OBJECT (object), "notify::active", G_CALLBACK (cb_xfwm4_sync_switch_toggled), selection);
+
+        object = gtk_builder_get_object (builder, "xfwm4_sync_label");
+        g_signal_connect (G_OBJECT (object), "activate-link", G_CALLBACK (cb_xfwm4_sync_label_link_activated), NULL);
     }
     else
     {
@@ -1340,9 +1365,19 @@ appearance_settings_dialog_configure_widgets (GtkBuilder *builder)
     g_signal_connect (G_OBJECT (object2), "value-changed", G_CALLBACK (cb_custom_dpi_spin_button_changed), object);
 
     /* Window scaling factor */
-    object = gtk_builder_get_object (builder, "gdk_window_scaling_factor_combo_box");
-    appearance_settings_dialog_channel_property_changed (xsettings_channel, "/Gdk/WindowScalingFactor", NULL, builder);
-    g_signal_connect (G_OBJECT (object), "changed", G_CALLBACK(cb_window_scaling_factor_combo_changed), NULL);
+#ifdef ENABLE_X11
+    if (GDK_IS_X11_DISPLAY (gdk_display_get_default ()))
+    {
+        object = gtk_builder_get_object (builder, "gdk_window_scaling_factor_combo_box");
+        appearance_settings_dialog_channel_property_changed (xsettings_channel, "/Gdk/WindowScalingFactor", NULL, builder);
+        g_signal_connect (G_OBJECT (object), "changed", G_CALLBACK(cb_window_scaling_factor_combo_changed), NULL);
+    }
+    else
+#endif
+    {
+        object = gtk_builder_get_object (builder, "frame6");
+        gtk_widget_hide (GTK_WIDGET (object));
+    }
 
 #ifdef ENABLE_SOUND_SETTINGS
     /* Sounds */
@@ -1378,8 +1413,7 @@ appearance_settings_dialog_response (GtkWidget *dialog,
 gint
 main (gint argc, gchar **argv)
 {
-    GObject    *dialog, *plug_child;
-    GtkWidget  *plug;
+    GObject    *dialog;
     GtkBuilder *builder;
     GError     *error = NULL;
 
@@ -1462,22 +1496,12 @@ main (gint argc, gchar **argv)
 
             appearance_settings_dialog_configure_widgets (builder);
 
-            if (G_UNLIKELY (opt_socket_id == 0))
+#ifdef ENABLE_X11
+            if (opt_socket_id != 0 && GDK_IS_X11_DISPLAY (gdk_display_get_default ()))
             {
-                /* build the dialog */
-                dialog = gtk_builder_get_object (builder, "dialog");
+                GtkWidget *plug;
+                GObject *plug_child;
 
-                g_signal_connect (dialog, "response",
-                    G_CALLBACK (appearance_settings_dialog_response), NULL);
-                gtk_window_present (GTK_WINDOW (dialog));
-
-                /* To prevent the settings dialog to be saved in the session */
-                gdk_x11_set_sm_client_id ("FAKE ID");
-
-                gtk_main ();
-            }
-            else
-            {
                 /* Create plug widget */
                 plug = gtk_plug_new (opt_socket_id);
                 g_signal_connect (plug, "delete-event", G_CALLBACK (gtk_main_quit), NULL);
@@ -1495,6 +1519,22 @@ main (gint argc, gchar **argv)
                 gdk_x11_set_sm_client_id ("FAKE ID");
 
                 /* Enter main loop */
+                gtk_main ();
+            }
+            else
+#endif
+            {
+                /* build the dialog */
+                dialog = gtk_builder_get_object (builder, "dialog");
+
+                g_signal_connect (dialog, "response",
+                    G_CALLBACK (appearance_settings_dialog_response), NULL);
+                gtk_window_present (GTK_WINDOW (dialog));
+#ifdef ENABLE_X11
+                /* To prevent the settings dialog to be saved in the session */
+                if (GDK_IS_X11_DISPLAY (gdk_display_get_default ()))
+                    gdk_x11_set_sm_client_id ("FAKE ID");
+#endif
                 gtk_main ();
             }
         }

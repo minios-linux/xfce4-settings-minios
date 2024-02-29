@@ -88,12 +88,39 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_XRANDR_TRUE@am__append_1 = \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_XRANDR_TRUE@	xfce-randr.c \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_XRANDR_TRUE@	xfce-randr.h
+
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_XRANDR_TRUE@am__append_2 = \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_XRANDR_TRUE@	$(XRANDR_CFLAGS) \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_XRANDR_TRUE@	$(LIBX11_CFLAGS)
+
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_XRANDR_TRUE@am__append_3 = \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_XRANDR_TRUE@	$(XRANDR_LIBS) \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_XRANDR_TRUE@	$(LIBX11_LIBS)
+
+@ENABLE_DISPLAY_SETTINGS_TRUE@@ENABLE_WAYLAND_TRUE@am__append_4 = \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@ENABLE_WAYLAND_TRUE@	xfce-wlr-output-manager.c \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@ENABLE_WAYLAND_TRUE@	xfce-wlr-output-manager.h
+
+@ENABLE_DISPLAY_SETTINGS_TRUE@@ENABLE_WAYLAND_TRUE@am__append_5 = \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@ENABLE_WAYLAND_TRUE@	$(WAYLAND_CLIENT_CFLAGS)
+
+@ENABLE_DISPLAY_SETTINGS_TRUE@@ENABLE_WAYLAND_TRUE@am__append_6 = \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@ENABLE_WAYLAND_TRUE@	$(top_builddir)/protocols/libprotocols.la \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@ENABLE_WAYLAND_TRUE@	$(WAYLAND_CLIENT_LIBS)
+
 subdir = common
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/m4/gettext.m4 \
+	$(top_srcdir)/m4/iconv.m4 $(top_srcdir)/m4/intlmacosx.m4 \
+	$(top_srcdir)/m4/lib-ld.m4 $(top_srcdir)/m4/lib-link.m4 \
+	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
 	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
-	$(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/nls.m4 $(top_srcdir)/m4/po.m4 \
+	$(top_srcdir)/m4/progtest.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
@@ -103,14 +130,30 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 am__DEPENDENCIES_1 =
-libxfce4_settings_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
-am_libxfce4_settings_la_OBJECTS =  \
-	libxfce4_settings_la-display-name.lo \
-	libxfce4_settings_la-display-profiles.lo \
-	libxfce4_settings_la-edid-parse.lo \
-	libxfce4_settings_la-xfce-randr.lo
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_XRANDR_TRUE@am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_XRANDR_TRUE@	$(am__DEPENDENCIES_1)
+@ENABLE_DISPLAY_SETTINGS_TRUE@@ENABLE_WAYLAND_TRUE@am__DEPENDENCIES_3 = $(top_builddir)/protocols/libprotocols.la \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@ENABLE_WAYLAND_TRUE@	$(am__DEPENDENCIES_1)
+@ENABLE_DISPLAY_SETTINGS_TRUE@libxfce4_settings_la_DEPENDENCIES =  \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	$(am__DEPENDENCIES_1) \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	$(am__DEPENDENCIES_1) \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	$(am__DEPENDENCIES_1) \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	$(am__DEPENDENCIES_1) \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	$(am__DEPENDENCIES_2) \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	$(am__DEPENDENCIES_3)
+am__libxfce4_settings_la_SOURCES_DIST = debug.c debug.h display-name.c \
+	display-profiles.c display-profiles.h edid-parse.c edid.h \
+	xfce-randr.c xfce-randr.h xfce-wlr-output-manager.c \
+	xfce-wlr-output-manager.h
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_XRANDR_TRUE@am__objects_1 = libxfce4_settings_la-xfce-randr.lo
+@ENABLE_DISPLAY_SETTINGS_TRUE@@ENABLE_WAYLAND_TRUE@am__objects_2 = libxfce4_settings_la-xfce-wlr-output-manager.lo
+@ENABLE_DISPLAY_SETTINGS_TRUE@am_libxfce4_settings_la_OBJECTS =  \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	libxfce4_settings_la-debug.lo \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	libxfce4_settings_la-display-name.lo \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	libxfce4_settings_la-display-profiles.lo \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	libxfce4_settings_la-edid-parse.lo \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	$(am__objects_1) \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	$(am__objects_2)
 libxfce4_settings_la_OBJECTS = $(am_libxfce4_settings_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -120,6 +163,7 @@ libxfce4_settings_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(libxfce4_settings_la_CFLAGS) $(CFLAGS) \
 	$(libxfce4_settings_la_LDFLAGS) $(LDFLAGS) -o $@
+@ENABLE_DISPLAY_SETTINGS_TRUE@am_libxfce4_settings_la_rpath =
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -135,11 +179,12 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade =  \
+am__depfiles_remade = ./$(DEPDIR)/libxfce4_settings_la-debug.Plo \
 	./$(DEPDIR)/libxfce4_settings_la-display-name.Plo \
 	./$(DEPDIR)/libxfce4_settings_la-display-profiles.Plo \
 	./$(DEPDIR)/libxfce4_settings_la-edid-parse.Plo \
-	./$(DEPDIR)/libxfce4_settings_la-xfce-randr.Plo
+	./$(DEPDIR)/libxfce4_settings_la-xfce-randr.Plo \
+	./$(DEPDIR)/libxfce4_settings_la-xfce-wlr-output-manager.Plo
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -160,7 +205,7 @@ am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(libxfce4_settings_la_SOURCES)
-DIST_SOURCES = $(libxfce4_settings_la_SOURCES)
+DIST_SOURCES = $(am__libxfce4_settings_la_SOURCES_DIST)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -186,7 +231,6 @@ am__define_uniq_tagged_files = \
 am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/depcomp
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
-ALL_LINGUAS = @ALL_LINGUAS@
 AMTAR = @AMTAR@
 AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 AR = @AR@
@@ -215,7 +259,6 @@ ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
-ENABLE_PLUGGABLE_DIALOGS = @ENABLE_PLUGGABLE_DIALOGS@
 ENABLE_SOUND_SETTINGS = @ENABLE_SOUND_SETTINGS@
 ETAGS = @ETAGS@
 EXEEXT = @EXEEXT@
@@ -233,6 +276,16 @@ GARCON_CFLAGS = @GARCON_CFLAGS@
 GARCON_LIBS = @GARCON_LIBS@
 GARCON_REQUIRED_VERSION = @GARCON_REQUIRED_VERSION@
 GARCON_VERSION = @GARCON_VERSION@
+GDBUS_CODEGEN = @GDBUS_CODEGEN@
+GDK_WAYLAND_CFLAGS = @GDK_WAYLAND_CFLAGS@
+GDK_WAYLAND_LIBS = @GDK_WAYLAND_LIBS@
+GDK_WAYLAND_REQUIRED_VERSION = @GDK_WAYLAND_REQUIRED_VERSION@
+GDK_WAYLAND_VERSION = @GDK_WAYLAND_VERSION@
+GDK_X11_CFLAGS = @GDK_X11_CFLAGS@
+GDK_X11_LIBS = @GDK_X11_LIBS@
+GDK_X11_REQUIRED_VERSION = @GDK_X11_REQUIRED_VERSION@
+GDK_X11_VERSION = @GDK_X11_VERSION@
+GETTEXT_MACRO_VERSION = @GETTEXT_MACRO_VERSION@
 GETTEXT_PACKAGE = @GETTEXT_PACKAGE@
 GIO_CFLAGS = @GIO_CFLAGS@
 GIO_LIBS = @GIO_LIBS@
@@ -246,12 +299,25 @@ GLIB_CFLAGS = @GLIB_CFLAGS@
 GLIB_LIBS = @GLIB_LIBS@
 GLIB_REQUIRED_VERSION = @GLIB_REQUIRED_VERSION@
 GLIB_VERSION = @GLIB_VERSION@
+GMODULE_CFLAGS = @GMODULE_CFLAGS@
+GMODULE_LIBS = @GMODULE_LIBS@
+GMODULE_REQUIRED_VERSION = @GMODULE_REQUIRED_VERSION@
+GMODULE_VERSION = @GMODULE_VERSION@
 GMSGFMT = @GMSGFMT@
+GMSGFMT_015 = @GMSGFMT_015@
 GREP = @GREP@
 GTK_CFLAGS = @GTK_CFLAGS@
+GTK_LAYER_SHELL_CFLAGS = @GTK_LAYER_SHELL_CFLAGS@
+GTK_LAYER_SHELL_LIBS = @GTK_LAYER_SHELL_LIBS@
+GTK_LAYER_SHELL_REQUIRED_VERSION = @GTK_LAYER_SHELL_REQUIRED_VERSION@
+GTK_LAYER_SHELL_VERSION = @GTK_LAYER_SHELL_VERSION@
 GTK_LIBS = @GTK_LIBS@
 GTK_REQUIRED_VERSION = @GTK_REQUIRED_VERSION@
 GTK_VERSION = @GTK_VERSION@
+GTK_X11_CFLAGS = @GTK_X11_CFLAGS@
+GTK_X11_LIBS = @GTK_X11_LIBS@
+GTK_X11_REQUIRED_VERSION = @GTK_X11_REQUIRED_VERSION@
+GTK_X11_VERSION = @GTK_X11_VERSION@
 HELPER_PATH_PREFIX = @HELPER_PATH_PREFIX@
 INPUTPROTO_CFLAGS = @INPUTPROTO_CFLAGS@
 INPUTPROTO_LIBS = @INPUTPROTO_LIBS@
@@ -262,20 +328,16 @@ INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
-INTLTOOL_EXTRACT = @INTLTOOL_EXTRACT@
-INTLTOOL_MERGE = @INTLTOOL_MERGE@
-INTLTOOL_PERL = @INTLTOOL_PERL@
-INTLTOOL_UPDATE = @INTLTOOL_UPDATE@
-INTLTOOL_V_MERGE = @INTLTOOL_V_MERGE@
-INTLTOOL_V_MERGE_OPTIONS = @INTLTOOL_V_MERGE_OPTIONS@
-INTLTOOL__v_MERGE_ = @INTLTOOL__v_MERGE_@
-INTLTOOL__v_MERGE_0 = @INTLTOOL__v_MERGE_0@
+INTLLIBS = @INTLLIBS@
+INTL_MACOSX_LIBS = @INTL_MACOSX_LIBS@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
+LIBICONV = @LIBICONV@
 LIBINPUT_CFLAGS = @LIBINPUT_CFLAGS@
 LIBINPUT_LIBS = @LIBINPUT_LIBS@
 LIBINPUT_REQUIRED_VERSION = @LIBINPUT_REQUIRED_VERSION@
 LIBINPUT_VERSION = @LIBINPUT_VERSION@
+LIBINTL = @LIBINTL@
 LIBNOTIFY_CFLAGS = @LIBNOTIFY_CFLAGS@
 LIBNOTIFY_LIBS = @LIBNOTIFY_LIBS@
 LIBNOTIFY_REQUIRED_VERSION = @LIBNOTIFY_REQUIRED_VERSION@
@@ -284,7 +346,6 @@ LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
 LIBX11_CFLAGS = @LIBX11_CFLAGS@
-LIBX11_LDFLAGS = @LIBX11_LDFLAGS@
 LIBX11_LIBS = @LIBX11_LIBS@
 LIBX11_REQUIRED_VERSION = @LIBX11_REQUIRED_VERSION@
 LIBX11_VERSION = @LIBX11_VERSION@
@@ -314,6 +375,8 @@ LIBXKLAVIER_REQUIRED_VERSION = @LIBXKLAVIER_REQUIRED_VERSION@
 LIBXKLAVIER_VERSION = @LIBXKLAVIER_VERSION@
 LIPO = @LIPO@
 LN_S = @LN_S@
+LTLIBICONV = @LTLIBICONV@
+LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
 LT_SYS_LIBRARY_PATH = @LT_SYS_LIBRARY_PATH@
 MAINT = @MAINT@
@@ -321,6 +384,7 @@ MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
 MSGFMT = @MSGFMT@
+MSGFMT_015 = @MSGFMT_015@
 MSGMERGE = @MSGMERGE@
 NM = @NM@
 NMEDIT = @NMEDIT@
@@ -343,7 +407,7 @@ PLATFORM_CFLAGS = @PLATFORM_CFLAGS@
 PLATFORM_CPPFLAGS = @PLATFORM_CPPFLAGS@
 PLATFORM_LDFLAGS = @PLATFORM_LDFLAGS@
 PNP_IDS = @PNP_IDS@
-PYTHON = @PYTHON@
+POSUB = @POSUB@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -355,6 +419,15 @@ UPOWERGLIB_REQUIRED_VERSION = @UPOWERGLIB_REQUIRED_VERSION@
 UPOWERGLIB_VERSION = @UPOWERGLIB_VERSION@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
+WAYLAND_CLIENT_CFLAGS = @WAYLAND_CLIENT_CFLAGS@
+WAYLAND_CLIENT_LIBS = @WAYLAND_CLIENT_LIBS@
+WAYLAND_CLIENT_REQUIRED_VERSION = @WAYLAND_CLIENT_REQUIRED_VERSION@
+WAYLAND_CLIENT_VERSION = @WAYLAND_CLIENT_VERSION@
+WAYLAND_SCANNER_CFLAGS = @WAYLAND_SCANNER_CFLAGS@
+WAYLAND_SCANNER_LIBS = @WAYLAND_SCANNER_LIBS@
+WAYLAND_SCANNER_REQUIRED_VERSION = @WAYLAND_SCANNER_REQUIRED_VERSION@
+WAYLAND_SCANNER_VERSION = @WAYLAND_SCANNER_VERSION@
+WLR_PROTOCOLS_PKGDATADIR = @WLR_PROTOCOLS_PKGDATADIR@
 XCURSOR_CFLAGS = @XCURSOR_CFLAGS@
 XCURSOR_LIBS = @XCURSOR_LIBS@
 XCURSOR_REQUIRED_VERSION = @XCURSOR_REQUIRED_VERSION@
@@ -364,19 +437,17 @@ XFCONF_LIBS = @XFCONF_LIBS@
 XFCONF_REQUIRED_VERSION = @XFCONF_REQUIRED_VERSION@
 XFCONF_VERSION = @XFCONF_VERSION@
 XGETTEXT = @XGETTEXT@
+XGETTEXT_015 = @XGETTEXT_015@
+XGETTEXT_EXTRA_OPTIONS = @XGETTEXT_EXTRA_OPTIONS@
 XI_CFLAGS = @XI_CFLAGS@
 XI_LIBS = @XI_LIBS@
 XI_REQUIRED_VERSION = @XI_REQUIRED_VERSION@
 XI_VERSION = @XI_VERSION@
-XMKMF = @XMKMF@
+XMLLINT = @XMLLINT@
 XRANDR_CFLAGS = @XRANDR_CFLAGS@
 XRANDR_LIBS = @XRANDR_LIBS@
 XRANDR_REQUIRED_VERSION = @XRANDR_REQUIRED_VERSION@
 XRANDR_VERSION = @XRANDR_VERSION@
-X_CFLAGS = @X_CFLAGS@
-X_EXTRA_LIBS = @X_EXTRA_LIBS@
-X_LIBS = @X_LIBS@
-X_PRE_LIBS = @X_PRE_LIBS@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -410,8 +481,6 @@ htmldir = @htmldir@
 includedir = @includedir@
 infodir = @infodir@
 install_sh = @install_sh@
-intltool__v_merge_options_ = @intltool__v_merge_options_@
-intltool__v_merge_options_0 = @intltool__v_merge_options_0@
 libdir = @libdir@
 libexecdir = @libexecdir@
 localedir = @localedir@
@@ -432,42 +501,35 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AM_CPPFLAGS = \
-	-I${top_srcdir}	\
-	-DPNP_IDS=\"$(PNP_IDS)\" \
-	$(PLATFORM_CPPFLAGS)
+@ENABLE_DISPLAY_SETTINGS_TRUE@AM_CPPFLAGS = \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	-I${top_srcdir}	\
+@ENABLE_DISPLAY_SETTINGS_TRUE@	-DPNP_IDS=\"$(PNP_IDS)\" \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	$(PLATFORM_CPPFLAGS)
 
-noinst_LTLIBRARIES = \
-	libxfce4-settings.la
+@ENABLE_DISPLAY_SETTINGS_TRUE@noinst_LTLIBRARIES = \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	libxfce4-settings.la
 
-libxfce4_settings_la_SOURCES = \
-	display-name.c \
-	display-profiles.c \
-	display-profiles.h \
-	edid-parse.c \
-	edid.h \
-	xfce-randr.c \
-	xfce-randr.h
+@ENABLE_DISPLAY_SETTINGS_TRUE@libxfce4_settings_la_SOURCES = debug.c \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	debug.h display-name.c \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	display-profiles.c \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	display-profiles.h edid-parse.c \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	edid.h $(am__append_1) \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	$(am__append_4)
+@ENABLE_DISPLAY_SETTINGS_TRUE@libxfce4_settings_la_CFLAGS =  \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	$(GLIB_CFLAGS) $(GTK_CFLAGS) \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	$(LIBXFCE4UTIL_CFLAGS) \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	$(XFCONF_CFLAGS) \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	$(PLATFORM_CFLAGS) \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	$(am__append_2) $(am__append_5)
+@ENABLE_DISPLAY_SETTINGS_TRUE@libxfce4_settings_la_LDFLAGS = \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	-no-undefined \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	$(PLATFORM_LDFLAGS)
 
-libxfce4_settings_la_CFLAGS = \
-	$(GTK_CFLAGS) \
-	$(LIBXFCE4UTIL_CFLAGS) \
-	$(XFCONF_CFLAGS) \
-	$(XRANDR_CFLAGS) \
-	$(LIBX11_CFLAGS) \
-	$(PLATFORM_CFLAGS)
-
-libxfce4_settings_la_LDFLAGS = \
-	-no-undefined \
-	$(PLATFORM_LDFLAGS)
-
-libxfce4_settings_la_LIBADD = \
-	$(GTK_LIBS) \
-	$(XFCONF_LIBS) \
-	$(LIBX11_LIBS) -lm \
-	$(XRANDR_LIBS) \
-	$(GLIB_LIBS)
-
+@ENABLE_DISPLAY_SETTINGS_TRUE@libxfce4_settings_la_LIBADD =  \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	$(GLIB_LIBS) $(GTK_LIBS) \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	$(LIBXFCE4UTIL_LIBS) \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	$(XFCONF_LIBS) -lm \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	$(am__append_3) $(am__append_6)
 all: all-am
 
 .SUFFIXES:
@@ -514,7 +576,7 @@ clean-noinstLTLIBRARIES:
 	}
 
 libxfce4-settings.la: $(libxfce4_settings_la_OBJECTS) $(libxfce4_settings_la_DEPENDENCIES) $(EXTRA_libxfce4_settings_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(libxfce4_settings_la_LINK)  $(libxfce4_settings_la_OBJECTS) $(libxfce4_settings_la_LIBADD) $(LIBS)
+	$(AM_V_CCLD)$(libxfce4_settings_la_LINK) $(am_libxfce4_settings_la_rpath) $(libxfce4_settings_la_OBJECTS) $(libxfce4_settings_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -522,10 +584,12 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libxfce4_settings_la-debug.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libxfce4_settings_la-display-name.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libxfce4_settings_la-display-profiles.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libxfce4_settings_la-edid-parse.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libxfce4_settings_la-xfce-randr.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libxfce4_settings_la-xfce-wlr-output-manager.Plo@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -554,6 +618,13 @@ am--depfiles: $(am__depfiles_remade)
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
 
+libxfce4_settings_la-debug.lo: debug.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libxfce4_settings_la_CFLAGS) $(CFLAGS) -MT libxfce4_settings_la-debug.lo -MD -MP -MF $(DEPDIR)/libxfce4_settings_la-debug.Tpo -c -o libxfce4_settings_la-debug.lo `test -f 'debug.c' || echo '$(srcdir)/'`debug.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libxfce4_settings_la-debug.Tpo $(DEPDIR)/libxfce4_settings_la-debug.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='debug.c' object='libxfce4_settings_la-debug.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libxfce4_settings_la_CFLAGS) $(CFLAGS) -c -o libxfce4_settings_la-debug.lo `test -f 'debug.c' || echo '$(srcdir)/'`debug.c
+
 libxfce4_settings_la-display-name.lo: display-name.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libxfce4_settings_la_CFLAGS) $(CFLAGS) -MT libxfce4_settings_la-display-name.lo -MD -MP -MF $(DEPDIR)/libxfce4_settings_la-display-name.Tpo -c -o libxfce4_settings_la-display-name.lo `test -f 'display-name.c' || echo '$(srcdir)/'`display-name.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libxfce4_settings_la-display-name.Tpo $(DEPDIR)/libxfce4_settings_la-display-name.Plo
@@ -581,6 +652,13 @@ libxfce4_settings_la-xfce-randr.lo: xfce-randr.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='xfce-randr.c' object='libxfce4_settings_la-xfce-randr.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libxfce4_settings_la_CFLAGS) $(CFLAGS) -c -o libxfce4_settings_la-xfce-randr.lo `test -f 'xfce-randr.c' || echo '$(srcdir)/'`xfce-randr.c
+
+libxfce4_settings_la-xfce-wlr-output-manager.lo: xfce-wlr-output-manager.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libxfce4_settings_la_CFLAGS) $(CFLAGS) -MT libxfce4_settings_la-xfce-wlr-output-manager.lo -MD -MP -MF $(DEPDIR)/libxfce4_settings_la-xfce-wlr-output-manager.Tpo -c -o libxfce4_settings_la-xfce-wlr-output-manager.lo `test -f 'xfce-wlr-output-manager.c' || echo '$(srcdir)/'`xfce-wlr-output-manager.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libxfce4_settings_la-xfce-wlr-output-manager.Tpo $(DEPDIR)/libxfce4_settings_la-xfce-wlr-output-manager.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='xfce-wlr-output-manager.c' object='libxfce4_settings_la-xfce-wlr-output-manager.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libxfce4_settings_la_CFLAGS) $(CFLAGS) -c -o libxfce4_settings_la-xfce-wlr-output-manager.lo `test -f 'xfce-wlr-output-manager.c' || echo '$(srcdir)/'`xfce-wlr-output-manager.c
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -712,10 +790,12 @@ clean-am: clean-generic clean-libtool clean-noinstLTLIBRARIES \
 	mostlyclean-am
 
 distclean: distclean-am
-		-rm -f ./$(DEPDIR)/libxfce4_settings_la-display-name.Plo
+		-rm -f ./$(DEPDIR)/libxfce4_settings_la-debug.Plo
+	-rm -f ./$(DEPDIR)/libxfce4_settings_la-display-name.Plo
 	-rm -f ./$(DEPDIR)/libxfce4_settings_la-display-profiles.Plo
 	-rm -f ./$(DEPDIR)/libxfce4_settings_la-edid-parse.Plo
 	-rm -f ./$(DEPDIR)/libxfce4_settings_la-xfce-randr.Plo
+	-rm -f ./$(DEPDIR)/libxfce4_settings_la-xfce-wlr-output-manager.Plo
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -761,10 +841,12 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-		-rm -f ./$(DEPDIR)/libxfce4_settings_la-display-name.Plo
+		-rm -f ./$(DEPDIR)/libxfce4_settings_la-debug.Plo
+	-rm -f ./$(DEPDIR)/libxfce4_settings_la-display-name.Plo
 	-rm -f ./$(DEPDIR)/libxfce4_settings_la-display-profiles.Plo
 	-rm -f ./$(DEPDIR)/libxfce4_settings_la-edid-parse.Plo
 	-rm -f ./$(DEPDIR)/libxfce4_settings_la-xfce-randr.Plo
+	-rm -f ./$(DEPDIR)/libxfce4_settings_la-xfce-wlr-output-manager.Plo
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
