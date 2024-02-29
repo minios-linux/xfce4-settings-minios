@@ -15,8 +15,8 @@ index d8fe2ac..56c6dde 100644
  
  <channel name="xsettings" version="1.0">
    <property name="Net" type="empty">
--    <property name="ThemeName" type="empty"/>
--    <property name="IconThemeName" type="empty"/>
+-    <property name="ThemeName" type="string" value="Adwaita"/>
+-    <property name="IconThemeName" type="string" value="Adwaita"/>
 +    <property name="ThemeName" type="string" value="Xfce"/>
 +    <property name="IconThemeName" type="string" value="Tango"/>
      <property name="DoubleClickTime" type="int" value="400"/>

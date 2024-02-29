@@ -1,3 +1,11 @@
+xfce4-settings (4.19.1-1) UNRELEASED; urgency=medium
+
+  * Team upload.
+  * New upstream version 4.19.1
+  * Refresh patches.
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Thu, 29 Feb 2024 21:16:47 +0100
+
 xfce4-settings (4.18.3-1) unstable; urgency=medium
 
   * New upstream version 4.18.3
