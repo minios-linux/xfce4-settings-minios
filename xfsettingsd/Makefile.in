@@ -15,6 +15,7 @@
 @SET_MAKE@
 
 
+
 VPATH = @srcdir@
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
@@ -90,37 +91,95 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS = xfsettingsd$(EXEEXT)
+@ENABLE_X11_TRUE@am__append_1 = \
+@ENABLE_X11_TRUE@	accessibility.c \
+@ENABLE_X11_TRUE@	accessibility.h \
+@ENABLE_X11_TRUE@	clipboard-manager.c \
+@ENABLE_X11_TRUE@	clipboard-manager.h \
+@ENABLE_X11_TRUE@	keyboards.c \
+@ENABLE_X11_TRUE@	keyboards.h \
+@ENABLE_X11_TRUE@	keyboard-shortcuts.c \
+@ENABLE_X11_TRUE@	keyboard-shortcuts.h \
+@ENABLE_X11_TRUE@	keyboard-layout.c \
+@ENABLE_X11_TRUE@	keyboard-layout.h \
+@ENABLE_X11_TRUE@	pointers.c \
+@ENABLE_X11_TRUE@	pointers.h \
+@ENABLE_X11_TRUE@	pointers-defines.h \
+@ENABLE_X11_TRUE@	workspaces.c \
+@ENABLE_X11_TRUE@	workspaces.h \
+@ENABLE_X11_TRUE@	xsettings.c \
+@ENABLE_X11_TRUE@	xsettings.h
+
+@ENABLE_X11_TRUE@am__append_2 = \
+@ENABLE_X11_TRUE@	$(LIBXFCE4KBD_PRIVATE_CFLAGS) \
+@ENABLE_X11_TRUE@	$(LIBXKLAVIER_CFLAGS) \
+@ENABLE_X11_TRUE@	$(XI_CFLAGS) \
+@ENABLE_X11_TRUE@	$(LIBX11_CFLAGS) \
+@ENABLE_X11_TRUE@	$(LIBNOTIFY_CFLAGS) \
+@ENABLE_X11_TRUE@	$(FONTCONFIG_CFLAGS) \
+@ENABLE_X11_TRUE@	$(LIBINPUT_CFLAGS)
+
+@ENABLE_X11_TRUE@am__append_3 = \
+@ENABLE_X11_TRUE@	$(LIBXFCE4KBD_PRIVATE_LIBS) \
+@ENABLE_X11_TRUE@	$(LIBXKLAVIER_LIBS) \
+@ENABLE_X11_TRUE@	$(XI_LIBS) \
+@ENABLE_X11_TRUE@	$(LIBX11_LIBS) \
+@ENABLE_X11_TRUE@	$(LIBNOTIFY_LIBS) \
+@ENABLE_X11_TRUE@	$(FONTCONFIG_LIBS) \
+@ENABLE_X11_TRUE@	$(LIBINPUT_LIBS)
+
 
 #
 # Optional support for the display settings
 #
-@HAVE_XRANDR_TRUE@am__append_1 = \
-@HAVE_XRANDR_TRUE@	displays.c \
-@HAVE_XRANDR_TRUE@	displays.h
+@ENABLE_DISPLAY_SETTINGS_TRUE@am__append_4 = \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	displays.c \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	displays.h
 
-@HAVE_XRANDR_TRUE@am__append_2 = \
-@HAVE_XRANDR_TRUE@	$(XRANDR_CFLAGS)
+@ENABLE_DISPLAY_SETTINGS_TRUE@am__append_5 = \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	$(top_builddir)/common/libxfce4-settings.la
 
-@HAVE_XRANDR_TRUE@am__append_3 = \
-@HAVE_XRANDR_TRUE@	$(XRANDR_LIBS) \
-@HAVE_XRANDR_TRUE@	$(top_builddir)/common/libxfce4-settings.la
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_XRANDR_TRUE@am__append_6 = \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_XRANDR_TRUE@	displays-x11.c \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_XRANDR_TRUE@	displays-x11.h
 
-@HAVE_UPOWERGLIB_TRUE@@HAVE_XRANDR_TRUE@am__append_4 = \
-@HAVE_UPOWERGLIB_TRUE@@HAVE_XRANDR_TRUE@	displays-upower.c \
-@HAVE_UPOWERGLIB_TRUE@@HAVE_XRANDR_TRUE@	displays-upower.h
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_XRANDR_TRUE@am__append_7 = \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_XRANDR_TRUE@	$(XRANDR_CFLAGS)
 
-@HAVE_UPOWERGLIB_TRUE@@HAVE_XRANDR_TRUE@am__append_5 = \
-@HAVE_UPOWERGLIB_TRUE@@HAVE_XRANDR_TRUE@	$(UPOWERGLIB_CFLAGS)
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_XRANDR_TRUE@am__append_8 = \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_XRANDR_TRUE@	$(XRANDR_LIBS)
 
-@HAVE_UPOWERGLIB_TRUE@@HAVE_XRANDR_TRUE@am__append_6 = \
-@HAVE_UPOWERGLIB_TRUE@@HAVE_XRANDR_TRUE@	$(UPOWERGLIB_LIBS)
+@ENABLE_DISPLAY_SETTINGS_TRUE@@ENABLE_WAYLAND_TRUE@am__append_9 = \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@ENABLE_WAYLAND_TRUE@	displays-wayland.c \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@ENABLE_WAYLAND_TRUE@	displays-wayland.h
+
+@ENABLE_DISPLAY_SETTINGS_TRUE@@ENABLE_WAYLAND_TRUE@am__append_10 = \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@ENABLE_WAYLAND_TRUE@	$(WAYLAND_CLIENT_CFLAGS)
+
+@ENABLE_DISPLAY_SETTINGS_TRUE@@ENABLE_WAYLAND_TRUE@am__append_11 = \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@ENABLE_WAYLAND_TRUE@	$(top_builddir)/protocols/libprotocols.la \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@ENABLE_WAYLAND_TRUE@	$(WAYLAND_CLIENT_LIBS)
+
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_UPOWERGLIB_TRUE@am__append_12 = \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_UPOWERGLIB_TRUE@	displays-upower.c \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_UPOWERGLIB_TRUE@	displays-upower.h
+
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_UPOWERGLIB_TRUE@am__append_13 = \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_UPOWERGLIB_TRUE@	$(UPOWERGLIB_CFLAGS)
+
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_UPOWERGLIB_TRUE@am__append_14 = \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_UPOWERGLIB_TRUE@	$(UPOWERGLIB_LIBS)
 
 subdir = xfsettingsd
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/m4/gettext.m4 \
+	$(top_srcdir)/m4/iconv.m4 $(top_srcdir)/m4/intlmacosx.m4 \
+	$(top_srcdir)/m4/lib-ld.m4 $(top_srcdir)/m4/lib-link.m4 \
+	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
 	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
-	$(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/nls.m4 $(top_srcdir)/m4/po.m4 \
+	$(top_srcdir)/m4/progtest.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
@@ -128,105 +187,9 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(autostartdir)" \
-	"$(DESTDIR)$(settingsdir)"
+am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(moduledir)" \
+	"$(DESTDIR)$(autostartdir)" "$(DESTDIR)$(settingsdir)"
 PROGRAMS = $(bin_PROGRAMS)
-am__xfsettingsd_SOURCES_DIST = main.c accessibility.c accessibility.h \
-	debug.c debug.h clipboard-manager.c clipboard-manager.h \
-	gtk-decorations.c gtk-decorations.h keyboards.c keyboards.h \
-	keyboard-shortcuts.c keyboard-shortcuts.h keyboard-layout.c \
-	keyboard-layout.h pointers.c pointers.h pointers-defines.h \
-	workspaces.c workspaces.h xsettings.c xsettings.h displays.c \
-	displays.h displays-upower.c displays-upower.h
-@HAVE_XRANDR_TRUE@am__objects_1 = xfsettingsd-displays.$(OBJEXT)
-@HAVE_UPOWERGLIB_TRUE@@HAVE_XRANDR_TRUE@am__objects_2 = xfsettingsd-displays-upower.$(OBJEXT)
-am_xfsettingsd_OBJECTS = xfsettingsd-main.$(OBJEXT) \
-	xfsettingsd-accessibility.$(OBJEXT) \
-	xfsettingsd-debug.$(OBJEXT) \
-	xfsettingsd-clipboard-manager.$(OBJEXT) \
-	xfsettingsd-gtk-decorations.$(OBJEXT) \
-	xfsettingsd-keyboards.$(OBJEXT) \
-	xfsettingsd-keyboard-shortcuts.$(OBJEXT) \
-	xfsettingsd-keyboard-layout.$(OBJEXT) \
-	xfsettingsd-pointers.$(OBJEXT) \
-	xfsettingsd-workspaces.$(OBJEXT) \
-	xfsettingsd-xsettings.$(OBJEXT) $(am__objects_1) \
-	$(am__objects_2)
-xfsettingsd_OBJECTS = $(am_xfsettingsd_OBJECTS)
-am__DEPENDENCIES_1 =
-@HAVE_XRANDR_TRUE@am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) \
-@HAVE_XRANDR_TRUE@	$(top_builddir)/common/libxfce4-settings.la
-@HAVE_UPOWERGLIB_TRUE@@HAVE_XRANDR_TRUE@am__DEPENDENCIES_3 =  \
-@HAVE_UPOWERGLIB_TRUE@@HAVE_XRANDR_TRUE@	$(am__DEPENDENCIES_1)
-xfsettingsd_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2) \
-	$(am__DEPENDENCIES_3)
-AM_V_lt = $(am__v_lt_@AM_V@)
-am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
-am__v_lt_0 = --silent
-am__v_lt_1 = 
-xfsettingsd_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(xfsettingsd_CFLAGS) \
-	$(CFLAGS) $(xfsettingsd_LDFLAGS) $(LDFLAGS) -o $@
-AM_V_P = $(am__v_P_@AM_V@)
-am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
-am__v_P_0 = false
-am__v_P_1 = :
-AM_V_GEN = $(am__v_GEN_@AM_V@)
-am__v_GEN_ = $(am__v_GEN_@AM_DEFAULT_V@)
-am__v_GEN_0 = @echo "  GEN     " $@;
-am__v_GEN_1 = 
-AM_V_at = $(am__v_at_@AM_V@)
-am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
-am__v_at_0 = @
-am__v_at_1 = 
-DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
-depcomp = $(SHELL) $(top_srcdir)/depcomp
-am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/xfsettingsd-accessibility.Po \
-	./$(DEPDIR)/xfsettingsd-clipboard-manager.Po \
-	./$(DEPDIR)/xfsettingsd-debug.Po \
-	./$(DEPDIR)/xfsettingsd-displays-upower.Po \
-	./$(DEPDIR)/xfsettingsd-displays.Po \
-	./$(DEPDIR)/xfsettingsd-gtk-decorations.Po \
-	./$(DEPDIR)/xfsettingsd-keyboard-layout.Po \
-	./$(DEPDIR)/xfsettingsd-keyboard-shortcuts.Po \
-	./$(DEPDIR)/xfsettingsd-keyboards.Po \
-	./$(DEPDIR)/xfsettingsd-main.Po \
-	./$(DEPDIR)/xfsettingsd-pointers.Po \
-	./$(DEPDIR)/xfsettingsd-workspaces.Po \
-	./$(DEPDIR)/xfsettingsd-xsettings.Po
-am__mv = mv -f
-COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
-	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-LTCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) \
-	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
-	$(AM_CFLAGS) $(CFLAGS)
-AM_V_CC = $(am__v_CC_@AM_V@)
-am__v_CC_ = $(am__v_CC_@AM_DEFAULT_V@)
-am__v_CC_0 = @echo "  CC      " $@;
-am__v_CC_1 = 
-CCLD = $(CC)
-LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
-	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-AM_V_CCLD = $(am__v_CCLD_@AM_V@)
-am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
-am__v_CCLD_0 = @echo "  CCLD    " $@;
-am__v_CCLD_1 = 
-SOURCES = $(xfsettingsd_SOURCES)
-DIST_SOURCES = $(am__xfsettingsd_SOURCES_DIST)
-am__can_run_installinfo = \
-  case $$AM_UPDATE_INFO_DIR in \
-    n|no|NO) false;; \
-    *) (install-info --version) >/dev/null 2>&1;; \
-  esac
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -254,6 +217,131 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
+LTLIBRARIES = $(module_LTLIBRARIES)
+am__DEPENDENCIES_1 =
+libxfsettingsd_gtk_settings_sync_la_DEPENDENCIES =  \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+am_libxfsettingsd_gtk_settings_sync_la_OBJECTS =  \
+	libxfsettingsd_gtk_settings_sync_la-gtk-settings-module.lo
+libxfsettingsd_gtk_settings_sync_la_OBJECTS =  \
+	$(am_libxfsettingsd_gtk_settings_sync_la_OBJECTS)
+AM_V_lt = $(am__v_lt_@AM_V@)
+am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
+am__v_lt_0 = --silent
+am__v_lt_1 = 
+libxfsettingsd_gtk_settings_sync_la_LINK = $(LIBTOOL) $(AM_V_lt) \
+	--tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
+	$(CCLD) $(libxfsettingsd_gtk_settings_sync_la_CFLAGS) \
+	$(CFLAGS) $(libxfsettingsd_gtk_settings_sync_la_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am__xfsettingsd_SOURCES_DIST = gtk-settings-exported.c \
+	gtk-settings-exported.h xsettings-properties.h main.c \
+	gtk-decorations.c gtk-decorations.h gtk-settings.c \
+	gtk-settings.h accessibility.c accessibility.h \
+	clipboard-manager.c clipboard-manager.h keyboards.c \
+	keyboards.h keyboard-shortcuts.c keyboard-shortcuts.h \
+	keyboard-layout.c keyboard-layout.h pointers.c pointers.h \
+	pointers-defines.h workspaces.c workspaces.h xsettings.c \
+	xsettings.h displays.c displays.h displays-x11.c \
+	displays-x11.h displays-wayland.c displays-wayland.h \
+	displays-upower.c displays-upower.h
+am__objects_1 = xfsettingsd-gtk-settings-exported.$(OBJEXT)
+@ENABLE_X11_TRUE@am__objects_2 = xfsettingsd-accessibility.$(OBJEXT) \
+@ENABLE_X11_TRUE@	xfsettingsd-clipboard-manager.$(OBJEXT) \
+@ENABLE_X11_TRUE@	xfsettingsd-keyboards.$(OBJEXT) \
+@ENABLE_X11_TRUE@	xfsettingsd-keyboard-shortcuts.$(OBJEXT) \
+@ENABLE_X11_TRUE@	xfsettingsd-keyboard-layout.$(OBJEXT) \
+@ENABLE_X11_TRUE@	xfsettingsd-pointers.$(OBJEXT) \
+@ENABLE_X11_TRUE@	xfsettingsd-workspaces.$(OBJEXT) \
+@ENABLE_X11_TRUE@	xfsettingsd-xsettings.$(OBJEXT)
+@ENABLE_DISPLAY_SETTINGS_TRUE@am__objects_3 =  \
+@ENABLE_DISPLAY_SETTINGS_TRUE@	xfsettingsd-displays.$(OBJEXT)
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_XRANDR_TRUE@am__objects_4 = xfsettingsd-displays-x11.$(OBJEXT)
+@ENABLE_DISPLAY_SETTINGS_TRUE@@ENABLE_WAYLAND_TRUE@am__objects_5 = xfsettingsd-displays-wayland.$(OBJEXT)
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_UPOWERGLIB_TRUE@am__objects_6 = xfsettingsd-displays-upower.$(OBJEXT)
+am_xfsettingsd_OBJECTS = $(am__objects_1) xfsettingsd-main.$(OBJEXT) \
+	xfsettingsd-gtk-decorations.$(OBJEXT) \
+	xfsettingsd-gtk-settings.$(OBJEXT) $(am__objects_2) \
+	$(am__objects_3) $(am__objects_4) $(am__objects_5) \
+	$(am__objects_6)
+xfsettingsd_OBJECTS = $(am_xfsettingsd_OBJECTS)
+@ENABLE_X11_TRUE@am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) \
+@ENABLE_X11_TRUE@	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+@ENABLE_X11_TRUE@	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+@ENABLE_X11_TRUE@	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_XRANDR_TRUE@am__DEPENDENCIES_3 = $(am__DEPENDENCIES_1)
+@ENABLE_DISPLAY_SETTINGS_TRUE@@ENABLE_WAYLAND_TRUE@am__DEPENDENCIES_4 = $(top_builddir)/protocols/libprotocols.la \
+@ENABLE_DISPLAY_SETTINGS_TRUE@@ENABLE_WAYLAND_TRUE@	$(am__DEPENDENCIES_1)
+@ENABLE_DISPLAY_SETTINGS_TRUE@@HAVE_UPOWERGLIB_TRUE@am__DEPENDENCIES_5 = $(am__DEPENDENCIES_1)
+xfsettingsd_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2) $(am__append_5) \
+	$(am__DEPENDENCIES_3) $(am__DEPENDENCIES_4) \
+	$(am__DEPENDENCIES_5)
+xfsettingsd_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(xfsettingsd_CFLAGS) \
+	$(CFLAGS) $(xfsettingsd_LDFLAGS) $(LDFLAGS) -o $@
+AM_V_P = $(am__v_P_@AM_V@)
+am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
+am__v_P_0 = false
+am__v_P_1 = :
+AM_V_GEN = $(am__v_GEN_@AM_V@)
+am__v_GEN_ = $(am__v_GEN_@AM_DEFAULT_V@)
+am__v_GEN_0 = @echo "  GEN     " $@;
+am__v_GEN_1 = 
+AM_V_at = $(am__v_at_@AM_V@)
+am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
+am__v_at_0 = @
+am__v_at_1 = 
+DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
+depcomp = $(SHELL) $(top_srcdir)/depcomp
+am__maybe_remake_depfiles = depfiles
+am__depfiles_remade = ./$(DEPDIR)/libxfsettingsd_gtk_settings_sync_la-gtk-settings-module.Plo \
+	./$(DEPDIR)/xfsettingsd-accessibility.Po \
+	./$(DEPDIR)/xfsettingsd-clipboard-manager.Po \
+	./$(DEPDIR)/xfsettingsd-displays-upower.Po \
+	./$(DEPDIR)/xfsettingsd-displays-wayland.Po \
+	./$(DEPDIR)/xfsettingsd-displays-x11.Po \
+	./$(DEPDIR)/xfsettingsd-displays.Po \
+	./$(DEPDIR)/xfsettingsd-gtk-decorations.Po \
+	./$(DEPDIR)/xfsettingsd-gtk-settings-exported.Po \
+	./$(DEPDIR)/xfsettingsd-gtk-settings.Po \
+	./$(DEPDIR)/xfsettingsd-keyboard-layout.Po \
+	./$(DEPDIR)/xfsettingsd-keyboard-shortcuts.Po \
+	./$(DEPDIR)/xfsettingsd-keyboards.Po \
+	./$(DEPDIR)/xfsettingsd-main.Po \
+	./$(DEPDIR)/xfsettingsd-pointers.Po \
+	./$(DEPDIR)/xfsettingsd-workspaces.Po \
+	./$(DEPDIR)/xfsettingsd-xsettings.Po
+am__mv = mv -f
+COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) \
+	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CFLAGS) $(CFLAGS)
+AM_V_CC = $(am__v_CC_@AM_V@)
+am__v_CC_ = $(am__v_CC_@AM_DEFAULT_V@)
+am__v_CC_0 = @echo "  CC      " $@;
+am__v_CC_1 = 
+CCLD = $(CC)
+LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+AM_V_CCLD = $(am__v_CCLD_@AM_V@)
+am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
+am__v_CCLD_0 = @echo "  CCLD    " $@;
+am__v_CCLD_1 = 
+SOURCES = $(libxfsettingsd_gtk_settings_sync_la_SOURCES) \
+	$(xfsettingsd_SOURCES)
+DIST_SOURCES = $(libxfsettingsd_gtk_settings_sync_la_SOURCES) \
+	$(am__xfsettingsd_SOURCES_DIST)
+am__can_run_installinfo = \
+  case $$AM_UPDATE_INFO_DIR in \
+    n|no|NO) false;; \
+    *) (install-info --version) >/dev/null 2>&1;; \
+  esac
 DATA = $(autostart_DATA) $(settings_DATA)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
@@ -275,7 +363,6 @@ am__define_uniq_tagged_files = \
 am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/depcomp
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
-ALL_LINGUAS = @ALL_LINGUAS@
 AMTAR = @AMTAR@
 AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 AR = @AR@
@@ -304,7 +391,6 @@ ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
-ENABLE_PLUGGABLE_DIALOGS = @ENABLE_PLUGGABLE_DIALOGS@
 ENABLE_SOUND_SETTINGS = @ENABLE_SOUND_SETTINGS@
 ETAGS = @ETAGS@
 EXEEXT = @EXEEXT@
@@ -322,6 +408,16 @@ GARCON_CFLAGS = @GARCON_CFLAGS@
 GARCON_LIBS = @GARCON_LIBS@
 GARCON_REQUIRED_VERSION = @GARCON_REQUIRED_VERSION@
 GARCON_VERSION = @GARCON_VERSION@
+GDBUS_CODEGEN = @GDBUS_CODEGEN@
+GDK_WAYLAND_CFLAGS = @GDK_WAYLAND_CFLAGS@
+GDK_WAYLAND_LIBS = @GDK_WAYLAND_LIBS@
+GDK_WAYLAND_REQUIRED_VERSION = @GDK_WAYLAND_REQUIRED_VERSION@
+GDK_WAYLAND_VERSION = @GDK_WAYLAND_VERSION@
+GDK_X11_CFLAGS = @GDK_X11_CFLAGS@
+GDK_X11_LIBS = @GDK_X11_LIBS@
+GDK_X11_REQUIRED_VERSION = @GDK_X11_REQUIRED_VERSION@
+GDK_X11_VERSION = @GDK_X11_VERSION@
+GETTEXT_MACRO_VERSION = @GETTEXT_MACRO_VERSION@
 GETTEXT_PACKAGE = @GETTEXT_PACKAGE@
 GIO_CFLAGS = @GIO_CFLAGS@
 GIO_LIBS = @GIO_LIBS@
@@ -335,12 +431,25 @@ GLIB_CFLAGS = @GLIB_CFLAGS@
 GLIB_LIBS = @GLIB_LIBS@
 GLIB_REQUIRED_VERSION = @GLIB_REQUIRED_VERSION@
 GLIB_VERSION = @GLIB_VERSION@
+GMODULE_CFLAGS = @GMODULE_CFLAGS@
+GMODULE_LIBS = @GMODULE_LIBS@
+GMODULE_REQUIRED_VERSION = @GMODULE_REQUIRED_VERSION@
+GMODULE_VERSION = @GMODULE_VERSION@
 GMSGFMT = @GMSGFMT@
+GMSGFMT_015 = @GMSGFMT_015@
 GREP = @GREP@
 GTK_CFLAGS = @GTK_CFLAGS@
+GTK_LAYER_SHELL_CFLAGS = @GTK_LAYER_SHELL_CFLAGS@
+GTK_LAYER_SHELL_LIBS = @GTK_LAYER_SHELL_LIBS@
+GTK_LAYER_SHELL_REQUIRED_VERSION = @GTK_LAYER_SHELL_REQUIRED_VERSION@
+GTK_LAYER_SHELL_VERSION = @GTK_LAYER_SHELL_VERSION@
 GTK_LIBS = @GTK_LIBS@
 GTK_REQUIRED_VERSION = @GTK_REQUIRED_VERSION@
 GTK_VERSION = @GTK_VERSION@
+GTK_X11_CFLAGS = @GTK_X11_CFLAGS@
+GTK_X11_LIBS = @GTK_X11_LIBS@
+GTK_X11_REQUIRED_VERSION = @GTK_X11_REQUIRED_VERSION@
+GTK_X11_VERSION = @GTK_X11_VERSION@
 HELPER_PATH_PREFIX = @HELPER_PATH_PREFIX@
 INPUTPROTO_CFLAGS = @INPUTPROTO_CFLAGS@
 INPUTPROTO_LIBS = @INPUTPROTO_LIBS@
@@ -351,20 +460,16 @@ INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
-INTLTOOL_EXTRACT = @INTLTOOL_EXTRACT@
-INTLTOOL_MERGE = @INTLTOOL_MERGE@
-INTLTOOL_PERL = @INTLTOOL_PERL@
-INTLTOOL_UPDATE = @INTLTOOL_UPDATE@
-INTLTOOL_V_MERGE = @INTLTOOL_V_MERGE@
-INTLTOOL_V_MERGE_OPTIONS = @INTLTOOL_V_MERGE_OPTIONS@
-INTLTOOL__v_MERGE_ = @INTLTOOL__v_MERGE_@
-INTLTOOL__v_MERGE_0 = @INTLTOOL__v_MERGE_0@
+INTLLIBS = @INTLLIBS@
+INTL_MACOSX_LIBS = @INTL_MACOSX_LIBS@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
+LIBICONV = @LIBICONV@
 LIBINPUT_CFLAGS = @LIBINPUT_CFLAGS@
 LIBINPUT_LIBS = @LIBINPUT_LIBS@
 LIBINPUT_REQUIRED_VERSION = @LIBINPUT_REQUIRED_VERSION@
 LIBINPUT_VERSION = @LIBINPUT_VERSION@
+LIBINTL = @LIBINTL@
 LIBNOTIFY_CFLAGS = @LIBNOTIFY_CFLAGS@
 LIBNOTIFY_LIBS = @LIBNOTIFY_LIBS@
 LIBNOTIFY_REQUIRED_VERSION = @LIBNOTIFY_REQUIRED_VERSION@
@@ -373,7 +478,6 @@ LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
 LIBX11_CFLAGS = @LIBX11_CFLAGS@
-LIBX11_LDFLAGS = @LIBX11_LDFLAGS@
 LIBX11_LIBS = @LIBX11_LIBS@
 LIBX11_REQUIRED_VERSION = @LIBX11_REQUIRED_VERSION@
 LIBX11_VERSION = @LIBX11_VERSION@
@@ -403,6 +507,8 @@ LIBXKLAVIER_REQUIRED_VERSION = @LIBXKLAVIER_REQUIRED_VERSION@
 LIBXKLAVIER_VERSION = @LIBXKLAVIER_VERSION@
 LIPO = @LIPO@
 LN_S = @LN_S@
+LTLIBICONV = @LTLIBICONV@
+LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
 LT_SYS_LIBRARY_PATH = @LT_SYS_LIBRARY_PATH@
 MAINT = @MAINT@
@@ -410,6 +516,7 @@ MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
 MSGFMT = @MSGFMT@
+MSGFMT_015 = @MSGFMT_015@
 MSGMERGE = @MSGMERGE@
 NM = @NM@
 NMEDIT = @NMEDIT@
@@ -432,7 +539,7 @@ PLATFORM_CFLAGS = @PLATFORM_CFLAGS@
 PLATFORM_CPPFLAGS = @PLATFORM_CPPFLAGS@
 PLATFORM_LDFLAGS = @PLATFORM_LDFLAGS@
 PNP_IDS = @PNP_IDS@
-PYTHON = @PYTHON@
+POSUB = @POSUB@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -444,6 +551,15 @@ UPOWERGLIB_REQUIRED_VERSION = @UPOWERGLIB_REQUIRED_VERSION@
 UPOWERGLIB_VERSION = @UPOWERGLIB_VERSION@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
+WAYLAND_CLIENT_CFLAGS = @WAYLAND_CLIENT_CFLAGS@
+WAYLAND_CLIENT_LIBS = @WAYLAND_CLIENT_LIBS@
+WAYLAND_CLIENT_REQUIRED_VERSION = @WAYLAND_CLIENT_REQUIRED_VERSION@
+WAYLAND_CLIENT_VERSION = @WAYLAND_CLIENT_VERSION@
+WAYLAND_SCANNER_CFLAGS = @WAYLAND_SCANNER_CFLAGS@
+WAYLAND_SCANNER_LIBS = @WAYLAND_SCANNER_LIBS@
+WAYLAND_SCANNER_REQUIRED_VERSION = @WAYLAND_SCANNER_REQUIRED_VERSION@
+WAYLAND_SCANNER_VERSION = @WAYLAND_SCANNER_VERSION@
+WLR_PROTOCOLS_PKGDATADIR = @WLR_PROTOCOLS_PKGDATADIR@
 XCURSOR_CFLAGS = @XCURSOR_CFLAGS@
 XCURSOR_LIBS = @XCURSOR_LIBS@
 XCURSOR_REQUIRED_VERSION = @XCURSOR_REQUIRED_VERSION@
@@ -453,19 +569,17 @@ XFCONF_LIBS = @XFCONF_LIBS@
 XFCONF_REQUIRED_VERSION = @XFCONF_REQUIRED_VERSION@
 XFCONF_VERSION = @XFCONF_VERSION@
 XGETTEXT = @XGETTEXT@
+XGETTEXT_015 = @XGETTEXT_015@
+XGETTEXT_EXTRA_OPTIONS = @XGETTEXT_EXTRA_OPTIONS@
 XI_CFLAGS = @XI_CFLAGS@
 XI_LIBS = @XI_LIBS@
 XI_REQUIRED_VERSION = @XI_REQUIRED_VERSION@
 XI_VERSION = @XI_VERSION@
-XMKMF = @XMKMF@
+XMLLINT = @XMLLINT@
 XRANDR_CFLAGS = @XRANDR_CFLAGS@
 XRANDR_LIBS = @XRANDR_LIBS@
 XRANDR_REQUIRED_VERSION = @XRANDR_REQUIRED_VERSION@
 XRANDR_VERSION = @XRANDR_VERSION@
-X_CFLAGS = @X_CFLAGS@
-X_EXTRA_LIBS = @X_EXTRA_LIBS@
-X_LIBS = @X_LIBS@
-X_PRE_LIBS = @X_PRE_LIBS@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -499,8 +613,6 @@ htmldir = @htmldir@
 includedir = @includedir@
 infodir = @infodir@
 install_sh = @install_sh@
-intltool__v_merge_options_ = @intltool__v_merge_options_@
-intltool__v_merge_options_0 = @intltool__v_merge_options_0@
 libdir = @libdir@
 libexecdir = @libexecdir@
 localedir = @localedir@
@@ -531,46 +643,73 @@ AM_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"xfsettingsd\" \
 	$(PLATFORM_CPPFLAGS)
 
-xfsettingsd_SOURCES = main.c accessibility.c accessibility.h debug.c \
-	debug.h clipboard-manager.c clipboard-manager.h \
-	gtk-decorations.c gtk-decorations.h keyboards.c keyboards.h \
-	keyboard-shortcuts.c keyboard-shortcuts.h keyboard-layout.c \
-	keyboard-layout.h pointers.c pointers.h pointers-defines.h \
-	workspaces.c workspaces.h xsettings.c xsettings.h \
-	$(am__append_1) $(am__append_4)
+xfsettingsd_built_SOURCES = \
+	gtk-settings-exported.c \
+	gtk-settings-exported.h \
+	xsettings-properties.h
+
+xfsettingsd_SOURCES = $(xfsettingsd_built_SOURCES) main.c \
+	gtk-decorations.c gtk-decorations.h gtk-settings.c \
+	gtk-settings.h $(am__append_1) $(am__append_4) $(am__append_6) \
+	$(am__append_9) $(am__append_12)
 xfsettingsd_CFLAGS = -I$(top_builddir) -I$(top_srcdir) $(GTK_CFLAGS) \
 	$(GLIB_CFLAGS) $(GTHREAD_CFLAGS) $(GIO_CFLAGS) \
-	$(XFCONF_CFLAGS) $(LIBXFCE4UTIL_CFLAGS) $(LIBXFCE4UI_CFLAGS) \
-	$(LIBXFCE4KBD_PRIVATE_CFLAGS) $(LIBXKLAVIER_CFLAGS) \
-	$(XI_CFLAGS) $(LIBX11_CFLAGS) $(LIBNOTIFY_CFLAGS) \
-	$(FONTCONFIG_CFLAGS) $(LIBINPUT_CFLAGS) $(PLATFORM_CFLAGS) \
-	-DGTK_DISABLE_SINGLE_INCLUDES -DGDK_DISABLE_DEPRECATED \
-	-DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE \
-	-DGDK_PIXBUF_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED \
-	$(am__append_2) $(am__append_5)
+	$(GMODULE_CFLAGS) $(XFCONF_CFLAGS) $(LIBXFCE4UTIL_CFLAGS) \
+	$(LIBXFCE4UI_CFLAGS) $(PLATFORM_CFLAGS) \
+	-DGTK_DISABLE_SINGLE_INCLUDES -DGTK_DISABLE_DEPRECATED \
+	-DGSEAL_ENABLE -DGDK_PIXBUF_DISABLE_DEPRECATED \
+	-DG_DISABLE_DEPRECATED $(am__append_2) $(am__append_7) \
+	$(am__append_10) $(am__append_13)
 xfsettingsd_LDFLAGS = \
 	-no-undefined \
 	$(PLATFORM_LDFLAGS)
 
 xfsettingsd_LDADD = $(GTK_LIBS) $(GLIB_LIBS) $(GTHREAD_LIBS) \
-	$(GIO_LIBS) $(XFCONF_LIBS) $(LIBXFCE4UTIL_LIBS) \
-	$(LIBXFCE4UI_LIBS) $(LIBXFCE4KBD_PRIVATE_LIBS) \
-	$(LIBXKLAVIER_LIBS) $(XI_LIBS) $(LIBX11_LIBS) \
-	$(LIBNOTIFY_LIBS) $(FONTCONFIG_LIBS) $(LIBINPUT_LIBS) -lm \
-	$(am__append_3) $(am__append_6)
+	$(GIO_LIBS) $(GMODULE_LIBS) $(XFCONF_LIBS) \
+	$(LIBXFCE4UTIL_LIBS) $(LIBXFCE4UI_LIBS) -lm $(am__append_3) \
+	$(am__append_5) $(am__append_8) $(am__append_11) \
+	$(am__append_14)
+moduledir = $(libdir)/gtk-3.0/modules
+module_LTLIBRARIES = \
+	libxfsettingsd-gtk-settings-sync.la
+
+libxfsettingsd_gtk_settings_sync_la_SOURCES = \
+	gtk-settings-module.c
+
+libxfsettingsd_gtk_settings_sync_la_CFLAGS = \
+	$(GTK_CFLAGS) \
+	$(XFCONF_CFLAGS)
+
+libxfsettingsd_gtk_settings_sync_la_LDFLAGS = \
+	-avoid-version \
+	-module \
+	-no-undefined \
+	-export-symbols-regex '^(g_module_check|gtk_module)_init' \
+	$(PLATFORM_LDFLAGS)
+
+libxfsettingsd_gtk_settings_sync_la_LIBADD = \
+	$(GTK_LIBS) \
+	$(XFCONF_LIBS)
+
 settingsdir = $(sysconfdir)/xdg/xfce4/xfconf/xfce-perchannel-xml
 settings_DATA = xsettings.xml
 autostartdir = $(sysconfdir)/xdg/autostart
 autostart_in_files = xfsettingsd.desktop.in
 autostart_DATA = $(autostart_in_files:.desktop.in=.desktop)
+BUILT_SOURCES = \
+	$(xfsettingsd_built_SOURCES)
+
 EXTRA_DIST = \
 	$(settings_DATA) \
-	$(autostart_in_files)
+	$(autostart_in_files) \
+	gtk-settings-exported.xml
 
 DISTCLEANFILES = \
-	$(autostart_DATA)
+	$(autostart_DATA) \
+	$(xfsettingsd_built_SOURCES)
 
-all: all-am
+all: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
 .SUFFIXES: .c .lo .o .obj
@@ -653,6 +792,44 @@ clean-binPROGRAMS:
 	echo " rm -f" $$list; \
 	rm -f $$list
 
+install-moduleLTLIBRARIES: $(module_LTLIBRARIES)
+	@$(NORMAL_INSTALL)
+	@list='$(module_LTLIBRARIES)'; test -n "$(moduledir)" || list=; \
+	list2=; for p in $$list; do \
+	  if test -f $$p; then \
+	    list2="$$list2 $$p"; \
+	  else :; fi; \
+	done; \
+	test -z "$$list2" || { \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(moduledir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(moduledir)" || exit 1; \
+	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 '$(DESTDIR)$(moduledir)'"; \
+	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 "$(DESTDIR)$(moduledir)"; \
+	}
+
+uninstall-moduleLTLIBRARIES:
+	@$(NORMAL_UNINSTALL)
+	@list='$(module_LTLIBRARIES)'; test -n "$(moduledir)" || list=; \
+	for p in $$list; do \
+	  $(am__strip_dir) \
+	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f '$(DESTDIR)$(moduledir)/$$f'"; \
+	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f "$(DESTDIR)$(moduledir)/$$f"; \
+	done
+
+clean-moduleLTLIBRARIES:
+	-test -z "$(module_LTLIBRARIES)" || rm -f $(module_LTLIBRARIES)
+	@list='$(module_LTLIBRARIES)'; \
+	locs=`for p in $$list; do echo $$p; done | \
+	      sed 's|^[^/]*$$|.|; s|/[^/]*$$||; s|$$|/so_locations|' | \
+	      sort -u`; \
+	test -z "$$locs" || { \
+	  echo rm -f $${locs}; \
+	  rm -f $${locs}; \
+	}
+
+libxfsettingsd-gtk-settings-sync.la: $(libxfsettingsd_gtk_settings_sync_la_OBJECTS) $(libxfsettingsd_gtk_settings_sync_la_DEPENDENCIES) $(EXTRA_libxfsettingsd_gtk_settings_sync_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(libxfsettingsd_gtk_settings_sync_la_LINK) -rpath $(moduledir) $(libxfsettingsd_gtk_settings_sync_la_OBJECTS) $(libxfsettingsd_gtk_settings_sync_la_LIBADD) $(LIBS)
+
 xfsettingsd$(EXEEXT): $(xfsettingsd_OBJECTS) $(xfsettingsd_DEPENDENCIES) $(EXTRA_xfsettingsd_DEPENDENCIES) 
 	@rm -f xfsettingsd$(EXEEXT)
 	$(AM_V_CCLD)$(xfsettingsd_LINK) $(xfsettingsd_OBJECTS) $(xfsettingsd_LDADD) $(LIBS)
@@ -663,12 +840,16 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libxfsettingsd_gtk_settings_sync_la-gtk-settings-module.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfsettingsd-accessibility.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfsettingsd-clipboard-manager.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfsettingsd-debug.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfsettingsd-displays-upower.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfsettingsd-displays-wayland.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfsettingsd-displays-x11.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfsettingsd-displays.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfsettingsd-gtk-decorations.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfsettingsd-gtk-settings-exported.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfsettingsd-gtk-settings.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfsettingsd-keyboard-layout.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfsettingsd-keyboard-shortcuts.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfsettingsd-keyboards.Po@am__quote@ # am--include-marker
@@ -704,6 +885,27 @@ am--depfiles: $(am__depfiles_remade)
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
 
+libxfsettingsd_gtk_settings_sync_la-gtk-settings-module.lo: gtk-settings-module.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libxfsettingsd_gtk_settings_sync_la_CFLAGS) $(CFLAGS) -MT libxfsettingsd_gtk_settings_sync_la-gtk-settings-module.lo -MD -MP -MF $(DEPDIR)/libxfsettingsd_gtk_settings_sync_la-gtk-settings-module.Tpo -c -o libxfsettingsd_gtk_settings_sync_la-gtk-settings-module.lo `test -f 'gtk-settings-module.c' || echo '$(srcdir)/'`gtk-settings-module.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libxfsettingsd_gtk_settings_sync_la-gtk-settings-module.Tpo $(DEPDIR)/libxfsettingsd_gtk_settings_sync_la-gtk-settings-module.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='gtk-settings-module.c' object='libxfsettingsd_gtk_settings_sync_la-gtk-settings-module.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libxfsettingsd_gtk_settings_sync_la_CFLAGS) $(CFLAGS) -c -o libxfsettingsd_gtk_settings_sync_la-gtk-settings-module.lo `test -f 'gtk-settings-module.c' || echo '$(srcdir)/'`gtk-settings-module.c
+
+xfsettingsd-gtk-settings-exported.o: gtk-settings-exported.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -MT xfsettingsd-gtk-settings-exported.o -MD -MP -MF $(DEPDIR)/xfsettingsd-gtk-settings-exported.Tpo -c -o xfsettingsd-gtk-settings-exported.o `test -f 'gtk-settings-exported.c' || echo '$(srcdir)/'`gtk-settings-exported.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfsettingsd-gtk-settings-exported.Tpo $(DEPDIR)/xfsettingsd-gtk-settings-exported.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='gtk-settings-exported.c' object='xfsettingsd-gtk-settings-exported.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -c -o xfsettingsd-gtk-settings-exported.o `test -f 'gtk-settings-exported.c' || echo '$(srcdir)/'`gtk-settings-exported.c
+
+xfsettingsd-gtk-settings-exported.obj: gtk-settings-exported.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -MT xfsettingsd-gtk-settings-exported.obj -MD -MP -MF $(DEPDIR)/xfsettingsd-gtk-settings-exported.Tpo -c -o xfsettingsd-gtk-settings-exported.obj `if test -f 'gtk-settings-exported.c'; then $(CYGPATH_W) 'gtk-settings-exported.c'; else $(CYGPATH_W) '$(srcdir)/gtk-settings-exported.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfsettingsd-gtk-settings-exported.Tpo $(DEPDIR)/xfsettingsd-gtk-settings-exported.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='gtk-settings-exported.c' object='xfsettingsd-gtk-settings-exported.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -c -o xfsettingsd-gtk-settings-exported.obj `if test -f 'gtk-settings-exported.c'; then $(CYGPATH_W) 'gtk-settings-exported.c'; else $(CYGPATH_W) '$(srcdir)/gtk-settings-exported.c'; fi`
+
 xfsettingsd-main.o: main.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -MT xfsettingsd-main.o -MD -MP -MF $(DEPDIR)/xfsettingsd-main.Tpo -c -o xfsettingsd-main.o `test -f 'main.c' || echo '$(srcdir)/'`main.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfsettingsd-main.Tpo $(DEPDIR)/xfsettingsd-main.Po
@@ -717,6 +919,34 @@ xfsettingsd-main.obj: main.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='main.c' object='xfsettingsd-main.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -c -o xfsettingsd-main.obj `if test -f 'main.c'; then $(CYGPATH_W) 'main.c'; else $(CYGPATH_W) '$(srcdir)/main.c'; fi`
+
+xfsettingsd-gtk-decorations.o: gtk-decorations.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -MT xfsettingsd-gtk-decorations.o -MD -MP -MF $(DEPDIR)/xfsettingsd-gtk-decorations.Tpo -c -o xfsettingsd-gtk-decorations.o `test -f 'gtk-decorations.c' || echo '$(srcdir)/'`gtk-decorations.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfsettingsd-gtk-decorations.Tpo $(DEPDIR)/xfsettingsd-gtk-decorations.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='gtk-decorations.c' object='xfsettingsd-gtk-decorations.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -c -o xfsettingsd-gtk-decorations.o `test -f 'gtk-decorations.c' || echo '$(srcdir)/'`gtk-decorations.c
+
+xfsettingsd-gtk-decorations.obj: gtk-decorations.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -MT xfsettingsd-gtk-decorations.obj -MD -MP -MF $(DEPDIR)/xfsettingsd-gtk-decorations.Tpo -c -o xfsettingsd-gtk-decorations.obj `if test -f 'gtk-decorations.c'; then $(CYGPATH_W) 'gtk-decorations.c'; else $(CYGPATH_W) '$(srcdir)/gtk-decorations.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfsettingsd-gtk-decorations.Tpo $(DEPDIR)/xfsettingsd-gtk-decorations.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='gtk-decorations.c' object='xfsettingsd-gtk-decorations.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -c -o xfsettingsd-gtk-decorations.obj `if test -f 'gtk-decorations.c'; then $(CYGPATH_W) 'gtk-decorations.c'; else $(CYGPATH_W) '$(srcdir)/gtk-decorations.c'; fi`
+
+xfsettingsd-gtk-settings.o: gtk-settings.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -MT xfsettingsd-gtk-settings.o -MD -MP -MF $(DEPDIR)/xfsettingsd-gtk-settings.Tpo -c -o xfsettingsd-gtk-settings.o `test -f 'gtk-settings.c' || echo '$(srcdir)/'`gtk-settings.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfsettingsd-gtk-settings.Tpo $(DEPDIR)/xfsettingsd-gtk-settings.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='gtk-settings.c' object='xfsettingsd-gtk-settings.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -c -o xfsettingsd-gtk-settings.o `test -f 'gtk-settings.c' || echo '$(srcdir)/'`gtk-settings.c
+
+xfsettingsd-gtk-settings.obj: gtk-settings.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -MT xfsettingsd-gtk-settings.obj -MD -MP -MF $(DEPDIR)/xfsettingsd-gtk-settings.Tpo -c -o xfsettingsd-gtk-settings.obj `if test -f 'gtk-settings.c'; then $(CYGPATH_W) 'gtk-settings.c'; else $(CYGPATH_W) '$(srcdir)/gtk-settings.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfsettingsd-gtk-settings.Tpo $(DEPDIR)/xfsettingsd-gtk-settings.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='gtk-settings.c' object='xfsettingsd-gtk-settings.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -c -o xfsettingsd-gtk-settings.obj `if test -f 'gtk-settings.c'; then $(CYGPATH_W) 'gtk-settings.c'; else $(CYGPATH_W) '$(srcdir)/gtk-settings.c'; fi`
 
 xfsettingsd-accessibility.o: accessibility.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -MT xfsettingsd-accessibility.o -MD -MP -MF $(DEPDIR)/xfsettingsd-accessibility.Tpo -c -o xfsettingsd-accessibility.o `test -f 'accessibility.c' || echo '$(srcdir)/'`accessibility.c
@@ -732,20 +962,6 @@ xfsettingsd-accessibility.obj: accessibility.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -c -o xfsettingsd-accessibility.obj `if test -f 'accessibility.c'; then $(CYGPATH_W) 'accessibility.c'; else $(CYGPATH_W) '$(srcdir)/accessibility.c'; fi`
 
-xfsettingsd-debug.o: debug.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -MT xfsettingsd-debug.o -MD -MP -MF $(DEPDIR)/xfsettingsd-debug.Tpo -c -o xfsettingsd-debug.o `test -f 'debug.c' || echo '$(srcdir)/'`debug.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfsettingsd-debug.Tpo $(DEPDIR)/xfsettingsd-debug.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='debug.c' object='xfsettingsd-debug.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -c -o xfsettingsd-debug.o `test -f 'debug.c' || echo '$(srcdir)/'`debug.c
-
-xfsettingsd-debug.obj: debug.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -MT xfsettingsd-debug.obj -MD -MP -MF $(DEPDIR)/xfsettingsd-debug.Tpo -c -o xfsettingsd-debug.obj `if test -f 'debug.c'; then $(CYGPATH_W) 'debug.c'; else $(CYGPATH_W) '$(srcdir)/debug.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfsettingsd-debug.Tpo $(DEPDIR)/xfsettingsd-debug.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='debug.c' object='xfsettingsd-debug.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -c -o xfsettingsd-debug.obj `if test -f 'debug.c'; then $(CYGPATH_W) 'debug.c'; else $(CYGPATH_W) '$(srcdir)/debug.c'; fi`
-
 xfsettingsd-clipboard-manager.o: clipboard-manager.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -MT xfsettingsd-clipboard-manager.o -MD -MP -MF $(DEPDIR)/xfsettingsd-clipboard-manager.Tpo -c -o xfsettingsd-clipboard-manager.o `test -f 'clipboard-manager.c' || echo '$(srcdir)/'`clipboard-manager.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfsettingsd-clipboard-manager.Tpo $(DEPDIR)/xfsettingsd-clipboard-manager.Po
@@ -759,20 +975,6 @@ xfsettingsd-clipboard-manager.obj: clipboard-manager.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='clipboard-manager.c' object='xfsettingsd-clipboard-manager.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -c -o xfsettingsd-clipboard-manager.obj `if test -f 'clipboard-manager.c'; then $(CYGPATH_W) 'clipboard-manager.c'; else $(CYGPATH_W) '$(srcdir)/clipboard-manager.c'; fi`
-
-xfsettingsd-gtk-decorations.o: gtk-decorations.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -MT xfsettingsd-gtk-decorations.o -MD -MP -MF $(DEPDIR)/xfsettingsd-gtk-decorations.Tpo -c -o xfsettingsd-gtk-decorations.o `test -f 'gtk-decorations.c' || echo '$(srcdir)/'`gtk-decorations.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfsettingsd-gtk-decorations.Tpo $(DEPDIR)/xfsettingsd-gtk-decorations.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='gtk-decorations.c' object='xfsettingsd-gtk-decorations.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -c -o xfsettingsd-gtk-decorations.o `test -f 'gtk-decorations.c' || echo '$(srcdir)/'`gtk-decorations.c
-
-xfsettingsd-gtk-decorations.obj: gtk-decorations.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -MT xfsettingsd-gtk-decorations.obj -MD -MP -MF $(DEPDIR)/xfsettingsd-gtk-decorations.Tpo -c -o xfsettingsd-gtk-decorations.obj `if test -f 'gtk-decorations.c'; then $(CYGPATH_W) 'gtk-decorations.c'; else $(CYGPATH_W) '$(srcdir)/gtk-decorations.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfsettingsd-gtk-decorations.Tpo $(DEPDIR)/xfsettingsd-gtk-decorations.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='gtk-decorations.c' object='xfsettingsd-gtk-decorations.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -c -o xfsettingsd-gtk-decorations.obj `if test -f 'gtk-decorations.c'; then $(CYGPATH_W) 'gtk-decorations.c'; else $(CYGPATH_W) '$(srcdir)/gtk-decorations.c'; fi`
 
 xfsettingsd-keyboards.o: keyboards.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -MT xfsettingsd-keyboards.o -MD -MP -MF $(DEPDIR)/xfsettingsd-keyboards.Tpo -c -o xfsettingsd-keyboards.o `test -f 'keyboards.c' || echo '$(srcdir)/'`keyboards.c
@@ -871,6 +1073,34 @@ xfsettingsd-displays.obj: displays.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='displays.c' object='xfsettingsd-displays.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -c -o xfsettingsd-displays.obj `if test -f 'displays.c'; then $(CYGPATH_W) 'displays.c'; else $(CYGPATH_W) '$(srcdir)/displays.c'; fi`
+
+xfsettingsd-displays-x11.o: displays-x11.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -MT xfsettingsd-displays-x11.o -MD -MP -MF $(DEPDIR)/xfsettingsd-displays-x11.Tpo -c -o xfsettingsd-displays-x11.o `test -f 'displays-x11.c' || echo '$(srcdir)/'`displays-x11.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfsettingsd-displays-x11.Tpo $(DEPDIR)/xfsettingsd-displays-x11.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='displays-x11.c' object='xfsettingsd-displays-x11.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -c -o xfsettingsd-displays-x11.o `test -f 'displays-x11.c' || echo '$(srcdir)/'`displays-x11.c
+
+xfsettingsd-displays-x11.obj: displays-x11.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -MT xfsettingsd-displays-x11.obj -MD -MP -MF $(DEPDIR)/xfsettingsd-displays-x11.Tpo -c -o xfsettingsd-displays-x11.obj `if test -f 'displays-x11.c'; then $(CYGPATH_W) 'displays-x11.c'; else $(CYGPATH_W) '$(srcdir)/displays-x11.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfsettingsd-displays-x11.Tpo $(DEPDIR)/xfsettingsd-displays-x11.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='displays-x11.c' object='xfsettingsd-displays-x11.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -c -o xfsettingsd-displays-x11.obj `if test -f 'displays-x11.c'; then $(CYGPATH_W) 'displays-x11.c'; else $(CYGPATH_W) '$(srcdir)/displays-x11.c'; fi`
+
+xfsettingsd-displays-wayland.o: displays-wayland.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -MT xfsettingsd-displays-wayland.o -MD -MP -MF $(DEPDIR)/xfsettingsd-displays-wayland.Tpo -c -o xfsettingsd-displays-wayland.o `test -f 'displays-wayland.c' || echo '$(srcdir)/'`displays-wayland.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfsettingsd-displays-wayland.Tpo $(DEPDIR)/xfsettingsd-displays-wayland.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='displays-wayland.c' object='xfsettingsd-displays-wayland.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -c -o xfsettingsd-displays-wayland.o `test -f 'displays-wayland.c' || echo '$(srcdir)/'`displays-wayland.c
+
+xfsettingsd-displays-wayland.obj: displays-wayland.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -MT xfsettingsd-displays-wayland.obj -MD -MP -MF $(DEPDIR)/xfsettingsd-displays-wayland.Tpo -c -o xfsettingsd-displays-wayland.obj `if test -f 'displays-wayland.c'; then $(CYGPATH_W) 'displays-wayland.c'; else $(CYGPATH_W) '$(srcdir)/displays-wayland.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfsettingsd-displays-wayland.Tpo $(DEPDIR)/xfsettingsd-displays-wayland.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='displays-wayland.c' object='xfsettingsd-displays-wayland.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -c -o xfsettingsd-displays-wayland.obj `if test -f 'displays-wayland.c'; then $(CYGPATH_W) 'displays-wayland.c'; else $(CYGPATH_W) '$(srcdir)/displays-wayland.c'; fi`
 
 xfsettingsd-displays-upower.o: displays-upower.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -MT xfsettingsd-displays-upower.o -MD -MP -MF $(DEPDIR)/xfsettingsd-displays-upower.Tpo -c -o xfsettingsd-displays-upower.o `test -f 'displays-upower.c' || echo '$(srcdir)/'`displays-upower.c
@@ -1019,14 +1249,17 @@ distdir-am: $(DISTFILES)
 	  fi; \
 	done
 check-am: all-am
-check: check-am
-all-am: Makefile $(PROGRAMS) $(DATA)
+check: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) check-am
+all-am: Makefile $(PROGRAMS) $(LTLIBRARIES) $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(autostartdir)" "$(DESTDIR)$(settingsdir)"; do \
+	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(moduledir)" "$(DESTDIR)$(autostartdir)" "$(DESTDIR)$(settingsdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
-install: install-am
-install-exec: install-exec-am
+install: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) install-am
+install-exec: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) install-exec-am
 install-data: install-data-am
 uninstall: uninstall-am
 
@@ -1056,17 +1289,23 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 clean: clean-am
 
-clean-am: clean-binPROGRAMS clean-generic clean-libtool mostlyclean-am
+clean-am: clean-binPROGRAMS clean-generic clean-libtool \
+	clean-moduleLTLIBRARIES mostlyclean-am
 
 distclean: distclean-am
-		-rm -f ./$(DEPDIR)/xfsettingsd-accessibility.Po
+		-rm -f ./$(DEPDIR)/libxfsettingsd_gtk_settings_sync_la-gtk-settings-module.Plo
+	-rm -f ./$(DEPDIR)/xfsettingsd-accessibility.Po
 	-rm -f ./$(DEPDIR)/xfsettingsd-clipboard-manager.Po
-	-rm -f ./$(DEPDIR)/xfsettingsd-debug.Po
 	-rm -f ./$(DEPDIR)/xfsettingsd-displays-upower.Po
+	-rm -f ./$(DEPDIR)/xfsettingsd-displays-wayland.Po
+	-rm -f ./$(DEPDIR)/xfsettingsd-displays-x11.Po
 	-rm -f ./$(DEPDIR)/xfsettingsd-displays.Po
 	-rm -f ./$(DEPDIR)/xfsettingsd-gtk-decorations.Po
+	-rm -f ./$(DEPDIR)/xfsettingsd-gtk-settings-exported.Po
+	-rm -f ./$(DEPDIR)/xfsettingsd-gtk-settings.Po
 	-rm -f ./$(DEPDIR)/xfsettingsd-keyboard-layout.Po
 	-rm -f ./$(DEPDIR)/xfsettingsd-keyboard-shortcuts.Po
 	-rm -f ./$(DEPDIR)/xfsettingsd-keyboards.Po
@@ -1090,7 +1329,8 @@ info: info-am
 
 info-am:
 
-install-data-am: install-autostartDATA install-settingsDATA
+install-data-am: install-autostartDATA install-moduleLTLIBRARIES \
+	install-settingsDATA
 
 install-dvi: install-dvi-am
 
@@ -1119,12 +1359,16 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-		-rm -f ./$(DEPDIR)/xfsettingsd-accessibility.Po
+		-rm -f ./$(DEPDIR)/libxfsettingsd_gtk_settings_sync_la-gtk-settings-module.Plo
+	-rm -f ./$(DEPDIR)/xfsettingsd-accessibility.Po
 	-rm -f ./$(DEPDIR)/xfsettingsd-clipboard-manager.Po
-	-rm -f ./$(DEPDIR)/xfsettingsd-debug.Po
 	-rm -f ./$(DEPDIR)/xfsettingsd-displays-upower.Po
+	-rm -f ./$(DEPDIR)/xfsettingsd-displays-wayland.Po
+	-rm -f ./$(DEPDIR)/xfsettingsd-displays-x11.Po
 	-rm -f ./$(DEPDIR)/xfsettingsd-displays.Po
 	-rm -f ./$(DEPDIR)/xfsettingsd-gtk-decorations.Po
+	-rm -f ./$(DEPDIR)/xfsettingsd-gtk-settings-exported.Po
+	-rm -f ./$(DEPDIR)/xfsettingsd-gtk-settings.Po
 	-rm -f ./$(DEPDIR)/xfsettingsd-keyboard-layout.Po
 	-rm -f ./$(DEPDIR)/xfsettingsd-keyboard-shortcuts.Po
 	-rm -f ./$(DEPDIR)/xfsettingsd-keyboards.Po
@@ -1149,29 +1393,62 @@ ps: ps-am
 ps-am:
 
 uninstall-am: uninstall-autostartDATA uninstall-binPROGRAMS \
-	uninstall-settingsDATA
+	uninstall-moduleLTLIBRARIES uninstall-settingsDATA
 
-.MAKE: install-am install-strip
+.MAKE: all check install install-am install-exec install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am am--depfiles check check-am clean \
-	clean-binPROGRAMS clean-generic clean-libtool cscopelist-am \
-	ctags ctags-am distclean distclean-compile distclean-generic \
-	distclean-libtool distclean-tags distdir dvi dvi-am html \
-	html-am info info-am install install-am install-autostartDATA \
-	install-binPROGRAMS install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am install-man \
-	install-pdf install-pdf-am install-ps install-ps-am \
-	install-settingsDATA install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
+	clean-binPROGRAMS clean-generic clean-libtool \
+	clean-moduleLTLIBRARIES cscopelist-am ctags ctags-am distclean \
+	distclean-compile distclean-generic distclean-libtool \
+	distclean-tags distdir dvi dvi-am html html-am info info-am \
+	install install-am install-autostartDATA install-binPROGRAMS \
+	install-data install-data-am install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
+	install-info install-info-am install-man \
+	install-moduleLTLIBRARIES install-pdf install-pdf-am \
+	install-ps install-ps-am install-settingsDATA install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
 	tags tags-am uninstall uninstall-am uninstall-autostartDATA \
-	uninstall-binPROGRAMS uninstall-settingsDATA
+	uninstall-binPROGRAMS uninstall-moduleLTLIBRARIES \
+	uninstall-settingsDATA
 
 .PRECIOUS: Makefile
 
-@INTLTOOL_DESKTOP_RULE@
+
+%.desktop: %.desktop.in
+	$(AM_V_GEN) $(MSGFMT) --desktop --template $< -d $(top_srcdir)/po -o $@
+
+# Needed for XfceGtkSettingsHelper to translate GtkSettings property names into
+# Xfconf property names
+xsettings-properties.h: $(settings_DATA)
+	$(AM_V_GEN) \
+	printf '%s\n' \
+		'#if G_GNUC_CHECK_VERSION (4, 6)' \
+		'# pragma GCC diagnostic push' \
+		'# pragma GCC diagnostic ignored "-Wunused-variable"' \
+		'#endif' > $@; \
+	for _prefix in $(shell $(XMLLINT) --xpath '//channel/property/@name' $< | $(SED) -E 's/name="(.*)"/\1/'); do \
+		echo "static const gchar *xsettings_properties_$${_prefix}[] = {" \
+		&& $(XMLLINT) --xpath "//channel/property[@name=\"$${_prefix}\"]/property/@name" $< | $(SED) -E 's/name=(.*)/\1,/' \
+		&& echo '};'; \
+	done >> $@; \
+	printf '%s\n' \
+		'#if G_GNUC_CHECK_VERSION (4, 6)' \
+		'# pragma GCC diagnostic pop' \
+		'#endif' >> $@;
+
+# Export on D-Bus by XfceGtkSettingsHelper of the module name xfsettingsd-gtk-settings-sync
+# for synchronization of GtkSettings properties with the Xfconf xsettings channel on Wayland
+gtk-settings-exported.c:
+gtk-settings-exported.h: gtk-settings-exported.xml Makefile
+	$(AM_V_GEN) $(GDBUS_CODEGEN) \
+	--interface-prefix org.gtk.Settings \
+	--c-namespace XfceGtkSettingsHelper \
+	--generate-c-code gtk-settings-exported \
+	$(srcdir)/gtk-settings-exported.xml
 
 # vi:set ts=8 sw=8 noet ai nocindent syntax=automake:
 

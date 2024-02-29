@@ -31,7 +31,10 @@
 #endif
 
 #include <gtk/gtk.h>
+#ifdef ENABLE_X11
+#include <gdk/gdkx.h>
 #include <gtk/gtkx.h>
+#endif
 #include <gdk/gdkkeysyms.h>
 
 #include <libxfce4util/libxfce4util.h>
@@ -99,7 +102,7 @@ DialogCategory;
 enum
 {
     COLUMN_NAME,
-    COLUMN_ICON_NAME,
+    COLUMN_GICON,
     COLUMN_TOOLTIP,
     COLUMN_MENU_ITEM,
     COLUMN_MENU_DIRECTORY,
@@ -200,7 +203,7 @@ xfce_settings_manager_dialog_init (XfceSettingsManagerDialog *dialog)
 
     dialog->store = gtk_list_store_new (N_COLUMNS,
                                         G_TYPE_STRING,
-                                        G_TYPE_STRING,
+                                        G_TYPE_OBJECT,
                                         G_TYPE_STRING,
                                         GARCON_TYPE_MENU_ITEM,
                                         GARCON_TYPE_MENU_DIRECTORY,
@@ -216,7 +219,9 @@ xfce_settings_manager_dialog_init (XfceSettingsManagerDialog *dialog)
     xfce_settings_manager_dialog_set_title (dialog, NULL, NULL);
 
     /* Add a buttonbox (Help, All Settings, Close) at bottom of the main box */
+#if !LIBXFCE4UI_CHECK_VERSION (4, 19, 3)
     xfce_titled_dialog_create_action_area (XFCE_TITLED_DIALOG (dialog));
+#endif
 
     dialog->button_help = xfce_titled_dialog_add_button (XFCE_TITLED_DIALOG (dialog), _("_Help"), GTK_RESPONSE_HELP);
     image = gtk_image_new_from_icon_name ("help-browser", GTK_ICON_SIZE_BUTTON);
@@ -795,6 +800,7 @@ xfce_settings_manager_dialog_entry_key_press (GtkWidget                 *entry,
 
 
 
+#ifdef ENABLE_X11
 static void
 xfce_settings_manager_dialog_plug_added (GtkWidget                 *socket,
                                          XfceSettingsManagerDialog *dialog)
@@ -830,6 +836,7 @@ xfce_settings_manager_dialog_plug_removed (GtkWidget                 *socket,
     /* restore dialog */
     xfce_settings_manager_dialog_go_back (dialog);
 }
+#endif
 
 
 
@@ -840,16 +847,12 @@ xfce_settings_manager_dialog_spawn (XfceSettingsManagerDialog *dialog,
     gchar          *command;
     gboolean        snotify;
     GdkScreen      *screen;
-    GdkDisplay     *display;
     GError         *error = NULL;
     GFile          *desktop_file;
     gchar          *filename;
     XfceRc         *rc;
     gboolean        pluggable = FALSE;
-    gchar          *cmd;
     gchar          *uri;
-    GtkWidget      *socket;
-    GdkCursor      *cursor;
 
     g_return_if_fail (GARCON_IS_MENU_ITEM (item));
 
@@ -885,11 +888,15 @@ xfce_settings_manager_dialog_spawn (XfceSettingsManagerDialog *dialog,
         xfce_rc_close (rc);
     }
 
-    if (pluggable)
+#ifdef ENABLE_X11
+    if (pluggable && GDK_IS_X11_DISPLAY (gdk_display_get_default ()))
     {
+        GdkCursor *cursor;
+        GtkWidget *socket;
+        gchar *cmd;
+
         /* fake startup notification */
-        display = gdk_display_get_default ();
-        cursor = gdk_cursor_new_for_display (display, GDK_WATCH);
+        cursor = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_WATCH);
         gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET(dialog)), cursor);
         g_object_unref (cursor);
 
@@ -920,6 +927,7 @@ xfce_settings_manager_dialog_spawn (XfceSettingsManagerDialog *dialog,
         g_free (cmd);
     }
     else
+#endif
     {
         snotify = garcon_menu_item_supports_startup_notification (item);
         if (!xfce_spawn_command_line (screen, command, FALSE, snotify, TRUE, &error))
@@ -1141,7 +1149,7 @@ xfce_settings_manager_dialog_add_category (XfceSettingsManagerDialog *dialog,
 
     render = gtk_cell_renderer_pixbuf_new ();
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (iconview), render, FALSE);
-    gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (iconview), render, "icon-name", COLUMN_ICON_NAME);
+    gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (iconview), render, "gicon", COLUMN_GICON);
     g_object_set (G_OBJECT (render),
                   "stock-size", GTK_ICON_SIZE_DIALOG,
                   "follow-state", TRUE,
@@ -1214,6 +1222,9 @@ xfce_settings_manager_dialog_menu_reload (XfceSettingsManagerDialog *dialog)
     gchar               *item_text;
     gchar               *normalized;
     gchar               *filter_text;
+    GtkIconTheme        *icon_theme = gtk_icon_theme_get_default ();
+    const gchar         *icon_name;
+    GIcon               *icon;
     GString             *item_keywords;
     DialogCategory      *category;
 
@@ -1278,15 +1289,28 @@ xfce_settings_manager_dialog_menu_reload (XfceSettingsManagerDialog *dialog)
                     filter_text = g_utf8_casefold (normalized, -1);
                     g_free (normalized);
 
+                    icon_name = garcon_menu_item_get_icon_name (lp->data);
+                    if (gtk_icon_theme_has_icon (icon_theme, icon_name))
+                    {
+                        icon = g_themed_icon_new (icon_name);
+                    }
+                    else
+                    {
+                        GFile *file = g_file_new_for_path (icon_name);
+                        icon = g_file_icon_new (file);
+                        g_object_unref (file);
+                    }
+
                     gtk_list_store_insert_with_values (dialog->store, NULL, i++,
                         COLUMN_NAME, garcon_menu_item_get_name (lp->data),
-                        COLUMN_ICON_NAME, garcon_menu_item_get_icon_name (lp->data),
+                        COLUMN_GICON, icon,
                         COLUMN_TOOLTIP, garcon_menu_item_get_comment (lp->data),
                         COLUMN_MENU_ITEM, lp->data,
                         COLUMN_MENU_DIRECTORY, directory,
                         COLUMN_FILTER_TEXT, filter_text, -1);
 
                     g_free (filter_text);
+                    g_object_unref (icon);
                 }
                 g_list_free (items);
 

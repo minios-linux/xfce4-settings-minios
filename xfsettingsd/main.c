@@ -39,7 +39,7 @@
 #include <gio/gio.h>
 #include <gtk/gtk.h>
 
-#ifdef GDK_WINDOWING_X11
+#ifdef ENABLE_X11
 #include <gdk/gdkx.h>
 #include <X11/X.h>
 #include <X11/Xlib.h>
@@ -51,7 +51,13 @@
 
 #include <locale.h>
 
-#include "debug.h"
+#include "common/debug.h"
+#include "gtk-decorations.h"
+#include "gtk-settings.h"
+#ifdef ENABLE_DISPLAY_SETTINGS
+#include "displays.h"
+#endif
+#ifdef ENABLE_X11
 #include "accessibility.h"
 #include "pointers.h"
 #include "keyboards.h"
@@ -59,11 +65,7 @@
 #include "keyboard-shortcuts.h"
 #include "workspaces.h"
 #include "clipboard-manager.h"
-#include "gtk-decorations.h"
 #include "xsettings.h"
-
-#ifdef HAVE_XRANDR
-#include "displays.h"
 #endif
 
 #define XFSETTINGS_DBUS_NAME    "org.xfce.SettingsDaemon"
@@ -82,18 +84,21 @@ static guint owner_id;
 struct t_data_set
 {
     XfceSMClient         *sm_client;
+    GObject              *gtk_decorations_helper;
+    GObject              *gtk_settings_helper;
+#ifdef ENABLE_DISPLAY_SETTINGS
+    GObject              *displays_helper;
+#endif
+#ifdef ENABLE_X11
     GObject              *pointer_helper;
     GObject              *keyboards_helper;
     GObject              *accessibility_helper;
     GObject              *shortcuts_helper;
     GObject              *keyboard_layout_helper;
-    GObject              *gtk_decorations_helper;
     GObject              *xsettings_helper;
     GObject              *clipboard_daemon;
-#ifdef HAVE_XRANDR
-    GObject              *displays_helper;
-#endif
     GObject              *workspaces_helper;
+#endif
 };
 
 
@@ -127,25 +132,30 @@ on_name_acquired (GDBusConnection *connection,
 
     s_data = (struct t_data_set*) user_data;
 
-    /* launch settings manager */
-    s_data->xsettings_helper = g_object_new (XFCE_TYPE_XSETTINGS_HELPER, NULL);
-    xfce_xsettings_helper_register (XFCE_XSETTINGS_HELPER (s_data->xsettings_helper),
-                                    gdk_display_get_default (), opt_replace);
+#ifdef ENABLE_X11
+    if (GDK_IS_X11_DISPLAY (gdk_display_get_default ()))
+    {
+        /* launch settings manager */
+        s_data->xsettings_helper = g_object_new (XFCE_TYPE_XSETTINGS_HELPER, NULL);
+        xfce_xsettings_helper_register (XFCE_XSETTINGS_HELPER (s_data->xsettings_helper),
+                                        gdk_display_get_default (), opt_replace);
 
-    /* create the sub daemons */
-#ifdef HAVE_XRANDR
-    s_data->displays_helper = g_object_new (XFCE_TYPE_DISPLAYS_HELPER, NULL);
+        /* create the sub daemons */
+        s_data->pointer_helper = g_object_new (XFCE_TYPE_POINTERS_HELPER, NULL);
+        s_data->keyboards_helper = g_object_new (XFCE_TYPE_KEYBOARDS_HELPER, NULL);
+        s_data->accessibility_helper = g_object_new (XFCE_TYPE_ACCESSIBILITY_HELPER, NULL);
+        s_data->shortcuts_helper = g_object_new (XFCE_TYPE_KEYBOARD_SHORTCUTS_HELPER, NULL);
+        s_data->keyboard_layout_helper = g_object_new (XFCE_TYPE_KEYBOARD_LAYOUT_HELPER, NULL);
+        xfce_workspaces_helper_disable_wm_check (opt_disable_wm_check);
+        s_data->workspaces_helper = g_object_new (XFCE_TYPE_WORKSPACES_HELPER, NULL);
+    }
 #endif
-    s_data->pointer_helper = g_object_new (XFCE_TYPE_POINTERS_HELPER, NULL);
-    s_data->keyboards_helper = g_object_new (XFCE_TYPE_KEYBOARDS_HELPER, NULL);
-    s_data->accessibility_helper = g_object_new (XFCE_TYPE_ACCESSIBILITY_HELPER, NULL);
-    s_data->shortcuts_helper = g_object_new (XFCE_TYPE_KEYBOARD_SHORTCUTS_HELPER, NULL);
-    s_data->keyboard_layout_helper = g_object_new (XFCE_TYPE_KEYBOARD_LAYOUT_HELPER, NULL);
-#ifdef GDK_WINDOWING_X11
-    xfce_workspaces_helper_disable_wm_check (opt_disable_wm_check);
-#endif
-    s_data->workspaces_helper = g_object_new (XFCE_TYPE_WORKSPACES_HELPER, NULL);
+
     s_data->gtk_decorations_helper = g_object_new (XFCE_TYPE_DECORATIONS_HELPER, NULL);
+    s_data->gtk_settings_helper = g_object_new (XFCE_TYPE_GTK_SETTINGS_HELPER, NULL);
+#ifdef ENABLE_DISPLAY_SETTINGS
+    s_data->displays_helper = xfce_displays_helper_new ();
+#endif
 
     /* connect to session always, even if we quit below.  this way the
      * session manager won't wait for us to time out. */
@@ -160,7 +170,8 @@ on_name_acquired (GDBusConnection *connection,
         g_clear_error (&error);
     }
 
-    if (g_getenv ("XFSETTINGSD_NO_CLIPBOARD") == NULL)
+#ifdef ENABLE_X11
+    if (g_getenv ("XFSETTINGSD_NO_CLIPBOARD") == NULL && GDK_IS_X11_DISPLAY (gdk_display_get_default ()))
     {
         s_data->clipboard_daemon = g_object_new (GSD_TYPE_CLIPBOARD_MANAGER, NULL);
         if (!gsd_clipboard_manager_start (GSD_CLIPBOARD_MANAGER (s_data->clipboard_daemon), opt_replace))
@@ -171,6 +182,7 @@ on_name_acquired (GDBusConnection *connection,
             g_printerr (G_LOG_DOMAIN ": %s\n", "Another clipboard manager is already running.");
         }
     }
+#endif
 
     /* Update the name flags to allow replacement */
     dbus_flags = G_BUS_NAME_OWNER_FLAGS_ALLOW_REPLACEMENT;
@@ -359,24 +371,25 @@ main (gint argc, gchar **argv)
     gtk_main();
 
     /* release the sub daemons */
+#ifdef ENABLE_X11
     UNREF_GOBJECT(s_data.xsettings_helper);
-
-#ifdef HAVE_XRANDR
-    UNREF_GOBJECT (s_data.displays_helper);
-#endif
     UNREF_GOBJECT (s_data.pointer_helper);
     UNREF_GOBJECT (s_data.keyboards_helper);
     UNREF_GOBJECT (s_data.accessibility_helper);
     UNREF_GOBJECT (s_data.shortcuts_helper);
     UNREF_GOBJECT (s_data.keyboard_layout_helper);
     UNREF_GOBJECT (s_data.workspaces_helper);
-    UNREF_GOBJECT (s_data.gtk_decorations_helper);
-
     if (G_LIKELY (s_data.clipboard_daemon != NULL))
     {
         gsd_clipboard_manager_stop (GSD_CLIPBOARD_MANAGER (s_data.clipboard_daemon));
         UNREF_GOBJECT (s_data.clipboard_daemon);
     }
+#endif
+    UNREF_GOBJECT (s_data.gtk_decorations_helper);
+    UNREF_GOBJECT (s_data.gtk_settings_helper);
+#ifdef ENABLE_DISPLAY_SETTINGS
+    UNREF_GOBJECT (s_data.displays_helper);
+#endif
 
     xfconf_shutdown ();
 

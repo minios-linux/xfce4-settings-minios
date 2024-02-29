@@ -90,20 +90,41 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS = xfce4-display-settings$(EXEEXT)
+@HAVE_XRANDR_TRUE@am__append_1 = \
+@HAVE_XRANDR_TRUE@	display-settings-x11.c \
+@HAVE_XRANDR_TRUE@	display-settings-x11.h
 
-# Optional support for colord
-@HAVE_COLORD_TRUE@am__append_1 = \
-@HAVE_COLORD_TRUE@	$(COLORD_CFLAGS)
+@HAVE_XRANDR_TRUE@am__append_2 = \
+@HAVE_XRANDR_TRUE@	$(XRANDR_CFLAGS) \
+@HAVE_XRANDR_TRUE@	$(LIBX11_CFLAGS)
 
-@HAVE_COLORD_TRUE@am__append_2 = \
-@HAVE_COLORD_TRUE@	$(COLORD_LIBS)
+@HAVE_XRANDR_TRUE@am__append_3 = \
+@HAVE_XRANDR_TRUE@	$(XRANDR_LIBS) \
+@HAVE_XRANDR_TRUE@	$(LIBX11_LIBS)
+
+@ENABLE_WAYLAND_TRUE@am__append_4 = \
+@ENABLE_WAYLAND_TRUE@	display-settings-wayland.c \
+@ENABLE_WAYLAND_TRUE@	display-settings-wayland.h
+
+@ENABLE_WAYLAND_TRUE@am__append_5 = \
+@ENABLE_WAYLAND_TRUE@	$(WAYLAND_CLIENT_CFLAGS) \
+@ENABLE_WAYLAND_TRUE@	$(GTK_LAYER_SHELL_CFLAGS)
+
+@ENABLE_WAYLAND_TRUE@am__append_6 = \
+@ENABLE_WAYLAND_TRUE@	$(top_builddir)/protocols/libprotocols.la \
+@ENABLE_WAYLAND_TRUE@	$(WAYLAND_CLIENT_LIBS) \
+@ENABLE_WAYLAND_TRUE@	$(GTK_LAYER_SHELL_LIBS)
 
 subdir = dialogs/display-settings
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/m4/gettext.m4 \
+	$(top_srcdir)/m4/iconv.m4 $(top_srcdir)/m4/intlmacosx.m4 \
+	$(top_srcdir)/m4/lib-ld.m4 $(top_srcdir)/m4/lib-link.m4 \
+	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
 	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
-	$(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/nls.m4 $(top_srcdir)/m4/po.m4 \
+	$(top_srcdir)/m4/progtest.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
@@ -114,19 +135,33 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(desktopdir)" \
 	"$(DESTDIR)$(iconsdir)" "$(DESTDIR)$(scalableiconsdir)"
 PROGRAMS = $(bin_PROGRAMS)
+am__xfce4_display_settings_SOURCES_DIST = main.c \
+	confirmation-dialog_ui.h display-dialog_ui.h \
+	minimal-display-dialog_ui.h profile-changed-dialog_ui.h \
+	identity-popup_ui.h scrollarea.c scrollarea.h foo-marshal.c \
+	foo-marshal.h display-settings.c display-settings.h \
+	display-settings-x11.c display-settings-x11.h \
+	display-settings-wayland.c display-settings-wayland.h
+@HAVE_XRANDR_TRUE@am__objects_1 = xfce4_display_settings-display-settings-x11.$(OBJEXT)
+@ENABLE_WAYLAND_TRUE@am__objects_2 = xfce4_display_settings-display-settings-wayland.$(OBJEXT)
 am_xfce4_display_settings_OBJECTS =  \
 	xfce4_display_settings-main.$(OBJEXT) \
 	xfce4_display_settings-scrollarea.$(OBJEXT) \
-	xfce4_display_settings-foo-marshal.$(OBJEXT)
+	xfce4_display_settings-foo-marshal.$(OBJEXT) \
+	xfce4_display_settings-display-settings.$(OBJEXT) \
+	$(am__objects_1) $(am__objects_2)
 xfce4_display_settings_OBJECTS = $(am_xfce4_display_settings_OBJECTS)
 am__DEPENDENCIES_1 =
-@HAVE_COLORD_TRUE@am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1)
-xfce4_display_settings_DEPENDENCIES = $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+@HAVE_XRANDR_TRUE@am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) \
+@HAVE_XRANDR_TRUE@	$(am__DEPENDENCIES_1)
+@ENABLE_WAYLAND_TRUE@am__DEPENDENCIES_3 = $(top_builddir)/protocols/libprotocols.la \
+@ENABLE_WAYLAND_TRUE@	$(am__DEPENDENCIES_1) \
+@ENABLE_WAYLAND_TRUE@	$(am__DEPENDENCIES_1)
+xfce4_display_settings_DEPENDENCIES =  \
 	$(top_builddir)/common/libxfce4-settings.la \
-	$(am__DEPENDENCIES_2)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_2) $(am__DEPENDENCIES_3)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
@@ -150,7 +185,9 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade =  \
+am__depfiles_remade = ./$(DEPDIR)/xfce4_display_settings-display-settings-wayland.Po \
+	./$(DEPDIR)/xfce4_display_settings-display-settings-x11.Po \
+	./$(DEPDIR)/xfce4_display_settings-display-settings.Po \
 	./$(DEPDIR)/xfce4_display_settings-foo-marshal.Po \
 	./$(DEPDIR)/xfce4_display_settings-main.Po \
 	./$(DEPDIR)/xfce4_display_settings-scrollarea.Po
@@ -174,7 +211,7 @@ am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(xfce4_display_settings_SOURCES)
-DIST_SOURCES = $(xfce4_display_settings_SOURCES)
+DIST_SOURCES = $(am__xfce4_display_settings_SOURCES_DIST)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -228,7 +265,6 @@ am__define_uniq_tagged_files = \
 am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/depcomp
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
-ALL_LINGUAS = @ALL_LINGUAS@
 AMTAR = @AMTAR@
 AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 AR = @AR@
@@ -257,7 +293,6 @@ ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
-ENABLE_PLUGGABLE_DIALOGS = @ENABLE_PLUGGABLE_DIALOGS@
 ENABLE_SOUND_SETTINGS = @ENABLE_SOUND_SETTINGS@
 ETAGS = @ETAGS@
 EXEEXT = @EXEEXT@
@@ -275,6 +310,16 @@ GARCON_CFLAGS = @GARCON_CFLAGS@
 GARCON_LIBS = @GARCON_LIBS@
 GARCON_REQUIRED_VERSION = @GARCON_REQUIRED_VERSION@
 GARCON_VERSION = @GARCON_VERSION@
+GDBUS_CODEGEN = @GDBUS_CODEGEN@
+GDK_WAYLAND_CFLAGS = @GDK_WAYLAND_CFLAGS@
+GDK_WAYLAND_LIBS = @GDK_WAYLAND_LIBS@
+GDK_WAYLAND_REQUIRED_VERSION = @GDK_WAYLAND_REQUIRED_VERSION@
+GDK_WAYLAND_VERSION = @GDK_WAYLAND_VERSION@
+GDK_X11_CFLAGS = @GDK_X11_CFLAGS@
+GDK_X11_LIBS = @GDK_X11_LIBS@
+GDK_X11_REQUIRED_VERSION = @GDK_X11_REQUIRED_VERSION@
+GDK_X11_VERSION = @GDK_X11_VERSION@
+GETTEXT_MACRO_VERSION = @GETTEXT_MACRO_VERSION@
 GETTEXT_PACKAGE = @GETTEXT_PACKAGE@
 GIO_CFLAGS = @GIO_CFLAGS@
 GIO_LIBS = @GIO_LIBS@
@@ -288,12 +333,25 @@ GLIB_CFLAGS = @GLIB_CFLAGS@
 GLIB_LIBS = @GLIB_LIBS@
 GLIB_REQUIRED_VERSION = @GLIB_REQUIRED_VERSION@
 GLIB_VERSION = @GLIB_VERSION@
+GMODULE_CFLAGS = @GMODULE_CFLAGS@
+GMODULE_LIBS = @GMODULE_LIBS@
+GMODULE_REQUIRED_VERSION = @GMODULE_REQUIRED_VERSION@
+GMODULE_VERSION = @GMODULE_VERSION@
 GMSGFMT = @GMSGFMT@
+GMSGFMT_015 = @GMSGFMT_015@
 GREP = @GREP@
 GTK_CFLAGS = @GTK_CFLAGS@
+GTK_LAYER_SHELL_CFLAGS = @GTK_LAYER_SHELL_CFLAGS@
+GTK_LAYER_SHELL_LIBS = @GTK_LAYER_SHELL_LIBS@
+GTK_LAYER_SHELL_REQUIRED_VERSION = @GTK_LAYER_SHELL_REQUIRED_VERSION@
+GTK_LAYER_SHELL_VERSION = @GTK_LAYER_SHELL_VERSION@
 GTK_LIBS = @GTK_LIBS@
 GTK_REQUIRED_VERSION = @GTK_REQUIRED_VERSION@
 GTK_VERSION = @GTK_VERSION@
+GTK_X11_CFLAGS = @GTK_X11_CFLAGS@
+GTK_X11_LIBS = @GTK_X11_LIBS@
+GTK_X11_REQUIRED_VERSION = @GTK_X11_REQUIRED_VERSION@
+GTK_X11_VERSION = @GTK_X11_VERSION@
 HELPER_PATH_PREFIX = @HELPER_PATH_PREFIX@
 INPUTPROTO_CFLAGS = @INPUTPROTO_CFLAGS@
 INPUTPROTO_LIBS = @INPUTPROTO_LIBS@
@@ -304,20 +362,16 @@ INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
-INTLTOOL_EXTRACT = @INTLTOOL_EXTRACT@
-INTLTOOL_MERGE = @INTLTOOL_MERGE@
-INTLTOOL_PERL = @INTLTOOL_PERL@
-INTLTOOL_UPDATE = @INTLTOOL_UPDATE@
-INTLTOOL_V_MERGE = @INTLTOOL_V_MERGE@
-INTLTOOL_V_MERGE_OPTIONS = @INTLTOOL_V_MERGE_OPTIONS@
-INTLTOOL__v_MERGE_ = @INTLTOOL__v_MERGE_@
-INTLTOOL__v_MERGE_0 = @INTLTOOL__v_MERGE_0@
+INTLLIBS = @INTLLIBS@
+INTL_MACOSX_LIBS = @INTL_MACOSX_LIBS@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
+LIBICONV = @LIBICONV@
 LIBINPUT_CFLAGS = @LIBINPUT_CFLAGS@
 LIBINPUT_LIBS = @LIBINPUT_LIBS@
 LIBINPUT_REQUIRED_VERSION = @LIBINPUT_REQUIRED_VERSION@
 LIBINPUT_VERSION = @LIBINPUT_VERSION@
+LIBINTL = @LIBINTL@
 LIBNOTIFY_CFLAGS = @LIBNOTIFY_CFLAGS@
 LIBNOTIFY_LIBS = @LIBNOTIFY_LIBS@
 LIBNOTIFY_REQUIRED_VERSION = @LIBNOTIFY_REQUIRED_VERSION@
@@ -326,7 +380,6 @@ LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
 LIBX11_CFLAGS = @LIBX11_CFLAGS@
-LIBX11_LDFLAGS = @LIBX11_LDFLAGS@
 LIBX11_LIBS = @LIBX11_LIBS@
 LIBX11_REQUIRED_VERSION = @LIBX11_REQUIRED_VERSION@
 LIBX11_VERSION = @LIBX11_VERSION@
@@ -356,6 +409,8 @@ LIBXKLAVIER_REQUIRED_VERSION = @LIBXKLAVIER_REQUIRED_VERSION@
 LIBXKLAVIER_VERSION = @LIBXKLAVIER_VERSION@
 LIPO = @LIPO@
 LN_S = @LN_S@
+LTLIBICONV = @LTLIBICONV@
+LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
 LT_SYS_LIBRARY_PATH = @LT_SYS_LIBRARY_PATH@
 MAINT = @MAINT@
@@ -363,6 +418,7 @@ MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
 MSGFMT = @MSGFMT@
+MSGFMT_015 = @MSGFMT_015@
 MSGMERGE = @MSGMERGE@
 NM = @NM@
 NMEDIT = @NMEDIT@
@@ -385,7 +441,7 @@ PLATFORM_CFLAGS = @PLATFORM_CFLAGS@
 PLATFORM_CPPFLAGS = @PLATFORM_CPPFLAGS@
 PLATFORM_LDFLAGS = @PLATFORM_LDFLAGS@
 PNP_IDS = @PNP_IDS@
-PYTHON = @PYTHON@
+POSUB = @POSUB@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -397,6 +453,15 @@ UPOWERGLIB_REQUIRED_VERSION = @UPOWERGLIB_REQUIRED_VERSION@
 UPOWERGLIB_VERSION = @UPOWERGLIB_VERSION@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
+WAYLAND_CLIENT_CFLAGS = @WAYLAND_CLIENT_CFLAGS@
+WAYLAND_CLIENT_LIBS = @WAYLAND_CLIENT_LIBS@
+WAYLAND_CLIENT_REQUIRED_VERSION = @WAYLAND_CLIENT_REQUIRED_VERSION@
+WAYLAND_CLIENT_VERSION = @WAYLAND_CLIENT_VERSION@
+WAYLAND_SCANNER_CFLAGS = @WAYLAND_SCANNER_CFLAGS@
+WAYLAND_SCANNER_LIBS = @WAYLAND_SCANNER_LIBS@
+WAYLAND_SCANNER_REQUIRED_VERSION = @WAYLAND_SCANNER_REQUIRED_VERSION@
+WAYLAND_SCANNER_VERSION = @WAYLAND_SCANNER_VERSION@
+WLR_PROTOCOLS_PKGDATADIR = @WLR_PROTOCOLS_PKGDATADIR@
 XCURSOR_CFLAGS = @XCURSOR_CFLAGS@
 XCURSOR_LIBS = @XCURSOR_LIBS@
 XCURSOR_REQUIRED_VERSION = @XCURSOR_REQUIRED_VERSION@
@@ -406,19 +471,17 @@ XFCONF_LIBS = @XFCONF_LIBS@
 XFCONF_REQUIRED_VERSION = @XFCONF_REQUIRED_VERSION@
 XFCONF_VERSION = @XFCONF_VERSION@
 XGETTEXT = @XGETTEXT@
+XGETTEXT_015 = @XGETTEXT_015@
+XGETTEXT_EXTRA_OPTIONS = @XGETTEXT_EXTRA_OPTIONS@
 XI_CFLAGS = @XI_CFLAGS@
 XI_LIBS = @XI_LIBS@
 XI_REQUIRED_VERSION = @XI_REQUIRED_VERSION@
 XI_VERSION = @XI_VERSION@
-XMKMF = @XMKMF@
+XMLLINT = @XMLLINT@
 XRANDR_CFLAGS = @XRANDR_CFLAGS@
 XRANDR_LIBS = @XRANDR_LIBS@
 XRANDR_REQUIRED_VERSION = @XRANDR_REQUIRED_VERSION@
 XRANDR_VERSION = @XRANDR_VERSION@
-X_CFLAGS = @X_CFLAGS@
-X_EXTRA_LIBS = @X_EXTRA_LIBS@
-X_LIBS = @X_LIBS@
-X_PRE_LIBS = @X_PRE_LIBS@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -452,8 +515,6 @@ htmldir = @htmldir@
 includedir = @includedir@
 infodir = @infodir@
 install_sh = @install_sh@
-intltool__v_merge_options_ = @intltool__v_merge_options_@
-intltool__v_merge_options_0 = @intltool__v_merge_options_0@
 libdir = @libdir@
 libexecdir = @libexecdir@
 localedir = @localedir@
@@ -482,29 +543,22 @@ AM_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"xfce4-display-settings\" \
 	$(PLATFORM_CPPFLAGS)
 
-xfce4_display_settings_SOURCES = \
-	main.c \
-	confirmation-dialog_ui.h \
-	display-dialog_ui.h \
-	minimal-display-dialog_ui.h \
-	profile-changed-dialog_ui.h \
-	identity-popup_ui.h \
-	scrollarea.c \
-	scrollarea.h \
-	foo-marshal.c \
-	foo-marshal.h
-
-xfce4_display_settings_CFLAGS = $(GTK_CFLAGS) $(LIBXFCE4UI_CFLAGS) \
-	$(XFCONF_CFLAGS) $(EXO_CFLAGS) $(XRANDR_CFLAGS) \
-	$(LIBX11_CFLAGS) $(PLATFORM_CFLAGS) $(am__append_1)
+xfce4_display_settings_SOURCES = main.c confirmation-dialog_ui.h \
+	display-dialog_ui.h minimal-display-dialog_ui.h \
+	profile-changed-dialog_ui.h identity-popup_ui.h scrollarea.c \
+	scrollarea.h foo-marshal.c foo-marshal.h display-settings.c \
+	display-settings.h $(am__append_1) $(am__append_4)
+xfce4_display_settings_CFLAGS = $(GLIB_CFLAGS) $(GTK_CFLAGS) \
+	$(LIBXFCE4UI_CFLAGS) $(XFCONF_CFLAGS) $(PLATFORM_CFLAGS) \
+	$(am__append_2) $(am__append_5)
 xfce4_display_settings_LDFLAGS = \
 	-no-undefined \
 	$(PLATFORM_LDFLAGS)
 
-xfce4_display_settings_LDADD = $(GTK_LIBS) $(LIBXFCE4UI_LIBS) \
-	$(XFCONF_LIBS) $(EXO_LIBS) $(LIBX11_LIBS) -lm $(XRANDR_LIBS) \
-	$(GLIB_LIBS) $(top_builddir)/common/libxfce4-settings.la \
-	$(am__append_2)
+xfce4_display_settings_LDADD =  \
+	$(top_builddir)/common/libxfce4-settings.la $(GLIB_LIBS) \
+	$(GTK_LIBS) $(LIBXFCE4UI_LIBS) $(XFCONF_LIBS) -lm \
+	$(am__append_3) $(am__append_6)
 @MAINTAINER_MODE_TRUE@BUILT_SOURCES = \
 @MAINTAINER_MODE_TRUE@	confirmation-dialog_ui.h \
 @MAINTAINER_MODE_TRUE@	display-dialog_ui.h \
@@ -638,6 +692,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfce4_display_settings-display-settings-wayland.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfce4_display_settings-display-settings-x11.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfce4_display_settings-display-settings.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfce4_display_settings-foo-marshal.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfce4_display_settings-main.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfce4_display_settings-scrollarea.Po@am__quote@ # am--include-marker
@@ -710,6 +767,48 @@ xfce4_display_settings-foo-marshal.obj: foo-marshal.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='foo-marshal.c' object='xfce4_display_settings-foo-marshal.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -c -o xfce4_display_settings-foo-marshal.obj `if test -f 'foo-marshal.c'; then $(CYGPATH_W) 'foo-marshal.c'; else $(CYGPATH_W) '$(srcdir)/foo-marshal.c'; fi`
+
+xfce4_display_settings-display-settings.o: display-settings.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -MT xfce4_display_settings-display-settings.o -MD -MP -MF $(DEPDIR)/xfce4_display_settings-display-settings.Tpo -c -o xfce4_display_settings-display-settings.o `test -f 'display-settings.c' || echo '$(srcdir)/'`display-settings.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfce4_display_settings-display-settings.Tpo $(DEPDIR)/xfce4_display_settings-display-settings.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='display-settings.c' object='xfce4_display_settings-display-settings.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -c -o xfce4_display_settings-display-settings.o `test -f 'display-settings.c' || echo '$(srcdir)/'`display-settings.c
+
+xfce4_display_settings-display-settings.obj: display-settings.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -MT xfce4_display_settings-display-settings.obj -MD -MP -MF $(DEPDIR)/xfce4_display_settings-display-settings.Tpo -c -o xfce4_display_settings-display-settings.obj `if test -f 'display-settings.c'; then $(CYGPATH_W) 'display-settings.c'; else $(CYGPATH_W) '$(srcdir)/display-settings.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfce4_display_settings-display-settings.Tpo $(DEPDIR)/xfce4_display_settings-display-settings.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='display-settings.c' object='xfce4_display_settings-display-settings.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -c -o xfce4_display_settings-display-settings.obj `if test -f 'display-settings.c'; then $(CYGPATH_W) 'display-settings.c'; else $(CYGPATH_W) '$(srcdir)/display-settings.c'; fi`
+
+xfce4_display_settings-display-settings-x11.o: display-settings-x11.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -MT xfce4_display_settings-display-settings-x11.o -MD -MP -MF $(DEPDIR)/xfce4_display_settings-display-settings-x11.Tpo -c -o xfce4_display_settings-display-settings-x11.o `test -f 'display-settings-x11.c' || echo '$(srcdir)/'`display-settings-x11.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfce4_display_settings-display-settings-x11.Tpo $(DEPDIR)/xfce4_display_settings-display-settings-x11.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='display-settings-x11.c' object='xfce4_display_settings-display-settings-x11.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -c -o xfce4_display_settings-display-settings-x11.o `test -f 'display-settings-x11.c' || echo '$(srcdir)/'`display-settings-x11.c
+
+xfce4_display_settings-display-settings-x11.obj: display-settings-x11.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -MT xfce4_display_settings-display-settings-x11.obj -MD -MP -MF $(DEPDIR)/xfce4_display_settings-display-settings-x11.Tpo -c -o xfce4_display_settings-display-settings-x11.obj `if test -f 'display-settings-x11.c'; then $(CYGPATH_W) 'display-settings-x11.c'; else $(CYGPATH_W) '$(srcdir)/display-settings-x11.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfce4_display_settings-display-settings-x11.Tpo $(DEPDIR)/xfce4_display_settings-display-settings-x11.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='display-settings-x11.c' object='xfce4_display_settings-display-settings-x11.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -c -o xfce4_display_settings-display-settings-x11.obj `if test -f 'display-settings-x11.c'; then $(CYGPATH_W) 'display-settings-x11.c'; else $(CYGPATH_W) '$(srcdir)/display-settings-x11.c'; fi`
+
+xfce4_display_settings-display-settings-wayland.o: display-settings-wayland.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -MT xfce4_display_settings-display-settings-wayland.o -MD -MP -MF $(DEPDIR)/xfce4_display_settings-display-settings-wayland.Tpo -c -o xfce4_display_settings-display-settings-wayland.o `test -f 'display-settings-wayland.c' || echo '$(srcdir)/'`display-settings-wayland.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfce4_display_settings-display-settings-wayland.Tpo $(DEPDIR)/xfce4_display_settings-display-settings-wayland.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='display-settings-wayland.c' object='xfce4_display_settings-display-settings-wayland.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -c -o xfce4_display_settings-display-settings-wayland.o `test -f 'display-settings-wayland.c' || echo '$(srcdir)/'`display-settings-wayland.c
+
+xfce4_display_settings-display-settings-wayland.obj: display-settings-wayland.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -MT xfce4_display_settings-display-settings-wayland.obj -MD -MP -MF $(DEPDIR)/xfce4_display_settings-display-settings-wayland.Tpo -c -o xfce4_display_settings-display-settings-wayland.obj `if test -f 'display-settings-wayland.c'; then $(CYGPATH_W) 'display-settings-wayland.c'; else $(CYGPATH_W) '$(srcdir)/display-settings-wayland.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfce4_display_settings-display-settings-wayland.Tpo $(DEPDIR)/xfce4_display_settings-display-settings-wayland.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='display-settings-wayland.c' object='xfce4_display_settings-display-settings-wayland.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfce4_display_settings_CFLAGS) $(CFLAGS) -c -o xfce4_display_settings-display-settings-wayland.obj `if test -f 'display-settings-wayland.c'; then $(CYGPATH_W) 'display-settings-wayland.c'; else $(CYGPATH_W) '$(srcdir)/display-settings-wayland.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -911,7 +1010,10 @@ clean: clean-am
 clean-am: clean-binPROGRAMS clean-generic clean-libtool mostlyclean-am
 
 distclean: distclean-am
-		-rm -f ./$(DEPDIR)/xfce4_display_settings-foo-marshal.Po
+		-rm -f ./$(DEPDIR)/xfce4_display_settings-display-settings-wayland.Po
+	-rm -f ./$(DEPDIR)/xfce4_display_settings-display-settings-x11.Po
+	-rm -f ./$(DEPDIR)/xfce4_display_settings-display-settings.Po
+	-rm -f ./$(DEPDIR)/xfce4_display_settings-foo-marshal.Po
 	-rm -f ./$(DEPDIR)/xfce4_display_settings-main.Po
 	-rm -f ./$(DEPDIR)/xfce4_display_settings-scrollarea.Po
 	-rm -f Makefile
@@ -960,7 +1062,10 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-		-rm -f ./$(DEPDIR)/xfce4_display_settings-foo-marshal.Po
+		-rm -f ./$(DEPDIR)/xfce4_display_settings-display-settings-wayland.Po
+	-rm -f ./$(DEPDIR)/xfce4_display_settings-display-settings-x11.Po
+	-rm -f ./$(DEPDIR)/xfce4_display_settings-display-settings.Po
+	-rm -f ./$(DEPDIR)/xfce4_display_settings-foo-marshal.Po
 	-rm -f ./$(DEPDIR)/xfce4_display_settings-main.Po
 	-rm -f ./$(DEPDIR)/xfce4_display_settings-scrollarea.Po
 	-rm -f Makefile
@@ -1019,7 +1124,8 @@ uninstall-am: uninstall-binPROGRAMS uninstall-desktopDATA \
 @MAINTAINER_MODE_TRUE@identity-popup_ui.h: identity-popup.glade
 @MAINTAINER_MODE_TRUE@	xdt-csource --static --strip-comments --strip-content --name=identity_popup_ui $< >$@
 
-@INTLTOOL_DESKTOP_RULE@
+%.desktop: %.desktop.in
+	$(AM_V_GEN) $(MSGFMT) --desktop --template $< -d $(top_srcdir)/po -o $@
 
 # vi:set ts=8 sw=8 noet ai nocindent syntax=automake:
 

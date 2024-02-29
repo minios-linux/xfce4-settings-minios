@@ -1184,229 +1184,6 @@ AC_SUBST([am__tar])
 AC_SUBST([am__untar])
 ]) # _AM_PROG_TAR
 
-
-dnl IT_PROG_INTLTOOL([MINIMUM-VERSION], [no-xml])
-# serial 42 IT_PROG_INTLTOOL
-AC_DEFUN([IT_PROG_INTLTOOL], [
-AC_PREREQ([2.50])dnl
-AC_REQUIRE([AM_NLS])dnl
-
-case "$am__api_version" in
-    1.[01234])
-	AC_MSG_ERROR([Automake 1.5 or newer is required to use intltool])
-    ;;
-    *)
-    ;;
-esac
-
-INTLTOOL_REQUIRED_VERSION_AS_INT=`echo $1 | awk -F. '{ print $ 1 * 1000 + $ 2 * 100 + $ 3; }'`
-INTLTOOL_APPLIED_VERSION=`intltool-update --version | head -1 | cut -d" " -f3`
-INTLTOOL_APPLIED_VERSION_AS_INT=`echo $INTLTOOL_APPLIED_VERSION | awk -F. '{ print $ 1 * 1000 + $ 2 * 100 + $ 3; }'`
-if test -n "$1"; then
-    AC_MSG_CHECKING([for intltool >= $1])
-    AC_MSG_RESULT([$INTLTOOL_APPLIED_VERSION found])
-    test "$INTLTOOL_APPLIED_VERSION_AS_INT" -ge "$INTLTOOL_REQUIRED_VERSION_AS_INT" ||
-	AC_MSG_ERROR([Your intltool is too old.  You need intltool $1 or later.])
-fi
-
-AC_PATH_PROG(INTLTOOL_UPDATE, [intltool-update])
-AC_PATH_PROG(INTLTOOL_MERGE, [intltool-merge])
-AC_PATH_PROG(INTLTOOL_EXTRACT, [intltool-extract])
-if test -z "$INTLTOOL_UPDATE" -o -z "$INTLTOOL_MERGE" -o -z "$INTLTOOL_EXTRACT"; then
-    AC_MSG_ERROR([The intltool scripts were not found. Please install intltool.])
-fi
-
-if test -z "$AM_DEFAULT_VERBOSITY"; then
-  AM_DEFAULT_VERBOSITY=1
-fi
-AC_SUBST([AM_DEFAULT_VERBOSITY])
-
-INTLTOOL_V_MERGE='$(INTLTOOL__v_MERGE_$(V))'
-INTLTOOL__v_MERGE_='$(INTLTOOL__v_MERGE_$(AM_DEFAULT_VERBOSITY))'
-INTLTOOL__v_MERGE_0='@echo "  ITMRG " [$]@;'
-AC_SUBST(INTLTOOL_V_MERGE)
-AC_SUBST(INTLTOOL__v_MERGE_)
-AC_SUBST(INTLTOOL__v_MERGE_0)
-
-INTLTOOL_V_MERGE_OPTIONS='$(intltool__v_merge_options_$(V))'
-intltool__v_merge_options_='$(intltool__v_merge_options_$(AM_DEFAULT_VERBOSITY))'
-intltool__v_merge_options_0='-q'
-AC_SUBST(INTLTOOL_V_MERGE_OPTIONS)
-AC_SUBST(intltool__v_merge_options_)
-AC_SUBST(intltool__v_merge_options_0)
-
-  INTLTOOL_DESKTOP_RULE='%.desktop:   %.desktop.in   $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-INTLTOOL_DIRECTORY_RULE='%.directory: %.directory.in $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-     INTLTOOL_KEYS_RULE='%.keys:      %.keys.in      $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -k -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-     INTLTOOL_PROP_RULE='%.prop:      %.prop.in      $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-      INTLTOOL_OAF_RULE='%.oaf:       %.oaf.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -o -p $(top_srcdir)/po $< [$]@'
-     INTLTOOL_PONG_RULE='%.pong:      %.pong.in      $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-   INTLTOOL_SERVER_RULE='%.server:    %.server.in    $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -o -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-    INTLTOOL_SHEET_RULE='%.sheet:     %.sheet.in     $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-INTLTOOL_SOUNDLIST_RULE='%.soundlist: %.soundlist.in $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-       INTLTOOL_UI_RULE='%.ui:        %.ui.in        $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-      INTLTOOL_XML_RULE='%.xml:       %.xml.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-if test "$INTLTOOL_APPLIED_VERSION_AS_INT" -ge 5000; then
-      INTLTOOL_XML_NOMERGE_RULE='%.xml:       %.xml.in       $(INTLTOOL_MERGE) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u --no-translations $< [$]@'
-else
-      INTLTOOL_XML_NOMERGE_RULE='%.xml:       %.xml.in       $(INTLTOOL_MERGE) ; $(INTLTOOL_V_MERGE)_it_tmp_dir=tmp.intltool.[$][$]RANDOM && mkdir [$][$]_it_tmp_dir && LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u [$][$]_it_tmp_dir $< [$]@ && rmdir [$][$]_it_tmp_dir'
-fi
-      INTLTOOL_XAM_RULE='%.xam:       %.xml.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-      INTLTOOL_KBD_RULE='%.kbd:       %.kbd.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -m -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-    INTLTOOL_CAVES_RULE='%.caves:     %.caves.in     $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-  INTLTOOL_SCHEMAS_RULE='%.schemas:   %.schemas.in   $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -s -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-    INTLTOOL_THEME_RULE='%.theme:     %.theme.in     $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
-    INTLTOOL_SERVICE_RULE='%.service: %.service.in   $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@'
-   INTLTOOL_POLICY_RULE='%.policy:    %.policy.in    $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@'
-
-_IT_SUBST(INTLTOOL_DESKTOP_RULE)
-_IT_SUBST(INTLTOOL_DIRECTORY_RULE)
-_IT_SUBST(INTLTOOL_KEYS_RULE)
-_IT_SUBST(INTLTOOL_PROP_RULE)
-_IT_SUBST(INTLTOOL_OAF_RULE)
-_IT_SUBST(INTLTOOL_PONG_RULE)
-_IT_SUBST(INTLTOOL_SERVER_RULE)
-_IT_SUBST(INTLTOOL_SHEET_RULE)
-_IT_SUBST(INTLTOOL_SOUNDLIST_RULE)
-_IT_SUBST(INTLTOOL_UI_RULE)
-_IT_SUBST(INTLTOOL_XAM_RULE)
-_IT_SUBST(INTLTOOL_KBD_RULE)
-_IT_SUBST(INTLTOOL_XML_RULE)
-_IT_SUBST(INTLTOOL_XML_NOMERGE_RULE)
-_IT_SUBST(INTLTOOL_CAVES_RULE)
-_IT_SUBST(INTLTOOL_SCHEMAS_RULE)
-_IT_SUBST(INTLTOOL_THEME_RULE)
-_IT_SUBST(INTLTOOL_SERVICE_RULE)
-_IT_SUBST(INTLTOOL_POLICY_RULE)
-
-# Check the gettext tools to make sure they are GNU
-AC_PATH_PROG(XGETTEXT, xgettext)
-AC_PATH_PROG(MSGMERGE, msgmerge)
-AC_PATH_PROG(MSGFMT, msgfmt)
-AC_PATH_PROG(GMSGFMT, gmsgfmt, $MSGFMT)
-if test -z "$XGETTEXT" -o -z "$MSGMERGE" -o -z "$MSGFMT"; then
-    AC_MSG_ERROR([GNU gettext tools not found; required for intltool])
-fi
-xgversion="`$XGETTEXT --version|grep '(GNU ' 2> /dev/null`"
-mmversion="`$MSGMERGE --version|grep '(GNU ' 2> /dev/null`"
-mfversion="`$MSGFMT --version|grep '(GNU ' 2> /dev/null`"
-if test -z "$xgversion" -o -z "$mmversion" -o -z "$mfversion"; then
-    AC_MSG_ERROR([GNU gettext tools not found; required for intltool])
-fi
-
-AC_PATH_PROG(INTLTOOL_PERL, perl)
-if test -z "$INTLTOOL_PERL"; then
-   AC_MSG_ERROR([perl not found])
-fi
-AC_MSG_CHECKING([for perl >= 5.8.1])
-$INTLTOOL_PERL -e "use 5.8.1;" > /dev/null 2>&1
-if test $? -ne 0; then
-   AC_MSG_ERROR([perl 5.8.1 is required for intltool])
-else
-   IT_PERL_VERSION=`$INTLTOOL_PERL -e "printf '%vd', $^V"`
-   AC_MSG_RESULT([$IT_PERL_VERSION])
-fi
-if test "x$2" != "xno-xml"; then
-   AC_MSG_CHECKING([for XML::Parser])
-   if `$INTLTOOL_PERL -e "require XML::Parser" 2>/dev/null`; then
-       AC_MSG_RESULT([ok])
-   else
-       AC_MSG_ERROR([XML::Parser perl module is required for intltool])
-   fi
-fi
-
-# Substitute ALL_LINGUAS so we can use it in po/Makefile
-AC_SUBST(ALL_LINGUAS)
-
-IT_PO_SUBDIR([po])
-
-])
-
-
-# IT_PO_SUBDIR(DIRNAME)
-# ---------------------
-# All po subdirs have to be declared with this macro; the subdir "po" is
-# declared by IT_PROG_INTLTOOL.
-#
-AC_DEFUN([IT_PO_SUBDIR],
-[AC_PREREQ([2.53])dnl We use ac_top_srcdir inside AC_CONFIG_COMMANDS.
-dnl
-dnl The following CONFIG_COMMANDS should be executed at the very end
-dnl of config.status.
-AC_CONFIG_COMMANDS_PRE([
-  AC_CONFIG_COMMANDS([$1/stamp-it], [
-    if [ ! grep "^# INTLTOOL_MAKEFILE$" "$1/Makefile.in" > /dev/null ]; then
-       AC_MSG_ERROR([$1/Makefile.in.in was not created by intltoolize.])
-    fi
-    rm -f "$1/stamp-it" "$1/stamp-it.tmp" "$1/POTFILES" "$1/Makefile.tmp"
-    >"$1/stamp-it.tmp"
-    [sed '/^#/d
-	 s/^[[].*] *//
-	 /^[ 	]*$/d
-	'"s|^|	$ac_top_srcdir/|" \
-      "$srcdir/$1/POTFILES.in" | sed '$!s/$/ \\/' >"$1/POTFILES"
-    ]
-    [sed '/^POTFILES =/,/[^\\]$/ {
-		/^POTFILES =/!d
-		r $1/POTFILES
-	  }
-	 ' "$1/Makefile.in" >"$1/Makefile"]
-    rm -f "$1/Makefile.tmp"
-    mv "$1/stamp-it.tmp" "$1/stamp-it"
-  ])
-])dnl
-])
-
-# _IT_SUBST(VARIABLE)
-# -------------------
-# Abstract macro to do either _AM_SUBST_NOTMAKE or AC_SUBST
-#
-AC_DEFUN([_IT_SUBST],
-[
-AC_SUBST([$1])
-m4_ifdef([_AM_SUBST_NOTMAKE], [_AM_SUBST_NOTMAKE([$1])])
-]
-)
-
-# deprecated macros
-AU_ALIAS([AC_PROG_INTLTOOL], [IT_PROG_INTLTOOL])
-# A hint is needed for aclocal from Automake <= 1.9.4:
-# AC_DEFUN([AC_PROG_INTLTOOL], ...)
-
-
-# nls.m4 serial 6 (gettext-0.20.2)
-dnl Copyright (C) 1995-2003, 2005-2006, 2008-2014, 2016, 2019-2023 Free
-dnl Software Foundation, Inc.
-dnl This file is free software; the Free Software Foundation
-dnl gives unlimited permission to copy and/or distribute it,
-dnl with or without modifications, as long as this notice is preserved.
-dnl
-dnl This file can be used in projects which are not available under
-dnl the GNU General Public License or the GNU Lesser General Public
-dnl License but which still want to provide support for the GNU gettext
-dnl functionality.
-dnl Please note that the actual code of the GNU gettext library is covered
-dnl by the GNU Lesser General Public License, and the rest of the GNU
-dnl gettext package is covered by the GNU General Public License.
-dnl They are *not* in the public domain.
-
-dnl Authors:
-dnl   Ulrich Drepper <drepper@cygnus.com>, 1995-2000.
-dnl   Bruno Haible <haible@clisp.cons.org>, 2000-2003.
-
-AC_PREREQ([2.50])
-
-AC_DEFUN([AM_NLS],
-[
-  AC_MSG_CHECKING([whether NLS is requested])
-  dnl Default is enabled NLS
-  AC_ARG_ENABLE([nls],
-    [  --disable-nls           do not use Native Language Support],
-    USE_NLS=$enableval, USE_NLS=yes)
-  AC_MSG_RESULT([$USE_NLS])
-  AC_SUBST([USE_NLS])
-])
-
 # pkg.m4 - Macros to locate and utilise pkg-config.   -*- Autoconf -*-
 # serial 11 (pkg-config-0.29.1)
 
@@ -2477,10 +2254,10 @@ AC_DEFUN([XDT_FEATURE_LINKER_OPTS],
   fi
 ])
 
-dnl Copyright (c) 2002-2015
+dnl Copyright (c) 2002-2020
 dnl         The Xfce development team. All rights reserved.
 dnl
-dnl Written for Xfce by Benedikt Meurer <benny@xfce.org>.
+dnl Written for Xfce by Natanael Copa <ncopa@alpinelinux.org>
 dnl
 dnl This program is free software; you can redistribute it and/or modify
 dnl it under the terms of the GNU General Public License as published by
@@ -2496,60 +2273,101 @@ dnl You should have received a copy of the GNU General Public License along
 dnl with this program; if not, write to the Free Software Foundation, Inc.,
 dnl 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 dnl
-dnl xdt-i18n
+dnl xdt-version
 dnl --------
-dnl  Internalization M4 macros.
+dnl  Version initialization M4 macros.
 dnl
 
 
-dnl XDT_I18N([LINGUAS][, PACKAGE])
+dnl XDT_VERSION_INIT(SEMVER, [TAG])
 dnl
-dnl This macro takes care of setting up everything for i18n support.
+dnl This macro takes care of setting up the version numbering.
 dnl
-dnl If LINGUAS isn't specified, it will automatically extract the linguas
-dnl from po/*.po.
+dnl It will define the following macros based on SEMVER and TAG:
 dnl
-dnl If PACKAGE isn't specified, it defaults to the package tarname; see
-dnl the description of AC_INIT() for an explanation of what makes up
-dnl the package tarname. Normally, you don't need to specify PACKAGE,
-dnl but you can stick with the default.
+dnl  - xdt_version
+dnl  - xdt_version_major
+dnl  - xdt_version_minor
+dnl  - xdt_version_micro
+dnl  - xdt_version_tag
+dnl  - xdt_version_build
+dnl  - xdt_debug_default
 dnl
-AC_DEFUN([XDT_I18N],
+dnl If TAG isn't specified, the xdt_version_tag and xdt_version_git
+dnl will be empty and xdt_debug_default will be set to "minimum",
+dnl otherwise the xdt_version_build will contain a git hash and
+dnl xdt_debug_default will be set to "yes"
+dnl
+dnl Example usage:
+dnl
+dnl XDT_VERSION_INIT([4.15.3],[git])
+dnl AC_INIT([xfce4-someproject],[xdt_version()])
+dnl ...
+dnl XDT_FEATURE_DEBUG([xdt_debug_default])
+dnl
+
+AC_DEFUN([XDT_VERSION_INIT],
 [
-  dnl Substitute GETTEXT_PACKAGE variable
-  GETTEXT_PACKAGE=m4_default([$2], [AC_PACKAGE_TARNAME()])
-  AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], ["$GETTEXT_PACKAGE"], [Name of default gettext domain])
-  AC_SUBST([GETTEXT_PACKAGE])
+  m4_define([xdt_version_tag], [$2])
 
-  dnl gettext and stuff
-  ALL_LINGUAS="m4_ifblank(
-    [$1],
-    [esyscmd([echo $(for i in po/*.po; do test -e "$i" && basename -- "$i" .po; done) | tr -d '\n'])],
-    [$1])"
+  dnl set git revision in xdt_version_build if TAG is set
+  m4_define([xdt_version_build], [ifelse(xdt_version_tag(), [git],
+    [esyscmd([
+      if test -d .git; then
+        revision=$(git rev-parse --short HEAD 2>/dev/null)
+      fi
+      printf "%s" "${revision:-UNKNOWN}"
+    ])])])
 
-  dnl This is required on some Linux systems
-  AC_CHECK_FUNC([bind_textdomain_codeset])
+  dnl define xdt_debug_default to "yes" if TAG is set
+  m4_define([xdt_debug_default], [ifelse(xdt_version_tag(), [git], [yes], [minimum])])
 
-  dnl Determine where to install locale files
-  AC_MSG_CHECKING([for locales directory])
-  AC_ARG_WITH([locales-dir], 
-  [
-    AS_HELP_STRING([--with-locales-dir=DIR],[Install locales into DIR])
-  ], [localedir=$withval],
-  [
-    if test x"$CATOBJEXT" = x".mo"; then
-      localedir=$libdir/locale
-    else
-      localedir=$datarootdir/locale
-    fi
-  ])
-  AC_MSG_RESULT([$localedir])
-  AC_SUBST([localedir])
+  dnl define xdt_version string
+  m4_define([xdt_version], [$1][ifelse(xdt_version_tag(), [git], [xdt_version_tag()-xdt_version_build()], [xdt_version_tag()])])
+
+  dnl define major, minor and micro
+  m4_define([xdt_version_major], [esyscmd([
+    version="$1"
+    printf "%s" "${version%%.*}"
+  ])])
+
+  m4_define([xdt_version_minor], [esyscmd([
+    version="$1"
+    case "$version" in
+      *.*)
+        major="${version%%.*}"
+        minor_micro="${version#${major}.}"
+        printf "%s" "${minor_micro%%.*}"
+        ;;
+    esac
+  ])])
+
+  m4_define([xdt_version_micro], [esyscmd([
+    version="$1"
+    case "$version" in
+      *.*.*)
+        major=${version%%.*}
+        minor_micro=${version#${major}.}
+        minor="${minor_micro%%.*}"
+        reminder=${version#${major}.${minor}.}
+        printf "%s" "${reminder%%.*}"
+        ;;
+    esac
+  ])])
 ])
 
 
+m4_include([m4/gettext.m4])
+m4_include([m4/iconv.m4])
+m4_include([m4/intlmacosx.m4])
+m4_include([m4/lib-ld.m4])
+m4_include([m4/lib-link.m4])
+m4_include([m4/lib-prefix.m4])
 m4_include([m4/libtool.m4])
 m4_include([m4/ltoptions.m4])
 m4_include([m4/ltsugar.m4])
 m4_include([m4/ltversion.m4])
 m4_include([m4/lt~obsolete.m4])
+m4_include([m4/nls.m4])
+m4_include([m4/po.m4])
+m4_include([m4/progtest.m4])
