@@ -64,7 +64,6 @@
 #include "keyboard-layout.h"
 #include "keyboard-shortcuts.h"
 #include "workspaces.h"
-#include "clipboard-manager.h"
 #include "xsettings.h"
 #endif
 
@@ -83,13 +82,13 @@ static guint owner_id;
 
 struct t_data_set
 {
-    XfceSMClient         *sm_client;
     GObject              *gtk_decorations_helper;
     GObject              *gtk_settings_helper;
 #ifdef ENABLE_DISPLAY_SETTINGS
     GObject              *displays_helper;
 #endif
 #ifdef ENABLE_X11
+    XfceSMClient         *sm_client;
     GObject              *pointer_helper;
     GObject              *keyboards_helper;
     GObject              *accessibility_helper;
@@ -128,7 +127,6 @@ on_name_acquired (GDBusConnection *connection,
 {
     GBusNameOwnerFlags         dbus_flags;
     struct t_data_set         *s_data;
-    GError                    *error = NULL;
 
     s_data = (struct t_data_set*) user_data;
 
@@ -157,29 +155,30 @@ on_name_acquired (GDBusConnection *connection,
     s_data->displays_helper = xfce_displays_helper_new ();
 #endif
 
+#ifdef ENABLE_X11
     /* connect to session always, even if we quit below.  this way the
      * session manager won't wait for us to time out. */
-    s_data->sm_client = xfce_sm_client_get ();
-    xfce_sm_client_set_restart_style (s_data->sm_client, XFCE_SM_CLIENT_RESTART_IMMEDIATELY);
-    xfce_sm_client_set_desktop_file (s_data->sm_client, XFSETTINGS_DESKTOP_FILE);
-    xfce_sm_client_set_priority (s_data->sm_client, 20);
-    g_signal_connect (G_OBJECT (s_data->sm_client), "quit", G_CALLBACK (gtk_main_quit), NULL);
-    if (!xfce_sm_client_connect (s_data->sm_client, &error) && error)
+    if (GDK_IS_X11_DISPLAY (gdk_display_get_default ()))
     {
-        g_printerr ("Failed to connect to session manager: %s\n", error->message);
-        g_clear_error (&error);
-    }
-
-#ifdef ENABLE_X11
-    if (g_getenv ("XFSETTINGSD_NO_CLIPBOARD") == NULL && GDK_IS_X11_DISPLAY (gdk_display_get_default ()))
-    {
-        s_data->clipboard_daemon = g_object_new (GSD_TYPE_CLIPBOARD_MANAGER, NULL);
-        if (!gsd_clipboard_manager_start (GSD_CLIPBOARD_MANAGER (s_data->clipboard_daemon), opt_replace))
+        GError *error = NULL;
+        s_data->sm_client = xfce_sm_client_get ();
+        xfce_sm_client_set_restart_style (s_data->sm_client, XFCE_SM_CLIENT_RESTART_IMMEDIATELY);
+        xfce_sm_client_set_desktop_file (s_data->sm_client, XFSETTINGS_DESKTOP_FILE);
+        xfce_sm_client_set_priority (s_data->sm_client, 20);
+        g_signal_connect (G_OBJECT (s_data->sm_client), "quit", G_CALLBACK (gtk_main_quit), NULL);
+        if (!xfce_sm_client_connect (s_data->sm_client, &error) && error)
         {
-            UNREF_GOBJECT (G_OBJECT (s_data->clipboard_daemon));
-            s_data->clipboard_daemon = NULL;
+            g_warning ("Failed to connect to session manager: %s", error->message);
+            g_clear_error (&error);
+        }
 
-            g_printerr (G_LOG_DOMAIN ": %s\n", "Another clipboard manager is already running.");
+        if (g_getenv ("XFSETTINGSD_NO_CLIPBOARD") == NULL)
+        {
+            s_data->clipboard_daemon = G_OBJECT (xfce_clipboard_manager_new (opt_replace));
+            if (s_data->clipboard_daemon == NULL)
+            {
+                g_warning ("Another clipboard manager is already running.");
+            }
         }
     }
 #endif
@@ -244,7 +243,9 @@ main (gint argc, gchar **argv)
        before we have a chance to fork.
        g_option_context_add_group (context, gtk_get_option_group (FALSE));
     */
+#ifdef ENABLE_X11
     g_option_context_add_group (context, xfce_sm_client_get_option_group (argc, argv));
+#endif
     g_option_context_set_ignore_unknown_options(context, TRUE);
 
     /* parse options */
@@ -266,7 +267,7 @@ main (gint argc, gchar **argv)
     if (G_UNLIKELY (opt_version))
     {
         g_print ("%s %s (Xfce %s)\n\n", G_LOG_DOMAIN, PACKAGE_VERSION, xfce_version_string ());
-        g_print ("%s\n", "Copyright (c) 2008-2023");
+        g_print ("%s\n", "Copyright (c) 2008-2024");
         g_print ("\t%s\n\n", _("The Xfce development team. All rights reserved."));
         g_print (_("Please report bugs to <%s>."), PACKAGE_BUGREPORT);
         g_print ("\n");
@@ -379,11 +380,7 @@ main (gint argc, gchar **argv)
     UNREF_GOBJECT (s_data.shortcuts_helper);
     UNREF_GOBJECT (s_data.keyboard_layout_helper);
     UNREF_GOBJECT (s_data.workspaces_helper);
-    if (G_LIKELY (s_data.clipboard_daemon != NULL))
-    {
-        gsd_clipboard_manager_stop (GSD_CLIPBOARD_MANAGER (s_data.clipboard_daemon));
-        UNREF_GOBJECT (s_data.clipboard_daemon);
-    }
+    UNREF_GOBJECT (s_data.clipboard_daemon);
 #endif
     UNREF_GOBJECT (s_data.gtk_decorations_helper);
     UNREF_GOBJECT (s_data.gtk_settings_helper);
@@ -393,7 +390,9 @@ main (gint argc, gchar **argv)
 
     xfconf_shutdown ();
 
+#ifdef ENABLE_X11
     UNREF_GOBJECT (s_data.sm_client);
+#endif
 
     /* release the dbus name */
     if (dbus_connection != NULL)

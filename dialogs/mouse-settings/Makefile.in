@@ -517,7 +517,7 @@ xfce4_mouse_settings_LDFLAGS = \
 
 xfce4_mouse_settings_LDADD = $(GTK_LIBS) $(LIBXFCE4UTIL_LIBS) \
 	$(LIBXFCE4UI_LIBS) $(XFCONF_LIBS) $(XI_LIBS) $(LIBX11_LIBS) \
-	$(LIBINPUT_LIBS) -lm $(am__append_2)
+	$(LIBINPUT_LIBS) $(am__append_2)
 @MAINTAINER_MODE_TRUE@BUILT_SOURCES = \
 @MAINTAINER_MODE_TRUE@	mouse-dialog_ui.h
 

@@ -1,5 +1,5 @@
 dnl
-dnl Copyright (c) 2006 - 2023
+dnl Copyright (c) 2006 - 2024
 dnl         The Xfce development team. All rights reserved.
 dnl
 dnl Originally written for Xfce by Benedikt Meurer <benny@xfce.org>
@@ -9,7 +9,7 @@ dnl
 dnl ***************************
 dnl *** Version information ***
 dnl ***************************
-XDT_VERSION_INIT([4.19.1])
+XDT_VERSION_INIT([4.19.2])
 
 dnl minimum required versions
 m4_define([glib_min_version], [2.66.0])
@@ -17,7 +17,7 @@ m4_define([gtk_min_version], [3.24.0])
 m4_define([garcon_min_version], [0.1.10])
 m4_define([exo_min_version], [0.11.0])
 m4_define([libxfce4util_min_version], [4.17.2])
-m4_define([libxfce4ui_min_version], [4.17.0])
+m4_define([libxfce4ui_min_version], [4.19.5])
 m4_define([xfconf_min_version], [4.13.0])
 
 m4_define([x11_minimum_version], [1.6.7])
@@ -25,7 +25,7 @@ m4_define([fontconfig_min_version], [2.6.0])
 m4_define([xi_min_version], [1.2.0])
 m4_define([inputproto_min_version], [1.4.0])
 
-m4_define([xrandr_min_version], [1.2.0])
+m4_define([xrandr_min_version], [1.5.0])
 m4_define([libnotify_min_version], [0.1.3])
 m4_define([colord_min_version], [1.0.2])
 m4_define([xcursor_min_version], [1.1.0])
@@ -36,7 +36,7 @@ m4_define([libxklavier5_min_version], [5.0])
 
 m4_define([wayland_min_version], [1.15])
 
-m4_define([gtk_mayer_shell_min_version], [0.7.0])
+m4_define([gtk_layer_shell_min_version], [0.7.0])
 
 m4_define([upower_glib_min_version], [0.9.8])
 
@@ -50,7 +50,7 @@ m4_append([xfce4_settings_version_short], ["])
 dnl ***************************
 dnl *** Initialize autoconf ***
 dnl ***************************
-AC_COPYRIGHT([Copyright (c) 2008-2023
+AC_COPYRIGHT([Copyright (c) 2008-2024
         The Xfce development team. All rights reserved.])
 AC_INIT([xfce4-settings], [xdt_version], [https://gitlab.xfce.org/xfce/xfce4-settings])
 AC_PREREQ([2.69])
@@ -97,6 +97,7 @@ dnl *** Check for standard headers ***
 dnl **********************************
 AC_CHECK_HEADERS([errno.h memory.h math.h stdlib.h string.h unistd.h signal.h time.h sys/types.h sys/wait.h])
 AC_CHECK_FUNCS([daemon setsid])
+AC_SEARCH_LIBS([round], [m], [], [AC_MSG_ERROR([unable to find the round() function in math library])])
 
 dnl ******************************
 dnl *** Check for i18n support ***
