@@ -17,7 +17,7 @@ override_dh_auto_configure:
 		--enable-xcursor \
 		--with-helper-path-prefix=/usr/share
 
-override_dh_install:
+execute_after_dh_auto_install:
 	# Debianise helpers
 	sed -i -e 's/^WebBrowser=.*/WebBrowser=debian-sensible-browser/' \
 		-e 's/TerminalEmulator=.*/TerminalEmulator=debian-x-terminal-emulator/' \
@@ -31,7 +31,7 @@ override_dh_install:
 		<debian/tmp/usr/share/xfce4/helpers/mutt.desktop \
 		>debian/tmp/usr/share/xfce4/helpers/neomutt.desktop
 
-	dh_install
+	find debian/tmp -name '*.la' -delete
 
 override_dh_installchangelogs:
 	DEB_BUILD_OPTIONS=notrimdch dh_installchangelogs NEWS
