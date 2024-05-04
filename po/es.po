@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce4-settings\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-11-05 00:47+0100\n"
+"POT-Creation-Date: 2024-03-24 12:47+0100\n"
 "PO-Revision-Date: 2013-07-02 20:47+0000\n"
 "Last-Translator: Casper, 2022-2023\n"
 "Language-Team: Spanish (http://app.transifex.com/xfce/xfce4-settings/language/es/)\n"
@@ -56,20 +56,12 @@ msgstr "Televisor"
 msgid "Digital display"
 msgstr "Pantalla digital"
 
-#: common/xfce-randr.c:299 dialogs/display-settings/display-settings-x11.c:743
+#: common/xfce-randr.c:290 dialogs/display-settings/display-settings-x11.c:664
 msgid "Unable to query the version of the RandR extension being used"
 msgstr "No se ha podido obtener la versión de la extensión RandR en uso"
 
-#. 1.2 is required
-#: common/xfce-randr.c:307
-#, c-format
-msgid ""
-"This system is using RandR %d.%d. For the display settings to work version "
-"1.2 is required at least"
-msgstr "El sistema está usando RandR %d.%d. Para que funcione la configuración de pantalla se necesita al menos la versión 1.2"
-
-#: common/xfce-randr.c:581
-#: dialogs/display-settings/display-settings-wayland.c:344
+#: common/xfce-randr.c:572
+#: dialogs/display-settings/display-settings-wayland.c:322
 msgid "Laptop"
 msgstr "Portátil"
 
@@ -81,10 +73,10 @@ msgstr "Accesibilidad"
 #: dialogs/accessibility-settings/accessibility-dialog.glade:85
 #: dialogs/appearance-settings/appearance-dialog.glade:142
 #: dialogs/color-settings/color-dialog.glade:65
-#: dialogs/display-settings/display-dialog.glade:293
-#: dialogs/display-settings/minimal-display-dialog.glade:300
+#: dialogs/display-settings/display-dialog.glade:285
+#: dialogs/display-settings/minimal-display-dialog.glade:368
 #: dialogs/display-settings/profile-changed-dialog.glade:34
-#: dialogs/display-settings/main.c:3404
+#: dialogs/display-settings/main.c:3401
 #: dialogs/keyboard-settings/keyboard-dialog.glade:181
 #: dialogs/mime-settings/xfce-mime-window.c:191
 #: dialogs/mouse-settings/mouse-dialog.glade:195
@@ -96,7 +88,7 @@ msgstr "_Cerrar"
 #: dialogs/accessibility-settings/accessibility-dialog.glade:100
 #: dialogs/appearance-settings/appearance-dialog.glade:126
 #: dialogs/color-settings/color-dialog.glade:80
-#: dialogs/display-settings/display-dialog.glade:277
+#: dialogs/display-settings/display-dialog.glade:269
 #: dialogs/keyboard-settings/keyboard-dialog.glade:196
 #: dialogs/mime-settings/xfce-mime-window.c:194
 #: dialogs/mouse-settings/mouse-dialog.glade:179
@@ -308,7 +300,7 @@ msgstr "_Ratón"
 
 #: dialogs/accessibility-settings/main.c:46
 #: dialogs/appearance-settings/main.c:106 dialogs/color-settings/main.c:49
-#: dialogs/display-settings/main.c:113 dialogs/keyboard-settings/main.c:40
+#: dialogs/display-settings/main.c:115 dialogs/keyboard-settings/main.c:40
 #: dialogs/mime-settings/main.c:46 dialogs/mouse-settings/main.c:94
 #: xfce4-settings-editor/main.c:52
 msgid "Settings manager socket"
@@ -316,7 +308,7 @@ msgstr "Socket del gestor de configuración"
 
 #: dialogs/accessibility-settings/main.c:46
 #: dialogs/appearance-settings/main.c:106 dialogs/color-settings/main.c:49
-#: dialogs/display-settings/main.c:113 dialogs/keyboard-settings/main.c:40
+#: dialogs/display-settings/main.c:115 dialogs/keyboard-settings/main.c:40
 #: dialogs/mime-settings/main.c:46 dialogs/mouse-settings/main.c:94
 #: xfce4-settings-editor/main.c:52
 msgid "SOCKET ID"
@@ -324,40 +316,40 @@ msgstr "ID DEL SOCKET"
 
 #: dialogs/accessibility-settings/main.c:47
 #: dialogs/appearance-settings/main.c:107 dialogs/color-settings/main.c:50
-#: dialogs/display-settings/main.c:114 dialogs/keyboard-settings/main.c:41
+#: dialogs/display-settings/main.c:116 dialogs/keyboard-settings/main.c:41
 #: dialogs/mime-settings/main.c:47 dialogs/mouse-settings/main.c:95
 #: xfce4-settings-editor/main.c:53 xfce4-settings-manager/main.c:44
-#: xfsettingsd/main.c:107
+#: xfsettingsd/main.c:106
 msgid "Version information"
 msgstr "Información de versión"
 
 #: dialogs/accessibility-settings/main.c:200
-#: dialogs/appearance-settings/main.c:1430 dialogs/color-settings/main.c:1408
-#: dialogs/display-settings/main.c:3352 dialogs/keyboard-settings/main.c:78
+#: dialogs/appearance-settings/main.c:1433 dialogs/color-settings/main.c:1408
+#: dialogs/display-settings/main.c:3349 dialogs/keyboard-settings/main.c:78
 #: dialogs/mime-settings/main.c:84
 #: dialogs/mime-settings/xfce-mime-helper-main.c:157
-#: dialogs/mouse-settings/main.c:2082 xfce4-settings-editor/main.c:124
-#: xfce4-settings-manager/main.c:65 xfsettingsd/main.c:254
-#: xfsettingsd/main.c:292
+#: dialogs/mouse-settings/main.c:2200 xfce4-settings-editor/main.c:124
+#: xfce4-settings-manager/main.c:65 xfsettingsd/main.c:255
+#: xfsettingsd/main.c:293
 #, c-format
 msgid "Type '%s --help' for usage."
 msgstr "Escriba «%s --help» para su uso."
 
 #: dialogs/accessibility-settings/main.c:219
-#: dialogs/appearance-settings/main.c:1449 dialogs/color-settings/main.c:1425
-#: dialogs/display-settings/main.c:3371 dialogs/keyboard-settings/main.c:94
-#: dialogs/mime-settings/main.c:103 dialogs/mouse-settings/main.c:2101
+#: dialogs/appearance-settings/main.c:1452 dialogs/color-settings/main.c:1425
+#: dialogs/display-settings/main.c:3368 dialogs/keyboard-settings/main.c:94
+#: dialogs/mime-settings/main.c:103 dialogs/mouse-settings/main.c:2219
 #: xfce4-settings-editor/main.c:143 xfce4-settings-manager/main.c:81
-#: xfsettingsd/main.c:270
+#: xfsettingsd/main.c:271
 msgid "The Xfce development team. All rights reserved."
 msgstr "El equipo de desarrollo de Xfce. Todos los derechos reservados."
 
 #: dialogs/accessibility-settings/main.c:220
-#: dialogs/appearance-settings/main.c:1450 dialogs/color-settings/main.c:1426
-#: dialogs/display-settings/main.c:3372 dialogs/keyboard-settings/main.c:95
-#: dialogs/mime-settings/main.c:104 dialogs/mouse-settings/main.c:2102
+#: dialogs/appearance-settings/main.c:1453 dialogs/color-settings/main.c:1426
+#: dialogs/display-settings/main.c:3369 dialogs/keyboard-settings/main.c:95
+#: dialogs/mime-settings/main.c:104 dialogs/mouse-settings/main.c:2220
 #: xfce4-settings-editor/main.c:144 xfce4-settings-manager/main.c:82
-#: xfsettingsd/main.c:271
+#: xfsettingsd/main.c:272
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "Informe de errores a <%s>."
@@ -373,8 +365,8 @@ msgid ""
 msgstr "asistencia;tecnologías;teclas;persistentes;rechazo;emulación;lectores de pantalla;lupa;a11y;i18n;l10n;AT-SPI;ATK;discapacidad;"
 
 #: dialogs/appearance-settings/appearance-dialog.glade:39
-#: dialogs/appearance-settings/main.c:1296 dialogs/display-settings/main.c:90
-#: dialogs/display-settings/main.c:99
+#: dialogs/appearance-settings/main.c:1299 dialogs/display-settings/main.c:92
+#: dialogs/display-settings/main.c:101
 #: dialogs/mouse-settings/mouse-dialog.glade:63
 msgid "None"
 msgstr "Desactivar"
@@ -412,7 +404,6 @@ msgid "1x (no scaling)"
 msgstr "1x (sin escalar)"
 
 #: dialogs/appearance-settings/appearance-dialog.glade:86
-#: dialogs/display-settings/display-dialog.glade:72
 msgid "2x"
 msgstr "2x"
 
@@ -608,42 +599,42 @@ msgid ""
 "<i>gtk-update-icon-cache %s/%s/</i> in a terminal emulator."
 msgstr "Advertencia: este tema de iconos no tiene archivo de caché. Puede crearlo ejecutando <i>gtk-update-icon-cache %s/%s/</i> en un emulador de terminal."
 
-#: dialogs/appearance-settings/main.c:989
+#: dialogs/appearance-settings/main.c:993
 msgid "File is too large, installation aborted"
 msgstr "El archivo es demasiado grande, instalación cancelada"
 
-#: dialogs/appearance-settings/main.c:994
+#: dialogs/appearance-settings/main.c:998
 msgid "Failed to create temporary directory"
 msgstr "No se ha podido crear la carpeta temporal"
 
-#: dialogs/appearance-settings/main.c:999
+#: dialogs/appearance-settings/main.c:1003
 msgid "Failed to extract archive"
 msgstr "No se ha podido extraer el archivador"
 
-#: dialogs/appearance-settings/main.c:1004
+#: dialogs/appearance-settings/main.c:1008
 msgid "Unknown format, only archives and directories are supported"
 msgstr "Formato desconocido, solo se admiten carpetas y archivadores"
 
-#: dialogs/appearance-settings/main.c:1009
+#: dialogs/appearance-settings/main.c:1013
 msgid "Not a valid theme package"
 msgstr "No es un paquete de tema válido"
 
-#: dialogs/appearance-settings/main.c:1014
+#: dialogs/appearance-settings/main.c:1018
 #, c-format
 msgid "An unknown error, exit code is %d"
 msgstr "Error desconocido, el código de salida es %d"
 
-#: dialogs/appearance-settings/main.c:1021
+#: dialogs/appearance-settings/main.c:1025
 msgid "Failed to install theme"
 msgstr "No se ha podido instalar el tema"
 
-#: dialogs/appearance-settings/main.c:1075
+#: dialogs/appearance-settings/main.c:1078
 #, c-format
 msgid "Install %s theme"
 msgstr "Instalar el tema %s"
 
 #. Create cancel button
-#: dialogs/appearance-settings/main.c:1079
+#: dialogs/appearance-settings/main.c:1082
 #: dialogs/color-settings/color-dialog.glade:529
 #: dialogs/color-settings/main.c:133
 #: dialogs/keyboard-settings/command-dialog.c:118
@@ -655,25 +646,25 @@ msgstr "Instalar el tema %s"
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: dialogs/appearance-settings/main.c:1081
+#: dialogs/appearance-settings/main.c:1084
 #: dialogs/keyboard-settings/command-dialog.c:283
 #: dialogs/mime-settings/xfce-mime-helper-chooser.c:429
 msgid "_Open"
 msgstr "_Abrir"
 
-#: dialogs/appearance-settings/main.c:1300
+#: dialogs/appearance-settings/main.c:1303
 msgid "RGB"
 msgstr "RGB"
 
-#: dialogs/appearance-settings/main.c:1304
+#: dialogs/appearance-settings/main.c:1307
 msgid "BGR"
 msgstr "BGR"
 
-#: dialogs/appearance-settings/main.c:1308
+#: dialogs/appearance-settings/main.c:1311
 msgid "Vertical RGB"
 msgstr "RGB vertical"
 
-#: dialogs/appearance-settings/main.c:1312
+#: dialogs/appearance-settings/main.c:1315
 msgid "Vertical BGR"
 msgstr "BGR vertical"
 
@@ -931,195 +922,200 @@ msgstr "Mantener esta configuración"
 msgid "Restore the previous configuration"
 msgstr "Restaurar la configuración anterior"
 
+#: dialogs/display-settings/display-dialog.glade:56
+msgid "Never"
+msgstr "Nunca"
+
 #: dialogs/display-settings/display-dialog.glade:60
-msgid "1.25x"
-msgstr "1.25x"
+msgid "When a display is connected"
+msgstr ""
 
 #: dialogs/display-settings/display-dialog.glade:64
-msgid "1.5x"
-msgstr "1.5x"
+msgid "When a display is disconnected"
+msgstr ""
 
 #: dialogs/display-settings/display-dialog.glade:68
-msgid "1.75x"
-msgstr "1.75x"
+msgid "Always"
+msgstr "Siempre"
 
-#: dialogs/display-settings/display-dialog.glade:76
-msgid "Custom:"
-msgstr "Personalizar:"
-
-#: dialogs/display-settings/display-dialog.glade:90
+#: dialogs/display-settings/display-dialog.glade:82
 msgid "Do nothing"
 msgstr "No hacer nada"
 
-#: dialogs/display-settings/display-dialog.glade:94
+#: dialogs/display-settings/display-dialog.glade:86
 msgid "Show dialog"
 msgstr "Mostrar el diálogo"
 
-#: dialogs/display-settings/display-dialog.glade:98
+#: dialogs/display-settings/display-dialog.glade:90
 msgid "Mirror"
 msgstr "Espejo"
 
-#: dialogs/display-settings/display-dialog.glade:102
+#: dialogs/display-settings/display-dialog.glade:94
 msgid "Extend"
 msgstr "Extender"
 
-#: dialogs/display-settings/display-dialog.glade:160
-msgid "The primary display is currently configured to show:"
-msgstr "Se ha configurado la pantalla principal para mostrar:"
+#: dialogs/display-settings/display-dialog.glade:152
+msgid "The primary display can be configured to show:"
+msgstr ""
 
-#: dialogs/display-settings/display-dialog.glade:174
+#: dialogs/display-settings/display-dialog.glade:166
 msgid "Xfce Panel"
 msgstr "Panel de Xfce"
 
-#: dialogs/display-settings/display-dialog.glade:187
+#: dialogs/display-settings/display-dialog.glade:179
 msgid "Desktop icons"
 msgstr "Iconos del escritorio"
 
-#: dialogs/display-settings/display-dialog.glade:200
+#: dialogs/display-settings/display-dialog.glade:192
 msgid "Notifications"
 msgstr "Notificaciones"
 
-#: dialogs/display-settings/display-dialog.glade:210
-#: dialogs/display-settings/display-dialog.glade:225
-#: dialogs/display-settings/display-dialog.glade:240
+#: dialogs/display-settings/display-dialog.glade:202
+#: dialogs/display-settings/display-dialog.glade:217
+#: dialogs/display-settings/display-dialog.glade:232
 msgid "Configure..."
 msgstr "Configurar..."
 
-#: dialogs/display-settings/display-dialog.glade:258
+#: dialogs/display-settings/display-dialog.glade:250
 #: dialogs/display-settings/xfce-display-settings.desktop.in:4
 msgid "Display"
 msgstr "Pantalla"
 
-#: dialogs/display-settings/display-dialog.glade:371
+#: dialogs/display-settings/display-dialog.glade:357
 msgid "_Mirror displays"
 msgstr "Pantallas en espe_jo"
 
-#: dialogs/display-settings/display-dialog.glade:472
+#: dialogs/display-settings/display-dialog.glade:455
 msgid "Primary Display:"
 msgstr "Pantalla principal:"
 
-#: dialogs/display-settings/display-dialog.glade:498
+#: dialogs/display-settings/display-dialog.glade:481
 msgid "R_esolution:"
 msgstr "_Resolución:"
 
-#: dialogs/display-settings/display-dialog.glade:524
+#: dialogs/display-settings/display-dialog.glade:507
 msgid "Refresh _rate:"
 msgstr "_Frecuencia de refresco:"
 
-#: dialogs/display-settings/display-dialog.glade:550
+#: dialogs/display-settings/display-dialog.glade:533
 msgid "Ro_tation:"
 msgstr "R_otación:"
 
-#: dialogs/display-settings/display-dialog.glade:574
+#: dialogs/display-settings/display-dialog.glade:557
 msgid "Ref_lection:"
 msgstr "R_eflejo:"
 
-#: dialogs/display-settings/display-dialog.glade:617
+#: dialogs/display-settings/display-dialog.glade:597
 msgid "A_pply"
 msgstr "A_plicar"
 
-#: dialogs/display-settings/display-dialog.glade:644
+#: dialogs/display-settings/display-dialog.glade:625
 msgid "_Scale:"
 msgstr "_Escala:"
 
-#: dialogs/display-settings/display-dialog.glade:671
-msgid "X:"
-msgstr "X:"
-
-#: dialogs/display-settings/display-dialog.glade:684
-msgid "Y:"
-msgstr "Y:"
-
-#: dialogs/display-settings/display-dialog.glade:814
+#: dialogs/display-settings/display-dialog.glade:663
 msgid "_General"
 msgstr "_General"
 
-#: dialogs/display-settings/display-dialog.glade:834
+#: dialogs/display-settings/display-dialog.glade:683
 msgid "<b>Profiles</b>"
 msgstr "<b>Perfiles</b>"
 
-#: dialogs/display-settings/display-dialog.glade:850
+#: dialogs/display-settings/display-dialog.glade:699
 msgid "<b>Connecting Displays</b>"
 msgstr "<b>Conexión de pantallas</b>"
 
-#: dialogs/display-settings/display-dialog.glade:900
+#: dialogs/display-settings/display-dialog.glade:749
 msgid "Delete the currently selected display profile."
 msgstr "Eliminar el perfil de pantalla seleccionado."
 
-#: dialogs/display-settings/display-dialog.glade:913
+#: dialogs/display-settings/display-dialog.glade:762
 msgid "Apply"
 msgstr "Aplicar"
 
-#: dialogs/display-settings/display-dialog.glade:917
+#: dialogs/display-settings/display-dialog.glade:766
 msgid "Apply the currently selected display profile."
 msgstr "Aplicar el perfil de pantalla seleccionado."
 
-#: dialogs/display-settings/display-dialog.glade:933
+#: dialogs/display-settings/display-dialog.glade:782
 msgid "Create a new display profile."
 msgstr "Crear un perfil de pantalla nuevo."
 
-#: dialogs/display-settings/display-dialog.glade:949
+#: dialogs/display-settings/display-dialog.glade:798
 msgid "Update an existing profile."
 msgstr "Actualizar un perfil existente."
 
-#: dialogs/display-settings/display-dialog.glade:982
-msgid "Automatically enable profiles when new display is connected"
-msgstr "Activar automáticamente los perfiles al conectar una pantalla nueva"
+#: dialogs/display-settings/display-dialog.glade:831
+msgid "First try to automatically enable a profile:"
+msgstr ""
 
-#: dialogs/display-settings/display-dialog.glade:1007
-msgid "When new displays are connected:"
-msgstr "Al conectar pantallas nuevas:"
+#: dialogs/display-settings/display-dialog.glade:863
+msgid "When a display is connected:"
+msgstr ""
 
-#: dialogs/display-settings/display-dialog.glade:1020
+#: dialogs/display-settings/display-dialog.glade:876
 msgid "Show popup windows to identify displays"
 msgstr "Mostrar ventanas emergentes para identificar las pantallas"
 
-#: dialogs/display-settings/display-dialog.glade:1046
+#: dialogs/display-settings/display-dialog.glade:902
 msgid "<b>Identifying Displays</b>"
 msgstr "<b>Identificación de pantallas</b>"
 
-#: dialogs/display-settings/display-dialog.glade:1105
-#: dialogs/display-settings/minimal-display-dialog.glade:272
+#: dialogs/display-settings/display-dialog.glade:940
+#: dialogs/display-settings/minimal-display-dialog.glade:354
 msgid "_Advanced"
 msgstr "Opciones _avanzadas"
 
-#: dialogs/display-settings/display-dialog.glade:1163
+#: dialogs/display-settings/display-dialog.glade:992
 msgid "<b>Profile Name</b>"
 msgstr "<b>Nombre del perfil</b>"
 
-#: dialogs/display-settings/display-dialog.glade:1186
+#: dialogs/display-settings/display-dialog.glade:1015
 msgid "Create"
 msgstr "Crear"
 
-#: dialogs/display-settings/display-dialog.glade:1221
+#: dialogs/display-settings/display-dialog.glade:1050
 msgid "A profile of this name already exists."
 msgstr "Ya existe un perfil con este nombre."
 
-#: dialogs/display-settings/minimal-display-dialog.glade:12
+#: dialogs/display-settings/minimal-display-dialog.glade:16
+msgid "Extend right"
+msgstr ""
+
+#: dialogs/display-settings/minimal-display-dialog.glade:19
+msgid "Extend left"
+msgstr ""
+
+#: dialogs/display-settings/minimal-display-dialog.glade:22
+msgid "Extend up"
+msgstr ""
+
+#: dialogs/display-settings/minimal-display-dialog.glade:25
+msgid "Extend down"
+msgstr ""
+
+#: dialogs/display-settings/minimal-display-dialog.glade:37
 msgid "Displays"
 msgstr "Pantallas"
 
-#: dialogs/display-settings/minimal-display-dialog.glade:86
+#: dialogs/display-settings/minimal-display-dialog.glade:92
+#: dialogs/display-settings/minimal-display-dialog.glade:93
 msgid "Only Display 1"
 msgstr "Solo la pantalla 1"
 
-#: dialogs/display-settings/minimal-display-dialog.glade:138
-#: dialogs/display-settings/minimal-display-dialog.glade:139
+#: dialogs/display-settings/minimal-display-dialog.glade:145
+#: dialogs/display-settings/minimal-display-dialog.glade:146
 msgid "Mirror Displays"
 msgstr "Pantallas en espejo"
 
-#: dialogs/display-settings/minimal-display-dialog.glade:191
-#: dialogs/display-settings/minimal-display-dialog.glade:192
+#: dialogs/display-settings/minimal-display-dialog.glade:201
 msgid "Extend to the right"
 msgstr "Extender a la derecha"
 
-#: dialogs/display-settings/minimal-display-dialog.glade:244
+#: dialogs/display-settings/minimal-display-dialog.glade:262
+#: dialogs/display-settings/minimal-display-dialog.glade:263
 msgid "Only Display 2"
 msgstr "Solo la pantalla 2"
-
-#: dialogs/display-settings/minimal-display-dialog.glade:286
-msgid "radiobutton"
-msgstr "botón de opción"
 
 #: dialogs/display-settings/profile-changed-dialog.glade:12
 msgid "Update Display Profile"
@@ -1140,35 +1136,45 @@ msgid ""
 "your session or disconnecting or connecting a display."
 msgstr "Si no actualiza el perfil, los cambios se perderán al reiniciar sesión o al desconectar o conectar una pantalla."
 
-#: dialogs/display-settings/main.c:91
+#: dialogs/display-settings/main.c:63
+#, c-format
+msgid "Only %s (1)"
+msgstr "Solo %s (1)"
+
+#: dialogs/display-settings/main.c:64
+#, c-format
+msgid "Only %s (2)"
+msgstr "Solo %s (2)"
+
+#: dialogs/display-settings/main.c:93
 msgid "Left"
 msgstr "Izquierda"
 
-#: dialogs/display-settings/main.c:92
+#: dialogs/display-settings/main.c:94
 msgid "Inverted"
 msgstr "Invertida"
 
-#: dialogs/display-settings/main.c:93
+#: dialogs/display-settings/main.c:95
 msgid "Right"
 msgstr "Derecha"
 
-#: dialogs/display-settings/main.c:100
+#: dialogs/display-settings/main.c:102
 msgid "Horizontal"
 msgstr "Horizontal"
 
-#: dialogs/display-settings/main.c:101
+#: dialogs/display-settings/main.c:103
 msgid "Vertical"
 msgstr "Vertical"
 
-#: dialogs/display-settings/main.c:102
+#: dialogs/display-settings/main.c:104
 msgid "Horizontal and Vertical"
 msgstr "Horizontal y vertical"
 
-#: dialogs/display-settings/main.c:115
+#: dialogs/display-settings/main.c:117
 msgid "Minimal interface to set up an external output"
 msgstr "Interfaz mínima para configurar un dispositivo de salida externo"
 
-#: dialogs/display-settings/main.c:231
+#: dialogs/display-settings/main.c:275
 #, c-format
 msgid ""
 "The previous configuration will be restored in <b>%i seconds</b> if you do "
@@ -1176,48 +1182,44 @@ msgid ""
 msgstr "Si no responde a esta pregunta, la configuración anterior se restablecerá en <b>%i segundos</b>."
 
 #. Insert the mode
-#: dialogs/display-settings/main.c:679
+#: dialogs/display-settings/main.c:637
 #, c-format
 msgid "%.2f Hz"
 msgstr "%.2f Hz"
 
-#: dialogs/display-settings/main.c:1026
+#: dialogs/display-settings/main.c:965
 msgid ""
 "The last active output must not be disabled, the system would be unusable."
 msgstr "No se debe desactivar el último dispositivo de salida, de lo contrario no se podría usar el sistema."
 
-#: dialogs/display-settings/main.c:1028
+#: dialogs/display-settings/main.c:967
 msgid "Selected output not disabled"
 msgstr "Dispositivo de salida seleccionado no desactivado"
 
-#: dialogs/display-settings/main.c:1191
-msgid "Profiles matching the currently connected displays"
-msgstr "Perfiles que coinciden con las pantallas conectadas"
-
-#: dialogs/display-settings/main.c:1280
+#: dialogs/display-settings/main.c:1311
 #, c-format
 msgid "Update changed display profile '%s'?"
 msgstr "¿Actualizar el perfil de pantalla «%s»?"
 
-#: dialogs/display-settings/main.c:1285
+#: dialogs/display-settings/main.c:1316
 #, c-format
 msgid "_Update '%s'"
 msgstr "_Actualizar «%s»"
 
-#: dialogs/display-settings/main.c:1562
+#: dialogs/display-settings/main.c:1652
 #, c-format
 msgid "Do you want to delete the display profile '%s'?"
 msgstr "¿Quiere eliminar el perfil de pantalla «%s»?"
 
-#: dialogs/display-settings/main.c:1564
+#: dialogs/display-settings/main.c:1654
 msgid "Delete Profile"
 msgstr "Eliminar el perfil"
 
-#: dialogs/display-settings/main.c:1567
+#: dialogs/display-settings/main.c:1657
 msgid "Once a display profile is deleted it cannot be restored."
 msgstr "Una vez eliminado un perfil de pantalla, no se puede restaurar."
 
-#: dialogs/display-settings/main.c:1568
+#: dialogs/display-settings/main.c:1658
 #: dialogs/mime-settings/xfce-mime-chooser.c:134
 #: dialogs/mime-settings/xfce-mime-chooser.c:382
 #: dialogs/mime-settings/xfce-mime-window.c:1178
@@ -1225,22 +1227,22 @@ msgstr "Una vez eliminado un perfil de pantalla, no se puede restaurar."
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: dialogs/display-settings/main.c:1569
+#: dialogs/display-settings/main.c:1659
 msgid "Delete"
 msgstr "Eliminar"
 
-#: dialogs/display-settings/main.c:1674
+#: dialogs/display-settings/main.c:1745
 #, c-format
 msgid "%d Xfce Panels"
 msgstr "%d paneles de Xfce"
 
-#: dialogs/display-settings/main.c:2458
+#: dialogs/display-settings/main.c:2489
 msgid ""
 "Select a monitor to change its properties; drag it to rearrange its "
 "placement."
 msgstr "Seleccione un monitor para cambiar sus propiedades; arrástrelo para cambiar su ubicación."
 
-#: dialogs/display-settings/main.c:2501 dialogs/display-settings/main.c:2578
+#: dialogs/display-settings/main.c:2588 dialogs/display-settings/main.c:2621
 #, c-format
 msgid "(%i, %i)"
 msgstr "(%i, %i)"
@@ -1249,33 +1251,23 @@ msgstr "(%i, %i)"
 #. * screen is the same as your external monitor.  Here, "Mirror" is being
 #. * used as an adjective, not as a verb.  For example, the Spanish
 #. * translation could be "Pantallas en Espejo", *not* "Espejar Pantallas".
-#: dialogs/display-settings/main.c:2800
+#: dialogs/display-settings/main.c:2843
 msgid "Mirror Screens"
 msgstr "Pantallas en espejo"
 
-#: dialogs/display-settings/main.c:2850
+#: dialogs/display-settings/main.c:2893
 msgid "(Disabled)"
 msgstr "(Desactivada)"
 
-#: dialogs/display-settings/main.c:3210
-#, c-format
-msgid "Only %s (1)"
-msgstr "Solo %s (1)"
-
-#: dialogs/display-settings/main.c:3221
-#, c-format
-msgid "Only %s (2)"
-msgstr "Solo %s (2)"
-
-#: dialogs/display-settings/main.c:3398
+#: dialogs/display-settings/main.c:3395
 msgid "ATI Settings"
 msgstr "Configuración de ATI"
 
-#: dialogs/display-settings/main.c:3403
+#: dialogs/display-settings/main.c:3400
 msgid "Unable to start the Xfce Display Settings"
 msgstr "No se ha podido iniciar la configuración de pantalla de Xfce"
 
-#: dialogs/display-settings/main.c:3411
+#: dialogs/display-settings/main.c:3408
 msgid "Unable to launch the proprietary driver settings"
 msgstr "No se puede iniciar la configuración del controlador privativo"
 
@@ -1288,15 +1280,15 @@ msgid ""
 "display;settings;screen;resolution;refresh;rate;rotation;external;projectors;monitors;LCD;CRT;HiDPI;"
 msgstr "visualización;ajustes;pantalla;resolución;refresco;frecuencia;rotación;externo;proyectores;monitores;LCD;CRT;HiDPI;"
 
-#: dialogs/display-settings/display-settings.c:456
+#: dialogs/display-settings/display-settings.c:445
 msgid "Display:"
 msgstr "Pantalla:"
 
-#: dialogs/display-settings/display-settings.c:463
+#: dialogs/display-settings/display-settings.c:453
 msgid "Resolution:"
 msgstr "Resolución:"
 
-#: dialogs/display-settings/display-settings-wayland.c:1073
+#: dialogs/display-settings/display-settings-wayland.c:981
 msgid ""
 "Your compositor does not seem to support the wlr-output-management protocol"
 msgstr "Su compositor no parece ser compatible con el protocolo wlr-output-management"
@@ -1381,8 +1373,8 @@ msgid "Restore num l_ock state on startup"
 msgstr "Restaurar el estado del _bloqueo numérico al inicio"
 
 #: dialogs/keyboard-settings/keyboard-dialog.glade:267
-#: dialogs/mouse-settings/mouse-dialog.glade:709
-#: dialogs/mouse-settings/mouse-dialog.glade:936
+#: dialogs/mouse-settings/mouse-dialog.glade:726
+#: dialogs/mouse-settings/mouse-dialog.glade:953
 msgid "General"
 msgstr "General"
 
@@ -1701,11 +1693,11 @@ msgstr "Especifique la aplicación que quiere usar como\nemulador de terminal pr
 msgid "Browse the file system to choose a custom command."
 msgstr "Navegue por el sistema de archivos para elegir una orden personalizada."
 
-#: dialogs/mime-settings/xfce-mime-helper-chooser.c:749
+#: dialogs/mime-settings/xfce-mime-helper-chooser.c:752
 msgid "_Other..."
 msgstr "_Otro..."
 
-#: dialogs/mime-settings/xfce-mime-helper-chooser.c:750
+#: dialogs/mime-settings/xfce-mime-helper-chooser.c:753
 msgid "Use a custom application which is not included in the above list."
 msgstr "Usar una aplicación personalizada que no esté incluida en la lista anterior."
 
@@ -1921,8 +1913,8 @@ msgstr "Ajuste del usuario"
 #. sort the names but keep Default on top
 #: dialogs/mime-settings/xfce-mime-window.c:656
 #: dialogs/mime-settings/xfce-mime-window.c:820
-#: dialogs/mouse-settings/main.c:406 dialogs/mouse-settings/main.c:408
-#: dialogs/mouse-settings/main.c:471
+#: dialogs/mouse-settings/main.c:420 dialogs/mouse-settings/main.c:422
+#: dialogs/mouse-settings/main.c:485
 msgid "Default"
 msgstr "Predeterminado"
 
@@ -2226,19 +2218,19 @@ msgid "DEVICE NAME"
 msgstr "NOMBRE DEL DISPOSITIVO"
 
 #. pixel value for some of the scales in the dialog
-#: dialogs/mouse-settings/main.c:159
+#: dialogs/mouse-settings/main.c:173
 #, c-format
 msgid "%g px"
 msgstr "%g px"
 
 #. miliseconds value for some of the scales in the dialog
-#: dialogs/mouse-settings/main.c:169
+#: dialogs/mouse-settings/main.c:183
 #, c-format
 msgid "%g ms"
 msgstr "%g ms"
 
 #. seconds value for some of the scales in the dialog
-#: dialogs/mouse-settings/main.c:180
+#: dialogs/mouse-settings/main.c:194
 #, c-format
 msgid "%.1f s"
 msgstr "%.1f s"
@@ -2359,124 +2351,135 @@ msgid ""
 "accelerating"
 msgstr "El número de píxeles que se debe mover el puntero en un tiempo breve antes de que se inicie la aceleración"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:508
+#: dialogs/mouse-settings/mouse-dialog.glade:502
+msgid "Adaptive pointer acceleration"
+msgstr ""
+
+#: dialogs/mouse-settings/mouse-dialog.glade:505
+msgid ""
+"Toggles between adaptive and flat acceleration profile. Adaptive takes the "
+"current speed of the device into account when deciding on acceleration. "
+"Custom acceleration profile is not supported via xfce4-settings."
+msgstr ""
+
+#: dialogs/mouse-settings/mouse-dialog.glade:525
 msgid "Pointer Speed"
 msgstr "Velocidad del puntero"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:527
+#: dialogs/mouse-settings/mouse-dialog.glade:544
 msgid "B_uttons and Feedback"
 msgstr "_Botones y respuesta"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:561
 #: dialogs/mouse-settings/mouse-dialog.glade:578
+#: dialogs/mouse-settings/mouse-dialog.glade:595
 msgid "Disable touchpad _while typing"
 msgstr "Desactivar el _panel táctil al escribir"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:565
 #: dialogs/mouse-settings/mouse-dialog.glade:582
+#: dialogs/mouse-settings/mouse-dialog.glade:599
 msgid ""
 "When selected, the touchpad will be disabled when the keyboard is being used"
 msgstr "Si se selecciona, se desactivará el panel táctil al usar el teclado"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:607
+#: dialogs/mouse-settings/mouse-dialog.glade:624
 msgid "Duratio_n:"
 msgstr "Du_ración:"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:642
+#: dialogs/mouse-settings/mouse-dialog.glade:659
 msgid "Tap touchpad to clic_k"
 msgstr "Tocar el _panel táctil para hacer clic"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:665
+#: dialogs/mouse-settings/mouse-dialog.glade:682
 msgid "Click m_ethod:"
 msgstr "M_étodo de clic:"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:750
+#: dialogs/mouse-settings/mouse-dialog.glade:767
 msgid "Scrolling _mode:"
 msgstr "_Modo de desplazamiento:"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:788
+#: dialogs/mouse-settings/mouse-dialog.glade:805
 msgid "Enable hori_zontal scrolling"
 msgstr "Activar el desplazamiento hori_zontal"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:810
+#: dialogs/mouse-settings/mouse-dialog.glade:827
 msgid "Scrolling"
 msgstr "Desplazamiento"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:833
+#: dialogs/mouse-settings/mouse-dialog.glade:850
 msgid "T_ouchpad"
 msgstr "Pa_nel táctil"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:871
+#: dialogs/mouse-settings/mouse-dialog.glade:888
 msgid "Trac_king mode:"
 msgstr "_Modo de seguimiento:"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:884
+#: dialogs/mouse-settings/mouse-dialog.glade:901
 msgid "_Rotation:"
 msgstr "_Rotación:"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:959
+#: dialogs/mouse-settings/mouse-dialog.glade:976
 msgid "Tab_let"
 msgstr "Tab_leta"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:980
+#: dialogs/mouse-settings/mouse-dialog.glade:997
 msgid "_Devices"
 msgstr "_Dispositivos"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:1017
+#: dialogs/mouse-settings/mouse-dialog.glade:1034
 msgid "Th_reshold:"
 msgstr "Um_bral:"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:1031
+#: dialogs/mouse-settings/mouse-dialog.glade:1048
 msgid ""
 "The number of pixels the pointer must move before a drag operation will "
 "start"
 msgstr "El número de píxeles que se debe mover el puntero antes de que se inicie una operación de arrastre"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:1050
+#: dialogs/mouse-settings/mouse-dialog.glade:1067
 msgid "Drag and Drop"
 msgstr "Arrastrar y soltar"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:1086
+#: dialogs/mouse-settings/mouse-dialog.glade:1103
 msgid "Ti_me:"
 msgstr "Tie_mpo:"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:1100
+#: dialogs/mouse-settings/mouse-dialog.glade:1117
 msgid ""
 "Two mouse clicks in less than this length of time (in milliseconds) will be "
 "considered a double click"
 msgstr "Dos clics del ratón seguidos en menos de este tiempo (en milisegundos) se considerarán un doble clic"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:1116
+#: dialogs/mouse-settings/mouse-dialog.glade:1133
 msgid "D_istance:"
 msgstr "Di_stancia:"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:1130
+#: dialogs/mouse-settings/mouse-dialog.glade:1147
 msgid ""
 "The mouse pointer cannot move farther than this distance between two clicks "
 "for them to be considered a double click"
 msgstr "El puntero del ratón no se puede mover más allá de esta distancia entre dos clics seguidos para que se consideren un doble clic"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:1149
+#: dialogs/mouse-settings/mouse-dialog.glade:1166
 msgid "Double Click"
 msgstr "Doble clic"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:1171
+#: dialogs/mouse-settings/mouse-dialog.glade:1188
 msgid "_Behavior"
 msgstr "C_omportamiento"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:1236
+#: dialogs/mouse-settings/mouse-dialog.glade:1253
 msgid "Cursor si_ze:"
 msgstr "T_amaño del puntero:"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:1270
+#: dialogs/mouse-settings/mouse-dialog.glade:1287
 msgid "Size"
 msgstr "Tamaño"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:1310
+#: dialogs/mouse-settings/mouse-dialog.glade:1327
 msgid "Preview"
 msgstr "Vista previa"
 
-#: dialogs/mouse-settings/mouse-dialog.glade:1339
+#: dialogs/mouse-settings/mouse-dialog.glade:1356
 msgid "_Theme"
 msgstr "T_ema"
 
@@ -2702,8 +2705,8 @@ msgstr "_Toda la configuración"
 msgid "Settings"
 msgstr "Configuración"
 
-#: xfce4-settings-manager/xfce-settings-manager-dialog.c:924
-#: xfce4-settings-manager/xfce-settings-manager-dialog.c:936
+#: xfce4-settings-manager/xfce-settings-manager-dialog.c:927
+#: xfce4-settings-manager/xfce-settings-manager-dialog.c:939
 #, c-format
 msgid "Unable to start \"%s\""
 msgstr "No se puede iniciar «%s»"
@@ -2761,15 +2764,15 @@ msgstr "Rechazo de teclas"
 msgid "Failed to launch shortcut \"%s\""
 msgstr "No se ha podido ejecutar el atajo «%s»"
 
-#: xfsettingsd/main.c:108
+#: xfsettingsd/main.c:107
 msgid "Fork to the background"
 msgstr "Pasar a segundo plano"
 
-#: xfsettingsd/main.c:109
+#: xfsettingsd/main.c:108
 msgid "Do not wait for a window manager on startup"
 msgstr "No esperar a que se inicie un gestor de ventanas"
 
-#: xfsettingsd/main.c:110
+#: xfsettingsd/main.c:109
 msgid "Replace running xsettings daemon (if any)"
 msgstr "Reemplazar el servicio XSettings en ejecución (si lo está)"
 

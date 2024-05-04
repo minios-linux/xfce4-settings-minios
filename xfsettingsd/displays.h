@@ -33,8 +33,8 @@
 #define ROTATION_PROP        OUTPUT_FMT "/Rotation"
 #define REFLECTION_PROP      OUTPUT_FMT "/Reflection"
 #define RESOLUTION_PROP      OUTPUT_FMT "/Resolution"
+#define SCALE_PROP           OUTPUT_FMT "/Scale"
 #define SCALEX_PROP          OUTPUT_FMT "/Scale/X"
-#define SCALEY_PROP          OUTPUT_FMT "/Scale/Y"
 #define RRATE_PROP           OUTPUT_FMT "/RefreshRate"
 #define POSX_PROP            OUTPUT_FMT "/Position/X"
 #define POSY_PROP            OUTPUT_FMT "/Position/Y"
@@ -57,14 +57,6 @@ G_BEGIN_DECLS
 #define XFCE_TYPE_DISPLAYS_HELPER (xfce_displays_helper_get_type ())
 G_DECLARE_DERIVABLE_TYPE (XfceDisplaysHelper, xfce_displays_helper, XFCE, DISPLAYS_HELPER, GObject)
 
-enum
-{
-    ACTION_ON_NEW_OUTPUT_DO_NOTHING,
-    ACTION_ON_NEW_OUTPUT_SHOW_DIALOG,
-    ACTION_ON_NEW_OUTPUT_MIRROR,
-    ACTION_ON_NEW_OUTPUT_EXTEND,
-};
-
 struct _XfceDisplaysHelperClass
 {
     GObjectClass __parent__;
@@ -79,7 +71,7 @@ struct _XfceDisplaysHelperClass
 };
 
 GObject           *xfce_displays_helper_new                     (void);
-const gchar       *xfce_displays_helper_get_matching_profile    (XfceDisplaysHelper     *helper);
+gchar             *xfce_displays_helper_get_matching_profile    (XfceDisplaysHelper     *helper);
 XfconfChannel     *xfce_displays_helper_get_channel             (XfceDisplaysHelper     *helper);
 
 G_END_DECLS

@@ -27,13 +27,6 @@
 #define XFCE_RANDR_ROTATIONS_MASK             (RR_Rotate_0|RR_Rotate_90|RR_Rotate_180|RR_Rotate_270)
 #define XFCE_RANDR_REFLECTIONS_MASK           (RR_Reflect_X|RR_Reflect_Y)
 
-/* check for randr 1.3 or better */
-#if RANDR_MAJOR > 1 || (RANDR_MAJOR == 1 && RANDR_MINOR >= 3)
-#define HAS_RANDR_ONE_POINT_THREE
-#else
-#undef HAS_RANDR_ONE_POINT_THREE
-#endif
-
 typedef struct _XfceRandr          XfceRandr;
 typedef struct _XfceRandrPrivate   XfceRandrPrivate;
 typedef struct _XfceRRMode         XfceRRMode;
@@ -125,10 +118,12 @@ gboolean          xfce_randr_get_positions   (XfceRandr        *randr,
 
 gchar           **xfce_randr_get_display_infos (XfceRandr      *randr);
 
-guint             xfce_randr_mode_width      (const XfceRRMode *mode,
-                                              Rotation          rot);
+guint             xfce_randr_mode_width      (XfceRandr        *randr,
+                                              guint             output,
+                                              const XfceRRMode *mode);
 
-guint             xfce_randr_mode_height     (const XfceRRMode *mode,
-                                              Rotation          rot);
+guint             xfce_randr_mode_height     (XfceRandr        *randr,
+                                              guint             output,
+                                              const XfceRRMode *mode);
 
 #endif /* !__XFCE_RANDR_H__ */

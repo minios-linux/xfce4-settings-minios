@@ -43,12 +43,14 @@ enum
     COLUMN_ICON,
     COLUMN_NAME,
     COLUMN_HASH,
+    COLUMN_MARKUP,
+    COLUMN_MATCHES,
     N_COLUMNS
 };
 
 typedef enum _MirroredState
 {
-    MIRRORED_STATE_NONE, // all outputs have different x/y
+    MIRRORED_STATE_NONE, // at least 2 outputs have different x/y
     MIRRORED_STATE_MIRRORED, // all outputs have same x/y, at least two of them have different resolutions
     MIRRORED_STATE_CLONED, // all outputs have same x/y and same resolution
 } MirroredState;
@@ -63,6 +65,15 @@ typedef enum _RotationFlags
     ROTATION_FLAGS_REFLECT_Y = 1 << 4,
     ROTATION_FLAGS_ALL       = (1 << 5) - 1,
 } RotationFlags;
+
+typedef enum _ExtendedMode
+{
+    EXTENDED_MODE_NONE = -1,
+    EXTENDED_MODE_RIGHT,
+    EXTENDED_MODE_LEFT,
+    EXTENDED_MODE_UP,
+    EXTENDED_MODE_DOWN,
+} ExtendedMode;
 
 typedef struct _XfceMode
 {
@@ -80,7 +91,6 @@ typedef struct _XfceOutput
 
     /* Status */
     gboolean active;
-    gboolean mirrored;
 
     /* Position */
     gint x;
@@ -92,8 +102,7 @@ typedef struct _XfceOutput
 
     /* Transformation */
     RotationFlags rotation;
-    gdouble scale_x;
-    gdouble scale_y;
+    gdouble scale;
 
     /* Modes */
     XfceMode *mode;
@@ -111,7 +120,6 @@ struct _XfceDisplaySettingsClass
     guint            (*get_n_outputs)                 (XfceDisplaySettings      *settings);
     guint            (*get_n_active_outputs)          (XfceDisplaySettings      *settings);
     gchar          **(*get_display_infos)             (XfceDisplaySettings      *settings);
-    MirroredState    (*get_mirrored_state)            (XfceDisplaySettings      *settings);
     GdkMonitor      *(*get_monitor)                   (XfceDisplaySettings      *settings,
                                                        guint                     output_id);
     const gchar     *(*get_friendly_name)             (XfceDisplaySettings      *settings,
@@ -126,16 +134,11 @@ struct _XfceDisplaySettingsClass
                                                        RotationFlags             rotation);
     RotationFlags    (*get_rotations)                 (XfceDisplaySettings      *settings,
                                                        guint                     output_id);
-    gdouble          (*get_scale_x)                   (XfceDisplaySettings      *settings,
+    gdouble          (*get_scale)                     (XfceDisplaySettings      *settings,
                                                        guint                     output_id);
-    void             (*set_scale_x)                   (XfceDisplaySettings      *settings,
+    void             (*set_scale)                     (XfceDisplaySettings      *settings,
                                                        guint                     output_id,
-                                                       gdouble                   scale_x);
-    gdouble          (*get_scale_y)                   (XfceDisplaySettings      *settings,
-                                                       guint                     output_id);
-    void             (*set_scale_y)                   (XfceDisplaySettings      *settings,
-                                                       guint                     output_id,
-                                                       gdouble                   scale_y);
+                                                       gdouble                   scale);
     void             (*set_mode)                      (XfceDisplaySettings      *settings,
                                                        guint                     output_id,
                                                        guint                     mode_id);
@@ -161,22 +164,17 @@ struct _XfceDisplaySettingsClass
     void             (*set_primary)                   (XfceDisplaySettings      *settings,
                                                        guint                     output_id,
                                                        gboolean                  primary);
-    gboolean         (*is_mirrored)                   (XfceDisplaySettings      *settings,
-                                                       guint                     output_id);
-    gboolean         (*is_extended)                   (XfceDisplaySettings      *settings,
-                                                       guint                     output_id_1,
-                                                       guint                     output_id_2);
     gboolean         (*is_clonable)                   (XfceDisplaySettings      *settings);
     void             (*save)                          (XfceDisplaySettings      *settings,
-                                                       guint                     output_id,
                                                        const gchar              *scheme);
     void             (*mirror)                        (XfceDisplaySettings      *settings);
     void             (*unmirror)                      (XfceDisplaySettings      *settings);
     void             (*update_output_mirror)          (XfceDisplaySettings      *settings,
                                                        XfceOutput               *output);
-    void             (*extend_right)                  (XfceDisplaySettings      *settings,
+    void             (*extend)                        (XfceDisplaySettings      *settings,
                                                        guint                     output_id_1,
-                                                       guint                     output_id_2);
+                                                       guint                     output_id_2,
+                                                       ExtendedMode              mode);
 };
 
 XfceDisplaySettings     *xfce_display_settings_new                     (gboolean                 opt_minimal,
@@ -193,6 +191,7 @@ void                     xfce_display_settings_populate_combobox       (XfceDisp
 void                     xfce_display_settings_populate_popups         (XfceDisplaySettings     *settings);
 void                     xfce_display_settings_set_popups_visible      (XfceDisplaySettings     *settings,
                                                                         gboolean                 visible);
+void                     xfce_display_settings_reload                  (XfceDisplaySettings     *settings);
 guint                    xfce_display_settings_get_selected_output_id  (XfceDisplaySettings     *settings);
 void                     xfce_display_settings_set_selected_output_id  (XfceDisplaySettings     *settings,
                                                                         guint                    output_id);
@@ -215,16 +214,11 @@ void                     xfce_display_settings_set_rotation            (XfceDisp
                                                                         RotationFlags            rotation);
 RotationFlags            xfce_display_settings_get_rotations           (XfceDisplaySettings     *settings,
                                                                         guint                    output_id);
-gdouble                  xfce_display_settings_get_scale_x             (XfceDisplaySettings     *settings,
+gdouble                  xfce_display_settings_get_scale               (XfceDisplaySettings     *settings,
                                                                         guint                    output_id);
-void                     xfce_display_settings_set_scale_x             (XfceDisplaySettings     *settings,
+void                     xfce_display_settings_set_scale               (XfceDisplaySettings     *settings,
                                                                         guint                    output_id,
-                                                                        gdouble                  scale_x);
-gdouble                  xfce_display_settings_get_scale_y             (XfceDisplaySettings     *settings,
-                                                                        guint                    output_id);
-void                     xfce_display_settings_set_scale_y             (XfceDisplaySettings     *settings,
-                                                                        guint                    output_id,
-                                                                        gdouble                  scale_y);
+                                                                        gdouble                  scale);
 void                     xfce_display_settings_set_mode                (XfceDisplaySettings     *settings,
                                                                         guint                    output_id,
                                                                         guint                    mode_id);
@@ -243,19 +237,20 @@ void                     xfce_display_settings_set_primary             (XfceDisp
                                                                         guint                    output_id,
                                                                         gboolean                 primary);
 gboolean                 xfce_display_settings_is_mirrored             (XfceDisplaySettings     *settings,
-                                                                        guint                    output_id);
-gboolean                 xfce_display_settings_is_extended             (XfceDisplaySettings     *settings,
+                                                                        guint                    output_id_1,
+                                                                        guint                    output_id_2);
+ExtendedMode             xfce_display_settings_get_extended_mode       (XfceDisplaySettings     *settings,
                                                                         guint                    output_id_1,
                                                                         guint                    output_id_2);
 gboolean                 xfce_display_settings_is_clonable             (XfceDisplaySettings     *settings);
 void                     xfce_display_settings_save                    (XfceDisplaySettings     *settings,
-                                                                        guint                    output_id,
                                                                         const gchar             *scheme);
 void                     xfce_display_settings_mirror                  (XfceDisplaySettings     *settings);
 void                     xfce_display_settings_unmirror                (XfceDisplaySettings     *settings);
-void                     xfce_display_settings_extend_right            (XfceDisplaySettings     *settings,
+void                     xfce_display_settings_extend                  (XfceDisplaySettings     *settings,
                                                                         guint                    output_id_1,
-                                                                        guint                    output_id_2);
+                                                                        guint                    output_id_2,
+                                                                        ExtendedMode             mode);
 
 G_END_DECLS
 

@@ -89,6 +89,8 @@ xfce_display_settings_init (XfceDisplaySettings *settings)
     priv->builder = gtk_builder_new ();
     priv->scroll_area = (GtkWidget *) foo_scroll_area_new ();
     g_signal_connect (priv->scroll_area, "destroy", G_CALLBACK (gtk_widget_destroyed), &priv->scroll_area);
+    if (!priv->opt_minimal)
+        priv->popups = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, (GDestroyNotify) gtk_widget_destroy);
 }
 
 
@@ -143,11 +145,6 @@ xfce_display_settings_new (gboolean opt_minimal,
     if (settings != NULL)
     {
         get_instance_private (settings)->opt_minimal = opt_minimal;
-
-        /* store a Fallback of the current settings */
-        guint n_outputs = xfce_display_settings_get_n_outputs (settings);
-        for (guint n = 0; n < n_outputs; n++)
-            xfce_display_settings_save (settings, n, "Fallback");
     }
     else if (error != NULL && *error == NULL)
     {
@@ -242,8 +239,10 @@ xfce_display_settings_set_outputs (XfceDisplaySettings *settings)
         XfceOutput *output = lp->data;
         if (output->active)
         {
+            GdkRectangle geom;
+            xfce_display_settings_get_geometry (settings, output->id, &geom);
             y = MAX (output->y, y);
-            x = MAX (output->x + (gint) output->mode->width, x);
+            x = MAX (output->x + geom.width, x);
         }
     }
 
@@ -254,6 +253,7 @@ xfce_display_settings_set_outputs (XfceDisplaySettings *settings)
         {
             output->x = x;
             output->y = y;
+            xfce_display_settings_set_position (settings, output->id, x, y);
             x += output->mode->width;
         }
     }
@@ -422,20 +422,6 @@ popup_get (XfceDisplaySettings *settings,
         g_signal_connect (G_OBJECT (popup), "draw", G_CALLBACK (popup_draw), settings);
         g_signal_connect (G_OBJECT (popup), "screen-changed", G_CALLBACK (popup_screen_changed), settings);
 
-        if (xfce_display_settings_get_n_active_outputs (settings) > 1)
-        {
-            xfce_display_settings_get_geometry (settings, output_id, &geom);
-        }
-        else
-        {
-            geom.x = 0;
-            geom.y = 0;
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-            geom.width = gdk_screen_width ();
-            geom.height = gdk_screen_height ();
-G_GNUC_END_IGNORE_DEPRECATIONS
-        }
-
         label = gtk_builder_get_object (priv->builder, "display_number");
         if (xfce_display_settings_get_n_outputs (settings) > 1)
         {
@@ -458,6 +444,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
         gtk_label_set_markup (GTK_LABEL (label), text);
         g_free (text);
 
+        xfce_display_settings_get_geometry (settings, output_id, &geom);
         label = gtk_builder_get_object (priv->builder, "display_details");
         text = g_markup_printf_escaped ("<span foreground='%s' font='Light 10'>%s %i x %i</span>", color_hex,
                                         _("Resolution:"), geom.width, geom.height);
@@ -480,7 +467,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
                 gtk_layer_set_anchor (GTK_WINDOW (popup), GTK_LAYER_SHELL_EDGE_TOP, TRUE);
                 gtk_layer_set_margin (GTK_WINDOW (popup), GTK_LAYER_SHELL_EDGE_LEFT, (geom.width - window_width) / 2);
                 gtk_layer_set_margin (GTK_WINDOW (popup), GTK_LAYER_SHELL_EDGE_TOP, geom.height - window_height);
-                gtk_layer_set_monitor (GTK_WINDOW (popup), xfce_display_settings_get_monitor (settings, output_id));
+                gtk_layer_set_monitor (GTK_WINDOW (popup), monitor);
                 gtk_widget_set_size_request (popup, window_width, window_height);
                 gtk_window_present (GTK_WINDOW (popup));
             }
@@ -504,40 +491,30 @@ void
 xfce_display_settings_populate_profile_list (XfceDisplaySettings *settings)
 {
     XfceDisplaySettingsPrivate *priv = get_instance_private (settings);
-    GtkListStore *store;
-    GObject *treeview;
-    GtkTreeIter iter;
-    GList *profiles;
-    gchar **display_infos;
+    GObject *treeview = gtk_builder_get_object (priv->builder, "randr-profile");
+    GtkListStore *store = GTK_LIST_STORE (gtk_tree_view_get_model (GTK_TREE_VIEW (treeview)));
+    gchar **display_infos = xfce_display_settings_get_display_infos (settings);
+    GList *profiles = display_settings_get_profiles (display_infos, priv->channel, FALSE);
+    gchar *active_profile = xfconf_channel_get_string (priv->channel, "/ActiveProfile", "Default");
 
-    /* create a new list store */
-    store = gtk_list_store_new (N_COLUMNS,
-                                G_TYPE_ICON,
-                                G_TYPE_STRING,
-                                G_TYPE_STRING);
-
-    /* set up the new combobox which will replace the above combobox */
-    treeview = gtk_builder_get_object (priv->builder, "randr-profile");
-    gtk_tree_view_set_model (GTK_TREE_VIEW (treeview), GTK_TREE_MODEL (store));
-
-    display_infos = xfce_display_settings_get_display_infos (settings);
-    profiles = display_settings_get_profiles (display_infos, priv->channel);
-    g_strfreev (display_infos);
+    gtk_list_store_clear (store);
 
     /* populate treeview */
     for (GList *lp = profiles; lp != NULL; lp = lp->next)
     {
-        gchar *property, *profile_name, *active_profile_hash;
+        GtkTreeIter iter;
+        gchar *property, *profile_name, *markup;
         const gchar *profile = lp->data;
         GIcon *icon = NULL;
+        gboolean matches = display_settings_profile_matches (profile, display_infos, priv->channel);
 
         /* use the display string value of the profile hash property */
         property = g_strdup_printf ("/%s", profile);
         profile_name = xfconf_channel_get_string (priv->channel, property, NULL);
-        active_profile_hash = xfconf_channel_get_string (priv->channel, "/ActiveProfile", "Default");
+        markup = matches ? g_strdup (profile_name) : g_strdup_printf ("<span alpha=\"50%%\">%s</span>", profile_name);
 
         /* highlight the currently active profile */
-        if (g_strcmp0 (profile, active_profile_hash) == 0)
+        if (g_strcmp0 (profile, active_profile) == 0)
         {
             icon = g_themed_icon_new_with_default_fallbacks ("object-select-symbolic");
         }
@@ -547,18 +524,20 @@ xfce_display_settings_populate_profile_list (XfceDisplaySettings *settings)
                             COLUMN_ICON, icon,
                             COLUMN_NAME, profile_name,
                             COLUMN_HASH, profile,
+                            COLUMN_MARKUP, markup,
+                            COLUMN_MATCHES, matches,
                             -1);
 
         g_free (property);
         g_free (profile_name);
-        g_free (active_profile_hash);
+        g_free (markup);
         if (icon != NULL)
             g_object_unref (icon);
     }
 
-    /* release the store */
-    g_list_free (profiles);
-    g_object_unref (G_OBJECT (store));
+    g_free (active_profile);
+    g_strfreev (display_infos);
+    g_list_free_full (profiles, g_free);
 }
 
 
@@ -628,10 +607,7 @@ xfce_display_settings_populate_popups (XfceDisplaySettings *settings)
         XfceDisplaySettingsPrivate *priv = get_instance_private (settings);
         guint n_outputs = xfce_display_settings_get_n_outputs (settings);
 
-        if (priv->popups != NULL)
-            g_hash_table_destroy (priv->popups);
-        priv->popups = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, (GDestroyNotify) gtk_widget_destroy);
-
+        g_hash_table_remove_all (priv->popups);
         for (guint n = 0; n < n_outputs; n++)
         {
             if (xfce_display_settings_is_active (settings, n))
@@ -655,6 +631,24 @@ xfce_display_settings_set_popups_visible (XfceDisplaySettings *settings,
     g_hash_table_iter_init (&iter, priv->popups);
     while (g_hash_table_iter_next (&iter, NULL, &popup))
         gtk_widget_set_visible (popup, visible);
+}
+
+
+
+void
+xfce_display_settings_reload (XfceDisplaySettings *settings)
+{
+    XfceDisplaySettingsPrivate *priv = get_instance_private (settings);
+    gboolean visible = xfconf_channel_get_bool (priv->channel, "/IdentityPopups", FALSE);
+
+    xfce_display_settings_set_outputs (settings);
+
+    xfce_display_settings_populate_combobox (settings);
+    xfce_display_settings_populate_profile_list (settings);
+    xfce_display_settings_populate_popups (settings);
+    xfce_display_settings_set_popups_visible (settings, visible);
+
+    foo_scroll_area_invalidate (FOO_SCROLL_AREA (priv->scroll_area));
 }
 
 
@@ -708,8 +702,39 @@ xfce_display_settings_get_display_infos (XfceDisplaySettings *settings)
 MirroredState
 xfce_display_settings_get_mirrored_state (XfceDisplaySettings *settings)
 {
+    GdkRectangle geom_1, geom_2;
+    guint n_outputs = xfce_display_settings_get_n_outputs (settings);
+    gboolean cloned = TRUE;
+    gboolean mirrored = TRUE;
+
     g_return_val_if_fail (XFCE_IS_DISPLAY_SETTINGS (settings), MIRRORED_STATE_NONE);
-    return XFCE_DISPLAY_SETTINGS_GET_CLASS (settings)->get_mirrored_state (settings);
+
+    if (xfce_display_settings_get_n_active_outputs (settings) <= 1)
+        return MIRRORED_STATE_NONE;
+
+    /* get geometry of first active output */
+    for (guint n = 0; n < n_outputs; n++)
+    {
+        if (!xfce_display_settings_is_active (settings, n))
+            continue;
+        xfce_display_settings_get_geometry (settings, n, &geom_1);
+        break;
+    }
+
+    /* check if mirror settings are on */
+    for (guint n = 0; n < n_outputs; n++)
+    {
+        if (!xfce_display_settings_is_active (settings, n))
+            continue;
+
+        xfce_display_settings_get_geometry (settings, n, &geom_2);
+        mirrored &= geom_1.x == geom_2.x && geom_1.y == geom_2.y;
+        cloned &= gdk_rectangle_equal (&geom_1, &geom_2);
+        if (!mirrored)
+            break;
+    }
+
+    return cloned ? MIRRORED_STATE_CLONED : mirrored ? MIRRORED_STATE_MIRRORED : MIRRORED_STATE_NONE;
 }
 
 
@@ -784,56 +809,28 @@ xfce_display_settings_get_rotations (XfceDisplaySettings *settings,
 
 
 gdouble
-xfce_display_settings_get_scale_x (XfceDisplaySettings *settings,
-                                   guint output_id)
+xfce_display_settings_get_scale (XfceDisplaySettings *settings,
+                                 guint output_id)
 {
     g_return_val_if_fail (XFCE_IS_DISPLAY_SETTINGS (settings), 0);
-    return XFCE_DISPLAY_SETTINGS_GET_CLASS (settings)->get_scale_x (settings, output_id);
+    return XFCE_DISPLAY_SETTINGS_GET_CLASS (settings)->get_scale (settings, output_id);
 }
 
 
 
 void
-xfce_display_settings_set_scale_x (XfceDisplaySettings *settings,
-                                   guint output_id,
-                                   gdouble scale_x)
+xfce_display_settings_set_scale (XfceDisplaySettings *settings,
+                                 guint output_id,
+                                 gdouble scale)
 {
     g_return_if_fail (XFCE_IS_DISPLAY_SETTINGS (settings));
     g_return_if_fail (xfce_display_settings_get_n_outputs (settings) > output_id);
 
-    XFCE_DISPLAY_SETTINGS_GET_CLASS (settings)->set_scale_x (settings, output_id, scale_x);
+    XFCE_DISPLAY_SETTINGS_GET_CLASS (settings)->set_scale (settings, output_id, scale);
     if (!get_instance_private (settings)->opt_minimal)
     {
         XfceOutput *output = g_list_nth (get_instance_private (settings)->outputs, output_id)->data;
-        output->scale_x = scale_x;
-    }
-}
-
-
-
-gdouble
-xfce_display_settings_get_scale_y (XfceDisplaySettings *settings,
-                                   guint output_id)
-{
-    g_return_val_if_fail (XFCE_IS_DISPLAY_SETTINGS (settings), 0);
-    return XFCE_DISPLAY_SETTINGS_GET_CLASS (settings)->get_scale_x (settings, output_id);
-}
-
-
-
-void
-xfce_display_settings_set_scale_y (XfceDisplaySettings *settings,
-                                   guint output_id,
-                                   gdouble scale_y)
-{
-    g_return_if_fail (XFCE_IS_DISPLAY_SETTINGS (settings));
-    g_return_if_fail (xfce_display_settings_get_n_outputs (settings) > output_id);
-
-    XFCE_DISPLAY_SETTINGS_GET_CLASS (settings)->set_scale_y (settings, output_id, scale_y);
-    if (!get_instance_private (settings)->opt_minimal)
-    {
-        XfceOutput *output = g_list_nth (get_instance_private (settings)->outputs, output_id)->data;
-        output->scale_y = scale_y;
+        output->scale = scale;
     }
 }
 
@@ -895,7 +892,16 @@ xfce_display_settings_set_active (XfceDisplaySettings *settings,
     g_return_if_fail (XFCE_IS_DISPLAY_SETTINGS (settings));
     g_return_if_fail (xfce_display_settings_get_n_outputs (settings) > output_id);
 
+    if (xfce_display_settings_is_active (settings, output_id) == active)
+        return;
+
+    /* init/reset geometry except position */
+    xfce_display_settings_set_mode (settings, output_id, -1U);
+    xfce_display_settings_set_scale (settings, output_id, 1.0);
+    xfce_display_settings_set_rotation (settings, output_id, ROTATION_FLAGS_0);
+
     XFCE_DISPLAY_SETTINGS_GET_CLASS (settings)->set_active (settings, output_id, active);
+
     if (!get_instance_private (settings)->opt_minimal)
     {
         XfceOutput *output = g_list_nth (get_instance_private (settings)->outputs, output_id)->data;
@@ -929,21 +935,49 @@ xfce_display_settings_set_primary (XfceDisplaySettings *settings,
 
 gboolean
 xfce_display_settings_is_mirrored (XfceDisplaySettings *settings,
-                                   guint output_id)
+                                   guint output_id_1,
+                                   guint output_id_2)
 {
+    GdkRectangle geom_1, geom_2;
+
     g_return_val_if_fail (XFCE_IS_DISPLAY_SETTINGS (settings), FALSE);
-    return XFCE_DISPLAY_SETTINGS_GET_CLASS (settings)->is_mirrored (settings, output_id);
+
+    if (!xfce_display_settings_is_active (settings, output_id_1)
+        || !xfce_display_settings_is_active (settings, output_id_2))
+        return FALSE;
+
+    xfce_display_settings_get_geometry (settings, output_id_1, &geom_1);
+    xfce_display_settings_get_geometry (settings, output_id_2, &geom_2);
+    return geom_1.x == geom_2.x && geom_1.y == geom_2.y;
 }
 
 
 
-gboolean
-xfce_display_settings_is_extended (XfceDisplaySettings *settings,
-                                   guint output_id_1,
-                                   guint output_id_2)
+ExtendedMode
+xfce_display_settings_get_extended_mode (XfceDisplaySettings *settings,
+                                         guint output_id_1,
+                                         guint output_id_2)
 {
-    g_return_val_if_fail (XFCE_IS_DISPLAY_SETTINGS (settings), FALSE);
-    return XFCE_DISPLAY_SETTINGS_GET_CLASS (settings)->is_extended (settings, output_id_1, output_id_2);
+    GdkRectangle geom_1, geom_2;
+
+    g_return_val_if_fail (XFCE_IS_DISPLAY_SETTINGS (settings), EXTENDED_MODE_NONE);
+
+    if (!xfce_display_settings_is_active (settings, output_id_1)
+        || !xfce_display_settings_is_active (settings, output_id_2))
+        return EXTENDED_MODE_NONE;
+
+    xfce_display_settings_get_geometry (settings, output_id_1, &geom_1);
+    xfce_display_settings_get_geometry (settings, output_id_2, &geom_2);
+    if (geom_2.x == geom_1.x + geom_1.width)
+        return EXTENDED_MODE_RIGHT;
+    else if (geom_1.x == geom_2.x + geom_2.width)
+        return EXTENDED_MODE_LEFT;
+    else if (geom_1.y == geom_2.y + geom_2.height)
+        return EXTENDED_MODE_UP;
+    else if (geom_2.y == geom_1.y + geom_1.height)
+        return EXTENDED_MODE_DOWN;
+    else
+        return EXTENDED_MODE_NONE;
 }
 
 
@@ -959,11 +993,17 @@ xfce_display_settings_is_clonable (XfceDisplaySettings *settings)
 
 void
 xfce_display_settings_save (XfceDisplaySettings *settings,
-                            guint output_id,
                             const gchar *scheme)
 {
+    gchar *prop;
+
     g_return_if_fail (XFCE_IS_DISPLAY_SETTINGS (settings));
-    XFCE_DISPLAY_SETTINGS_GET_CLASS (settings)->save (settings, output_id, scheme);
+
+    prop = g_strdup_printf ("/%s", scheme);
+    xfconf_channel_reset_property (get_instance_private (settings)->channel, prop, TRUE);
+    g_free (prop);
+
+    XFCE_DISPLAY_SETTINGS_GET_CLASS (settings)->save (settings, scheme);
 }
 
 
@@ -992,10 +1032,12 @@ xfce_display_settings_unmirror (XfceDisplaySettings *settings)
 
 
 void
-xfce_display_settings_extend_right (XfceDisplaySettings *settings,
-                                    guint output_id_1,
-                                    guint output_id_2)
+xfce_display_settings_extend (XfceDisplaySettings *settings,
+                              guint output_id_1,
+                              guint output_id_2,
+                              ExtendedMode mode)
 {
     g_return_if_fail (XFCE_IS_DISPLAY_SETTINGS (settings));
-    return XFCE_DISPLAY_SETTINGS_GET_CLASS (settings)->extend_right (settings, output_id_1, output_id_2);
+    g_return_if_fail (mode != EXTENDED_MODE_NONE);
+    return XFCE_DISPLAY_SETTINGS_GET_CLASS (settings)->extend (settings, output_id_1, output_id_2, mode);
 }

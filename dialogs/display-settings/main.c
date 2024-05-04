@@ -28,8 +28,9 @@
 #ifdef HAVE_STRING_H
 #include <string.h>
 #endif
-
+#ifdef HAVE_MATH_H
 #include <math.h>
+#endif
 
 #include <glib.h>
 #include <gtk/gtk.h>
@@ -59,7 +60,8 @@
 #include "display-settings.h"
 
 #define MARGIN  16
-#define NOTIFY_PROP_DEFAULT 1
+#define ONLY_DISPLAY_1 _("Only %s (1)")
+#define ONLY_DISPLAY_2 _("Only %s (2)")
 
 enum
 {
@@ -117,7 +119,7 @@ static GOptionEntry option_entries[] =
 };
 
 /* Keep track of the initially active profile */
-gchar *active_profile = NULL;
+gchar *initial_active_profile = NULL;
 
 /* Outputs Combobox */
 GtkWidget *apply_button = NULL;
@@ -153,14 +155,56 @@ static XfceRatio ratio_table[] = {
     { FALSE, 0.0 , NULL }
 };
 
+typedef struct _GrabInfo
+{
+    int grab_x;
+    int grab_y;
+    int output_x;
+    int output_y;
+} GrabInfo;
+
 static void display_setting_mirror_displays_populate         (XfceDisplaySettings *settings);
 
 static void display_settings_minimal_profile_apply           (GtkToggleButton *widget,
                                                               XfconfChannel   *channel);
+static void display_settings_combobox_selection_changed      (GtkComboBox         *combobox,
+                                                              XfceDisplaySettings *settings);
+static void keep_output_snapped                              (XfceOutput          *output,
+                                                              FooScrollAreaEvent  *event,
+                                                              GrabInfo            *info,
+                                                              XfceDisplaySettings *settings);
 
 static void
-display_settings_changed (void)
+initialize_connected_outputs_at_zero (XfceDisplaySettings *settings)
 {
+    GList *outputs = xfce_display_settings_get_outputs (settings);
+    GList *list = NULL;
+    gint start_x, start_y;
+
+    start_x = G_MAXINT;
+    start_y = G_MAXINT;
+
+    /* Get the left-most and top-most coordinates */
+    for (list = outputs; list != NULL; list = list->next)
+    {
+        XfceOutput *output = list->data;
+
+        start_x = MIN(start_x, output->x);
+        start_y = MIN(start_y, output->y);
+    }
+
+    /* Realign at zero */
+    for (list = outputs; list != NULL; list = list->next)
+    {
+        XfceOutput *output = list->data;
+        xfce_display_settings_set_position (settings, output->id, output->x - start_x, output->y - start_y);
+    }
+}
+
+static void
+display_settings_changed (XfceDisplaySettings *settings)
+{
+    foo_scroll_area_invalidate (FOO_SCROLL_AREA (xfce_display_settings_get_scroll_area (settings)));
     gtk_widget_set_sensitive (GTK_WIDGET (apply_button), TRUE);
 }
 
@@ -287,171 +331,84 @@ display_setting_timed_confirmation (XfceDisplaySettings *settings)
     return ((response_id == 2) ? TRUE : FALSE);
 }
 
-/*
- * Encapsulates display_setting_timed_confirmation, automatically uses Fallback on FALSE
- * Returns TRUE if the configuration was kept, FALSE if the configuration was replaced with the Fallback
- */
-static gboolean
-display_setting_ask_fallback (XfceDisplaySettings *settings)
+static void
+update_output_positions (XfceDisplaySettings *settings,
+                         guint selected_id)
 {
-    /* Ask user confirmation (or recover to'Fallback on timeout') */
-    if (display_setting_timed_confirmation (settings))
+    guint n_outputs = xfce_display_settings_get_n_outputs (settings);
+    gboolean mirrored = FALSE;
+
+    for (guint n = 0; n < n_outputs; n++)
     {
-        /* Update the Fallback */
-        guint n_outputs = xfce_display_settings_get_n_outputs (settings);
-        for (guint n = 0; n < n_outputs; n++)
-            xfce_display_settings_save (settings, n, "Fallback");
-        return TRUE;
+        if (n != selected_id && xfce_display_settings_is_mirrored (settings, selected_id, n))
+        {
+            mirrored = TRUE;
+            break;
+        }
     }
-    else
+
+    if (!mirrored)
     {
-        /* Recover to Fallback (will as well overwrite default xfconf settings) */
-        xfconf_channel_set_string (xfce_display_settings_get_channel (settings), "/Schemes/Apply", "Fallback");
-        foo_scroll_area_invalidate (FOO_SCROLL_AREA (xfce_display_settings_get_scroll_area (settings)));
-        return FALSE;
+        XfceOutput *output = get_nth_xfce_output (settings, selected_id);
+        FooScrollAreaEvent event = { 0 };
+        GrabInfo info = { 0 };
+
+        info.output_x = output->x;
+        info.output_y = output->y;
+        keep_output_snapped (output, &event, &info, settings);
     }
+
+    initialize_connected_outputs_at_zero (settings);
 }
 
 static void
-display_setting_custom_scale_changed (GtkSpinButton *spinbutton,
-                                      XfceDisplaySettings *settings)
+display_setting_scale_changed (GtkSpinButton *spinbutton,
+                               XfceDisplaySettings *settings)
 {
     guint selected_id = xfce_display_settings_get_selected_output_id (settings);
     gdouble scale = gtk_spin_button_get_value (spinbutton);
-    xfce_display_settings_set_scale_x (settings, selected_id, scale);
-    xfce_display_settings_set_scale_y (settings, selected_id, scale);
+    xfce_display_settings_set_scale (settings, selected_id, scale);
 
-    display_settings_changed ();
-}
+    update_output_positions (settings, selected_id);
 
-static void
-display_setting_scale_changed (GtkComboBox *combobox,
-                               GtkBuilder  *builder)
-{
-    GObject      *revealer, *spin_scalex, *spin_scaley;
-    GValue        prop = { 0, };
-    gdouble       scale;
-    GtkTreeModel *model;
-    GtkTreeIter   iter;
+    /* Check if we're now in mirror mode */
+    display_setting_mirror_displays_populate (settings);
 
-    if (gtk_combo_box_get_active (GTK_COMBO_BOX (combobox)) == -1)
-        return;
-
-    revealer = gtk_builder_get_object (builder, "revealer-scale");
-    spin_scalex = gtk_builder_get_object (builder, "spin-scale-x");
-    spin_scaley = gtk_builder_get_object (builder, "spin-scale-y");
-
-    gtk_combo_box_get_active_iter (combobox, &iter);
-    model = gtk_combo_box_get_model (combobox);
-    gtk_tree_model_get_value (model, &iter, COLUMN_COMBO_VALUE, &prop);
-    scale = g_value_get_double (&prop);
-
-    /* Show the spinbuttons if the combobox is set to "Custom:" */
-    if (scale == -1.0)
-    {
-        gtk_revealer_set_reveal_child (GTK_REVEALER (revealer), TRUE);
-    }
-    else
-    {
-        gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_scalex), scale);
-        gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_scaley), scale);
-        gtk_revealer_set_reveal_child (GTK_REVEALER (revealer), FALSE);
-    }
-
-    g_value_unset (&prop);
-    display_settings_changed ();
+    display_settings_changed (settings);
 }
 
 static gboolean
-display_setting_scale_set_active (GtkTreeModel *model,
-                                  GtkTreePath  *path,
-                                  GtkTreeIter  *iter,
-                                  gpointer      data)
+empty_spin_scale (gpointer data)
 {
-    XfceDisplaySettings *settings = data;
-    GtkBuilder *builder = xfce_display_settings_get_builder (settings);
-    GObject *combobox = gtk_builder_get_object (builder, "randr-scale");
-    guint selected_id = xfce_display_settings_get_selected_output_id (settings);
-    GValue prop = { 0, };
-    gboolean found = FALSE;
-
-    gtk_tree_model_get_value (model, iter, COLUMN_COMBO_VALUE, &prop);
-
-    if (g_value_get_double (&prop) == xfce_display_settings_get_scale_x (settings, selected_id))
-    {
-        gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combobox), iter);
-        found = TRUE;
-    }
-    else
-        gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), -1);
-
-    g_value_unset (&prop);
-
-    return found;
+    /* We need to delay this because GTK returns a numerical value in our back sometimes */
+    gtk_entry_set_text (data, "");
+    return FALSE;
 }
 
 static void
 display_setting_scale_populate (XfceDisplaySettings *settings,
                                 guint selected_id)
 {
-    GtkBuilder   *builder = xfce_display_settings_get_builder (settings);
-    GtkTreeModel *model;
-    GObject      *combobox, *label, *revealer, *spin_scalex, *spin_scaley;
-    guint         n;
+    GtkBuilder *builder = xfce_display_settings_get_builder (settings);
+    GObject *spin = gtk_builder_get_object (builder, "spin-scale");
+    GObject *label = gtk_builder_get_object (builder, "label-scale");
 
-    combobox = gtk_builder_get_object (builder, "randr-scale");
-    label = gtk_builder_get_object (builder, "label-scale");
-    revealer = gtk_builder_get_object (builder, "revealer-scale");
-
-    /* disable it if no mode is selected */
+    /* disable it if output is disabled */
     if (!xfce_display_settings_is_active (settings, selected_id))
     {
-        gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), -1);
-        gtk_widget_set_sensitive (GTK_WIDGET (combobox), FALSE);
+        g_idle_add (empty_spin_scale, spin);
+        gtk_widget_set_sensitive (GTK_WIDGET (spin), FALSE);
         gtk_widget_set_sensitive (GTK_WIDGET (label), FALSE);
-        gtk_revealer_set_reveal_child (GTK_REVEALER (revealer), FALSE);
         return;
     }
 
-    gtk_widget_set_sensitive (GTK_WIDGET (combobox), TRUE);
+    gtk_widget_set_sensitive (GTK_WIDGET (spin), TRUE);
     gtk_widget_set_sensitive (GTK_WIDGET (label), TRUE);
 
     /* Sync the current scale value to the spinbuttons */
-    spin_scalex = gtk_builder_get_object (builder, "spin-scale-x");
-    spin_scaley = gtk_builder_get_object (builder, "spin-scale-y");
-    gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_scalex),
-                               xfce_display_settings_get_scale_x (settings, selected_id));
-    gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_scaley),
-                               xfce_display_settings_get_scale_y (settings, selected_id));
-
-    /* Block the "changed" signal while determining the active item */
-    g_signal_handlers_block_by_func (combobox, display_setting_scale_changed,
-                                     builder);
-
-    /* If the current scale is part of the presets set it as active */
-    model = gtk_combo_box_get_model (GTK_COMBO_BOX (combobox));
-    gtk_tree_model_foreach (model, display_setting_scale_set_active, settings);
-
-    /* If the current scale is not found in the presets we select "Custom:", which
-       is the last element of the liststore */
-    if (gtk_combo_box_get_active (GTK_COMBO_BOX (combobox)) == -1)
-    {
-        GtkTreePath *path;
-        GtkTreeIter  iter;
-
-        n = gtk_tree_model_iter_n_children (model, NULL);
-        path = gtk_tree_path_new_from_indices (n - 1, -1);
-        gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path);
-        gtk_tree_path_free (path);
-        gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combobox), &iter);
-        gtk_revealer_set_reveal_child (GTK_REVEALER (revealer), TRUE);
-    }
-    else
-        gtk_revealer_set_reveal_child (GTK_REVEALER (revealer), FALSE);
-
-    /* Unblock the signal */
-    g_signal_handlers_unblock_by_func (combobox, display_setting_scale_changed,
-                                       builder);
+    g_signal_handlers_block_by_func (spin, display_setting_scale_changed, settings);
+    gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin), xfce_display_settings_get_scale (settings, selected_id));
+    g_signal_handlers_unblock_by_func (spin, display_setting_scale_changed, settings);
 }
 
 static void
@@ -472,9 +429,12 @@ display_setting_reflections_changed (GtkComboBox *combobox,
     rotation |= value;
     xfce_display_settings_set_rotation (settings, selected_id, rotation);
 
-    /* Apply the changes */
-    display_settings_changed ();
-    foo_scroll_area_invalidate (FOO_SCROLL_AREA (xfce_display_settings_get_scroll_area (settings)));
+    update_output_positions (settings, selected_id);
+
+    /* Check if we're now in mirror mode */
+    display_setting_mirror_displays_populate (settings);
+
+    display_settings_changed (settings);
 }
 
 static void
@@ -552,9 +512,12 @@ display_setting_rotations_changed (GtkComboBox *combobox,
     rotation |= value;
     xfce_display_settings_set_rotation (settings, selected_id, rotation);
 
-    /* Apply the changes */
-    display_settings_changed ();
-    foo_scroll_area_invalidate (FOO_SCROLL_AREA (xfce_display_settings_get_scroll_area (settings)));
+    update_output_positions (settings, selected_id);
+
+    /* Check if we're now in mirror mode */
+    display_setting_mirror_displays_populate (settings);
+
+    display_settings_changed (settings);
 }
 
 static void
@@ -628,12 +591,7 @@ display_setting_refresh_rates_changed (GtkComboBox *combobox,
     selected_id = xfce_display_settings_get_selected_output_id (settings);
     xfce_display_settings_set_mode (settings, selected_id, value);
 
-    /* In any case, check if we're now in mirror mode */
-    display_setting_mirror_displays_populate (settings);
-
-    /* Apply the changes */
-    display_settings_changed ();
-    foo_scroll_area_invalidate (FOO_SCROLL_AREA (xfce_display_settings_get_scroll_area (settings)));
+    display_settings_changed (settings);
 }
 
 static void
@@ -692,9 +650,6 @@ display_setting_refresh_rates_populate (XfceDisplaySettings *settings,
     if (gtk_combo_box_get_active (GTK_COMBO_BOX (combobox)) == -1)
         gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combobox), &iter);
 
-    /* In any case, check if we're now in mirror mode */
-    display_setting_mirror_displays_populate (settings);
-
     /* Unblock the signal */
     g_signal_handlers_unblock_by_func (combobox, display_setting_refresh_rates_changed, settings);
 }
@@ -716,9 +671,12 @@ display_setting_resolutions_changed (GtkComboBox *combobox,
     /* Update refresh rates */
     display_setting_refresh_rates_populate (settings, selected_id);
 
-    /* Apply the changes */
-    display_settings_changed ();
-    foo_scroll_area_invalidate (FOO_SCROLL_AREA (xfce_display_settings_get_scroll_area (settings)));
+    update_output_positions (settings, selected_id);
+
+    /* Check if we're now in mirror mode */
+    display_setting_mirror_displays_populate (settings);
+
+    display_settings_changed (settings);
 }
 
 /* Greatest common divisor */
@@ -871,6 +829,9 @@ static void
 display_setting_mirror_displays_toggled (GtkToggleButton *togglebutton,
                                          XfceDisplaySettings *settings)
 {
+    GtkBuilder *builder = xfce_display_settings_get_builder (settings);
+    GObject *combobox = gtk_builder_get_object (builder, "randr-outputs");
+
     /* reset the inconsistent state, since the mirror checkbutton is being toggled */
     if (gtk_toggle_button_get_inconsistent (togglebutton))
         gtk_toggle_button_set_inconsistent (togglebutton, FALSE);
@@ -884,19 +845,17 @@ display_setting_mirror_displays_toggled (GtkToggleButton *togglebutton,
         xfce_display_settings_unmirror (settings);
     }
 
-    /* Apply the changes */
-    display_settings_changed ();
-    foo_scroll_area_invalidate (FOO_SCROLL_AREA (xfce_display_settings_get_scroll_area (settings)));
+    /* Update all widgets */
+    display_settings_combobox_selection_changed (GTK_COMBO_BOX (combobox), settings);
+
+    display_settings_changed (settings);
 }
 
 static void
 display_setting_mirror_displays_populate (XfceDisplaySettings *settings)
 {
     GtkBuilder *builder = xfce_display_settings_get_builder (settings);
-    GObject *check;
-    MirroredState state;
-
-    check = gtk_builder_get_object (builder, "mirror-displays");
+    GObject *check = gtk_builder_get_object (builder, "mirror-displays");
 
     if (xfce_display_settings_get_n_outputs (settings) > 1)
         gtk_widget_show (GTK_WIDGET (check));
@@ -907,22 +866,26 @@ display_setting_mirror_displays_populate (XfceDisplaySettings *settings)
     }
 
     gtk_widget_set_sensitive (GTK_WIDGET (check), xfce_display_settings_is_clonable (settings));
-
-    state = xfce_display_settings_get_mirrored_state (settings);
-    if (state == MIRRORED_STATE_NONE)
-    {
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), FALSE);
-        return;
-    }
+    gtk_toggle_button_set_inconsistent (GTK_TOGGLE_BUTTON (check), FALSE);
 
     /* Block the "changed" signal to avoid triggering the confirmation dialog */
     g_signal_handlers_block_by_func (check, display_setting_mirror_displays_toggled, settings);
 
-    /* if two displays are 'mirrored', i.e. their resolutions are not the same
-       we set the checkbutton to the inconsistent state */
-    gtk_toggle_button_set_inconsistent (GTK_TOGGLE_BUTTON (check), state == MIRRORED_STATE_MIRRORED);
-    if (state == MIRRORED_STATE_CLONED)
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), TRUE);
+    switch (xfce_display_settings_get_mirrored_state (settings))
+    {
+        case MIRRORED_STATE_NONE:
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), FALSE);
+            break;
+        case MIRRORED_STATE_MIRRORED:
+            gtk_toggle_button_set_inconsistent (GTK_TOGGLE_BUTTON (check), TRUE);
+            break;
+        case MIRRORED_STATE_CLONED:
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), TRUE);
+            break;
+        default:
+            g_warn_if_reached ();
+            break;
+    }
 
     /* Unblock the signal */
     g_signal_handlers_unblock_by_func (check, display_setting_mirror_displays_toggled, settings);
@@ -933,37 +896,28 @@ display_setting_primary_toggled (GtkWidget *widget,
                                  gboolean primary,
                                  XfceDisplaySettings *settings)
 {
+    GtkBuilder *builder = xfce_display_settings_get_builder (settings);
+    GObject *primary_indicator = gtk_builder_get_object (builder, "primary-indicator");
     guint selected_id = xfce_display_settings_get_selected_output_id (settings);
 
+    xfce_display_settings_set_primary (settings, selected_id, primary);
+    gtk_widget_set_visible (GTK_WIDGET (primary_indicator), primary);
     if (primary)
     {
+        /* Set all other outputs as secondary */
         guint n_outputs = xfce_display_settings_get_n_outputs (settings);
-
-        /* Set currently active display as primary */
-        xfce_display_settings_set_primary (settings, selected_id, TRUE);
-        xfce_display_settings_save (settings, selected_id, "Default");
-
-        /* and all others as secondary */
         for (guint n = 0; n < n_outputs; n++)
         {
             if (n != selected_id)
             {
                 xfce_display_settings_set_primary (settings, n, FALSE);
-                xfce_display_settings_save (settings, n, "Default");
             }
         }
     }
-    else
-    {
-        xfce_display_settings_set_primary (settings, selected_id, FALSE);
-        xfce_display_settings_save (settings, selected_id, "Default");
-    }
 
-    /* Apply the changes */
-    xfconf_channel_set_string (xfce_display_settings_get_channel (settings), "/Schemes/Apply", "Default");
-    gtk_switch_set_state (GTK_SWITCH (widget), primary);
+    display_settings_changed (settings);
 
-    return TRUE;
+    return FALSE;
 }
 
 static void
@@ -1005,16 +959,26 @@ display_setting_primary_populate (XfceDisplaySettings *settings,
 }
 
 static gboolean
+show_no_output_dialog (gpointer data)
+{
+    xfce_dialog_show_warning (NULL,
+                              _("The last active output must not be disabled, the system would"
+                                " be unusable."),
+                              _("Selected output not disabled"));
+    return FALSE;
+}
+
+static gboolean
 display_setting_output_toggled (GtkSwitch  *widget,
                                 gboolean output_on,
                                 XfceDisplaySettings *settings)
 {
-    guint selected_id, n_outputs;
+    GtkBuilder *builder = xfce_display_settings_get_builder (settings);
+    GObject *combobox = gtk_builder_get_object (builder, "randr-outputs");
+    guint selected_id = xfce_display_settings_get_selected_output_id (settings);
 
     if (xfce_display_settings_get_n_outputs (settings) <= 1)
         return FALSE;
-
-    selected_id = xfce_display_settings_get_selected_output_id (settings);
 
     if (output_on)
         xfce_display_settings_set_active (settings, selected_id, TRUE);
@@ -1022,24 +986,23 @@ display_setting_output_toggled (GtkSwitch  *widget,
     {
         if (xfce_display_settings_get_n_active_outputs (settings) == 1)
         {
-            xfce_dialog_show_warning (NULL,
-                                      _("The last active output must not be disabled, the system would"
-                                        " be unusable."),
-                                      _("Selected output not disabled"));
-            return FALSE;
+            /* Revert switching off display */
+            GObject *check = gtk_builder_get_object (builder, "output-on");
+            gtk_switch_set_active (GTK_SWITCH (check), TRUE);
+
+            /* Run dialog after this signal handler to avoid random freeze */
+            g_idle_add (show_no_output_dialog, NULL);
+            return TRUE;
         }
         xfce_display_settings_set_active (settings, selected_id, FALSE);
     }
 
-    /* Apply the changes */
-    n_outputs = xfce_display_settings_get_n_outputs (settings);
-    for (guint n = 0; n < n_outputs; n++)
-        xfce_display_settings_save (settings, n, "Default");
-    xfconf_channel_set_string (xfce_display_settings_get_channel (settings), "/Schemes/Apply", "Default");
+    /* Update all widgets */
+    display_settings_combobox_selection_changed (GTK_COMBO_BOX (combobox), settings);
 
-    foo_scroll_area_invalidate (FOO_SCROLL_AREA (xfce_display_settings_get_scroll_area (settings)));
+    display_settings_changed (settings);
 
-    return display_setting_ask_fallback (settings);
+    return FALSE;
 }
 
 static void
@@ -1088,12 +1051,12 @@ display_settings_combobox_selection_changed (GtkComboBox *combobox,
         display_setting_output_status_populate (settings, selected_id);
         if (WINDOWING_IS_X11 ())
             display_setting_primary_populate (settings, selected_id);
-        display_setting_mirror_displays_populate (settings);
         display_setting_resolutions_populate (settings, selected_id);
         display_setting_refresh_rates_populate (settings, selected_id);
         display_setting_rotations_populate (settings, selected_id);
         display_setting_reflections_populate (settings, selected_id);
         display_setting_scale_populate (settings, selected_id);
+        display_setting_mirror_displays_populate (settings);
 
         /* redraw the two (old active, new active) popups */
         if (WINDOWING_IS_X11 () || gtk_layer_is_supported ())
@@ -1112,62 +1075,135 @@ display_settings_combobox_selection_changed (GtkComboBox *combobox,
 }
 
 static void
+display_settings_minimal_load_icon (GtkBuilder  *builder,
+                                    const gchar *img_name,
+                                    const gchar *icon_name)
+{
+    GObject      *dialog;
+    GtkImage     *img;
+    GtkIconTheme *icon_theme;
+    GdkPixbuf    *icon;
+    cairo_surface_t *surface;
+    gint scale_factor;
+
+    dialog = gtk_builder_get_object (builder, "dialog");
+    img = GTK_IMAGE (gtk_builder_get_object (builder, img_name));
+    g_return_if_fail (dialog && img);
+    scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (dialog));
+
+    icon_theme = gtk_icon_theme_get_for_screen (gtk_window_get_screen (GTK_WINDOW (dialog)));
+    icon = gtk_icon_theme_load_icon_for_scale (icon_theme, icon_name, 128, scale_factor, GTK_ICON_LOOKUP_FORCE_SIZE, NULL);
+    if (G_LIKELY (icon != NULL))
+    {
+        surface = gdk_cairo_surface_create_from_pixbuf (icon, scale_factor, NULL);
+        gtk_image_set_from_surface (GTK_IMAGE (img), surface);
+        cairo_surface_destroy (surface);
+        g_object_unref (icon);
+    }
+}
+
+static void
+display_settings_minimal_profile_combobox_changed (GtkComboBox *box,
+                                                   XfceDisplaySettings *settings)
+{
+    GtkBuilder *builder = xfce_display_settings_get_builder (settings);
+    GtkToggleButton *button = GTK_TOGGLE_BUTTON (gtk_builder_get_object (builder, "profile"));
+    GtkTreeIter iter;
+    gchar *name, *hash;
+
+    gtk_combo_box_get_active_iter (box, &iter);
+    gtk_tree_model_get (gtk_combo_box_get_model (box), &iter, 0, &name, 1, &hash, -1);
+    gtk_widget_set_tooltip_text (GTK_WIDGET (box), name);
+    g_object_set_data_full (G_OBJECT (button), "profile-hash", hash, g_free);
+    g_free (name);
+
+    if (gtk_toggle_button_get_active (button))
+    {
+        gtk_toggle_button_toggled (button);
+    }
+}
+
+static void
 display_settings_minimal_profile_populate (XfceDisplaySettings *settings)
 {
     XfconfChannel *channel = xfce_display_settings_get_channel (settings);
     GtkBuilder *builder = xfce_display_settings_get_builder (settings);
-    GObject  *profile_box, *profile_display1;
-    GList    *profiles = NULL;
-    GList    *current;
-    gchar   **display_infos;
+    GObject *box = gtk_builder_get_object (builder, "box-profile");
+    GObject *button = gtk_builder_get_object (builder, "profile");
+    GObject *combobox = gtk_builder_get_object (builder, "combobox-profile");
+    GObject *liststore = gtk_builder_get_object (builder, "liststore-profile");
+    GtkTreeIter iter;
+    gchar **display_infos = xfce_display_settings_get_display_infos (settings);
+    GList *profiles = display_settings_get_profiles (display_infos, channel, TRUE);
+    gchar *active_profile = xfconf_channel_get_string (channel, "/ActiveProfile", NULL);
 
-    profile_box  = gtk_builder_get_object (builder, "profile-box");
-    profile_display1  = gtk_builder_get_object (builder, "display1");
-
-    display_infos = xfce_display_settings_get_display_infos (settings);
-    profiles = display_settings_get_profiles (display_infos, channel);
-    g_strfreev (display_infos);
-
-    current = g_list_first (profiles);
-    while (current)
+    for (GList *lp = profiles; lp != NULL; lp = lp->next)
     {
-        GtkWidget *box, *profile_radio, *label, *image;
-        gchar *property;
-        gchar *profile_name;
-
         /* use the display string value of the profile hash property */
-        property = g_strdup_printf ("/%s", (gchar *)current->data);
-        profile_name = xfconf_channel_get_string (channel, property, NULL);
+        gchar *property = g_strdup_printf ("/%s", (gchar *) lp->data);
+        gchar *profile_name = xfconf_channel_get_string (channel, property, NULL);
 
-        label = gtk_label_new (profile_name);
-        image = gtk_image_new_from_icon_name ("xfce-display-profile", 128);
-        gtk_image_set_pixel_size (GTK_IMAGE (image), 128);
+        gtk_list_store_append (GTK_LIST_STORE (liststore), &iter);
+        gtk_list_store_set (GTK_LIST_STORE (liststore), &iter, 0, profile_name, 1, lp->data, -1);
+        if (g_strcmp0 (active_profile, lp->data) == 0)
+        {
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
+            gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combobox), &iter);
+            gtk_widget_set_tooltip_text (GTK_WIDGET (combobox), profile_name);
+            g_object_set_data_full (button, "profile-hash", g_strdup (lp->data), g_free);
+        }
 
-        profile_radio = gtk_radio_button_new_from_widget (GTK_RADIO_BUTTON (profile_display1));
-        gtk_container_add (GTK_CONTAINER (profile_radio), image);
-        g_object_set_data (G_OBJECT (profile_radio), "profile", (gchar *)current->data);
-        gtk_toggle_button_set_mode (GTK_TOGGLE_BUTTON (profile_radio), FALSE);
-        gtk_widget_set_size_request (GTK_WIDGET (profile_radio), 128, 128);
-
-        box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-        gtk_box_pack_start (GTK_BOX (box), profile_radio, FALSE, TRUE, 0);
-        gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 3);
-        gtk_widget_set_margin_start (GTK_WIDGET (box), 24);
-        gtk_box_pack_start (GTK_BOX (profile_box), box, FALSE, FALSE, 0);
-
-        g_signal_connect (profile_radio, "toggled", G_CALLBACK (display_settings_minimal_profile_apply), channel);
-
-        current = g_list_next (current);
         g_free (property);
         g_free (profile_name);
     }
 
-    gtk_widget_show_all (GTK_WIDGET (profile_box));
+    display_settings_minimal_load_icon (builder, "image-profile", "xfce-display-profile");
+    g_signal_connect (button, "toggled", G_CALLBACK (display_settings_minimal_profile_apply), channel);
+    g_signal_connect (combobox, "changed", G_CALLBACK (display_settings_minimal_profile_combobox_changed), settings);
+    gtk_widget_set_visible (GTK_WIDGET (box), profiles != NULL);
+    if (profiles != NULL && gtk_combo_box_get_active (GTK_COMBO_BOX (combobox)) == -1)
+        gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), 0);
+
+    g_list_free_full (profiles, g_free);
+    g_strfreev (display_infos);
+    g_free (active_profile);
 }
 
 static void
-display_settings_profile_list_init (GtkBuilder *builder)
+profile_name_edited (GtkCellRendererText *renderer,
+                     char *path,
+                     char *new_text,
+                     XfceDisplaySettings *settings)
 {
+    XfconfChannel *channel = xfce_display_settings_get_channel (settings);
+    if (!display_settings_profile_name_exists (channel, new_text))
+    {
+        GtkBuilder *builder = xfce_display_settings_get_builder (settings);
+        GObject *treeview = gtk_builder_get_object (builder, "randr-profile");
+        GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW (treeview));
+        GtkTreePath *treepath = gtk_tree_path_new_from_string (path);
+        GtkTreeIter iter;
+        if (gtk_tree_model_get_iter (model, &iter, treepath))
+        {
+            gchar *profile, *markup, *prop;
+            gboolean matches;
+            gtk_tree_model_get (model, &iter, COLUMN_HASH, &profile, COLUMN_MATCHES, &matches, -1);
+            markup = matches ? g_strdup (new_text) : g_strdup_printf ("<span alpha=\"50%%\">%s</span>", new_text);
+            prop = g_strdup_printf ("/%s", profile);
+            gtk_list_store_set (GTK_LIST_STORE (model), &iter, COLUMN_NAME, new_text, COLUMN_MARKUP, markup, -1);
+            xfconf_channel_set_string (channel, prop, new_text);
+            g_free (markup);
+            g_free (profile);
+            g_free (prop);
+        }
+        gtk_tree_path_free (treepath);
+    }
+}
+
+static void
+display_settings_profile_list_init (XfceDisplaySettings *settings)
+{
+    GtkBuilder *builder = xfce_display_settings_get_builder (settings);
     GtkListStore      *store;
     GObject           *treeview;
     GtkCellRenderer   *renderer;
@@ -1176,30 +1212,25 @@ display_settings_profile_list_init (GtkBuilder *builder)
     store = gtk_list_store_new (N_COLUMNS,
                                 G_TYPE_ICON,
                                 G_TYPE_STRING,
-                                G_TYPE_STRING);
+                                G_TYPE_STRING,
+                                G_TYPE_STRING,
+                                G_TYPE_BOOLEAN);
 
     treeview = gtk_builder_get_object (builder, "randr-profile");
     gtk_tree_view_set_model (GTK_TREE_VIEW (treeview), GTK_TREE_MODEL (store));
-    /* Setup Profile name column */
+
     column = gtk_tree_view_column_new ();
     renderer = gtk_cell_renderer_pixbuf_new ();
     gtk_tree_view_column_pack_start (column, renderer, TRUE);
     gtk_tree_view_column_set_attributes (column, renderer, "gicon", COLUMN_ICON, NULL);
     gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
-    /* Setup Profile name column */
-    column = gtk_tree_view_column_new ();
-    gtk_tree_view_column_set_title (column, _("Profiles matching the currently connected displays"));
-    renderer = gtk_cell_renderer_text_new ();
-    gtk_tree_view_column_pack_start (column, renderer, TRUE);
-    gtk_tree_view_column_set_attributes (column, renderer, "text", COLUMN_NAME, NULL);
-    g_object_set (G_OBJECT (renderer), "ellipsize", PANGO_ELLIPSIZE_END, NULL);
-    gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
-    /* Setup Profile hash column */
+
     column = gtk_tree_view_column_new ();
     renderer = gtk_cell_renderer_text_new ();
     gtk_tree_view_column_pack_start (column, renderer, TRUE);
-    gtk_tree_view_column_set_attributes (column, renderer, "text", COLUMN_HASH, NULL);
-    gtk_tree_view_column_set_visible (column, FALSE);
+    gtk_tree_view_column_set_attributes (column, renderer, "markup", COLUMN_MARKUP, NULL);
+    g_object_set (G_OBJECT (renderer), "ellipsize", PANGO_ELLIPSIZE_END, "editable", TRUE, NULL);
+    g_signal_connect (renderer, "edited", G_CALLBACK (profile_name_edited), settings);
     gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
 
     g_object_unref (G_OBJECT (store));
@@ -1250,13 +1281,13 @@ display_settings_dialog_response (GtkDialog *dialog,
     else if (response_id == GTK_RESPONSE_CLOSE)
     {
         XfconfChannel *channel = xfce_display_settings_get_channel (settings);
-        gchar *new_active_profile = xfconf_channel_get_string (channel, "/ActiveProfile", NULL);
-        gchar *property = g_strdup_printf ("/%s", active_profile);
+        gchar *active_profile = xfconf_channel_get_string (channel, "/ActiveProfile", NULL);
+        gchar *property = g_strdup_printf ("/%s", initial_active_profile);
         gchar *profile_name = xfconf_channel_get_string (channel, property, NULL);
 
-        if (g_strcmp0 (active_profile, new_active_profile) != 0 &&
+        if (g_strcmp0 (initial_active_profile, active_profile) != 0 &&
             profile_name != NULL &&
-            g_strcmp0 (active_profile, "Default") != 0)
+            g_strcmp0 (initial_active_profile, "Default") != 0)
         {
             GtkBuilder *profile_changed_builder = xfce_display_settings_get_builder (settings);
             GError     *error = NULL;
@@ -1300,17 +1331,14 @@ display_settings_dialog_response (GtkDialog *dialog,
             /* update the profile */
             if (profile_response_id == GTK_RESPONSE_OK)
             {
-                guint n_outputs = xfce_display_settings_get_n_outputs (settings);
-                for (guint n = 0; n < n_outputs; n++)
-                    xfce_display_settings_save (settings, n, active_profile);
-
-                xfconf_channel_set_string (channel, "/ActiveProfile", active_profile);
+                xfce_display_settings_save (settings, initial_active_profile);
+                xfconf_channel_set_string (channel, "/ActiveProfile", initial_active_profile);
             }
         }
         g_free (profile_name);
         g_free (property);
-        g_free (new_active_profile);
         g_free (active_profile);
+        g_free (initial_active_profile);
         gtk_widget_destroy (GTK_WIDGET (dialog));
     }
 }
@@ -1326,15 +1354,72 @@ on_identify_displays_toggled (GtkWidget *widget,
     return TRUE;
 }
 
+static gboolean
+show_confirmation_dialog (gpointer data)
+{
+    XfceDisplaySettings *settings = data;
+    XfconfChannel *channel = xfce_display_settings_get_channel (settings);
+
+    /* Ask user confirmation (or recover to Default on timeout) */
+    if (display_setting_timed_confirmation (settings))
+    {
+        /* Update Default */
+        xfce_display_settings_save (settings, "Default");
+    }
+    else
+    {
+        /* Recover to Default */
+        xfconf_channel_set_string (channel, "/Schemes/Apply", "Default");
+        foo_scroll_area_invalidate (FOO_SCROLL_AREA (xfce_display_settings_get_scroll_area (settings)));
+    }
+
+    /* Delete temporary profile */
+    xfconf_channel_reset_property (channel, "/Temp", TRUE);
+
+    return FALSE;
+}
+
 static void
 display_setting_apply (GtkWidget *widget, XfceDisplaySettings *settings)
 {
+    /* Put disabled outputs on the right before applying changes */
     guint n_outputs = xfce_display_settings_get_n_outputs (settings);
     for (guint n = 0; n < n_outputs; n++)
-        xfce_display_settings_save (settings, n, "Default");
-    xfconf_channel_set_string (xfce_display_settings_get_channel (settings), "/Schemes/Apply", "Default");
+    {
+        if (!xfce_display_settings_is_active (settings, n))
+        {
+            GdkRectangle geom_n;
+            gint x = 0, y = 0;
 
-    display_setting_ask_fallback (settings);
+            xfce_display_settings_get_geometry (settings, n, &geom_n);
+            for (guint m = 0; m < n_outputs; m++)
+            {
+                GdkRectangle geom_m;
+                if (m == n)
+                    continue;
+
+                xfce_display_settings_get_geometry (settings, m, &geom_m);
+                if (geom_m.x > geom_n.x)
+                    geom_m.x -= geom_n.width;
+                if (geom_m.y > geom_n.y)
+                    geom_m.y -= geom_n.height;
+                xfce_display_settings_set_position (settings, m, geom_m.x, geom_m.y);
+                x = MAX (x, geom_m.x + geom_m.width);
+                y = MAX (y, geom_m.y);
+            }
+            xfce_display_settings_set_position (settings, n, x, y);
+        }
+    }
+
+    initialize_connected_outputs_at_zero (settings);
+    foo_scroll_area_invalidate (FOO_SCROLL_AREA (xfce_display_settings_get_scroll_area (settings)));
+
+    /* Apply changes via a temporary profile */
+    xfce_display_settings_save (settings, "Temp");
+    xfconf_channel_set_string (xfce_display_settings_get_channel (settings), "/Schemes/Apply", "Temp");
+
+    /* Run dialog after this signal handler to avoid random freeze */
+    g_idle_add (show_confirmation_dialog, settings);
 
     gtk_widget_set_sensitive(widget, FALSE);
 }
@@ -1343,27 +1428,30 @@ static void
 display_settings_profile_changed (GtkTreeSelection *selection, GtkBuilder *builder)
 {
     GObject *button;
-    GtkTreeModel      *model;
-    GtkTreeIter        iter;
-    gboolean selected;
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    gboolean selected, matches = FALSE;
 
     selected = gtk_tree_selection_get_selected (selection, &model, &iter);
+    if (selected)
+        gtk_tree_model_get (model, &iter, COLUMN_MATCHES, &matches, -1);
 
     button = gtk_builder_get_object (builder, "button-profile-save");
     gtk_widget_set_sensitive (GTK_WIDGET (button), selected);
     button = gtk_builder_get_object (builder, "button-profile-delete");
     gtk_widget_set_sensitive (GTK_WIDGET (button), selected);
     button = gtk_builder_get_object (builder, "button-profile-apply");
-    gtk_widget_set_sensitive (GTK_WIDGET (button), selected);
+    gtk_widget_set_sensitive (GTK_WIDGET (button), selected && matches);
 }
 
 static void
 display_settings_minimal_profile_apply (GtkToggleButton *widget, XfconfChannel *channel)
 {
-    gchar  *profile_hash;
-
-    profile_hash = (gchar *) g_object_get_data (G_OBJECT (widget), "profile");
-    xfconf_channel_set_string (channel, "/Schemes/Apply", profile_hash);
+    if (gtk_toggle_button_get_active (widget))
+    {
+        const gchar *profile_hash = g_object_get_data (G_OBJECT (widget), "profile-hash");
+        xfconf_channel_set_string (channel, "/Schemes/Apply", profile_hash);
+    }
 }
 
 static void
@@ -1381,16 +1469,13 @@ display_settings_profile_save (GtkWidget *widget, XfceDisplaySettings *settings)
     if (gtk_tree_selection_get_selected (selection, &model, &iter))
     {
         XfconfChannel *channel = xfce_display_settings_get_channel (settings);
-        guint n_outputs = xfce_display_settings_get_n_outputs (settings);
         gchar *property;
         gchar *profile_hash;
         gchar *profile_name;
 
         gtk_tree_model_get (model, &iter, COLUMN_NAME, &profile_name, COLUMN_HASH, &profile_hash, -1);
         property = g_strdup_printf ("/%s", profile_hash);
-
-        for (guint n = 0; n < n_outputs; n++)
-            xfce_display_settings_save (settings, n, profile_hash);
+        xfce_display_settings_save (settings, profile_hash);
 
         /* save the human-readable name of the profile as string value */
         xfconf_channel_set_string (channel, property, profile_name);
@@ -1435,7 +1520,7 @@ display_settings_profile_create_cb (GtkWidget *widget, XfceDisplaySettings *sett
     profile_name = gtk_entry_get_text (GTK_ENTRY (entry));
 
     /* check if the profile name is already taken */
-    if (!display_settings_profile_name_exists (channel, profile_name))
+    if (display_settings_profile_name_exists (channel, profile_name))
     {
         button = gtk_builder_get_object (builder, "button-profile-create-cb");
         infobar = gtk_builder_get_object (builder, "profile-exists");
@@ -1451,14 +1536,20 @@ display_settings_profile_create_cb (GtkWidget *widget, XfceDisplaySettings *sett
 
     if (profile_name)
     {
-        guint n_outputs = xfce_display_settings_get_n_outputs (settings);
         gchar *property;
         gchar *profile_hash;
 
-        profile_hash = g_compute_checksum_for_string (G_CHECKSUM_SHA1, profile_name, strlen(profile_name));
-        property = g_strdup_printf ("/%s", profile_hash);
-        for (guint n = 0; n < n_outputs; n++)
-            xfce_display_settings_save (settings, n, profile_hash);
+        while (TRUE)
+        {
+            profile_hash = g_uuid_string_random ();
+            property = g_strdup_printf ("/%s", profile_hash);
+            if (G_LIKELY (!xfconf_channel_has_property (channel, property)))
+                break;
+
+            g_free (profile_hash);
+            g_free (property);
+        }
+        xfce_display_settings_save (settings, profile_hash);
 
         /* save the human-readable name of the profile as string value */
         xfconf_channel_set_string (channel, property, profile_name);
@@ -1535,7 +1626,10 @@ display_settings_profile_row_activated (GtkTreeView       *tree_view,
                                         GtkTreeViewColumn *column,
                                         XfceDisplaySettings *settings)
 {
-    display_settings_profile_apply (NULL, settings);
+    GtkBuilder *builder = xfce_display_settings_get_builder (settings);
+    GObject *button = gtk_builder_get_object (builder, "button-profile-apply");
+    if (gtk_widget_get_sensitive (GTK_WIDGET (button)))
+        gtk_button_clicked (GTK_BUTTON (button));
 }
 
 static void
@@ -1589,25 +1683,6 @@ display_settings_profile_delete (GtkWidget *widget, XfceDisplaySettings *setting
             return;
         }
     }
-}
-
-static void
-display_setting_minimal_autoconnect_mode_changed (GtkComboBox *combobox,
-                                                  GtkBuilder  *builder)
-{
-    gint value;
-    gboolean state = TRUE;
-    GObject *auto_enable_profiles;
-
-    value = gtk_combo_box_get_active (combobox);
-    /* On "Do nothing" disable the "auto-enable-profiles" option */
-    if (value == 0)
-      state = FALSE;
-
-    auto_enable_profiles = gtk_builder_get_object (builder, "auto-enable-profiles");
-    gtk_widget_set_sensitive (GTK_WIDGET (auto_enable_profiles), state);
-    auto_enable_profiles = gtk_builder_get_object (builder, "auto-enable-profiles-label");
-    gtk_widget_set_sensitive (GTK_WIDGET (auto_enable_profiles), state);
 }
 
 static void
@@ -1702,10 +1777,11 @@ display_settings_dialog_new (XfceDisplaySettings *settings)
 {
     XfconfChannel    *channel = xfce_display_settings_get_channel (settings);
     GtkBuilder       *builder = xfce_display_settings_get_builder (settings);
+    GObject          *treeview;
     GObject          *combobox;
     GtkCellRenderer  *renderer;
     GObject          *label, *check, *primary, *mirror, *identify, *primary_indicator;
-    GObject          *revealer, *spinbutton;
+    GObject          *spinbutton;
     GtkWidget        *button;
     GtkTreeSelection *selection;
 
@@ -1775,16 +1851,8 @@ display_settings_dialog_new (XfceDisplaySettings *settings)
     label = gtk_builder_get_object (builder, "label-reflection");
     gtk_widget_show (GTK_WIDGET (label));
 
-    combobox = gtk_builder_get_object (builder, "randr-scale");
-    g_signal_connect (G_OBJECT (combobox), "changed", G_CALLBACK (display_setting_scale_changed), builder);
-    revealer = gtk_builder_get_object (builder, "revealer-scale");
-    if (gtk_combo_box_get_active (GTK_COMBO_BOX (combobox)) == -1)
-        gtk_revealer_set_reveal_child (GTK_REVEALER (revealer), FALSE);
-    else
-        gtk_revealer_set_reveal_child (GTK_REVEALER (revealer), TRUE);
-
-    spinbutton = gtk_builder_get_object (builder, "spin-scale-x");
-    g_signal_connect (G_OBJECT (spinbutton), "value-changed", G_CALLBACK (display_setting_custom_scale_changed), settings);
+    spinbutton = gtk_builder_get_object (builder, "spin-scale");
+    g_signal_connect (G_OBJECT (spinbutton), "value-changed", G_CALLBACK (display_setting_scale_changed), settings);
 
     combobox = gtk_builder_get_object (builder, "randr-reflection");
     display_settings_combo_box_create (GTK_COMBO_BOX (combobox), FALSE);
@@ -1804,31 +1872,31 @@ display_settings_dialog_new (XfceDisplaySettings *settings)
     display_settings_combo_box_create (GTK_COMBO_BOX (combobox), FALSE);
     g_signal_connect (G_OBJECT (combobox), "changed", G_CALLBACK (display_setting_rotations_changed), settings);
 
-    combobox = gtk_builder_get_object (builder, "randr-profile");
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (combobox));
+    treeview = gtk_builder_get_object (builder, "randr-profile");
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
     gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
-    gtk_tree_view_set_activate_on_single_click (GTK_TREE_VIEW (combobox), FALSE);
+    gtk_tree_view_set_activate_on_single_click (GTK_TREE_VIEW (treeview), FALSE);
+    gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (treeview), FALSE);
     g_signal_connect (G_OBJECT (selection), "changed", G_CALLBACK (display_settings_profile_changed), builder);
-    g_signal_connect (G_OBJECT (combobox), "row-activated", G_CALLBACK (display_settings_profile_row_activated), settings);
+    g_signal_connect (G_OBJECT (treeview), "row-activated", G_CALLBACK (display_settings_profile_row_activated), settings);
 
     combobox = gtk_builder_get_object (builder, "autoconnect-mode");
-    g_signal_connect (G_OBJECT (combobox), "changed", G_CALLBACK (display_setting_minimal_autoconnect_mode_changed), builder);
-    xfconf_g_property_bind (channel, "/Notify", G_TYPE_INT, combobox,
-                            "active");
-    /* Correctly initialize the state of the auto-enable-profiles setting based on autoconnect-mode */
+    xfconf_g_property_bind (channel, "/Notify", G_TYPE_INT, combobox, "active");
     if (xfconf_channel_get_int (channel, "/Notify", -1) == -1)
     {
-        gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), NOTIFY_PROP_DEFAULT);
-        display_setting_minimal_autoconnect_mode_changed ((GTK_COMBO_BOX (combobox)), builder);
+        gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), ACTION_ON_NEW_OUTPUT_DEFAULT);
     }
 
     apply_button = GTK_WIDGET (gtk_builder_get_object (builder, "apply"));
     g_signal_connect (G_OBJECT (apply_button), "clicked", G_CALLBACK (display_setting_apply), settings);
     gtk_widget_set_sensitive (apply_button, FALSE);
 
-    check = gtk_builder_get_object (builder, "auto-enable-profiles");
-    xfconf_g_property_bind (channel, "/AutoEnableProfiles", G_TYPE_BOOLEAN, check,
-                            "active");
+    combobox = gtk_builder_get_object (builder, "auto-enable-profiles");
+    xfconf_g_property_bind (channel, "/AutoEnableProfiles", G_TYPE_INT, combobox, "active");
+    if (xfconf_channel_get_int (channel, "/AutoEnableProfiles", -1) == -1)
+    {
+        gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), AUTO_ENABLE_PROFILES_DEFAULT);
+    }
 
     button = GTK_WIDGET (gtk_builder_get_object (builder, "button-profile-save"));
     gtk_widget_set_sensitive (button, FALSE);
@@ -1847,17 +1915,17 @@ display_settings_dialog_new (XfceDisplaySettings *settings)
 
     /* Populate the combobox */
     xfce_display_settings_populate_combobox (settings);
-    display_settings_profile_list_init (builder);
+    display_settings_profile_list_init (settings);
     xfce_display_settings_populate_profile_list (settings);
 
     return GTK_WIDGET (gtk_builder_get_object (builder, "display-dialog"));
 }
 
 static void
-display_settings_minimal_only_display1_toggled (GtkToggleButton *button,
-                                                XfceDisplaySettings *settings)
+display_settings_minimal_only_display_n_toggled (GtkToggleButton *button,
+                                                 XfceDisplaySettings *settings)
 {
-    GObject *buttons;
+    GtkBuilder *builder;
 
     if (!gtk_toggle_button_get_active (button))
         return;
@@ -1865,54 +1933,93 @@ display_settings_minimal_only_display1_toggled (GtkToggleButton *button,
     if (xfce_display_settings_get_n_outputs (settings) <= 1)
         return;
 
-    buttons = gtk_builder_get_object (xfce_display_settings_get_builder (settings), "buttons");
-    gtk_widget_set_sensitive (GTK_WIDGET(buttons), FALSE);
-
-    /* Put Display1 in its preferred mode and deactivate Display2 */
-    xfce_display_settings_set_active (settings, 0, TRUE);
-    xfce_display_settings_set_active (settings, 1, FALSE);
+    builder = xfce_display_settings_get_builder (settings);
+    if (button == GTK_TOGGLE_BUTTON (gtk_builder_get_object (builder, "display1")))
+    {
+        xfce_display_settings_set_active (settings, 0, TRUE);
+        xfce_display_settings_set_active (settings, 1, FALSE);
+        xfce_display_settings_set_position (settings, 0, 0, 0);
+    }
+    else
+    {
+        xfce_display_settings_set_active (settings, 1, TRUE);
+        xfce_display_settings_set_active (settings, 0, FALSE);
+        xfce_display_settings_set_position (settings, 1, 0, 0);
+    }
 
     /* Apply the changes */
-    xfce_display_settings_save (settings, 0, "Default");
-    xfce_display_settings_save (settings, 1, "Default");
+    xfce_display_settings_save (settings, "Default");
     xfconf_channel_set_string (xfce_display_settings_get_channel (settings), "/Schemes/Apply", "Default");
-
-    gtk_widget_set_sensitive (GTK_WIDGET(buttons), TRUE);
 }
 
 static void
-display_settings_minimal_only_display2_toggled (GtkToggleButton *button,
-                                                XfceDisplaySettings *settings)
+display_settings_minimal_combobox_extend_changed (GtkComboBox *box,
+                                                  XfceDisplaySettings *settings)
 {
-    GObject *buttons;
+    GtkBuilder *builder = xfce_display_settings_get_builder (settings);
+    GtkToggleButton *button = GTK_TOGGLE_BUTTON (gtk_builder_get_object (builder, "extend"));
+    GtkTreeIter iter;
+    gchar *text;
 
-    if (!gtk_toggle_button_get_active(button) )
-        return;
+    gtk_combo_box_get_active_iter (box, &iter);
+    gtk_tree_model_get (gtk_combo_box_get_model (box), &iter, 0, &text, -1);
+    gtk_widget_set_tooltip_text (GTK_WIDGET (box), text);
+    g_free (text);
 
-    if (xfce_display_settings_get_n_outputs (settings) <= 1)
-        return;
+    switch (gtk_combo_box_get_active (box))
+    {
+        case EXTENDED_MODE_RIGHT:
+            display_settings_minimal_load_icon (builder, "image-extend", "xfce-display-extend-right");
+            break;
+        case EXTENDED_MODE_LEFT:
+            display_settings_minimal_load_icon (builder, "image-extend", "xfce-display-extend-left");
+            break;
+        case EXTENDED_MODE_UP:
+            display_settings_minimal_load_icon (builder, "image-extend", "xfce-display-extend-up");
+            break;
+        case EXTENDED_MODE_DOWN:
+            display_settings_minimal_load_icon (builder, "image-extend", "xfce-display-extend-down");
+            break;
+        default:
+            g_warn_if_reached ();
+            break;
+    }
 
-    buttons = gtk_builder_get_object (xfce_display_settings_get_builder (settings), "buttons");
-    gtk_widget_set_sensitive (GTK_WIDGET(buttons), FALSE);
-
-    /* Put Display2 in its preferred mode and deactivate Display1 */
-    xfce_display_settings_set_active (settings, 1, TRUE);
-    xfce_display_settings_set_active (settings, 0, FALSE);
-
-    /* Apply the changes */
-    xfce_display_settings_save (settings, 0, "Default");
-    xfce_display_settings_save (settings, 1, "Default");
-    xfconf_channel_set_string (xfce_display_settings_get_channel (settings), "/Schemes/Apply", "Default");
-
-    gtk_widget_set_sensitive (GTK_WIDGET(buttons), TRUE);
+    if (gtk_toggle_button_get_active (button))
+    {
+        gtk_toggle_button_toggled (button);
+    }
 }
 
 static void
 display_settings_minimal_mirror_displays_toggled (GtkToggleButton *button,
                                                   XfceDisplaySettings *settings)
 {
-    GObject *buttons;
-    guint n_outputs;
+    if (xfce_display_settings_get_n_outputs (settings) <= 1)
+        return;
+
+    if (gtk_toggle_button_get_active(button))
+    {
+        /* Activate mirror-mode with a single mode for all of them */
+        xfce_display_settings_mirror (settings);
+
+        /* Apply all changes */
+        xfce_display_settings_save (settings, "Default");
+        xfconf_channel_set_string (xfce_display_settings_get_channel (settings), "/Schemes/Apply", "Default");
+    }
+    else
+    {
+        /* Set all outputs to their preferred mode, that will be applied in next preset */
+        xfce_display_settings_unmirror (settings);
+    }
+}
+
+static void
+display_settings_minimal_extend_displays_toggled (GtkToggleButton *button,
+                                                  XfceDisplaySettings *settings)
+{
+    GtkBuilder *builder;
+    ExtendedMode mode;
 
     if (!gtk_toggle_button_get_active(button))
         return;
@@ -1920,55 +2027,19 @@ display_settings_minimal_mirror_displays_toggled (GtkToggleButton *button,
     if (xfce_display_settings_get_n_outputs (settings) <= 1)
         return;
 
-    buttons = gtk_builder_get_object (xfce_display_settings_get_builder (settings), "buttons");
-    gtk_widget_set_sensitive (GTK_WIDGET(buttons), FALSE);
+    /* Activate displays if needed */
+    xfce_display_settings_set_active (settings, 0, TRUE);
+    xfce_display_settings_set_active (settings, 1, TRUE);
 
-    /* Activate mirror-mode with a single mode for all of them */
-    xfce_display_settings_mirror (settings);
-    n_outputs = xfce_display_settings_get_n_outputs (settings);
-    for (guint n = 0; n < n_outputs; n++)
-        xfce_display_settings_save (settings, n, "Default");
-
-    /* Apply all changes */
-    xfconf_channel_set_string (xfce_display_settings_get_channel (settings), "/Schemes/Apply", "Default");
-
-    gtk_widget_set_sensitive (GTK_WIDGET(buttons), TRUE);
-}
-
-static void
-display_settings_minimal_extend_right_toggled (GtkToggleButton *button,
-                                               XfceDisplaySettings *settings)
-{
-    GObject *buttons;
-    guint n_outputs;
-
-    if (!gtk_toggle_button_get_active(button))
-        return;
-
-    n_outputs = xfce_display_settings_get_n_outputs (settings);
-    if (n_outputs <= 1)
-        return;
-
-    buttons = gtk_builder_get_object (xfce_display_settings_get_builder (settings), "buttons");
-    gtk_widget_set_sensitive (GTK_WIDGET (buttons), FALSE);
-
-    /* Activate all inactive displays */
-    for (guint n = 0; n < n_outputs; n++)
-    {
-        if (!xfce_display_settings_is_active (settings, n))
-            xfce_display_settings_set_active (settings, n, TRUE);
-    }
-
-    xfce_display_settings_extend_right (settings, 0, 1);
+    builder = xfce_display_settings_get_builder (settings);
+    mode = gtk_combo_box_get_active (GTK_COMBO_BOX (gtk_builder_get_object (builder, "combobox-extend")));
+    xfce_display_settings_extend (settings, 0, 1, mode);
 
     /* Save changes to both displays */
-    xfce_display_settings_save (settings, 0, "Default");
-    xfce_display_settings_save (settings, 1, "Default");
+    xfce_display_settings_save (settings, "Default");
 
     /* Apply all changes */
     xfconf_channel_set_string (xfce_display_settings_get_channel (settings), "/Schemes/Apply", "Default");
-
-    gtk_widget_set_sensitive (GTK_WIDGET (buttons), TRUE);
 }
 
 /* Xfce RANDR GUI **TODO** Place these functions in a sensible location */
@@ -2003,11 +2074,10 @@ get_geometry (XfceOutput *output, int *w, int *h)
 {
     if (output->active)
     {
-        if (output->scale_x > 0 && output->scale_x != 1.0
-            && output->scale_y > 0 && output->scale_y != 1.0)
+        if (output->scale > 0 && output->scale != 1.0)
         {
-            *h = output->mode->height * output->scale_y;
-            *w = output->mode->width * output->scale_x;
+            *h = round (output->mode->height / output->scale);
+            *w = round (output->mode->width / output->scale);
         }
         else
         {
@@ -2026,33 +2096,6 @@ get_geometry (XfceOutput *output, int *w, int *h)
         tmp = *h;
         *h = *w;
         *w = tmp;
-    }
-}
-
-static void
-initialize_connected_outputs_at_zero (XfceDisplaySettings *settings)
-{
-    GList *outputs = xfce_display_settings_get_outputs (settings);
-    GList *list = NULL;
-    gint start_x, start_y;
-
-    start_x = G_MAXINT;
-    start_y = G_MAXINT;
-
-    /* Get the left-most and top-most coordinates */
-    for (list = outputs; list != NULL; list = list->next)
-    {
-        XfceOutput *output = list->data;
-
-        start_x = MIN(start_x, output->x);
-        start_y = MIN(start_y, output->y);
-    }
-
-    /* Realign at zero */
-    for (list = outputs; list != NULL; list = list->next)
-    {
-        XfceOutput *output = list->data;
-        xfce_display_settings_set_position (settings, output->id, output->x - start_x, output->y - start_y);
     }
 }
 
@@ -2370,14 +2413,6 @@ xfce_rr_config_is_aligned (GList *outputs,
     return TRUE;
 }
 
-typedef struct _GrabInfo
-{
-    int grab_x;
-    int grab_y;
-    int output_x;
-    int output_y;
-} GrabInfo;
-
 static gboolean
 is_corner_snap (const Snap *s)
 {
@@ -2426,15 +2461,15 @@ compare_snaps (gconstpointer v1, gconstpointer v2)
  * window's cursor to its default).
  */
 static void
-set_cursor (GtkWidget *widget, GdkCursorType type)
+set_cursor (GtkWidget *widget, const gchar *name)
 {
     GdkCursor *cursor;
     GdkWindow *window;
 
-    if (type == GDK_BLANK_CURSOR)
+    if (name == NULL)
         cursor = NULL;
     else
-        cursor = gdk_cursor_new_for_display (gtk_widget_get_display (widget), type);
+        cursor = gdk_cursor_new_from_name (gtk_widget_get_display (widget), name);
 
     window = gtk_widget_get_window (widget);
 
@@ -2461,6 +2496,62 @@ set_monitors_tooltip (XfceDisplaySettings *settings,
 }
 
 static void
+keep_output_snapped (XfceOutput *output,
+                     FooScrollAreaEvent *event,
+                     GrabInfo *info,
+                     XfceDisplaySettings *settings)
+{
+    GList *outputs = xfce_display_settings_get_outputs (settings);
+    double scale = compute_scale (settings);
+    int new_x, new_y;
+    GArray *edges, *snaps;
+
+    new_x = info->output_x + (event->x - info->grab_x) / scale;
+    new_y = info->output_y + (event->y - info->grab_y) / scale;
+
+    output->x = new_x;
+    output->y = new_y;
+
+    edges = g_array_new (TRUE, TRUE, sizeof (Edge));
+    snaps = g_array_new (TRUE, TRUE, sizeof (Snap));
+
+    list_edges (outputs, edges);
+    list_snaps (output, edges, snaps);
+
+    g_array_sort (snaps, compare_snaps);
+
+    output->x = info->output_x;
+    output->y = info->output_y;
+
+    for (guint i = 0; i < snaps->len; ++i)
+    {
+        Snap *snap = &(g_array_index (snaps, Snap, i));
+        GArray *new_edges = g_array_new (TRUE, TRUE, sizeof (Edge));
+
+        output->x = new_x + snap->dx;
+        output->y = new_y + snap->dy;
+
+        g_array_set_size (new_edges, 0);
+        list_edges (outputs, new_edges);
+
+        if (xfce_rr_config_is_aligned (outputs, new_edges))
+        {
+            g_array_free (new_edges, TRUE);
+            break;
+        }
+        else
+        {
+            output->x = info->output_x;
+            output->y = info->output_y;
+            g_array_free (new_edges, TRUE);
+        }
+    }
+
+    g_array_free (snaps, TRUE);
+    g_array_free (edges, TRUE);
+}
+
+static void
 on_output_event (FooScrollArea      *area,
                  FooScrollAreaEvent *event,
                  gpointer            data)
@@ -2477,7 +2568,7 @@ on_output_event (FooScrollArea      *area,
         return;
 
     if (state == MIRRORED_STATE_NONE && xfce_display_settings_get_n_outputs (settings) > 1)
-        set_cursor (GTK_WIDGET (area), GDK_FLEUR);
+        set_cursor (GTK_WIDGET (area), "move");
 
     if (event->type == FOO_BUTTON_PRESS)
     {
@@ -2511,59 +2602,15 @@ on_output_event (FooScrollArea      *area,
     {
         if (foo_scroll_area_is_grabbed (area))
         {
-            GList *outputs = xfce_display_settings_get_outputs (settings);
-            GrabInfo *info = output->user_data;
-            double scale = compute_scale (settings);
-            int new_x, new_y;
-            guint i;
-            GArray *edges, *snaps;
-
-            new_x = info->output_x + (event->x - info->grab_x) / scale;
-            new_y = info->output_y + (event->y - info->grab_y) / scale;
-
-            output->x = new_x;
-            output->y = new_y;
-
-            edges = g_array_new (TRUE, TRUE, sizeof (Edge));
-            snaps = g_array_new (TRUE, TRUE, sizeof (Snap));
-
-            list_edges (outputs, edges);
-            list_snaps (output, edges, snaps);
-
-            g_array_sort (snaps, compare_snaps);
-
-            output->x = info->output_x;
-            output->y = info->output_y;
-
-            for (i = 0; i < snaps->len; ++i)
-            {
-                Snap *snap = &(g_array_index (snaps, Snap, i));
-                GArray *new_edges = g_array_new (TRUE, TRUE, sizeof (Edge));
-
-                output->x = new_x + snap->dx;
-                output->y = new_y + snap->dy;
-
-                g_array_set_size (new_edges, 0);
-                list_edges (outputs, new_edges);
-
-                if (xfce_rr_config_is_aligned (outputs, new_edges))
-                {
-                    g_array_free (new_edges, TRUE);
-                    break;
-                }
-                else
-                {
-                    output->x = info->output_x;
-                    output->y = info->output_y;
-                    g_array_free (new_edges, TRUE);
-                }
-            }
-
-            g_array_free (snaps, TRUE);
-            g_array_free (edges, TRUE);
+            keep_output_snapped (output, event, output->user_data, settings);
 
             if (event->type == FOO_BUTTON_RELEASE)
             {
+                GtkAllocation alloc;
+                gtk_widget_get_allocation (GTK_WIDGET (area), &alloc);
+                if (event->x <= 0 || event->y <= 0 || event->x >= alloc.width || event->y >= alloc.height)
+                    set_cursor (GTK_WIDGET (area), NULL);
+
                 foo_scroll_area_end_grab (area);
                 set_monitors_tooltip (settings, NULL);
 
@@ -2571,7 +2618,7 @@ on_output_event (FooScrollArea      *area,
                 output->user_data = NULL;
 
                 initialize_connected_outputs_at_zero (settings);
-                display_settings_changed ();
+                display_settings_changed (settings);
             }
             else
             {
@@ -2592,7 +2639,7 @@ on_canvas_event (FooScrollArea      *area,
      * on_output_event() for where we set the cursor to the movement cursor if
      * it is over one of the outputs.
      */
-    set_cursor (GTK_WIDGET (area), GDK_BLANK_CURSOR);
+    set_cursor (GTK_WIDGET (area), NULL);
 }
 
 static void
@@ -2970,13 +3017,14 @@ display_settings_show_main_dialog (XfceDisplaySettings *settings)
         gtk_widget_show (scroll_area);
         g_signal_connect (scroll_area, "paint", G_CALLBACK (on_area_paint), settings);
         g_signal_connect (scroll_area, "viewport_changed", G_CALLBACK (on_viewport_changed), NULL);
+        g_signal_connect (scroll_area, "leave-notify-event", G_CALLBACK (on_canvas_event), NULL);
 
         gui_container = GTK_WIDGET (gtk_builder_get_object (builder, "randr-dnd"));
         gtk_container_add (GTK_CONTAINER (gui_container), scroll_area);
         gtk_widget_show_all (gui_container);
 
         /* Keep track of the profile that was active when the dialog was launched */
-        active_profile = xfconf_channel_get_string (channel, "/ActiveProfile", "Default");
+        initial_active_profile = xfconf_channel_get_string (channel, "/ActiveProfile", "Default");
 
 #ifdef HAVE_XRANDR
         if (opt_socket_id != 0 && GDK_IS_X11_DISPLAY (gdk_display_get_default ()))
@@ -3085,26 +3133,34 @@ static void
 display_settings_minimal_cycle (GtkWidget  *dialog,
                                 GtkBuilder *builder)
 {
-    GtkToggleButton *only_display1, *mirror_displays, *extend_right, *only_display2;
+    GtkToggleButton *only_display1, *mirror_displays, *extend_displays, *only_display2;
 
     only_display1 = GTK_TOGGLE_BUTTON (gtk_builder_get_object (builder, "display1"));
     mirror_displays = GTK_TOGGLE_BUTTON (gtk_builder_get_object (builder, "mirror"));
-    extend_right = GTK_TOGGLE_BUTTON (gtk_builder_get_object (builder, "extend_right"));
+    extend_displays = GTK_TOGGLE_BUTTON (gtk_builder_get_object (builder, "extend"));
     only_display2 = GTK_TOGGLE_BUTTON (gtk_builder_get_object (builder, "display2"));
 
     if (gtk_toggle_button_get_active (only_display1))
         if (gtk_widget_get_sensitive (GTK_WIDGET (mirror_displays)))
             gtk_toggle_button_set_active (mirror_displays, TRUE);
         else
-            gtk_toggle_button_set_active (extend_right, TRUE);
+            gtk_toggle_button_set_active (extend_displays, TRUE);
     else if (gtk_toggle_button_get_active (mirror_displays))
-        gtk_toggle_button_set_active (extend_right, TRUE);
-    else if (gtk_toggle_button_get_active (extend_right))
+        gtk_toggle_button_set_active (extend_displays, TRUE);
+    else if (gtk_toggle_button_get_active (extend_displays))
         gtk_toggle_button_set_active (only_display2, TRUE);
     else
         gtk_toggle_button_set_active (only_display1, TRUE);
 
     g_timeout_add_seconds (1, display_settings_minimal_center, dialog);
+}
+
+static void
+display_settings_activated (GApplication *application,
+                            XfceDisplaySettings *settings)
+{
+    GtkBuilder *builder = xfce_display_settings_get_builder (settings);
+    gtk_window_present (GTK_WINDOW (gtk_builder_get_object (builder, "display-dialog")));
 }
 
 static void
@@ -3118,8 +3174,8 @@ display_settings_minimal_activated (GApplication *application,
     dialog = GTK_WIDGET (gtk_builder_get_object (builder, "dialog"));
     display_settings_minimal_get_positions (dialog, &monitor_rect, &window_rect);
 
-    /* Check if dialog is already at current monitor (where cursor is at) */
-    if (gdk_rectangle_intersect (&monitor_rect, &window_rect, NULL))
+    /* Check if dialog is already at current monitor (where cursor is at): only possible on X11 */
+    if (!WINDOWING_IS_X11 () || gdk_rectangle_intersect (&monitor_rect, &window_rect, NULL))
     {
         /* Select next preset if dialog is already at current monitor */
         display_settings_minimal_cycle (dialog, builder);
@@ -3134,46 +3190,13 @@ display_settings_minimal_activated (GApplication *application,
 }
 
 static void
-display_settings_minimal_load_icon (GtkBuilder  *builder,
-                                    const gchar *img_name,
-                                    const gchar *icon_name)
-{
-    GObject      *dialog;
-    GtkImage     *img;
-    GtkIconTheme *icon_theme;
-    GdkPixbuf    *icon;
-    cairo_surface_t *surface = NULL;
-    gint scale_factor;
-
-    dialog = gtk_builder_get_object (builder, "dialog");
-    img = GTK_IMAGE (gtk_builder_get_object (builder, img_name));
-    g_return_if_fail (dialog && img);
-    scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (dialog));
-
-    icon_theme = gtk_icon_theme_get_for_screen (gtk_window_get_screen (GTK_WINDOW (dialog)));
-    icon = gtk_icon_theme_load_icon_for_scale (icon_theme, icon_name, 128, scale_factor, GTK_ICON_LOOKUP_FORCE_SIZE, NULL);
-    if (G_LIKELY (icon != NULL))
-    {
-        surface = gdk_cairo_surface_create_from_pixbuf (icon, scale_factor, NULL);
-        g_object_unref (icon);
-    }
-    gtk_image_set_from_surface (GTK_IMAGE (img), surface);
-
-    if (G_LIKELY (surface != NULL))
-        cairo_surface_destroy (surface);
-}
-
-static void
 display_settings_show_minimal_dialog (XfceDisplaySettings *settings)
 {
-    XfconfChannel *channel = xfce_display_settings_get_channel (settings);
     GtkBuilder *builder = xfce_display_settings_get_builder (settings);
     GtkWidget  *dialog, *cancel;
     GObject    *only_display1, *only_display2, *mirror_displays, *mirror_displays_label;
-    GObject    *extend_right, *advanced, *fake_button, *label, *profile_box;
+    GObject    *extend_displays, *advanced, *combobox_extend, *label;
     GError     *error = NULL;
-    gboolean    found = FALSE;
-    GtkApplication *app;
 
     if (gtk_builder_add_from_string (builder, minimal_display_dialog_ui,
                                      minimal_display_dialog_ui_length, &error) != 0)
@@ -3182,144 +3205,91 @@ display_settings_show_minimal_dialog (XfceDisplaySettings *settings)
 
         /* Build the minimal dialog */
         dialog = GTK_WIDGET (gtk_builder_get_object (builder, "dialog"));
-        cancel = GTK_WIDGET (gtk_builder_get_object (builder, "cancel_button"));
+        cancel = GTK_WIDGET (gtk_builder_get_object (builder, "cancel-button"));
 
         g_signal_connect (dialog, "key-press-event", G_CALLBACK (display_settings_minimal_dialog_key_press_event), NULL);
         g_signal_connect (dialog, "delete-event", G_CALLBACK (gtk_main_quit), NULL);
         g_signal_connect (cancel, "clicked", G_CALLBACK (gtk_main_quit), NULL);
 
-        display_settings_minimal_load_icon (builder, "image1", "xfce-display-internal");
-        display_settings_minimal_load_icon (builder, "image2", "xfce-display-mirror");
-        display_settings_minimal_load_icon (builder, "image3", "xfce-display-extend");
-        display_settings_minimal_load_icon (builder, "image4", "xfce-display-external");
+        display_settings_minimal_load_icon (builder, "image-display1", "xfce-display-left");
+        display_settings_minimal_load_icon (builder, "image-mirror", "xfce-display-mirror");
+        display_settings_minimal_load_icon (builder, "image-extend", "xfce-display-extend-right");
+        display_settings_minimal_load_icon (builder, "image-display2", "xfce-display-right");
 
         only_display1 = gtk_builder_get_object (builder, "display1");
         mirror_displays = gtk_builder_get_object (builder, "mirror");
-        mirror_displays_label = gtk_builder_get_object (builder, "label2");
-        extend_right = gtk_builder_get_object (builder, "extend_right");
+        mirror_displays_label = gtk_builder_get_object (builder, "label-mirror");
+        extend_displays = gtk_builder_get_object (builder, "extend");
+        combobox_extend = gtk_builder_get_object (builder, "combobox-extend");
         only_display2 = gtk_builder_get_object (builder, "display2");
-        advanced = gtk_builder_get_object (builder, "advanced_button");
-        fake_button = gtk_builder_get_object (builder, "fake_button");
+        advanced = gtk_builder_get_object (builder, "advanced-button");
 
-        /* Create the profile radiobuttons */
-        display_settings_minimal_profile_populate (settings);
-
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (fake_button), TRUE);
-
-        label = gtk_builder_get_object (builder, "label1");
-        only_display1_label = g_strdup_printf (_("Only %s (1)"), xfce_display_settings_get_friendly_name (settings, 0));
+        label = gtk_builder_get_object (builder, "label-display1");
+        only_display1_label = g_strdup_printf (ONLY_DISPLAY_1, xfce_display_settings_get_friendly_name (settings, 0));
         gtk_label_set_text (GTK_LABEL (label), only_display1_label);
         gtk_widget_set_tooltip_text (GTK_WIDGET (label), only_display1_label);
         g_free (only_display1_label);
 
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (only_display1), xfce_display_settings_is_active (settings, 0));
-
         if (xfce_display_settings_get_n_outputs (settings) > 1)
         {
             gboolean clonable = xfce_display_settings_is_clonable (settings);
-            label = gtk_builder_get_object (builder, "label4");
-            only_display2_label = g_strdup_printf (_("Only %s (2)"), xfce_display_settings_get_friendly_name (settings, 1));
+            gtk_widget_set_sensitive (GTK_WIDGET (mirror_displays), clonable);
+            gtk_widget_set_sensitive (GTK_WIDGET (mirror_displays_label), clonable);
+
+            label = gtk_builder_get_object (builder, "label-display2");
+            only_display2_label = g_strdup_printf (ONLY_DISPLAY_2, xfce_display_settings_get_friendly_name (settings, 1));
             gtk_label_set_text (GTK_LABEL (label), only_display2_label);
             gtk_widget_set_tooltip_text (GTK_WIDGET (label), only_display2_label);
             g_free (only_display2_label);
-            gtk_widget_set_sensitive (GTK_WIDGET (mirror_displays), clonable);
-            gtk_widget_set_sensitive (GTK_WIDGET (mirror_displays_label), clonable);
 
             if (xfce_display_settings_is_active (settings, 0))
             {
                 if (xfce_display_settings_is_active (settings, 1))
                 {
-                    /* Check for mirror */
-                    if (xfce_display_settings_is_mirrored (settings, 0) && xfce_display_settings_is_mirrored (settings, 1))
+                    if (xfce_display_settings_is_mirrored (settings, 0, 1))
                     {
                         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (mirror_displays), TRUE);
-                        found = TRUE;
                     }
-                    /* Check for Extend Right */
-                    if (!found && xfce_display_settings_is_extended (settings, 0, 1))
+                    else
                     {
-                        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (extend_right), TRUE);
-                        found = TRUE;
+                        ExtendedMode mode = xfce_display_settings_get_extended_mode (settings, 0, 1);
+                        if (mode != EXTENDED_MODE_NONE)
+                        {
+                            gtk_combo_box_set_active (GTK_COMBO_BOX (combobox_extend), mode);
+                            display_settings_minimal_combobox_extend_changed (GTK_COMBO_BOX (combobox_extend), settings);
+                            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (extend_displays), TRUE);
+                        }
                     }
                 }
-                /* Toggle Primary */
-                if (!found)
+                else
                 {
                     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (only_display1), TRUE);
                 }
             }
-            /* Toggle Secondary */
             else
             {
-                gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (only_display2), TRUE);
+                gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (only_display2), xfce_display_settings_is_active (settings, 1));
             }
         }
         else
         {
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (only_display1), TRUE);
+
             /* Only one output, disable other buttons */
             gtk_widget_set_sensitive (GTK_WIDGET (mirror_displays), FALSE);
-            gtk_widget_set_sensitive (GTK_WIDGET (extend_right), FALSE);
+            gtk_widget_set_sensitive (GTK_WIDGET (extend_displays), FALSE);
             gtk_widget_set_sensitive (GTK_WIDGET (only_display2), FALSE);
         }
 
-        /* Initialize application to ensure single instance */
-        app = gtk_application_new ("org.xfce.display.settings", 0);
+        /* Create the profile radiobuttons */
+        display_settings_minimal_profile_populate (settings);
 
-        g_application_register (G_APPLICATION (app), NULL, &error);
-        if (error != NULL)
-          {
-            g_warning ("Unable to register GApplication: %s", error->message);
-            g_error_free (error);
-            error = NULL;
-          }
-
-        if (g_application_get_is_remote (G_APPLICATION (app)))
-          {
-            g_application_activate (G_APPLICATION (app));
-            g_object_unref (app);
-            return;
-          }
-
-        g_signal_connect (only_display1, "toggled", G_CALLBACK (display_settings_minimal_only_display1_toggled), settings);
+        g_signal_connect (only_display1, "toggled", G_CALLBACK (display_settings_minimal_only_display_n_toggled), settings);
         g_signal_connect (mirror_displays, "toggled", G_CALLBACK (display_settings_minimal_mirror_displays_toggled), settings);
-        g_signal_connect (extend_right, "toggled", G_CALLBACK (display_settings_minimal_extend_right_toggled), settings);
-        g_signal_connect (only_display2, "toggled", G_CALLBACK (display_settings_minimal_only_display2_toggled), settings);
+        g_signal_connect (extend_displays, "toggled", G_CALLBACK (display_settings_minimal_extend_displays_toggled), settings);
+        g_signal_connect (combobox_extend, "changed", G_CALLBACK (display_settings_minimal_combobox_extend_changed), settings);
+        g_signal_connect (only_display2, "toggled", G_CALLBACK (display_settings_minimal_only_display_n_toggled), settings);
         g_signal_connect (advanced, "clicked", G_CALLBACK (display_settings_minimal_advanced_clicked), settings);
-
-        g_signal_connect (app, "activate", G_CALLBACK (display_settings_minimal_activated), settings);
-
-        /* Auto-apply the first profile in the list */
-        if (xfconf_channel_get_bool (channel, "/AutoEnableProfiles", TRUE))
-        {
-            /* Walk down the widget hierarchy: profile-box -> gtkbox -> gtkradiobutton */
-            profile_box  = gtk_builder_get_object (builder, "profile-box");
-            if (GTK_IS_CONTAINER (profile_box))
-            {
-                GList *children = NULL;
-                GList *first_profile_box;
-
-                children = gtk_container_get_children (GTK_CONTAINER (profile_box));
-                first_profile_box = g_list_first (children);
-                if (first_profile_box)
-                {
-                    GList *grand_children = NULL;
-                    GList *current;
-                    GtkWidget *box = GTK_WIDGET (first_profile_box->data);
-
-                    grand_children = gtk_container_get_children (GTK_CONTAINER (box));
-                    current = g_list_first (grand_children);
-                    if (current)
-                    {
-                        GtkWidget* widget = GTK_WIDGET (grand_children->data);
-
-                        if (GTK_IS_TOGGLE_BUTTON (widget))
-                        {
-                            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
-                        }
-                    }
-                }
-            }
-        }
 
         /* Show the minimal dialog and start the main loop */
         gtk_window_present (GTK_WINDOW (dialog));
@@ -3332,6 +3302,37 @@ display_settings_show_minimal_dialog (XfceDisplaySettings *settings)
     }
 }
 
+static gint
+handle_local_options (GApplication *app,
+                      GVariantDict *options,
+                      XfceDisplaySettings *settings)
+{
+    GError *error = NULL;
+
+    if (!g_application_register (app, NULL, &error))
+    {
+        g_warning ("Unable to register GApplication: %s", error->message);
+        g_error_free (error);
+    }
+
+    if (!g_application_get_is_remote (app))
+    {
+        if (xfce_display_settings_get_n_outputs (settings) <= 1 || !xfce_display_settings_is_minimal (settings))
+        {
+            g_signal_connect (app, "activate", G_CALLBACK (display_settings_activated), settings);
+            display_settings_show_main_dialog (settings);
+        }
+        else
+        {
+            g_signal_connect (app, "activate", G_CALLBACK (display_settings_minimal_activated), settings);
+            display_settings_show_minimal_dialog (settings);
+        }
+        return EXIT_SUCCESS;
+    }
+
+    /* activate primary instance */
+    return -1;
+}
 
 gint
 main (gint argc, gchar **argv)
@@ -3367,7 +3368,7 @@ main (gint argc, gchar **argv)
     if (G_UNLIKELY (opt_version))
     {
         g_print ("%s %s (Xfce %s)\n\n", G_LOG_DOMAIN, PACKAGE_VERSION, xfce_version_string ());
-        g_print ("%s\n", "Copyright (c) 2004-2023");
+        g_print ("%s\n", "Copyright (c) 2004-2024");
         g_print ("\t%s\n\n", _("The Xfce development team. All rights reserved."));
         g_print (_("Please report bugs to <%s>."), PACKAGE_BUGREPORT);
         g_print ("\n");
@@ -3418,12 +3419,13 @@ main (gint argc, gchar **argv)
         return EXIT_FAILURE;
     }
 
-    if (xfce_display_settings_get_n_outputs (settings) <= 1 || !opt_minimal)
-        display_settings_show_main_dialog (settings);
-    else
-        display_settings_show_minimal_dialog (settings);
+    /* Use GtkApplication to ensure single instance */
+    GtkApplication *app = gtk_application_new ("org.xfce.display.settings", 0);
+    g_signal_connect (app, "handle-local-options", G_CALLBACK (handle_local_options), settings);
+    g_application_run (G_APPLICATION (app), 0, NULL);
 
     /* Cleanup */
+    g_object_unref (app);
     g_object_unref (settings);
     xfconf_shutdown ();
 
