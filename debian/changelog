@@ -1,12 +1,23 @@
-xfce4-settings (4.19.1-1) UNRELEASED; urgency=medium
+xfce4-settings (4.19.2-1) experimental; urgency=medium
 
   * Team upload.
+
+  [ Mateusz Łukasik ]
   * New upstream version 4.19.1
   * Refresh patches.
-  * d/control: Add libxml2-utils to B-D.
   * Add to install new files.
 
- -- Mateusz Łukasik <mati75@linuxmint.pl>  Thu, 29 Feb 2024 21:16:47 +0100
+  [ Unit 193 ]
+  * New upstream version 4.19.2.
+  * d/control:
+    - Replace intltool with gettext.
+  * d/control:
+    - B-D on libgtk-layer-shell-dev, libwayland-dev, libxml2-utils.
+    - Bump version constraint on libxfce4ui-2-dev.
+  * d/rules: Delete '*.la' files.
+  * Update Standards-Version to 4.7.0.
+
+ -- Unit 193 <unit193@debian.org>  Sat, 04 May 2024 02:11:06 -0400
 
 xfce4-settings (4.18.3-1) unstable; urgency=medium
 
