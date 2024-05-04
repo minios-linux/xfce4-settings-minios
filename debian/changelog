@@ -4,7 +4,6 @@ xfce4-settings (4.19.1-1) UNRELEASED; urgency=medium
   * New upstream version 4.19.1
   * Refresh patches.
   * d/control: Add libxml2-utils to B-D.
-  * Add patch for fix FTBFS.
   * Add to install new files.
 
  -- Mateusz Łukasik <mati75@linuxmint.pl>  Thu, 29 Feb 2024 21:16:47 +0100
