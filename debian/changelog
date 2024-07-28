@@ -1,3 +1,9 @@
+xfce4-settings (4.19.2-2) UNRELEASED; urgency=medium
+
+  * disable upower-glib support (Closes: #1077277)
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Sun, 28 Jul 2024 10:48:23 +0200
+
 xfce4-settings (4.19.2-1) experimental; urgency=medium
 
   * Team upload.
