@@ -17,38 +17,45 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
-#include <libxfce4util/libxfce4util.h>
+#include "display-settings.h"
+#include "identity-popup_ui.h"
+#include "scrollarea.h"
+
+#ifdef ENABLE_WAYLAND
+#include "display-settings-wayland.h"
+
+#include <gdk/gdkwayland.h>
+#endif
 
 #ifdef HAVE_XRANDR
-#include <gdk/gdkx.h>
 #include "display-settings-x11.h"
+
+#include <gdk/gdkx.h>
 #define WINDOWING_IS_X11() GDK_IS_X11_DISPLAY (gdk_display_get_default ())
 #else
 #define WINDOWING_IS_X11() FALSE
 #endif
+
+#include "common/display-profiles.h"
+
+#include <libxfce4util/libxfce4util.h>
+
 #ifdef HAVE_GTK_LAYER_SHELL
-#include <gtk-layer-shell/gtk-layer-shell.h>
+#include <gtk-layer-shell.h>
 #else
 #define gtk_layer_is_supported() FALSE
 #endif
-#ifdef ENABLE_WAYLAND
-#include <gdk/gdkwayland.h>
-#include "display-settings-wayland.h"
-#endif
-#include "common/display-profiles.h"
-#include "identity-popup_ui.h"
-#include "scrollarea.h"
-#include "display-settings.h"
 
 
 
-#define get_instance_private(instance) ((XfceDisplaySettingsPrivate *) \
-    xfce_display_settings_get_instance_private (XFCE_DISPLAY_SETTINGS (instance)))
+#define get_instance_private(instance) \
+    ((XfceDisplaySettingsPrivate *) xfce_display_settings_get_instance_private (XFCE_DISPLAY_SETTINGS (instance)))
 
-static void           xfce_display_settings_finalize        (GObject      *object);
+static void
+xfce_display_settings_finalize (GObject *object);
 
 
 
@@ -76,6 +83,13 @@ xfce_display_settings_class_init (XfceDisplaySettingsClass *klass)
     GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 
     gobject_class->finalize = xfce_display_settings_finalize;
+
+    g_signal_new ("outputs-changed",
+                  G_TYPE_FROM_CLASS (gobject_class),
+                  G_SIGNAL_RUN_LAST,
+                  0, NULL, NULL,
+                  g_cclosure_marshal_VOID__VOID,
+                  G_TYPE_NONE, 0);
 }
 
 
@@ -89,8 +103,7 @@ xfce_display_settings_init (XfceDisplaySettings *settings)
     priv->builder = gtk_builder_new ();
     priv->scroll_area = (GtkWidget *) foo_scroll_area_new ();
     g_signal_connect (priv->scroll_area, "destroy", G_CALLBACK (gtk_widget_destroyed), &priv->scroll_area);
-    if (!priv->opt_minimal)
-        priv->popups = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, (GDestroyNotify) gtk_widget_destroy);
+    priv->popups = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, (GDestroyNotify) gtk_widget_destroy);
 }
 
 
@@ -116,8 +129,7 @@ xfce_display_settings_finalize (GObject *object)
     g_object_unref (priv->builder);
     if (priv->scroll_area != NULL)
         gtk_widget_destroy (priv->scroll_area);
-    if (priv->popups != NULL)
-        g_hash_table_destroy (priv->popups);
+    g_hash_table_destroy (priv->popups);
     g_list_free_full (priv->outputs, free_output);
 
     G_OBJECT_CLASS (xfce_display_settings_parent_class)->finalize (object);
@@ -135,11 +147,11 @@ xfce_display_settings_new (gboolean opt_minimal,
 
 #ifdef HAVE_XRANDR
     if (GDK_IS_X11_DISPLAY (gdk_display_get_default ()))
-        settings = xfce_display_settings_x11_new (opt_minimal, error);
+        settings = xfce_display_settings_x11_new (error);
 #endif
 #ifdef ENABLE_WAYLAND
     if (GDK_IS_WAYLAND_DISPLAY (gdk_display_get_default ()))
-        settings = xfce_display_settings_wayland_new (opt_minimal, error);
+        settings = xfce_display_settings_wayland_new (error);
 #endif
 
     if (settings != NULL)
@@ -161,6 +173,16 @@ xfce_display_settings_is_minimal (XfceDisplaySettings *settings)
 {
     g_return_val_if_fail (XFCE_IS_DISPLAY_SETTINGS (settings), FALSE);
     return get_instance_private (settings)->opt_minimal;
+}
+
+
+
+void
+xfce_display_settings_set_minimal (XfceDisplaySettings *settings,
+                                   gboolean minimal)
+{
+    g_return_if_fail (XFCE_IS_DISPLAY_SETTINGS (settings));
+    get_instance_private (settings)->opt_minimal = minimal;
 }
 
 
@@ -221,7 +243,7 @@ xfce_display_settings_set_outputs (XfceDisplaySettings *settings)
 
     if (priv->outputs != NULL)
     {
-        g_list_free_full (priv->outputs, g_free);
+        g_list_free_full (priv->outputs, free_output);
         priv->outputs = NULL;
     }
 
@@ -555,7 +577,7 @@ xfce_display_settings_populate_combobox (XfceDisplaySettings *settings)
     /* create a new list store */
     store = gtk_list_store_new (N_OUTPUT_COLUMNS,
                                 G_TYPE_STRING, /* COLUMN_OUTPUT_NAME */
-                                G_TYPE_INT);   /* COLUMN_OUTPUT_ID */
+                                G_TYPE_INT); /* COLUMN_OUTPUT_ID */
 
     /* set up the new combobox which will replace the above combobox */
     combobox = gtk_builder_get_object (priv->builder, "randr-outputs");
@@ -639,16 +661,19 @@ void
 xfce_display_settings_reload (XfceDisplaySettings *settings)
 {
     XfceDisplaySettingsPrivate *priv = get_instance_private (settings);
-    gboolean visible = xfconf_channel_get_bool (priv->channel, "/IdentityPopups", FALSE);
+    if (!priv->opt_minimal)
+    {
+        gboolean visible = xfconf_channel_get_bool (priv->channel, "/IdentityPopups", FALSE);
 
-    xfce_display_settings_set_outputs (settings);
+        xfce_display_settings_set_outputs (settings);
 
-    xfce_display_settings_populate_combobox (settings);
-    xfce_display_settings_populate_profile_list (settings);
-    xfce_display_settings_populate_popups (settings);
-    xfce_display_settings_set_popups_visible (settings, visible);
+        xfce_display_settings_populate_combobox (settings);
+        xfce_display_settings_populate_profile_list (settings);
+        xfce_display_settings_populate_popups (settings);
+        xfce_display_settings_set_popups_visible (settings, visible);
 
-    foo_scroll_area_invalidate (FOO_SCROLL_AREA (priv->scroll_area));
+        foo_scroll_area_invalidate (FOO_SCROLL_AREA (priv->scroll_area));
+    }
 }
 
 
@@ -734,7 +759,8 @@ xfce_display_settings_get_mirrored_state (XfceDisplaySettings *settings)
             break;
     }
 
-    return cloned ? MIRRORED_STATE_CLONED : mirrored ? MIRRORED_STATE_MIRRORED : MIRRORED_STATE_NONE;
+    return cloned ? MIRRORED_STATE_CLONED : mirrored ? MIRRORED_STATE_MIRRORED
+                                                     : MIRRORED_STATE_NONE;
 }
 
 

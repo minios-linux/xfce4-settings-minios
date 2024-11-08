@@ -9,10 +9,10 @@ dnl
 dnl ***************************
 dnl *** Version information ***
 dnl ***************************
-XDT_VERSION_INIT([4.19.2])
+XDT_VERSION_INIT([4.19.3])
 
 dnl minimum required versions
-m4_define([glib_min_version], [2.66.0])
+m4_define([glib_min_version], [2.72.0])
 m4_define([gtk_min_version], [3.24.0])
 m4_define([garcon_min_version], [0.1.10])
 m4_define([exo_min_version], [0.11.0])
@@ -20,13 +20,13 @@ m4_define([libxfce4util_min_version], [4.17.2])
 m4_define([libxfce4ui_min_version], [4.19.5])
 m4_define([xfconf_min_version], [4.13.0])
 
-m4_define([x11_minimum_version], [1.6.7])
+m4_define([libx11_min_version], [1.6.7])
 m4_define([fontconfig_min_version], [2.6.0])
 m4_define([xi_min_version], [1.2.0])
 m4_define([inputproto_min_version], [1.4.0])
 
 m4_define([xrandr_min_version], [1.5.0])
-m4_define([libnotify_min_version], [0.1.3])
+m4_define([libnotify_min_version], [0.7.8])
 m4_define([colord_min_version], [1.0.2])
 m4_define([xcursor_min_version], [1.1.0])
 m4_define([xorg_libinput_min_version], [0.6.0])
@@ -34,11 +34,11 @@ m4_define([libxklavier_min_version], [0.3.0])
 m4_define([libxklavier4_min_version], [4.0])
 m4_define([libxklavier5_min_version], [5.0])
 
-m4_define([wayland_min_version], [1.15])
+m4_define([wayland_min_version], [1.20])
 
 m4_define([gtk_layer_shell_min_version], [0.7.0])
 
-m4_define([upower_glib_min_version], [0.9.8])
+m4_define([upower_glib_min_version], [0.99.10])
 
 dnl define a short version string for xfce4-settings
 m4_append([xfce4_settings_version_short], ["])
@@ -120,6 +120,7 @@ XDT_CHECK_PACKAGE([GTK], [gtk+-3.0], [gtk_min_version])
 XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [glib_min_version])
 XDT_CHECK_PACKAGE([GIO], [gio-2.0], [glib_min_version])
 XDT_CHECK_PACKAGE([GMODULE], [gmodule-2.0], [glib_min_version])
+XDT_CHECK_PACKAGE([GTHREAD], [gthread-2.0], [glib_min_version])
 XDT_CHECK_PACKAGE([GARCON], [garcon-1], [garcon_min_version])
 XDT_CHECK_PACKAGE([EXO], [exo-2], [exo_min_version])
 XDT_CHECK_PACKAGE([LIBXFCE4UTIL], [libxfce4util-1.0], [libxfce4util_min_version])

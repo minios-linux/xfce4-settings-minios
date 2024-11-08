@@ -17,85 +17,113 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
-#include <gdk/gdkx.h>
-#include <X11/Xlib.h>
-#include <X11/extensions/Xrandr.h>
-#include <libxfce4util/libxfce4util.h>
-
-#include "common/xfce-randr.h"
 #include "display-settings-x11.h"
 #include "scrollarea.h"
 
+#include "common/xfce-randr.h"
+
+#include <X11/Xlib.h>
+#include <X11/extensions/Xrandr.h>
+#include <gdk/gdkx.h>
+#include <libxfce4util/libxfce4util.h>
 
 
-static void             xfce_display_settings_x11_finalize                   (GObject                  *object);
-static guint            xfce_display_settings_x11_get_n_outputs              (XfceDisplaySettings      *settings);
-static guint            xfce_display_settings_x11_get_n_active_outputs       (XfceDisplaySettings      *settings);
-static gchar          **xfce_display_settings_x11_get_display_infos          (XfceDisplaySettings      *settings);
-static GdkMonitor      *xfce_display_settings_x11_get_monitor                (XfceDisplaySettings      *settings,
-                                                                              guint                     output_id);
-static const gchar     *xfce_display_settings_x11_get_friendly_name          (XfceDisplaySettings      *settings,
-                                                                              guint                     output_id);
-static void             xfce_display_settings_x11_get_geometry               (XfceDisplaySettings      *settings,
-                                                                              guint                     output_id,
-                                                                              GdkRectangle             *geometry);
-static RotationFlags    xfce_display_settings_x11_get_rotation               (XfceDisplaySettings      *settings,
-                                                                              guint                     output_id);
-static void             xfce_display_settings_x11_set_rotation               (XfceDisplaySettings      *settings,
-                                                                              guint                     output_id,
-                                                                              RotationFlags             rotation);
-static RotationFlags    xfce_display_settings_x11_get_rotations              (XfceDisplaySettings      *settings,
-                                                                              guint                     output_id);
-static gdouble          xfce_display_settings_x11_get_scale                  (XfceDisplaySettings      *settings,
-                                                                              guint                     output_id);
-static void             xfce_display_settings_x11_set_scale                  (XfceDisplaySettings      *settings,
-                                                                              guint                     output_id,
-                                                                              gdouble                   scale);
-static void             xfce_display_settings_x11_set_mode                   (XfceDisplaySettings      *settings,
-                                                                              guint                     output_id,
-                                                                              guint                     mode_id);
-static void             xfce_display_settings_x11_update_output_mode         (XfceDisplaySettings      *settings,
-                                                                              XfceOutput               *output,
-                                                                              guint                     mode_id);
-static void             xfce_display_settings_x11_set_position               (XfceDisplaySettings      *settings,
-                                                                              guint                     output_id,
-                                                                              gint                      x,
-                                                                              gint                      y);
-static XfceOutput      *xfce_display_settings_x11_get_output                 (XfceDisplaySettings      *settings,
-                                                                              guint                     output_id);
-static gboolean         xfce_display_settings_x11_is_active                  (XfceDisplaySettings      *settings,
-                                                                              guint                     output_id);
-static void             xfce_display_settings_x11_set_active                 (XfceDisplaySettings      *settings,
-                                                                              guint                     output_id,
-                                                                              gboolean                  active);
-static void             xfce_display_settings_x11_update_output_active       (XfceDisplaySettings      *settings,
-                                                                              XfceOutput               *output,
-                                                                              gboolean                  active);
-static gboolean         xfce_display_settings_x11_is_primary                 (XfceDisplaySettings      *settings,
-                                                                              guint                     output_id);
-static void             xfce_display_settings_x11_set_primary                (XfceDisplaySettings      *settings,
-                                                                              guint                     output_id,
-                                                                              gboolean                  primary);
-static gboolean         xfce_display_settings_x11_is_clonable                (XfceDisplaySettings      *settings);
-static void             xfce_display_settings_x11_save                       (XfceDisplaySettings      *settings,
-                                                                              const gchar              *scheme);
-static void             xfce_display_settings_x11_mirror                     (XfceDisplaySettings      *settings);
-static void             xfce_display_settings_x11_unmirror                   (XfceDisplaySettings      *settings);
-static void             xfce_display_settings_x11_update_output_mirror       (XfceDisplaySettings      *settings,
-                                                                              XfceOutput               *output);
-static void             xfce_display_settings_x11_extend                     (XfceDisplaySettings      *settings,
-                                                                              guint                     output_id_1,
-                                                                              guint                     output_id_2,
-                                                                              ExtendedMode              mode);
+
+static void
+xfce_display_settings_x11_finalize (GObject *object);
+static guint
+xfce_display_settings_x11_get_n_outputs (XfceDisplaySettings *settings);
+static guint
+xfce_display_settings_x11_get_n_active_outputs (XfceDisplaySettings *settings);
+static gchar **
+xfce_display_settings_x11_get_display_infos (XfceDisplaySettings *settings);
+static GdkMonitor *
+xfce_display_settings_x11_get_monitor (XfceDisplaySettings *settings,
+                                       guint output_id);
+static const gchar *
+xfce_display_settings_x11_get_friendly_name (XfceDisplaySettings *settings,
+                                             guint output_id);
+static void
+xfce_display_settings_x11_get_geometry (XfceDisplaySettings *settings,
+                                        guint output_id,
+                                        GdkRectangle *geometry);
+static RotationFlags
+xfce_display_settings_x11_get_rotation (XfceDisplaySettings *settings,
+                                        guint output_id);
+static void
+xfce_display_settings_x11_set_rotation (XfceDisplaySettings *settings,
+                                        guint output_id,
+                                        RotationFlags rotation);
+static RotationFlags
+xfce_display_settings_x11_get_rotations (XfceDisplaySettings *settings,
+                                         guint output_id);
+static gdouble
+xfce_display_settings_x11_get_scale (XfceDisplaySettings *settings,
+                                     guint output_id);
+static void
+xfce_display_settings_x11_set_scale (XfceDisplaySettings *settings,
+                                     guint output_id,
+                                     gdouble scale);
+static void
+xfce_display_settings_x11_set_mode (XfceDisplaySettings *settings,
+                                    guint output_id,
+                                    guint mode_id);
+static void
+xfce_display_settings_x11_update_output_mode (XfceDisplaySettings *settings,
+                                              XfceOutput *output,
+                                              guint mode_id);
+static void
+xfce_display_settings_x11_set_position (XfceDisplaySettings *settings,
+                                        guint output_id,
+                                        gint x,
+                                        gint y);
+static XfceOutput *
+xfce_display_settings_x11_get_output (XfceDisplaySettings *settings,
+                                      guint output_id);
+static gboolean
+xfce_display_settings_x11_is_active (XfceDisplaySettings *settings,
+                                     guint output_id);
+static void
+xfce_display_settings_x11_set_active (XfceDisplaySettings *settings,
+                                      guint output_id,
+                                      gboolean active);
+static void
+xfce_display_settings_x11_update_output_active (XfceDisplaySettings *settings,
+                                                XfceOutput *output,
+                                                gboolean active);
+static gboolean
+xfce_display_settings_x11_is_primary (XfceDisplaySettings *settings,
+                                      guint output_id);
+static void
+xfce_display_settings_x11_set_primary (XfceDisplaySettings *settings,
+                                       guint output_id,
+                                       gboolean primary);
+static gboolean
+xfce_display_settings_x11_is_clonable (XfceDisplaySettings *settings);
+static void
+xfce_display_settings_x11_save (XfceDisplaySettings *settings,
+                                const gchar *scheme);
+static void
+xfce_display_settings_x11_mirror (XfceDisplaySettings *settings);
+static void
+xfce_display_settings_x11_unmirror (XfceDisplaySettings *settings);
+static void
+xfce_display_settings_x11_update_output_mirror (XfceDisplaySettings *settings,
+                                                XfceOutput *output);
+static void
+xfce_display_settings_x11_extend (XfceDisplaySettings *settings,
+                                  guint output_id_1,
+                                  guint output_id_2,
+                                  ExtendedMode mode);
 
 
 
 struct _XfceDisplaySettingsX11
 {
-    XfceDisplaySettings  __parent__;
+    XfceDisplaySettings __parent__;
 
     XfceRandr *randr;
     gint event_base;
@@ -171,6 +199,7 @@ screen_on_event (GdkXEvent *gdk_xevent,
 
     xfce_randr_reload (xsettings->randr);
     xfce_display_settings_reload (settings);
+    g_signal_emit_by_name (G_OBJECT (settings), "outputs-changed");
 
     return GDK_FILTER_CONTINUE;
 }
@@ -183,8 +212,7 @@ xfce_display_settings_x11_finalize (GObject *object)
     XfceDisplaySettingsX11 *settings = XFCE_DISPLAY_SETTINGS_X11 (object);
 
     xfce_randr_free (settings->randr);
-    if (!xfce_display_settings_is_minimal (XFCE_DISPLAY_SETTINGS (settings)))
-        gdk_window_remove_filter (gdk_get_default_root_window (), screen_on_event, settings);
+    gdk_window_remove_filter (gdk_get_default_root_window (), screen_on_event, settings);
 
     G_OBJECT_CLASS (xfce_display_settings_x11_parent_class)->finalize (object);
 }
@@ -277,11 +305,16 @@ static RotationFlags
 convert_rotation_from_randr (Rotation rot)
 {
     RotationFlags flags = ROTATION_FLAGS_0;
-    if (rot & RR_Rotate_90) flags |= ROTATION_FLAGS_90;
-    if (rot & RR_Rotate_180) flags |= ROTATION_FLAGS_180;
-    if (rot & RR_Rotate_270) flags |= ROTATION_FLAGS_270;
-    if (rot & RR_Reflect_X) flags |= ROTATION_FLAGS_REFLECT_X;
-    if (rot & RR_Reflect_Y) flags |= ROTATION_FLAGS_REFLECT_Y;
+    if (rot & RR_Rotate_90)
+        flags |= ROTATION_FLAGS_90;
+    if (rot & RR_Rotate_180)
+        flags |= ROTATION_FLAGS_180;
+    if (rot & RR_Rotate_270)
+        flags |= ROTATION_FLAGS_270;
+    if (rot & RR_Reflect_X)
+        flags |= ROTATION_FLAGS_REFLECT_X;
+    if (rot & RR_Reflect_Y)
+        flags |= ROTATION_FLAGS_REFLECT_Y;
     return flags;
 }
 
@@ -291,12 +324,18 @@ static Rotation
 convert_rotation_to_randr (RotationFlags flags)
 {
     Rotation rot = 0;
-    if (!(flags & ROTATION_MASK)) rot |= RR_Rotate_0;
-    if (flags & ROTATION_FLAGS_90) rot |= RR_Rotate_90;
-    if (flags & ROTATION_FLAGS_180) rot |= RR_Rotate_180;
-    if (flags & ROTATION_FLAGS_270) rot |= RR_Rotate_270;
-    if (flags & ROTATION_FLAGS_REFLECT_X) rot |= RR_Reflect_X;
-    if (flags & ROTATION_FLAGS_REFLECT_Y) rot |= RR_Reflect_Y;
+    if (!(flags & ROTATION_MASK))
+        rot |= RR_Rotate_0;
+    if (flags & ROTATION_FLAGS_90)
+        rot |= RR_Rotate_90;
+    if (flags & ROTATION_FLAGS_180)
+        rot |= RR_Rotate_180;
+    if (flags & ROTATION_FLAGS_270)
+        rot |= RR_Rotate_270;
+    if (flags & ROTATION_FLAGS_REFLECT_X)
+        rot |= RR_Reflect_X;
+    if (flags & ROTATION_FLAGS_REFLECT_Y)
+        rot |= RR_Reflect_Y;
     return rot;
 }
 
@@ -333,7 +372,7 @@ xfce_display_settings_x11_get_rotations (XfceDisplaySettings *settings,
 
 static gdouble
 xfce_display_settings_x11_get_scale (XfceDisplaySettings *settings,
-                                       guint output_id)
+                                     guint output_id)
 {
     return 1.0 / XFCE_DISPLAY_SETTINGS_X11 (settings)->randr->scalex[output_id];
 }
@@ -652,8 +691,7 @@ xfce_display_settings_x11_extend (XfceDisplaySettings *settings,
 
 
 XfceDisplaySettings *
-xfce_display_settings_x11_new (gboolean opt_minimal,
-                               GError **error)
+xfce_display_settings_x11_new (GError **error)
 {
     XfceDisplaySettingsX11 *settings;
     XfceRandr *randr;
@@ -672,15 +710,13 @@ xfce_display_settings_x11_new (gboolean opt_minimal,
     settings = g_object_new (XFCE_TYPE_DISPLAY_SETTINGS_X11, NULL);
     settings->randr = randr;
     settings->event_base = event_base;
-    if (!opt_minimal)
-    {
-        /* set up notifications */
-        XRRSelectInput (gdk_x11_get_default_xdisplay (),
-                        GDK_WINDOW_XID (gdk_get_default_root_window ()),
-                        RRScreenChangeNotifyMask);
-        gdk_x11_register_standard_event_type (gdk_display_get_default (), event_base, RRNotify + 1);
-        gdk_window_add_filter (gdk_get_default_root_window (), screen_on_event, settings);
-    }
+
+    /* set up notifications */
+    XRRSelectInput (gdk_x11_get_default_xdisplay (),
+                    GDK_WINDOW_XID (gdk_get_default_root_window ()),
+                    RRScreenChangeNotifyMask);
+    gdk_x11_register_standard_event_type (gdk_display_get_default (), event_base, RRNotify + 1);
+    gdk_window_add_filter (gdk_get_default_root_window (), screen_on_event, settings);
 
     return XFCE_DISPLAY_SETTINGS (settings);
 }
