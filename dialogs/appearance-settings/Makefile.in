@@ -118,7 +118,8 @@ xfce4_appearance_settings_OBJECTS =  \
 	$(am_xfce4_appearance_settings_OBJECTS)
 am__DEPENDENCIES_1 =
 xfce4_appearance_settings_DEPENDENCIES = $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
@@ -293,6 +294,10 @@ GMODULE_VERSION = @GMODULE_VERSION@
 GMSGFMT = @GMSGFMT@
 GMSGFMT_015 = @GMSGFMT_015@
 GREP = @GREP@
+GTHREAD_CFLAGS = @GTHREAD_CFLAGS@
+GTHREAD_LIBS = @GTHREAD_LIBS@
+GTHREAD_REQUIRED_VERSION = @GTHREAD_REQUIRED_VERSION@
+GTHREAD_VERSION = @GTHREAD_VERSION@
 GTK_CFLAGS = @GTK_CFLAGS@
 GTK_LAYER_SHELL_CFLAGS = @GTK_LAYER_SHELL_CFLAGS@
 GTK_LAYER_SHELL_LIBS = @GTK_LAYER_SHELL_LIBS@
@@ -502,6 +507,7 @@ xfce4_appearance_settings_SOURCES = \
 	appearance-dialog_ui.h
 
 xfce4_appearance_settings_CFLAGS = \
+	$(GTHREAD_CFLAGS) \
 	$(GTK_CFLAGS) \
 	$(LIBXFCE4UI_CFLAGS) \
 	$(XFCONF_CFLAGS) \
@@ -518,6 +524,7 @@ xfce4_appearance_settings_LDFLAGS = \
 	$(PLATFORM_LDFLAGS)
 
 xfce4_appearance_settings_LDADD = \
+	$(GTHREAD_LIBS) \
 	$(GTK_LIBS) \
 	$(LIBXFCE4UI_LIBS) \
 	$(XFCONF_LIBS)

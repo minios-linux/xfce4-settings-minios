@@ -14,8 +14,8 @@
 m4_ifndef([AC_CONFIG_MACRO_DIRS], [m4_defun([_AM_CONFIG_MACRO_DIRS], [])m4_defun([AC_CONFIG_MACRO_DIRS], [_AM_CONFIG_MACRO_DIRS($@)])])
 m4_ifndef([AC_AUTOCONF_VERSION],
   [m4_copy([m4_PACKAGE_VERSION], [AC_AUTOCONF_VERSION])])dnl
-m4_if(m4_defn([AC_AUTOCONF_VERSION]), [2.72],,
-[m4_warning([this file was generated for autoconf 2.72.
+m4_if(m4_defn([AC_AUTOCONF_VERSION]), [2.71],,
+[m4_warning([this file was generated for autoconf 2.71.
 You have another version of autoconf.  It may work, but is not guaranteed to.
 If you have problems, you may need to regenerate the build system entirely.
 To do so, use the procedure documented by the package, typically 'autoreconf'.])])
@@ -2106,7 +2106,7 @@ AC_DEFUN([XDT_FEATURE_DEBUG],
 [
   dnl weird indentation to keep output indentation correct
   AC_ARG_ENABLE([debug],
-                AS_HELP_STRING([--enable-debug@<:@=no|minimum|yes|full@:>@],[Build with debugging support @<:@default=m4_default([$1], [minimum])@:>@])
+                AS_HELP_STRING([--enable-debug@<:@=no|minimum|yes|full|werror@:>@],[Build with debugging support @<:@default=m4_default([$1], [minimum])@:>@])
 AS_HELP_STRING([--disable-debug],[Include no debugging support]),
                 [enable_debug=$enableval], [enable_debug=m4_default([$1], [minimum])])
 
@@ -2118,10 +2118,10 @@ AS_HELP_STRING([--disable-debug],[Include no debugging support]),
                                   -Wmissing-noreturn -Wpointer-arith \
                                   -Wcast-align -Wformat -Wformat-security -Wformat-y2k \
                                   -Winit-self -Wmissing-include-dirs -Wundef \
-                                  -Wredundant-decls"
+                                  -Wredundant-decls -Wshadow"
 
   AC_MSG_CHECKING([whether to build with debugging support])
-  if test x"$enable_debug" = x"full" -o x"$enable_debug" = x"yes"; then
+  if test x"$enable_debug" = x"werror" -o x"$enable_debug" = x"full" -o x"$enable_debug" = x"yes"; then
     AC_DEFINE([DEBUG], [1], [Define for debugging support])
 
     CPPFLAGS="$CPPFLAGS"
@@ -2130,17 +2130,22 @@ AS_HELP_STRING([--disable-debug],[Include no debugging support]),
       xdt_cv_additional_COMMON_FLAGS="$xdt_cv_additional_COMMON_FLAGS -fstack-protector"
     fi
 
-    if test x"$enable_debug" = x"full"; then
+    if test x"$enable_debug" = x"werror" -o x"$enable_debug" = x"full"; then
       AC_DEFINE([DEBUG_TRACE], [1], [Define for tracing support])
       xdt_cv_additional_COMMON_FLAGS="$xdt_cv_additional_COMMON_FLAGS -O0 -g"
       CPPFLAGS="$CPPFLAGS -DG_ENABLE_DEBUG"
-      AC_MSG_RESULT([full])
+      if test x"$enable_debug" = x"werror"; then
+        xdt_cv_additional_COMMON_FLAGS="$xdt_cv_additional_COMMON_FLAGS -Werror -Wno-error=deprecated-declarations"
+        AC_MSG_RESULT([werror])
+      else
+        AC_MSG_RESULT([full])
+      fi
     else
-      xdt_cv_additional_COMMON_FLAGS="$xdt_cv_additional_COMMON_FLAGS -g -Wshadow"
+      xdt_cv_additional_COMMON_FLAGS="$xdt_cv_additional_COMMON_FLAGS -g"
       AC_MSG_RESULT([yes])
     fi
   else
-    xdt_cv_additional_COMMON_FLAGS="$xdt_cv_additional_COMMON_FLAGS -Wshadow"
+    xdt_cv_additional_COMMON_FLAGS="$xdt_cv_additional_COMMON_FLAGS"
     CPPFLAGS="$CPPFLAGS -DNDEBUG"
 
     if test x"$enable_debug" = x"no"; then
@@ -2161,6 +2166,10 @@ AS_HELP_STRING([--disable-debug],[Include no debugging support]),
 
   CFLAGS="$CFLAGS $supported_CFLAGS"
   CXXFLAGS="$CXXFLAGS $supported_CXXFLAGS"
+  if test x"$enable_debug" = x"werror"; then
+    dnl Useless on C++, only generates warnings.
+    CXXFLAGS="$CXXFLAGS -Wno-error=implicit-function-declaration"
+  fi
 ])
 
 

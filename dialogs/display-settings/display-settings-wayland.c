@@ -17,88 +17,116 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
+
+#include "display-settings-wayland.h"
+#include "scrollarea.h"
+
+#include "common/edid.h"
+#include "common/xfce-wlr-output-manager.h"
+
+#include <gdk/gdkwayland.h>
+#include <libxfce4util/libxfce4util.h>
 
 #ifdef HAVE_MATH_H
 #include <math.h>
 #endif
 
-#include <gdk/gdkwayland.h>
-#include <libxfce4util/libxfce4util.h>
-
-#include "common/edid.h"
-#include "common/xfce-wlr-output-manager.h"
-#include "display-settings-wayland.h"
-#include "scrollarea.h"
 
 
-
-static void             xfce_display_settings_wayland_finalize                   (GObject                  *object);
-static guint            xfce_display_settings_wayland_get_n_outputs              (XfceDisplaySettings      *settings);
-static guint            xfce_display_settings_wayland_get_n_active_outputs       (XfceDisplaySettings      *settings);
-static gchar          **xfce_display_settings_wayland_get_display_infos          (XfceDisplaySettings      *settings);
-static GdkMonitor      *xfce_display_settings_wayland_get_monitor                (XfceDisplaySettings      *settings,
-                                                                                  guint                     output_id);
-static const gchar     *xfce_display_settings_wayland_get_friendly_name          (XfceDisplaySettings      *settings,
-                                                                                  guint                     output_id);
-static void             xfce_display_settings_wayland_get_geometry               (XfceDisplaySettings      *settings,
-                                                                                  guint                     output_id,
-                                                                                  GdkRectangle             *geometry);
-static RotationFlags    xfce_display_settings_wayland_get_rotation               (XfceDisplaySettings      *settings,
-                                                                                  guint                     output_id);
-static void             xfce_display_settings_wayland_set_rotation               (XfceDisplaySettings      *settings,
-                                                                                  guint                     output_id,
-                                                                                  RotationFlags             rotation);
-static RotationFlags    xfce_display_settings_wayland_get_rotations              (XfceDisplaySettings      *settings,
-                                                                                  guint                     output_id);
-static gdouble          xfce_display_settings_wayland_get_scale                  (XfceDisplaySettings      *settings,
-                                                                                  guint                     output_id);
-static void             xfce_display_settings_wayland_set_scale                  (XfceDisplaySettings      *settings,
-                                                                                  guint                     output_id,
-                                                                                  gdouble                   scale);
-static void             xfce_display_settings_wayland_set_mode                   (XfceDisplaySettings      *settings,
-                                                                                  guint                     output_id,
-                                                                                  guint                     mode_id);
-static void             xfce_display_settings_wayland_update_output_mode         (XfceDisplaySettings      *settings,
-                                                                                  XfceOutput               *output,
-                                                                                  guint                     mode_id);
-static void             xfce_display_settings_wayland_set_position               (XfceDisplaySettings      *settings,
-                                                                                  guint                     output_id,
-                                                                                  gint                      x,
-                                                                                  gint                      y);
-static XfceOutput      *xfce_display_settings_wayland_get_output                 (XfceDisplaySettings      *settings,
-                                                                                  guint                     output_id);
-static gboolean         xfce_display_settings_wayland_is_active                  (XfceDisplaySettings      *settings,
-                                                                                  guint                     output_id);
-static void             xfce_display_settings_wayland_set_active                 (XfceDisplaySettings      *settings,
-                                                                                  guint                     output_id,
-                                                                                  gboolean                  active);
-static void             xfce_display_settings_wayland_update_output_active       (XfceDisplaySettings      *settings,
-                                                                                  XfceOutput               *output,
-                                                                                  gboolean                  active);
-static gboolean         xfce_display_settings_wayland_is_primary                 (XfceDisplaySettings      *settings,
-                                                                                  guint                     output_id);
-static void             xfce_display_settings_wayland_set_primary                (XfceDisplaySettings      *settings,
-                                                                                  guint                     output_id,
-                                                                                  gboolean                  primary);
-static gboolean         xfce_display_settings_wayland_is_clonable                (XfceDisplaySettings      *settings);
-static void             xfce_display_settings_wayland_save                       (XfceDisplaySettings      *settings,
-                                                                                  const gchar              *scheme);
-static void             xfce_display_settings_wayland_mirror                     (XfceDisplaySettings      *settings);
-static void             xfce_display_settings_wayland_unmirror                   (XfceDisplaySettings      *settings);
-static void             xfce_display_settings_wayland_update_output_mirror       (XfceDisplaySettings      *settings,
-                                                                                  XfceOutput               *output);
-static void             xfce_display_settings_wayland_extend                     (XfceDisplaySettings      *settings,
-                                                                                  guint                     output_id_1,
-                                                                                  guint                     output_id_2,
-                                                                                  ExtendedMode              mode);
+static void
+xfce_display_settings_wayland_finalize (GObject *object);
+static guint
+xfce_display_settings_wayland_get_n_outputs (XfceDisplaySettings *settings);
+static guint
+xfce_display_settings_wayland_get_n_active_outputs (XfceDisplaySettings *settings);
+static gchar **
+xfce_display_settings_wayland_get_display_infos (XfceDisplaySettings *settings);
+static GdkMonitor *
+xfce_display_settings_wayland_get_monitor (XfceDisplaySettings *settings,
+                                           guint output_id);
+static const gchar *
+xfce_display_settings_wayland_get_friendly_name (XfceDisplaySettings *settings,
+                                                 guint output_id);
+static void
+xfce_display_settings_wayland_get_geometry (XfceDisplaySettings *settings,
+                                            guint output_id,
+                                            GdkRectangle *geometry);
+static RotationFlags
+xfce_display_settings_wayland_get_rotation (XfceDisplaySettings *settings,
+                                            guint output_id);
+static void
+xfce_display_settings_wayland_set_rotation (XfceDisplaySettings *settings,
+                                            guint output_id,
+                                            RotationFlags rotation);
+static RotationFlags
+xfce_display_settings_wayland_get_rotations (XfceDisplaySettings *settings,
+                                             guint output_id);
+static gdouble
+xfce_display_settings_wayland_get_scale (XfceDisplaySettings *settings,
+                                         guint output_id);
+static void
+xfce_display_settings_wayland_set_scale (XfceDisplaySettings *settings,
+                                         guint output_id,
+                                         gdouble scale);
+static void
+xfce_display_settings_wayland_set_mode (XfceDisplaySettings *settings,
+                                        guint output_id,
+                                        guint mode_id);
+static void
+xfce_display_settings_wayland_update_output_mode (XfceDisplaySettings *settings,
+                                                  XfceOutput *output,
+                                                  guint mode_id);
+static void
+xfce_display_settings_wayland_set_position (XfceDisplaySettings *settings,
+                                            guint output_id,
+                                            gint x,
+                                            gint y);
+static XfceOutput *
+xfce_display_settings_wayland_get_output (XfceDisplaySettings *settings,
+                                          guint output_id);
+static gboolean
+xfce_display_settings_wayland_is_active (XfceDisplaySettings *settings,
+                                         guint output_id);
+static void
+xfce_display_settings_wayland_set_active (XfceDisplaySettings *settings,
+                                          guint output_id,
+                                          gboolean active);
+static void
+xfce_display_settings_wayland_update_output_active (XfceDisplaySettings *settings,
+                                                    XfceOutput *output,
+                                                    gboolean active);
+static gboolean
+xfce_display_settings_wayland_is_primary (XfceDisplaySettings *settings,
+                                          guint output_id);
+static void
+xfce_display_settings_wayland_set_primary (XfceDisplaySettings *settings,
+                                           guint output_id,
+                                           gboolean primary);
+static gboolean
+xfce_display_settings_wayland_is_clonable (XfceDisplaySettings *settings);
+static void
+xfce_display_settings_wayland_save (XfceDisplaySettings *settings,
+                                    const gchar *scheme);
+static void
+xfce_display_settings_wayland_mirror (XfceDisplaySettings *settings);
+static void
+xfce_display_settings_wayland_unmirror (XfceDisplaySettings *settings);
+static void
+xfce_display_settings_wayland_update_output_mirror (XfceDisplaySettings *settings,
+                                                    XfceOutput *output);
+static void
+xfce_display_settings_wayland_extend (XfceDisplaySettings *settings,
+                                      guint output_id_1,
+                                      guint output_id_2,
+                                      ExtendedMode mode);
 
 
 
 struct _XfceDisplaySettingsWayland
 {
-    XfceDisplaySettings  __parent__;
+    XfceDisplaySettings __parent__;
 
     XfceWlrOutputManager *manager;
     uint32_t serial;
@@ -249,7 +277,7 @@ get_clonable_modes (GPtrArray *outputs)
     }
 
     if (modes[outputs->len - 1] != NULL)
-        return g_memdup (modes, sizeof (XfceWlrMode *) * outputs->len);
+        return g_memdup2 (modes, sizeof (XfceWlrMode *) * outputs->len);
 
     return NULL;
 }
@@ -767,7 +795,7 @@ output_save (XfceWlrOutput *output,
     rotation = convert_rotation_from_transform (output->transform);
     switch (rotation & ROTATION_MASK)
     {
-        case ROTATION_FLAGS_90: degrees = 90;  break;
+        case ROTATION_FLAGS_90: degrees = 90; break;
         case ROTATION_FLAGS_180: degrees = 180; break;
         case ROTATION_FLAGS_270: degrees = 270; break;
         default: degrees = 0; break;
@@ -962,17 +990,16 @@ manager_listener (XfceWlrOutputManager *manager,
     }
 
     xfce_display_settings_reload (settings);
+    g_signal_emit_by_name (G_OBJECT (settings), "outputs-changed");
 }
 
 
 
 XfceDisplaySettings *
-xfce_display_settings_wayland_new (gboolean opt_minimal,
-                                   GError **error)
+xfce_display_settings_wayland_new (GError **error)
 {
     XfceDisplaySettingsWayland *settings = g_object_new (XFCE_TYPE_DISPLAY_SETTINGS_WAYLAND, NULL);
-    XfceWlrOutputListener listener = opt_minimal ? NULL : manager_listener;
-    XfceWlrOutputManager *manager = xfce_wlr_output_manager_new (listener, settings);
+    XfceWlrOutputManager *manager = xfce_wlr_output_manager_new (manager_listener, settings);
     settings->manager = manager;
 
     if (xfce_wlr_output_manager_get_outputs (manager) == NULL)

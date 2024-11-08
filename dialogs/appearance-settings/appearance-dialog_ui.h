@@ -82,14 +82,12 @@ static const char appearance_dialog_ui[] =
   "ject class=\"GtkScrolledWindow\" id=\"scrolledwindow2\"><property name="
   "\"visible\">True</property><property name=\"can_focus\">True</property>"
   "<property name=\"vexpand\">True</property><property name=\"shadow_type\""
-  ">etched-in</property><child><object class=\"GtkViewport\"><property nam"
-  "e=\"visible\">True</property><property name=\"can_focus\">False</proper"
-  "ty><child><object class=\"GtkTreeView\" id=\"gtk_theme_treeview\"><prop"
-  "erty name=\"visible\">True</property><property name=\"can_focus\">True<"
-  "/property><property name=\"headers_visible\">False</property><property "
-  "name=\"show_expanders\">False</property><child internal-child=\"selecti"
-  "on\"><object class=\"GtkTreeSelection\" id=\"treeview-selection1\"/></c"
-  "hild></object></child></object></child></object><packing><property name"
+  ">etched-in</property><child><object class=\"GtkTreeView\" id=\"gtk_them"
+  "e_treeview\"><property name=\"visible\">True</property><property name=\""
+  "can_focus\">True</property><property name=\"headers_visible\">False</pr"
+  "operty><property name=\"show_expanders\">False</property><child interna"
+  "l-child=\"selection\"><object class=\"GtkTreeSelection\" id=\"treeview-"
+  "selection1\"/></child></object></child></object><packing><property name"
   "=\"expand\">False</property><property name=\"fill\">True</property><pro"
   "perty name=\"position\">0</property></packing></child><child><object cl"
   "ass=\"GtkBox\"><property name=\"visible\">True</property><property name"
@@ -462,5 +460,5 @@ static const char appearance_dialog_ui[] =
   "s></object></interface>"
 };
 
-static const unsigned appearance_dialog_ui_length = 30572u;
+static const unsigned appearance_dialog_ui_length = 30437u;
 

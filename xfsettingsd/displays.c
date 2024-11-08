@@ -19,36 +19,40 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
-#include <xfconf/xfconf.h>
-#include <libxfce4ui/libxfce4ui.h>
-
-#include "common/display-profiles.h"
-
-#include "common/debug.h"
 #include "displays.h"
+
 #ifdef HAVE_UPOWERGLIB
 #include "displays-upower.h"
 #endif
 
 #ifdef HAVE_XRANDR
-#include <gdk/gdkx.h>
 #include "displays-x11.h"
+
+#include <gdk/gdkx.h>
 #endif
+
 #ifdef ENABLE_WAYLAND
-#include <gdk/gdkwayland.h>
 #include "displays-wayland.h"
+
+#include <gdk/gdkwayland.h>
 #endif
 
+#include "common/debug.h"
+#include "common/display-profiles.h"
+
+#include <libxfce4ui/libxfce4ui.h>
 
 
-#define get_instance_private(instance) ((XfceDisplaysHelperPrivate *) \
-    xfce_displays_helper_get_instance_private (XFCE_DISPLAYS_HELPER (instance)))
+#define get_instance_private(instance) \
+    ((XfceDisplaysHelperPrivate *) xfce_displays_helper_get_instance_private (XFCE_DISPLAYS_HELPER (instance)))
 
-static void             xfce_displays_helper_constructed                    (GObject                 *object);
-static void             xfce_displays_helper_finalize                       (GObject                 *object);
+static void
+xfce_displays_helper_constructed (GObject *object);
+static void
+xfce_displays_helper_finalize (GObject *object);
 
 
 
@@ -85,13 +89,12 @@ xfce_displays_helper_init (XfceDisplaysHelper *helper)
 
 
 static void
-xfce_displays_helper_channel_property_changed (XfconfChannel      *channel,
-                                               const gchar        *property_name,
-                                               const GValue       *value,
+xfce_displays_helper_channel_property_changed (XfconfChannel *channel,
+                                               const gchar *property_name,
+                                               const GValue *value,
                                                XfceDisplaysHelper *helper)
 {
-    if (G_UNLIKELY (G_VALUE_HOLDS_STRING (value) &&
-        g_strcmp0 (property_name, APPLY_SCHEME_PROP) == 0))
+    if (G_UNLIKELY (G_VALUE_HOLDS_STRING (value) && g_strcmp0 (property_name, APPLY_SCHEME_PROP) == 0))
     {
         /* apply */
         XFCE_DISPLAYS_HELPER_GET_CLASS (helper)->channel_apply (helper, g_value_get_string (value));
@@ -193,11 +196,13 @@ xfce_displays_helper_get_matching_profile (XfceDisplaysHelper *helper)
     GList *profiles = NULL;
     gchar **display_infos = XFCE_DISPLAYS_HELPER_GET_CLASS (helper)->get_display_infos (helper);
     gchar *profile = NULL;
+    gboolean default_matches = FALSE;
 
     if (display_infos != NULL)
     {
         profiles = display_settings_get_profiles (display_infos, priv->channel, TRUE);
-        if (profiles == NULL && display_settings_profile_matches ("Default", display_infos, priv->channel))
+        default_matches = display_settings_profile_matches ("Default", display_infos, priv->channel);
+        if (profiles == NULL && default_matches)
         {
             /* if user profile matching failed, use Default if possible */
             profiles = g_list_prepend (profiles, g_strdup ("Default"));
@@ -216,7 +221,17 @@ xfce_displays_helper_get_matching_profile (XfceDisplaysHelper *helper)
     }
     else
     {
-        xfsettings_dbg (XFSD_DEBUG_DISPLAYS, "Found %d matching display profiles.", g_list_length (profiles));
+        if (default_matches)
+        {
+            profile = g_strdup ("Default");
+            xfsettings_dbg (XFSD_DEBUG_DISPLAYS, "Found %d matching display profiles, applying %s",
+                            g_list_length (profiles) + 1, profile);
+        }
+        else
+        {
+            xfsettings_dbg (XFSD_DEBUG_DISPLAYS, "Found %d matching display profiles, unable to choose",
+                            g_list_length (profiles));
+        }
     }
 
     g_list_free_full (profiles, g_free);
