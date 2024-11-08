@@ -17,33 +17,43 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
-#include <gdk/gdkwayland.h>
-#include <xfconf/xfconf.h>
-#include <libxfce4ui/libxfce4ui.h>
-
-#include "common/xfce-wlr-output-manager.h"
-#include "common/debug.h"
-#include "common/edid.h"
 #include "displays-wayland.h"
 
+#include "common/debug.h"
+#include "common/display-profiles.h"
+#include "common/edid.h"
+#include "common/xfce-wlr-output-manager.h"
+
+#include <gdk/gdkwayland.h>
+#include <libxfce4ui/libxfce4ui.h>
 
 
-static void             xfce_displays_helper_wayland_finalize                   (GObject                 *object);
-static GPtrArray       *xfce_displays_helper_wayland_get_outputs                (XfceDisplaysHelper      *helper);
-static void             xfce_displays_helper_wayland_toggle_internal            (gpointer                *power,
-                                                                                 gboolean                 lid_is_closed,
-                                                                                 XfceDisplaysHelper      *helper);
-static gchar          **xfce_displays_helper_wayland_get_display_infos          (XfceDisplaysHelper      *helper);
-static void             xfce_displays_helper_wayland_channel_apply              (XfceDisplaysHelper      *helper,
-                                                                                 const gchar             *scheme);
 
-static void manager_listener (XfceWlrOutputManager *manager, struct zwlr_output_manager_v1 *wl_manager, uint32_t serial);
-static void configuration_succeeded (void *data, struct zwlr_output_configuration_v1 *config);
-static void configuration_failed (void *data, struct zwlr_output_configuration_v1 *config);
-static void configuration_cancelled (void *data, struct zwlr_output_configuration_v1 *config);
+static void
+xfce_displays_helper_wayland_finalize (GObject *object);
+static GPtrArray *
+xfce_displays_helper_wayland_get_outputs (XfceDisplaysHelper *helper);
+static void
+xfce_displays_helper_wayland_toggle_internal (gpointer *power,
+                                              gboolean lid_is_closed,
+                                              XfceDisplaysHelper *helper);
+static gchar **
+xfce_displays_helper_wayland_get_display_infos (XfceDisplaysHelper *helper);
+static void
+xfce_displays_helper_wayland_channel_apply (XfceDisplaysHelper *helper,
+                                            const gchar *scheme);
+
+static void
+manager_listener (XfceWlrOutputManager *manager, struct zwlr_output_manager_v1 *wl_manager, uint32_t serial);
+static void
+configuration_succeeded (void *data, struct zwlr_output_configuration_v1 *config);
+static void
+configuration_failed (void *data, struct zwlr_output_configuration_v1 *config);
+static void
+configuration_cancelled (void *data, struct zwlr_output_configuration_v1 *config);
 
 
 
@@ -57,8 +67,7 @@ struct _XfceDisplaysHelperWayland
     gboolean config_cancelled;
 };
 
-static const struct zwlr_output_configuration_v1_listener configuration_listener =
-{
+static const struct zwlr_output_configuration_v1_listener configuration_listener = {
     .succeeded = configuration_succeeded,
     .failed = configuration_failed,
     .cancelled = configuration_cancelled,
@@ -243,22 +252,14 @@ load_from_xfconf (XfceDisplaysHelperWayland *helper,
         }
     }
 
-    /* scaling X */
-    property = g_strdup_printf (SCALEX_PROP, scheme, output->name);
+    /* scaling */
+    property = g_strdup_printf (SCALE_PROP, scheme, output->name);
     value = g_hash_table_lookup (saved_outputs, property);
     g_free (property);
     if (G_VALUE_HOLDS_DOUBLE (value))
         double_value = g_value_get_double (value);
     else
         double_value = 1.0;
-
-    /* scaling Y (ignored) */
-    property = g_strdup_printf (SCALEY_PROP, scheme, output->name);
-    value = g_hash_table_lookup (saved_outputs, property);
-    g_free (property);
-    if (!G_VALUE_HOLDS_DOUBLE (value) || g_value_get_double (value) != double_value)
-        g_warning ("Scale y (%f) != Scale x (%f): ignored (only one scale is actually supported)",
-                   g_value_get_double (value), double_value);
 
     output->scale = wl_fixed_from_double (double_value);
 
@@ -327,15 +328,24 @@ xfce_displays_helper_wayland_toggle_internal (gpointer *power,
     GPtrArray *outputs = xfce_wlr_output_manager_get_outputs (helper->manager);
     XfceWlrOutput *lvds = NULL;
 
-    for (guint n = 0; n < outputs->len; n++)
+    if (outputs->len == 1)
     {
-        XfceWlrOutput *output = g_ptr_array_index (outputs, n);
-
-        /* try to find the internal display */
-        if (display_name_is_laptop_name (output->name))
+        /* if there's only one output left and we pass here, it's supposed to be the
+         * internal display or an output we want to reactivate anyway */
+        lvds = g_ptr_array_index (outputs, 0);
+    }
+    else
+    {
+        for (guint n = 0; n < outputs->len; n++)
         {
-            lvds = output;
-            break;
+            XfceWlrOutput *output = g_ptr_array_index (outputs, n);
+
+            /* try to find the internal display */
+            if (display_name_is_laptop_name (output->name))
+            {
+                lvds = output;
+                break;
+            }
         }
     }
 
@@ -457,12 +467,19 @@ manager_listener (XfceWlrOutputManager *manager,
        apply it if there's only one */
     if (outputs->len != helper->previous_n_outputs)
     {
-        const gchar *matching_profile = xfce_displays_helper_get_matching_profile (XFCE_DISPLAYS_HELPER (helper));
-        if (matching_profile != NULL)
+        gint mode = xfconf_channel_get_int (channel, AUTO_ENABLE_PROFILES, AUTO_ENABLE_PROFILES_DEFAULT);
+        if (mode == AUTO_ENABLE_PROFILES_ALWAYS
+            || (mode == AUTO_ENABLE_PROFILES_ON_CONNECT && outputs->len > helper->previous_n_outputs)
+            || (mode == AUTO_ENABLE_PROFILES_ON_DISCONNECT && outputs->len < helper->previous_n_outputs))
         {
-            xfce_displays_helper_wayland_channel_apply (XFCE_DISPLAYS_HELPER (helper), matching_profile);
-            helper->previous_n_outputs = outputs->len;
-            return;
+            gchar *matching_profile = xfce_displays_helper_get_matching_profile (XFCE_DISPLAYS_HELPER (helper));
+            if (matching_profile != NULL)
+            {
+                xfce_displays_helper_wayland_channel_apply (XFCE_DISPLAYS_HELPER (helper), matching_profile);
+                helper->previous_n_outputs = outputs->len;
+                g_free (matching_profile);
+                return;
+            }
         }
         xfconf_channel_set_string (channel, ACTIVE_PROFILE, DEFAULT_SCHEME_NAME);
     }
@@ -489,7 +506,7 @@ manager_listener (XfceWlrOutputManager *manager,
     }
     else
     {
-        gint action = xfconf_channel_get_int (channel, NOTIFY_PROP, ACTION_ON_NEW_OUTPUT_SHOW_DIALOG);
+        gint action = xfconf_channel_get_int (channel, NOTIFY_PROP, ACTION_ON_NEW_OUTPUT_DEFAULT);
         update_needed = TRUE;
 
         for (guint n = 0; n < outputs->len; n++)
@@ -518,9 +535,12 @@ manager_listener (XfceWlrOutputManager *manager,
             }
         }
 
-        /* start the minimal dialog according to the user preferences */
+        /* start the display dialog according to the user preferences */
         if (action == ACTION_ON_NEW_OUTPUT_SHOW_DIALOG)
-            xfce_spawn_command_line (NULL, "xfce4-display-settings -m", FALSE, FALSE, TRUE, NULL);
+        {
+            const gchar *cmd = outputs->len <= 2 ? "xfce4-display-settings -m" : "xfce4-display-settings";
+            xfce_spawn_command_line (NULL, cmd, FALSE, FALSE, TRUE, NULL);
+        }
     }
 
     if (update_needed)

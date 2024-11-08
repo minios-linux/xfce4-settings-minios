@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: xfce4-settings 4.19.1\n"
+"Project-Id-Version: xfce4-settings 4.19.1git-138226c6\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/xfce/xfce4-settings\n"
-"POT-Creation-Date: 2023-11-15 20:00+0100\n"
+"POT-Creation-Date: 2023-11-23 12:34+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -321,8 +321,8 @@ msgstr ""
 #: dialogs/mime-settings/main.c:84
 #: dialogs/mime-settings/xfce-mime-helper-main.c:157
 #: dialogs/mouse-settings/main.c:2082 xfce4-settings-editor/main.c:124
-#: xfce4-settings-manager/main.c:65 xfsettingsd/main.c:254
-#: xfsettingsd/main.c:292
+#: xfce4-settings-manager/main.c:65 xfsettingsd/main.c:260
+#: xfsettingsd/main.c:298
 #, c-format
 msgid "Type '%s --help' for usage."
 msgstr ""
@@ -332,7 +332,7 @@ msgstr ""
 #: dialogs/display-settings/main.c:3371 dialogs/keyboard-settings/main.c:94
 #: dialogs/mime-settings/main.c:103 dialogs/mouse-settings/main.c:2101
 #: xfce4-settings-editor/main.c:143 xfce4-settings-manager/main.c:81
-#: xfsettingsd/main.c:270
+#: xfsettingsd/main.c:276
 msgid "The Xfce development team. All rights reserved."
 msgstr ""
 
@@ -341,7 +341,7 @@ msgstr ""
 #: dialogs/display-settings/main.c:3372 dialogs/keyboard-settings/main.c:95
 #: dialogs/mime-settings/main.c:104 dialogs/mouse-settings/main.c:2102
 #: xfce4-settings-editor/main.c:144 xfce4-settings-manager/main.c:82
-#: xfsettingsd/main.c:271
+#: xfsettingsd/main.c:277
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr ""

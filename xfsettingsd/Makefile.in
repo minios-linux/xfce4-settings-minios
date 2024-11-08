@@ -94,8 +94,6 @@ bin_PROGRAMS = xfsettingsd$(EXEEXT)
 @ENABLE_X11_TRUE@am__append_1 = \
 @ENABLE_X11_TRUE@	accessibility.c \
 @ENABLE_X11_TRUE@	accessibility.h \
-@ENABLE_X11_TRUE@	clipboard-manager.c \
-@ENABLE_X11_TRUE@	clipboard-manager.h \
 @ENABLE_X11_TRUE@	keyboards.c \
 @ENABLE_X11_TRUE@	keyboards.h \
 @ENABLE_X11_TRUE@	keyboard-shortcuts.c \
@@ -220,7 +218,8 @@ am__uninstall_files_from_dir = { \
 LTLIBRARIES = $(module_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 libxfsettingsd_gtk_settings_sync_la_DEPENDENCIES =  \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 am_libxfsettingsd_gtk_settings_sync_la_OBJECTS =  \
 	libxfsettingsd_gtk_settings_sync_la-gtk-settings-module.lo
 libxfsettingsd_gtk_settings_sync_la_OBJECTS =  \
@@ -237,8 +236,7 @@ libxfsettingsd_gtk_settings_sync_la_LINK = $(LIBTOOL) $(AM_V_lt) \
 am__xfsettingsd_SOURCES_DIST = gtk-settings-exported.c \
 	gtk-settings-exported.h xsettings-properties.h main.c \
 	gtk-decorations.c gtk-decorations.h gtk-settings.c \
-	gtk-settings.h accessibility.c accessibility.h \
-	clipboard-manager.c clipboard-manager.h keyboards.c \
+	gtk-settings.h accessibility.c accessibility.h keyboards.c \
 	keyboards.h keyboard-shortcuts.c keyboard-shortcuts.h \
 	keyboard-layout.c keyboard-layout.h pointers.c pointers.h \
 	pointers-defines.h workspaces.c workspaces.h xsettings.c \
@@ -247,7 +245,6 @@ am__xfsettingsd_SOURCES_DIST = gtk-settings-exported.c \
 	displays-upower.c displays-upower.h
 am__objects_1 = xfsettingsd-gtk-settings-exported.$(OBJEXT)
 @ENABLE_X11_TRUE@am__objects_2 = xfsettingsd-accessibility.$(OBJEXT) \
-@ENABLE_X11_TRUE@	xfsettingsd-clipboard-manager.$(OBJEXT) \
 @ENABLE_X11_TRUE@	xfsettingsd-keyboards.$(OBJEXT) \
 @ENABLE_X11_TRUE@	xfsettingsd-keyboard-shortcuts.$(OBJEXT) \
 @ENABLE_X11_TRUE@	xfsettingsd-keyboard-layout.$(OBJEXT) \
@@ -276,9 +273,9 @@ xfsettingsd_OBJECTS = $(am_xfsettingsd_OBJECTS)
 xfsettingsd_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2) $(am__append_5) \
-	$(am__DEPENDENCIES_3) $(am__DEPENDENCIES_4) \
-	$(am__DEPENDENCIES_5)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_2) $(am__append_5) $(am__DEPENDENCIES_3) \
+	$(am__DEPENDENCIES_4) $(am__DEPENDENCIES_5)
 xfsettingsd_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(xfsettingsd_CFLAGS) \
 	$(CFLAGS) $(xfsettingsd_LDFLAGS) $(LDFLAGS) -o $@
@@ -299,7 +296,6 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = ./$(DEPDIR)/libxfsettingsd_gtk_settings_sync_la-gtk-settings-module.Plo \
 	./$(DEPDIR)/xfsettingsd-accessibility.Po \
-	./$(DEPDIR)/xfsettingsd-clipboard-manager.Po \
 	./$(DEPDIR)/xfsettingsd-displays-upower.Po \
 	./$(DEPDIR)/xfsettingsd-displays-wayland.Po \
 	./$(DEPDIR)/xfsettingsd-displays-x11.Po \
@@ -438,6 +434,10 @@ GMODULE_VERSION = @GMODULE_VERSION@
 GMSGFMT = @GMSGFMT@
 GMSGFMT_015 = @GMSGFMT_015@
 GREP = @GREP@
+GTHREAD_CFLAGS = @GTHREAD_CFLAGS@
+GTHREAD_LIBS = @GTHREAD_LIBS@
+GTHREAD_REQUIRED_VERSION = @GTHREAD_REQUIRED_VERSION@
+GTHREAD_VERSION = @GTHREAD_VERSION@
 GTK_CFLAGS = @GTK_CFLAGS@
 GTK_LAYER_SHELL_CFLAGS = @GTK_LAYER_SHELL_CFLAGS@
 GTK_LAYER_SHELL_LIBS = @GTK_LAYER_SHELL_LIBS@
@@ -666,7 +666,7 @@ xfsettingsd_LDFLAGS = \
 
 xfsettingsd_LDADD = $(GTK_LIBS) $(GLIB_LIBS) $(GTHREAD_LIBS) \
 	$(GIO_LIBS) $(GMODULE_LIBS) $(XFCONF_LIBS) \
-	$(LIBXFCE4UTIL_LIBS) $(LIBXFCE4UI_LIBS) -lm $(am__append_3) \
+	$(LIBXFCE4UTIL_LIBS) $(LIBXFCE4UI_LIBS) $(am__append_3) \
 	$(am__append_5) $(am__append_8) $(am__append_11) \
 	$(am__append_14)
 moduledir = $(libdir)/gtk-3.0/modules
@@ -677,6 +677,7 @@ libxfsettingsd_gtk_settings_sync_la_SOURCES = \
 	gtk-settings-module.c
 
 libxfsettingsd_gtk_settings_sync_la_CFLAGS = \
+	$(GMODULE_CFLAGS) \
 	$(GTK_CFLAGS) \
 	$(XFCONF_CFLAGS)
 
@@ -688,6 +689,7 @@ libxfsettingsd_gtk_settings_sync_la_LDFLAGS = \
 	$(PLATFORM_LDFLAGS)
 
 libxfsettingsd_gtk_settings_sync_la_LIBADD = \
+	$(GMODULE_LIBS) \
 	$(GTK_LIBS) \
 	$(XFCONF_LIBS)
 
@@ -842,7 +844,6 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libxfsettingsd_gtk_settings_sync_la-gtk-settings-module.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfsettingsd-accessibility.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfsettingsd-clipboard-manager.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfsettingsd-displays-upower.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfsettingsd-displays-wayland.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xfsettingsd-displays-x11.Po@am__quote@ # am--include-marker
@@ -961,20 +962,6 @@ xfsettingsd-accessibility.obj: accessibility.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='accessibility.c' object='xfsettingsd-accessibility.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -c -o xfsettingsd-accessibility.obj `if test -f 'accessibility.c'; then $(CYGPATH_W) 'accessibility.c'; else $(CYGPATH_W) '$(srcdir)/accessibility.c'; fi`
-
-xfsettingsd-clipboard-manager.o: clipboard-manager.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -MT xfsettingsd-clipboard-manager.o -MD -MP -MF $(DEPDIR)/xfsettingsd-clipboard-manager.Tpo -c -o xfsettingsd-clipboard-manager.o `test -f 'clipboard-manager.c' || echo '$(srcdir)/'`clipboard-manager.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfsettingsd-clipboard-manager.Tpo $(DEPDIR)/xfsettingsd-clipboard-manager.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='clipboard-manager.c' object='xfsettingsd-clipboard-manager.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -c -o xfsettingsd-clipboard-manager.o `test -f 'clipboard-manager.c' || echo '$(srcdir)/'`clipboard-manager.c
-
-xfsettingsd-clipboard-manager.obj: clipboard-manager.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -MT xfsettingsd-clipboard-manager.obj -MD -MP -MF $(DEPDIR)/xfsettingsd-clipboard-manager.Tpo -c -o xfsettingsd-clipboard-manager.obj `if test -f 'clipboard-manager.c'; then $(CYGPATH_W) 'clipboard-manager.c'; else $(CYGPATH_W) '$(srcdir)/clipboard-manager.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xfsettingsd-clipboard-manager.Tpo $(DEPDIR)/xfsettingsd-clipboard-manager.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='clipboard-manager.c' object='xfsettingsd-clipboard-manager.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -c -o xfsettingsd-clipboard-manager.obj `if test -f 'clipboard-manager.c'; then $(CYGPATH_W) 'clipboard-manager.c'; else $(CYGPATH_W) '$(srcdir)/clipboard-manager.c'; fi`
 
 xfsettingsd-keyboards.o: keyboards.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xfsettingsd_CFLAGS) $(CFLAGS) -MT xfsettingsd-keyboards.o -MD -MP -MF $(DEPDIR)/xfsettingsd-keyboards.Tpo -c -o xfsettingsd-keyboards.o `test -f 'keyboards.c' || echo '$(srcdir)/'`keyboards.c
@@ -1298,7 +1285,6 @@ clean-am: clean-binPROGRAMS clean-generic clean-libtool \
 distclean: distclean-am
 		-rm -f ./$(DEPDIR)/libxfsettingsd_gtk_settings_sync_la-gtk-settings-module.Plo
 	-rm -f ./$(DEPDIR)/xfsettingsd-accessibility.Po
-	-rm -f ./$(DEPDIR)/xfsettingsd-clipboard-manager.Po
 	-rm -f ./$(DEPDIR)/xfsettingsd-displays-upower.Po
 	-rm -f ./$(DEPDIR)/xfsettingsd-displays-wayland.Po
 	-rm -f ./$(DEPDIR)/xfsettingsd-displays-x11.Po
@@ -1361,7 +1347,6 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 		-rm -f ./$(DEPDIR)/libxfsettingsd_gtk_settings_sync_la-gtk-settings-module.Plo
 	-rm -f ./$(DEPDIR)/xfsettingsd-accessibility.Po
-	-rm -f ./$(DEPDIR)/xfsettingsd-clipboard-manager.Po
 	-rm -f ./$(DEPDIR)/xfsettingsd-displays-upower.Po
 	-rm -f ./$(DEPDIR)/xfsettingsd-displays-wayland.Po
 	-rm -f ./$(DEPDIR)/xfsettingsd-displays-x11.Po

@@ -340,6 +340,10 @@ GMODULE_VERSION = @GMODULE_VERSION@
 GMSGFMT = @GMSGFMT@
 GMSGFMT_015 = @GMSGFMT_015@
 GREP = @GREP@
+GTHREAD_CFLAGS = @GTHREAD_CFLAGS@
+GTHREAD_LIBS = @GTHREAD_LIBS@
+GTHREAD_REQUIRED_VERSION = @GTHREAD_REQUIRED_VERSION@
+GTHREAD_VERSION = @GTHREAD_VERSION@
 GTK_CFLAGS = @GTK_CFLAGS@
 GTK_LAYER_SHELL_CFLAGS = @GTK_LAYER_SHELL_CFLAGS@
 GTK_LAYER_SHELL_LIBS = @GTK_LAYER_SHELL_LIBS@
@@ -557,8 +561,8 @@ xfce4_display_settings_LDFLAGS = \
 
 xfce4_display_settings_LDADD =  \
 	$(top_builddir)/common/libxfce4-settings.la $(GLIB_LIBS) \
-	$(GTK_LIBS) $(LIBXFCE4UI_LIBS) $(XFCONF_LIBS) -lm \
-	$(am__append_3) $(am__append_6)
+	$(GTK_LIBS) $(LIBXFCE4UI_LIBS) $(XFCONF_LIBS) $(am__append_3) \
+	$(am__append_6)
 @MAINTAINER_MODE_TRUE@BUILT_SOURCES = \
 @MAINTAINER_MODE_TRUE@	confirmation-dialog_ui.h \
 @MAINTAINER_MODE_TRUE@	display-dialog_ui.h \
@@ -571,17 +575,23 @@ desktop_in_files = xfce-display-settings.desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 iconsdir = $(datadir)/icons/hicolor/128x128/devices
 icons_DATA = \
-	xfce-display-extend.png \
-	xfce-display-external.png \
-	xfce-display-internal.png \
+	xfce-display-extend-right.png \
+	xfce-display-extend-left.png \
+	xfce-display-extend-up.png \
+	xfce-display-extend-down.png \
+	xfce-display-right.png \
+	xfce-display-left.png \
 	xfce-display-mirror.png \
 	xfce-display-profile.png
 
 scalableiconsdir = $(datadir)/icons/hicolor/scalable/devices
 scalableicons_DATA = \
-	xfce-display-extend.svg \
-	xfce-display-external.svg \
-	xfce-display-internal.svg \
+	xfce-display-extend-right.svg \
+	xfce-display-extend-left.svg \
+	xfce-display-extend-up.svg \
+	xfce-display-extend-down.svg \
+	xfce-display-right.svg \
+	xfce-display-left.svg \
 	xfce-display-mirror.svg \
 	xfce-display-profile.svg
 

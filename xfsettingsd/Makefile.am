@@ -54,16 +54,13 @@ xfsettingsd_LDADD = \
 	$(GMODULE_LIBS) \
 	$(XFCONF_LIBS) \
 	$(LIBXFCE4UTIL_LIBS) \
-	$(LIBXFCE4UI_LIBS) \
-	-lm
+	$(LIBXFCE4UI_LIBS)
 
 if ENABLE_X11
 
 xfsettingsd_SOURCES += \
 	accessibility.c \
 	accessibility.h \
-	clipboard-manager.c \
-	clipboard-manager.h \
 	keyboards.c \
 	keyboards.h \
 	keyboard-shortcuts.c \
@@ -158,6 +155,7 @@ libxfsettingsd_gtk_settings_sync_la_SOURCES = \
 	gtk-settings-module.c
 
 libxfsettingsd_gtk_settings_sync_la_CFLAGS = \
+	$(GMODULE_CFLAGS) \
 	$(GTK_CFLAGS) \
 	$(XFCONF_CFLAGS)
 
@@ -169,6 +167,7 @@ libxfsettingsd_gtk_settings_sync_la_LDFLAGS = \
 	$(PLATFORM_LDFLAGS)
 
 libxfsettingsd_gtk_settings_sync_la_LIBADD = \
+	$(GMODULE_LIBS) \
 	$(GTK_LIBS) \
 	$(XFCONF_LIBS)
 

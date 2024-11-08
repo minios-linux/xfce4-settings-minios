@@ -18,39 +18,24 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
-#ifdef HAVE_STDLIB_H
-#include <stdlib.h>
-#endif
-#ifdef HAVE_STRING_H
-#include <string.h>
-#endif
-#ifdef HAVE_SYS_WAIT_H
-#include <sys/wait.h>
-#endif
+#include "appearance-dialog_ui.h"
 
-#include <unistd.h>
-#include <fcntl.h>
-
-#include <glib.h>
-#include <glib/gstdio.h>
-#include <gio/gio.h>
 #include <cairo-gobject.h>
+#include <gio/gio.h>
 #include <gtk/gtk.h>
+#include <libxfce4ui/libxfce4ui.h>
+#include <libxfce4util/libxfce4util.h>
+#include <xfconf/xfconf.h>
+
 #ifdef ENABLE_X11
 #include <gdk/gdkx.h>
 #include <gtk/gtkx.h>
 #endif
 
-#include <libxfce4ui/libxfce4ui.h>
-#include <libxfce4util/libxfce4util.h>
-#include <xfconf/xfconf.h>
-
-#include "appearance-dialog_ui.h"
-
-#define INCH_MM      25.4
+#define INCH_MM 25.4
 
 /* Use a fallback DPI of 96 which should be ok-ish on most systems
  * and is only applied on rare occasions */
@@ -76,35 +61,32 @@ enum
     N_RGBA_COLUMNS
 };
 
-enum {
-	COLOR_FG,
-	COLOR_BG,
-	COLOR_SELECTED_BG,
-	NUM_SYMBOLIC_COLORS
+enum
+{
+    COLOR_FG,
+    COLOR_BG,
+    COLOR_SELECTED_BG,
+    NUM_SYMBOLIC_COLORS
 };
 
-static const gchar* xft_hint_styles_array[] =
-{
+static const gchar *xft_hint_styles_array[] = {
     "hintnone", "hintslight", "hintmedium", "hintfull"
 };
 
-static const gchar* xft_rgba_array[] =
-{
+static const gchar *xft_rgba_array[] = {
     "none", "rgb", "bgr", "vrgb", "vbgr"
 };
 
-static const GtkTargetEntry theme_drop_targets[] =
-{
-  { "text/uri-list", 0, 0 }
+static const GtkTargetEntry theme_drop_targets[] = {
+    { "text/uri-list", 0, 0 }
 };
 
 /* Option entries */
 static gint opt_socket_id = 0;
 static gboolean opt_version = FALSE;
-static GOptionEntry option_entries[] =
-{
-    { "socket-id", 's', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_INT, &opt_socket_id, N_("Settings manager socket"), N_("SOCKET ID") },
-    { "version", 'v', 0, G_OPTION_ARG_NONE, &opt_version, N_("Version information"), NULL },
+static GOptionEntry option_entries[] = {
+    { "socket-id", 's', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_INT, &opt_socket_id, N_ ("Settings manager socket"), N_ ("SOCKET ID") },
+    { "version", 'v', 0, G_OPTION_ARG_NONE, &opt_version, N_ ("Version information"), NULL },
     { NULL }
 };
 
@@ -118,8 +100,38 @@ typedef struct
     GtkTreeView *tree_view;
 } preview_data;
 
+typedef struct
+{
+    gatomicrefcount ref_count;
 
-static void install_theme (GtkWidget *widget, gchar **uris, GtkBuilder *builder);
+    GCancellable *cancellable;
+
+    GtkListStore *list_store;
+    GtkTreeView *tree_view;
+
+    gchar *active_theme_name;
+    gint scale_factor;
+
+    GThreadPool *pool;
+    GSList *check_list;
+} icon_theme_preview_data;
+
+typedef struct
+{
+    icon_theme_preview_data *itpd;
+    gchar *icon_theme_name;
+    GtkTreeRowReference *row;
+    cairo_surface_t *preview;
+} icon_theme_theme_preview_data;
+
+
+static icon_theme_preview_data *icon_theme_preview_loading = NULL;
+
+
+static void
+install_theme (GtkWidget *widget,
+               gchar **uris,
+               GtkBuilder *builder);
 
 static preview_data *
 preview_data_new (GtkListStore *list_store,
@@ -154,6 +166,83 @@ preview_data_free (preview_data *pd)
     g_slice_free (preview_data, pd);
 }
 
+static icon_theme_preview_data *
+icon_theme_preview_data_new (GtkListStore *list_store,
+                             GtkTreeView *tree_view)
+{
+    icon_theme_preview_data *itpd;
+
+    g_return_val_if_fail (GTK_IS_LIST_STORE (list_store), NULL);
+    g_return_val_if_fail (GTK_IS_TREE_VIEW (tree_view), NULL);
+
+    if (icon_theme_preview_loading != NULL)
+    {
+        g_cancellable_cancel (icon_theme_preview_loading->cancellable);
+        icon_theme_preview_loading = NULL;
+    }
+
+    itpd = g_new0 (icon_theme_preview_data, 1);
+
+    g_atomic_ref_count_init (&itpd->ref_count);
+    itpd->cancellable = g_cancellable_new ();
+    itpd->list_store = list_store;
+    itpd->tree_view = tree_view;
+
+    g_object_ref (G_OBJECT (itpd->list_store));
+    g_object_ref (G_OBJECT (itpd->tree_view));
+
+    icon_theme_preview_loading = itpd;
+
+    return itpd;
+}
+
+static icon_theme_preview_data *
+icon_theme_preview_data_ref (icon_theme_preview_data *itpd)
+{
+    g_return_val_if_fail (itpd != NULL, NULL);
+
+    g_atomic_ref_count_inc (&itpd->ref_count);
+    return itpd;
+}
+
+static void
+icon_theme_preview_data_unref (icon_theme_preview_data *itpd)
+{
+    if (G_UNLIKELY (itpd == NULL))
+        return;
+
+    if (g_atomic_ref_count_dec (&itpd->ref_count))
+    {
+        if (icon_theme_preview_loading == itpd)
+        {
+            icon_theme_preview_loading = NULL;
+        }
+
+        g_object_unref (itpd->cancellable);
+        g_object_unref (G_OBJECT (itpd->list_store));
+        g_object_unref (G_OBJECT (itpd->tree_view));
+        g_free (itpd->active_theme_name);
+        g_thread_pool_free (itpd->pool, FALSE, FALSE);
+        g_slist_free_full (itpd->check_list, g_free);
+        g_free (itpd);
+    }
+}
+
+static void
+icon_theme_theme_preview_data_free (icon_theme_theme_preview_data *ittpd)
+{
+    g_free (ittpd->icon_theme_name);
+    gtk_tree_row_reference_free (ittpd->row);
+    if (ittpd->preview != NULL)
+    {
+        cairo_surface_destroy (ittpd->preview);
+    }
+    icon_theme_preview_data_unref (ittpd->itpd);
+    g_free (ittpd);
+}
+
+
+
 static int
 compute_xsettings_dpi (GtkWidget *widget)
 {
@@ -162,7 +251,7 @@ compute_xsettings_dpi (GtkWidget *widget)
     int width, height;
     int dpi;
 
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+    G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     screen = gtk_widget_get_screen (widget);
     width_mm = gdk_screen_get_width_mm (screen);
     height_mm = gdk_screen_get_height_mm (screen);
@@ -172,23 +261,23 @@ G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     {
         width = gdk_screen_get_width (screen);
         height = gdk_screen_get_height (screen);
-        dpi = MIN (INCH_MM * width  / width_mm,
+        dpi = MIN (INCH_MM * width / width_mm,
                    INCH_MM * height / height_mm);
     }
-G_GNUC_END_IGNORE_DEPRECATIONS
+    G_GNUC_END_IGNORE_DEPRECATIONS
 
     return dpi;
 }
 
 static void
 theme_selection_changed (GtkTreeSelection *selection,
-                         const gchar      *property)
+                         const gchar *property)
 {
     GtkTreeModel *model;
-    gboolean      has_selection;
-    gboolean      has_xfwm4;
-    gchar        *name;
-    GtkTreeIter   iter;
+    gboolean has_selection;
+    gboolean has_xfwm4;
+    gchar *name;
+    GtkTreeIter iter;
 
     /* Get the selected list iter */
     has_selection = gtk_tree_selection_get_selected (selection, &model, &iter);
@@ -204,7 +293,7 @@ theme_selection_changed (GtkTreeSelection *selection,
 
         /* Set the matching xfwm4 theme if the selected theme is not an icon theme,
          * the xfconf setting is on, and a matching theme is available */
-        if (xfconf_channel_get_bool (xsettings_channel, "/Xfce/SyncThemes", FALSE) == TRUE
+        if (xfconf_channel_get_bool (xsettings_channel, "/Xfce/SyncThemes", FALSE)
             && strcmp (property, "/Net/ThemeName") == 0)
         {
             if (!has_xfwm4)
@@ -237,21 +326,23 @@ cb_ui_theme_selection_changed (GtkTreeSelection *selection)
 static void
 cb_xfwm4_sync_label_link_activated (GtkLabel *label)
 {
-    gchar  *command;
+    gchar *command;
     GError *error = NULL;
 
     command = g_find_program_in_path ("xfwm4-settings");
     if (command != NULL && !g_spawn_command_line_async (command, &error))
     {
-         xfce_dialog_show_error (NULL, error, _("Failed to display Xfwm4 Settings"));
-         g_error_free (error);
+        xfce_dialog_show_error (NULL, error, _("Failed to display Xfwm4 Settings"));
+        g_error_free (error);
     }
 
     g_free (command);
 }
 
 static void
-cb_xfwm4_sync_switch_toggled (GObject *self, GParamSpec* pspec, gpointer user_data)
+cb_xfwm4_sync_switch_toggled (GObject *self,
+                              GParamSpec *pspec,
+                              gpointer user_data)
 {
     /* Set the new XFWM4 theme */
     if (gtk_switch_get_active (GTK_SWITCH (self)))
@@ -272,7 +363,6 @@ cb_window_scaling_factor_combo_changed (GtkComboBox *combo)
     /* Save setting */
     xfconf_channel_set_int (xsettings_channel, "/Gdk/WindowScalingFactor", active);
 }
-#endif
 
 static void
 cb_antialias_check_button_toggled (GtkToggleButton *toggle)
@@ -295,7 +385,7 @@ cb_hinting_style_combo_changed (GtkComboBox *combo)
     gint active;
 
     /* Get active item, prevent number outside the array (stay within zero-index) */
-    active = CLAMP (gtk_combo_box_get_active (combo), 0, (gint) G_N_ELEMENTS (xft_hint_styles_array)-1);
+    active = CLAMP (gtk_combo_box_get_active (combo), 0, (gint) G_N_ELEMENTS (xft_hint_styles_array) - 1);
 
     /* Save setting */
     xfconf_channel_set_string (xsettings_channel, "/Xft/HintStyle", xft_hint_styles_array[active]);
@@ -310,7 +400,7 @@ cb_rgba_style_combo_changed (GtkComboBox *combo)
     gint active;
 
     /* Get active item, prevent number outside the array (stay within zero-index) */
-    active = CLAMP (gtk_combo_box_get_active (combo), 0, (gint) G_N_ELEMENTS (xft_rgba_array)-1);
+    active = CLAMP (gtk_combo_box_get_active (combo), 0, (gint) G_N_ELEMENTS (xft_rgba_array) - 1);
 
     /* Save setting */
     xfconf_channel_set_string (xsettings_channel, "/Xft/RGBA", xft_rgba_array[active]);
@@ -318,7 +408,7 @@ cb_rgba_style_combo_changed (GtkComboBox *combo)
 
 static void
 cb_custom_dpi_check_button_toggled (GtkToggleButton *custom_dpi_toggle,
-                                    GtkSpinButton   *custom_dpi_spin)
+                                    GtkSpinButton *custom_dpi_spin)
 {
     gint dpi;
 
@@ -351,12 +441,12 @@ cb_custom_dpi_check_button_toggled (GtkToggleButton *custom_dpi_toggle,
 }
 
 static void
-cb_custom_dpi_spin_button_changed (GtkSpinButton   *custom_dpi_spin,
+cb_custom_dpi_spin_button_changed (GtkSpinButton *custom_dpi_spin,
                                    GtkToggleButton *custom_dpi_toggle)
 {
     gint dpi = gtk_spin_button_get_value_as_int (custom_dpi_spin);
 
-    if (gtk_widget_is_sensitive (GTK_WIDGET(custom_dpi_spin)) && gtk_toggle_button_get_active (custom_dpi_toggle))
+    if (gtk_widget_is_sensitive (GTK_WIDGET (custom_dpi_spin)) && gtk_toggle_button_get_active (custom_dpi_toggle))
     {
         /* Custom DPI is turned on and the spin button has changed, so remember the value */
         xfconf_channel_set_int (xsettings_channel, "/Xfce/LastCustomDPI", dpi);
@@ -365,10 +455,12 @@ cb_custom_dpi_spin_button_changed (GtkSpinButton   *custom_dpi_spin,
     /* Tell xfsettingsd to apply the custom DPI value */
     xfconf_channel_set_int (xsettings_channel, "/Xft/DPI", dpi);
 }
+#endif
 
 #ifdef ENABLE_SOUND_SETTINGS
 static void
-cb_enable_event_sounds_check_button_toggled (GtkToggleButton *toggle, GtkWidget *button)
+cb_enable_event_sounds_check_button_toggled (GtkToggleButton *toggle,
+                                             GtkWidget *button)
 {
     gboolean active;
 
@@ -378,190 +470,342 @@ cb_enable_event_sounds_check_button_toggled (GtkToggleButton *toggle, GtkWidget 
 }
 #endif
 
+static cairo_surface_t *
+create_preview_image_surface (gint scale_factor)
+{
+    cairo_surface_t *preview = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 44 * scale_factor, 44 * scale_factor);
+    cairo_surface_set_device_scale (preview, scale_factor, scale_factor);
+    return preview;
+}
+
+static gboolean
+assign_icon_theme_preview (gpointer data)
+{
+    icon_theme_theme_preview_data *ittpd = data;
+
+    if (!g_cancellable_is_cancelled (ittpd->itpd->cancellable))
+    {
+        GtkTreePath *tree_path = gtk_tree_row_reference_get_path (ittpd->row);
+        if (tree_path != NULL)
+        {
+            GtkTreeIter iter;
+            if (gtk_tree_model_get_iter (GTK_TREE_MODEL (ittpd->itpd->list_store), &iter, tree_path))
+            {
+                gtk_list_store_set (ittpd->itpd->list_store, &iter,
+                                    COLUMN_THEME_PREVIEW, ittpd->preview,
+                                    -1);
+            }
+
+            gtk_tree_path_free (tree_path);
+        }
+    }
+
+    return FALSE;
+}
+
+static void
+load_icon_theme_preview (gpointer data,
+                         gpointer user_data)
+{
+    static const struct
+    {
+        const gchar *icon_name;
+        int coords[2];
+    } preview_icons[] = {
+        { "folder", { 4, 4 } },
+        { "go-down", { 24, 4 } },
+        { "audio-volume-high", { 4, 24 } },
+        { "web-browser", { 24, 24 } },
+    };
+
+    icon_theme_theme_preview_data *ittpd = data;
+    icon_theme_preview_data *itpd = ittpd->itpd;
+
+    if (!g_cancellable_is_cancelled (itpd->cancellable))
+    {
+        GtkIconTheme *icon_theme;
+        cairo_t *cr;
+
+        icon_theme = gtk_icon_theme_new ();
+        gtk_icon_theme_set_custom_theme (icon_theme, ittpd->icon_theme_name);
+
+        ittpd->preview = create_preview_image_surface (itpd->scale_factor);
+        cr = cairo_create (ittpd->preview);
+
+        for (gsize p = 0; p < G_N_ELEMENTS (preview_icons); p++)
+        {
+            GdkPixbuf *icon = NULL;
+            if (gtk_icon_theme_has_icon (icon_theme, preview_icons[p].icon_name))
+                icon = gtk_icon_theme_load_icon_for_scale (icon_theme, preview_icons[p].icon_name, 16, itpd->scale_factor, GTK_ICON_LOOKUP_FORCE_SIZE, NULL);
+            else if (gtk_icon_theme_has_icon (icon_theme, "image-missing"))
+                icon = gtk_icon_theme_load_icon_for_scale (icon_theme, "image-missing", 16, itpd->scale_factor, GTK_ICON_LOOKUP_FORCE_SIZE, NULL);
+
+            if (icon)
+            {
+                cairo_save (cr);
+
+                cairo_translate (cr, preview_icons[p].coords[0], preview_icons[p].coords[1]);
+                cairo_scale (cr, 1.0 / itpd->scale_factor, 1.0 / itpd->scale_factor);
+
+                gdk_cairo_set_source_pixbuf (cr, icon, 0, 0);
+                cairo_paint (cr);
+
+                cairo_restore (cr);
+                g_object_unref (icon);
+            }
+        }
+
+        cairo_destroy (cr);
+        g_object_unref (icon_theme);
+    }
+
+    // NB: even if we're cancelled, we'd prefer the freeing/unreffing of the
+    // preview data to happen on the main thread, so we'll still push an idle
+    // function and free the data there.
+    g_idle_add_full (G_PRIORITY_DEFAULT,
+                     assign_icon_theme_preview,
+                     ittpd,
+                     (GDestroyNotify) icon_theme_theme_preview_data_free);
+}
+
+static void
+handle_icon_theme (icon_theme_preview_data *itpd,
+                   GFile *icon_theme_path)
+{
+    /* Build filename for the index.theme of the current icon theme directory */
+    gchar *index_filename = g_build_filename (g_file_peek_path (icon_theme_path), "index.theme", NULL);
+
+    /* Try to open the theme index file */
+    XfceRc *index_file = xfce_rc_simple_open (index_filename, TRUE);
+
+    gchar *file = g_file_get_basename (icon_theme_path);
+
+    if (index_file != NULL
+        && g_slist_find_custom (itpd->check_list, file, (GCompareFunc) g_utf8_collate) == NULL)
+    {
+        /* Set the icon theme group */
+        xfce_rc_set_group (index_file, "Icon Theme");
+
+        /* Check if the icon theme is valid and visible to the user */
+        if (G_LIKELY (xfce_rc_has_entry (index_file, "Directories")
+                      && !xfce_rc_read_bool_entry (index_file, "Hidden", FALSE)))
+        {
+            GError *error = NULL;
+            gchar *warning_tooltip = NULL;
+            cairo_surface_t *preview;
+            const gchar *theme_name;
+            const gchar *theme_comment;
+            gchar *name_escaped;
+            gchar *comment_escaped;
+            gchar *visible_name;
+            gchar *cache_filename;
+            GtkTreeIter iter;
+            GtkTreePath *tree_path;
+            icon_theme_theme_preview_data *ittpd;
+
+            /* Insert the theme in the check list */
+            itpd->check_list = g_slist_prepend (itpd->check_list, g_strdup (file));
+
+            /* Create the icon-theme preview (blank placeholder) */
+            preview = create_preview_image_surface (itpd->scale_factor);
+
+            /* Get translated icon theme name and comment */
+            theme_name = xfce_rc_read_entry (index_file, "Name", file);
+            theme_comment = xfce_rc_read_entry (index_file, "Comment", NULL);
+
+            /* Escape the theme's name and comment, since they are markup, not text */
+            name_escaped = g_markup_escape_text (theme_name, -1);
+            comment_escaped = theme_comment ? g_markup_escape_text (theme_comment, -1) : NULL;
+            visible_name = g_strdup_printf ("<b>%s</b>\n%s", name_escaped, comment_escaped);
+            g_free (name_escaped);
+            g_free (comment_escaped);
+
+            /* Cache filename */
+            cache_filename = g_build_filename (g_file_peek_path (icon_theme_path), "icon-theme.cache", NULL);
+
+            if (!g_file_test (cache_filename, G_FILE_TEST_IS_REGULAR))
+            {
+                /* If the theme has no cache, mention this in the tooltip */
+                warning_tooltip = g_strdup_printf (_("Warning: this icon theme has no cache file. You can create this by "
+                                                     "running <i>gtk-update-icon-cache -f -t %s/</i> in a terminal emulator."),
+                                                   g_file_peek_path (icon_theme_path));
+            }
+            else if (g_strcmp0 (file, "Adwaita") == 0 || g_strcmp0 (file, "HighContrast") == 0)
+            {
+                /* If the theme is known to be incomplete (does not follow fd.org standards), mention this in the tooltip */
+                warning_tooltip = g_strdup (_("Warning: this icon theme is incomplete. Some icons will be missing."));
+            }
+            else if (g_strcmp0 (file, "gnome") == 0 || g_strcmp0 (file, "hicolor") == 0)
+            {
+                /* These actually are no full themes by purpose */
+                warning_tooltip = g_strdup (_("Warning: this icon theme is incomplete. It only provides a base set of icons from which other themes can inherit."));
+            }
+
+            g_free (cache_filename);
+
+            /* Append icon theme to the list store */
+            gtk_list_store_append (itpd->list_store, &iter);
+            gtk_list_store_set (itpd->list_store, &iter,
+                                COLUMN_THEME_PREVIEW, preview,
+                                COLUMN_THEME_NAME, file,
+                                COLUMN_THEME_DISPLAY_NAME, visible_name,
+                                COLUMN_THEME_WARNING, warning_tooltip != NULL,
+                                COLUMN_THEME_COMMENT, warning_tooltip,
+                                -1);
+            tree_path = gtk_tree_model_get_path (GTK_TREE_MODEL (itpd->list_store), &iter);
+
+            /* Check if this is the active theme, if so, select it */
+            if (G_UNLIKELY (g_utf8_collate (file, itpd->active_theme_name) == 0))
+            {
+                gtk_tree_selection_select_path (gtk_tree_view_get_selection (itpd->tree_view), tree_path);
+                gtk_tree_view_scroll_to_cell (itpd->tree_view, tree_path, NULL, TRUE, 0.5, 0);
+            }
+
+            cairo_surface_destroy (preview);
+
+            ittpd = g_new0 (icon_theme_theme_preview_data, 1);
+            ittpd->itpd = icon_theme_preview_data_ref (itpd);
+            ittpd->icon_theme_name = g_strdup (file);
+            ittpd->row = gtk_tree_row_reference_new (GTK_TREE_MODEL (itpd->list_store), tree_path);
+
+            g_thread_pool_push (itpd->pool, ittpd, &error);
+            if (error != NULL)
+            {
+                g_message ("Failed to push loading for icon theme '%s' onto thread pool: %s", file, error->message);
+                g_error_free (error);
+                icon_theme_theme_preview_data_free (ittpd);
+            }
+
+            gtk_tree_path_free (tree_path);
+            g_free (visible_name);
+            g_free (warning_tooltip);
+        }
+    }
+
+    if (index_file != NULL)
+    {
+        xfce_rc_close (index_file);
+    }
+    g_free (file);
+    g_free (index_filename);
+}
+
+static void
+icon_theme_root_path_files_ready (GObject *source,
+                                  GAsyncResult *res,
+                                  gpointer user_data)
+{
+    icon_theme_preview_data *itpd = user_data;
+    GFileEnumerator *enumerator = G_FILE_ENUMERATOR (source);
+    GError *error = NULL;
+    GList *file_infos = g_file_enumerator_next_files_finish (enumerator, res, &error);
+    if (error != NULL)
+    {
+        GFile *parent = g_file_enumerator_get_container (enumerator);
+        g_message ("Failed to read list of files from icon themes root: '%s': %s", g_file_peek_path (parent), error->message);
+        g_error_free (error);
+        g_object_unref (enumerator);
+        icon_theme_preview_data_unref (itpd);
+    }
+    else if (file_infos == NULL)
+    {
+        g_object_unref (enumerator);
+        icon_theme_preview_data_unref (itpd);
+    }
+    else
+    {
+        for (GList *l = file_infos; l != NULL; l = l->next)
+        {
+            GFileInfo *file_info = G_FILE_INFO (l->data);
+            GFile *file = g_file_enumerator_get_child (enumerator, file_info);
+            handle_icon_theme (itpd, file);
+            g_object_unref (file);
+        }
+
+        g_list_free_full (file_infos, g_object_unref);
+
+        // NB: don't re-ref itpd here; we'll "maintain" the ref that _enumerate_ready() took.
+        g_file_enumerator_next_files_async (enumerator,
+                                            20,
+                                            G_PRIORITY_LOW,
+                                            itpd->cancellable,
+                                            icon_theme_root_path_files_ready,
+                                            itpd);
+    }
+}
+
+static void
+icon_theme_root_path_enumerate_ready (GObject *source,
+                                      GAsyncResult *res,
+                                      gpointer user_data)
+{
+    icon_theme_preview_data *itpd = user_data;
+    GFile *path = G_FILE (source);
+    GError *error = NULL;
+    GFileEnumerator *enumerator = g_file_enumerate_children_finish (path, res, &error);
+    if (enumerator == NULL)
+    {
+        if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND))
+        {
+            g_message ("Failed to enumerate icon themes root '%s': %s", g_file_peek_path (path), error->message);
+        }
+        g_error_free (error);
+    }
+    else
+    {
+        g_file_enumerator_next_files_async (enumerator,
+                                            20,
+                                            G_PRIORITY_LOW,
+                                            itpd->cancellable,
+                                            icon_theme_root_path_files_ready,
+                                            icon_theme_preview_data_ref (itpd));
+    }
+
+    g_object_unref (path);
+    icon_theme_preview_data_unref (itpd);
+}
+
+
 static gboolean
 appearance_settings_load_icon_themes (gpointer user_data)
 {
-    preview_data *pd = user_data;
-    GtkListStore *list_store;
-    GtkTreeView  *tree_view;
-    GDir         *dir;
-    GtkTreePath  *tree_path;
-    GtkTreeIter   iter;
-    XfceRc       *index_file;
-    const gchar  *file;
-    gchar       **icon_theme_dirs;
-    gchar        *index_filename;
-    const gchar  *theme_name;
-    const gchar  *theme_comment;
-    gchar        *name_escaped;
-    gchar        *comment_escaped;
-    gchar        *visible_name;
-    gchar        *active_theme_name;
-    gsize         i;
-    gsize         p;
-    GSList       *check_list = NULL;
-    gchar        *cache_filename;
-    gboolean      has_cache;
-    gchar        *cache_tooltip;
-    GtkIconTheme *icon_theme;
-    cairo_surface_t *preview;
-    cairo_t      *cr;
-    GdkPixbuf    *icon;
-    gchar*        preview_icons[4] = { "folder", "go-down", "audio-volume-high", "web-browser" };
-    int           coords[4][2] = { { 4, 4 }, { 24, 4 }, { 4, 24 }, { 24, 24 } };
-    gint          scale_factor;
+    icon_theme_preview_data *itpd = user_data;
+    gchar **icon_theme_dirs;
+    gsize i;
+    GError *error = NULL;
 
-    g_return_val_if_fail (pd != NULL, FALSE);
+    g_return_val_if_fail (itpd != NULL, FALSE);
 
-    list_store = pd->list_store;
-    tree_view = pd->tree_view;
-    scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (tree_view));
+    itpd->scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (itpd->tree_view));
 
     /* Determine current theme */
-    active_theme_name = xfconf_channel_get_string (xsettings_channel, "/Net/IconThemeName", "Rodent");
+    itpd->active_theme_name = xfconf_channel_get_string (xsettings_channel, "/Net/IconThemeName", "Rodent");
 
     /* Determine directories to look in for icon themes */
     xfce_resource_push_path (XFCE_RESOURCE_ICONS, DATADIR G_DIR_SEPARATOR_S "icons");
     icon_theme_dirs = xfce_resource_dirs (XFCE_RESOURCE_ICONS);
     xfce_resource_pop_path (XFCE_RESOURCE_ICONS);
 
-    /* Iterate over all base directories */
-    for (i = 0; icon_theme_dirs[i] != NULL; ++i)
+    itpd->pool = g_thread_pool_new (load_icon_theme_preview, NULL, 1, TRUE, &error);
+    if (itpd->pool == NULL)
     {
-        /* Open directory handle */
-        dir = g_dir_open (icon_theme_dirs[i], 0, NULL);
-
-        /* Try next base directory if this one cannot be read */
-        if (G_UNLIKELY (dir == NULL))
-            continue;
-
-        /* Iterate over filenames in the directory */
-        while ((file = g_dir_read_name (dir)) != NULL)
-        {
-            /* Build filename for the index.theme of the current icon theme directory */
-            index_filename = g_build_filename (icon_theme_dirs[i], file, "index.theme", NULL);
-
-            /* Try to open the theme index file */
-            index_file = xfce_rc_simple_open (index_filename, TRUE);
-
-            if (index_file != NULL
-                && g_slist_find_custom (check_list, file, (GCompareFunc) g_utf8_collate) == NULL)
-            {
-                /* Set the icon theme group */
-                xfce_rc_set_group (index_file, "Icon Theme");
-
-                /* Check if the icon theme is valid and visible to the user */
-                if (G_LIKELY (xfce_rc_has_entry (index_file, "Directories")
-                              && !xfce_rc_read_bool_entry (index_file, "Hidden", FALSE)))
-                {
-                    /* Insert the theme in the check list */
-                    check_list = g_slist_prepend (check_list, g_strdup (file));
-
-                    /* Create the icon-theme preview */
-                    preview = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 44 * scale_factor, 44 * scale_factor);
-                    cairo_surface_set_device_scale (preview, scale_factor, scale_factor);
-                    cr = cairo_create (preview);
-
-                    icon_theme = gtk_icon_theme_new ();
-                    gtk_icon_theme_set_custom_theme (icon_theme, file);
-
-                    for (p = 0; p < 4; p++)
-                    {
-                        icon = NULL;
-                        if (gtk_icon_theme_has_icon (icon_theme, preview_icons[p]))
-                            icon = gtk_icon_theme_load_icon_for_scale (icon_theme, preview_icons[p], 16, scale_factor, GTK_ICON_LOOKUP_FORCE_SIZE, NULL);
-                        else if (gtk_icon_theme_has_icon (icon_theme, "image-missing"))
-                            icon = gtk_icon_theme_load_icon_for_scale (icon_theme, "image-missing", 16, scale_factor, GTK_ICON_LOOKUP_FORCE_SIZE, NULL);
-
-                        if (icon)
-                        {
-                            cairo_save (cr);
-
-                            cairo_translate (cr, coords[p][0], coords[p][1]);
-                            cairo_scale (cr, 1.0 / scale_factor, 1.0 / scale_factor);
-
-                            gdk_cairo_set_source_pixbuf (cr, icon, 0, 0);
-                            cairo_paint (cr);
-
-                            cairo_restore (cr);
-                            g_object_unref (icon);
-                        }
-                    }
-
-                    cairo_destroy (cr);
-
-                    /* Get translated icon theme name and comment */
-                    theme_name = xfce_rc_read_entry (index_file, "Name", file);
-                    theme_comment = xfce_rc_read_entry (index_file, "Comment", NULL);
-
-                    /* Escape the theme's name and comment, since they are markup, not text */
-                    name_escaped = g_markup_escape_text (theme_name, -1);
-                    comment_escaped = theme_comment ? g_markup_escape_text (theme_comment, -1) : NULL;
-                    visible_name = g_strdup_printf ("<b>%s</b>\n%s", name_escaped, comment_escaped);
-                    g_free (name_escaped);
-                    g_free (comment_escaped);
-
-                    /* Cache filename */
-                    cache_filename = g_build_filename (icon_theme_dirs[i], file, "icon-theme.cache", NULL);
-                    has_cache = g_file_test (cache_filename, G_FILE_TEST_IS_REGULAR);
-                    g_free (cache_filename);
-
-                    /* If the theme has no cache, mention this in the tooltip */
-                    if (!has_cache)
-                        cache_tooltip = g_strdup_printf (_("Warning: this icon theme has no cache file. You can create this by "
-                                                           "running <i>gtk-update-icon-cache %s/%s/</i> in a terminal emulator."),
-                                                         icon_theme_dirs[i], file);
-                    else
-                        cache_tooltip = NULL;
-
-                    /* Append icon theme to the list store */
-                    gtk_list_store_append (list_store, &iter);
-                    gtk_list_store_set (list_store, &iter,
-                                        COLUMN_THEME_PREVIEW, preview,
-                                        COLUMN_THEME_NAME, file,
-                                        COLUMN_THEME_DISPLAY_NAME, visible_name,
-                                        COLUMN_THEME_WARNING, !has_cache,
-                                        COLUMN_THEME_COMMENT, cache_tooltip,
-                                        -1);
-
-                    /* Check if this is the active theme, if so, select it */
-                    if (G_UNLIKELY (g_utf8_collate (file, active_theme_name) == 0))
-                    {
-                        tree_path = gtk_tree_model_get_path (GTK_TREE_MODEL (list_store), &iter);
-                        gtk_tree_selection_select_path (gtk_tree_view_get_selection (tree_view), tree_path);
-                        gtk_tree_view_scroll_to_cell (tree_view, tree_path, NULL, TRUE, 0.5, 0);
-                        gtk_tree_path_free (tree_path);
-                    }
-
-                    g_object_unref (icon_theme);
-                    cairo_surface_destroy (preview);
-                }
-            }
-
-            /* Close theme index file */
-            if (G_LIKELY (index_file))
-                xfce_rc_close (index_file);
-
-            /* Free theme index filename */
-            g_free (index_filename);
-        }
-
-        /* Close directory handle */
-        g_dir_close (dir);
+        g_error ("Failed to start thread pool for icon theme loading: %s", error->message);
     }
 
-    /* Free active theme name */
-    g_free (active_theme_name);
+    for (i = 0; icon_theme_dirs[i] != NULL; ++i)
+    {
+        GFile *path = g_file_new_for_path (icon_theme_dirs[i]);
+        g_file_enumerate_children_async (path,
+                                         "standard::",
+                                         G_FILE_QUERY_INFO_NONE,
+                                         G_PRIORITY_LOW,
+                                         itpd->cancellable,
+                                         icon_theme_root_path_enumerate_ready,
+                                         icon_theme_preview_data_ref (itpd));
+    }
 
     /* Free list of base directories */
     g_strfreev (icon_theme_dirs);
-
-    /* Free the check list */
-    if (G_LIKELY (check_list))
-    {
-        g_slist_foreach (check_list, (GFunc) (void (*)(void)) g_free, NULL);
-        g_slist_free (check_list);
-    }
 
     return FALSE;
 }
@@ -571,28 +815,28 @@ appearance_settings_load_ui_themes (gpointer user_data)
 {
     preview_data *pd = user_data;
     GtkListStore *list_store;
-    GtkTreeView  *tree_view;
-    GDir         *dir;
-    GtkTreePath  *tree_path;
-    GtkTreeIter   iter;
-    XfceRc       *index_file;
-    const gchar  *file;
-    gchar       **ui_theme_dirs;
-    gchar        *index_filename;
-    const gchar  *theme_name;
-    const gchar  *theme_comment;
-    gchar        *active_theme_name;
-    gchar        *gtkrc_filename;
-    gchar        *gtkcss_filename;
-    gchar        *xfwm4_filename;
-    gchar        *notifyd_filename;
-    gchar        *theme_name_markup;
-    gchar        *comment_escaped;
-    gint          i;
-    GSList       *check_list = NULL;
-    gboolean      has_gtk2;
-    gboolean      has_xfwm4;
-    gboolean      has_notifyd;
+    GtkTreeView *tree_view;
+    GDir *dir;
+    GtkTreePath *tree_path;
+    GtkTreeIter iter;
+    XfceRc *index_file;
+    const gchar *file;
+    gchar **ui_theme_dirs;
+    gchar *index_filename;
+    const gchar *theme_name;
+    const gchar *theme_comment;
+    gchar *active_theme_name;
+    gchar *gtkrc_filename;
+    gchar *gtkcss_filename;
+    gchar *xfwm4_filename;
+    gchar *notifyd_filename;
+    gchar *theme_name_markup;
+    gchar *comment_escaped;
+    gint i;
+    GSList *check_list = NULL;
+    gboolean has_gtk2;
+    gboolean has_xfwm4;
+    gboolean has_notifyd;
 
     list_store = pd->list_store;
     tree_view = pd->tree_view;
@@ -669,11 +913,23 @@ appearance_settings_load_ui_themes (gpointer user_data)
                 theme_name_markup = g_strdup_printf ("<b>%s</b>\nGtk3", theme_name);
 
                 if (has_gtk2)
-                    theme_name_markup = g_strconcat (theme_name_markup, ", Gtk2", NULL);
+                {
+                    gchar *temp = g_strconcat (theme_name_markup, ", Gtk2", NULL);
+                    g_free (theme_name_markup);
+                    theme_name_markup = temp;
+                }
                 if (has_xfwm4)
-                    theme_name_markup = g_strconcat (theme_name_markup, ", Xfwm4", NULL);
+                {
+                    gchar *temp = g_strconcat (theme_name_markup, ", Xfwm4", NULL);
+                    g_free (theme_name_markup);
+                    theme_name_markup = temp;
+                }
                 if (has_notifyd)
-                    theme_name_markup = g_strconcat (theme_name_markup, ", Xfce4-notifyd", NULL);
+                {
+                    gchar *temp = g_strconcat (theme_name_markup, ", Xfce4-notifyd", NULL);
+                    g_free (theme_name_markup);
+                    theme_name_markup = temp;
+                }
 
                 /* Append ui theme to the list store */
                 gtk_list_store_append (list_store, &iter);
@@ -720,25 +976,21 @@ appearance_settings_load_ui_themes (gpointer user_data)
     g_strfreev (ui_theme_dirs);
 
     /* Free the check list */
-    if (G_LIKELY (check_list))
-    {
-        g_slist_foreach (check_list, (GFunc) (void (*)(void)) g_free, NULL);
-        g_slist_free (check_list);
-    }
+    g_slist_free_full (check_list, g_free);
 
     return FALSE;
 }
 
 static void
 appearance_settings_dialog_channel_property_changed (XfconfChannel *channel,
-                                                     const gchar   *property_name,
-                                                     const GValue  *value,
-                                                     GtkBuilder    *builder)
+                                                     const gchar *property_name,
+                                                     const GValue *value,
+                                                     GtkBuilder *builder)
 {
-    GObject      *object;
-    gchar        *str;
-    guint         i;
-    gint          antialias, dpi, custom_dpi;
+    GObject *object;
+    gchar *str;
+    guint i;
+    gint antialias, dpi, custom_dpi;
     GtkTreeModel *model;
 
     g_return_if_fail (property_name != NULL);
@@ -852,7 +1104,7 @@ appearance_settings_dialog_channel_property_changed (XfconfChannel *channel,
             GSettingsSchema *schema;
             g_object_get (desktop_interface_gsettings, "settings-schema", &schema, NULL);
             if (g_settings_schema_has_key (schema, "color-scheme"))
-              {
+            {
                 str = xfconf_channel_get_string (channel, property_name, NULL);
                 if (str != NULL)
                 {
@@ -866,14 +1118,14 @@ appearance_settings_dialog_channel_property_changed (XfconfChannel *channel,
                 }
                 else
                     g_settings_reset (desktop_interface_gsettings, "color-scheme");
-              }
+            }
             g_settings_schema_unref (schema);
         }
     }
     else if (strcmp (property_name, "/Net/IconThemeName") == 0)
     {
         GtkTreeIter iter;
-        gboolean    reload;
+        gboolean reload;
 
         reload = TRUE;
 
@@ -900,15 +1152,15 @@ appearance_settings_dialog_channel_property_changed (XfconfChannel *channel,
 
         if (reload)
         {
-            preview_data *pd;
+            icon_theme_preview_data *itpd;
 
             gtk_list_store_clear (GTK_LIST_STORE (model));
-            pd = preview_data_new (GTK_LIST_STORE (model), GTK_TREE_VIEW (object));
-            if (pd)
+            itpd = icon_theme_preview_data_new (GTK_LIST_STORE (model), GTK_TREE_VIEW (object));
+            if (itpd)
                 g_idle_add_full (G_PRIORITY_DEFAULT_IDLE,
                                  appearance_settings_load_icon_themes,
-                                 pd,
-                                 (GDestroyNotify) preview_data_free);
+                                 itpd,
+                                 (GDestroyNotify) icon_theme_preview_data_unref);
         }
     }
     else if (strcmp (property_name, "/Gtk/MonospaceFontName") == 0)
@@ -924,16 +1176,16 @@ appearance_settings_dialog_channel_property_changed (XfconfChannel *channel,
 }
 
 static void
-cb_theme_uri_dropped (GtkWidget        *widget,
-                      GdkDragContext   *drag_context,
-                      gint              x,
-                      gint              y,
+cb_theme_uri_dropped (GtkWidget *widget,
+                      GdkDragContext *drag_context,
+                      gint x,
+                      gint y,
                       GtkSelectionData *data,
-                      guint             info,
-                      guint             timestamp,
-                      GtkBuilder       *builder)
+                      guint info,
+                      guint timestamp,
+                      GtkBuilder *builder)
 {
-    gchar        **uris;
+    gchar **uris;
 
     uris = gtk_selection_data_get_uris (data);
 
@@ -944,28 +1196,35 @@ cb_theme_uri_dropped (GtkWidget        *widget,
 }
 
 static void
-install_theme (GtkWidget *widget, gchar **uris, GtkBuilder *builder)
+install_theme (GtkWidget *widget,
+               gchar **uris,
+               GtkBuilder *builder)
 {
-    gchar         *argv[3];
-    guint          i;
-    GError        *error = NULL;
-    gint           status;
-    GtkWidget     *toplevel = gtk_widget_get_toplevel (widget);
-    gchar         *filename;
-    GdkCursor     *cursor;
-    GdkWindow     *gdkwindow;
-    gboolean       something_installed = FALSE;
-    GObject       *object;
-    GtkTreeModel  *model;
-    preview_data  *pd;
+    gchar *argv[3];
+    guint i;
+    GError *error = NULL;
+    gint status;
+    GtkWidget *toplevel = gtk_widget_get_toplevel (widget);
+    gchar *filename;
+    GdkCursor *cursor;
+    GdkWindow *gdkwindow;
+    gboolean something_installed = FALSE;
+    GObject *object;
+    GtkTreeModel *model;
+    preview_data *pd;
+    icon_theme_preview_data *itpd;
 
     argv[0] = HELPERDIR G_DIR_SEPARATOR_S "appearance-install-theme";
     argv[2] = NULL;
 
     /* inform the user we are installing the theme */
     gdkwindow = gtk_widget_get_window (widget);
-    cursor = gdk_cursor_new_for_display (gtk_widget_get_display (widget), GDK_WATCH);
-    gdk_window_set_cursor (gdkwindow, cursor);
+    cursor = gdk_cursor_new_from_name (gtk_widget_get_display (widget), "wait");
+    if (cursor != NULL)
+    {
+        gdk_window_set_cursor (gdkwindow, cursor);
+        g_object_unref (cursor);
+    }
 
     /* iterate main loop to show cursor */
     while (gtk_events_pending ())
@@ -986,32 +1245,32 @@ install_theme (GtkWidget *widget, gchar **uris, GtkBuilder *builder)
             {
                 case 2:
                     g_set_error (&error, G_SPAWN_ERROR, 0,
-                        _("File is too large, installation aborted"));
+                                 _("File is too large, installation aborted"));
                     break;
 
                 case 3:
                     g_set_error_literal (&error, G_SPAWN_ERROR, 0,
-                        _("Failed to create temporary directory"));
+                                         _("Failed to create temporary directory"));
                     break;
 
                 case 4:
                     g_set_error_literal (&error, G_SPAWN_ERROR, 0,
-                        _("Failed to extract archive"));
+                                         _("Failed to extract archive"));
                     break;
 
                 case 5:
                     g_set_error_literal (&error, G_SPAWN_ERROR, 0,
-                        _("Unknown format, only archives and directories are supported"));
+                                         _("Unknown format, only archives and directories are supported"));
                     break;
 
                 case 6:
                     g_set_error_literal (&error, G_SPAWN_ERROR, 0,
-                        _("Not a valid theme package"));
+                                         _("Not a valid theme package"));
                     break;
 
                 default:
                     g_set_error (&error, G_SPAWN_ERROR,
-                        0, _("An unknown error, exit code is %d"), WEXITSTATUS (status));
+                                 0, _("An unknown error, exit code is %d"), WEXITSTATUS (status));
                     break;
             }
         }
@@ -1031,7 +1290,6 @@ install_theme (GtkWidget *widget, gchar **uris, GtkBuilder *builder)
 
     g_strfreev (uris);
     gdk_window_set_cursor (gdkwindow, NULL);
-    g_object_unref (cursor);
 
     if (something_installed)
     {
@@ -1039,12 +1297,12 @@ install_theme (GtkWidget *widget, gchar **uris, GtkBuilder *builder)
         object = gtk_builder_get_object (builder, "icon_theme_treeview");
         model = gtk_tree_view_get_model (GTK_TREE_VIEW (object));
         gtk_list_store_clear (GTK_LIST_STORE (model));
-        pd = preview_data_new (GTK_LIST_STORE (model), GTK_TREE_VIEW (object));
-        if (pd)
+        itpd = icon_theme_preview_data_new (GTK_LIST_STORE (model), GTK_TREE_VIEW (object));
+        if (itpd)
             g_idle_add_full (G_PRIORITY_DEFAULT_IDLE,
                              appearance_settings_load_icon_themes,
-                             pd,
-                             (GDestroyNotify) preview_data_free);
+                             itpd,
+                             (GDestroyNotify) icon_theme_preview_data_unref);
 
         /* reload gtk theme treeview */
         object = gtk_builder_get_object (builder, "gtk_theme_treeview");
@@ -1060,7 +1318,8 @@ install_theme (GtkWidget *widget, gchar **uris, GtkBuilder *builder)
 }
 
 static void
-appearance_settings_install_theme_cb (GtkButton *widget, GtkBuilder *builder)
+appearance_settings_install_theme_cb (GtkButton *widget,
+                                      GtkBuilder *builder)
 {
     GtkWidget *window;
     GtkWidget *dialog;
@@ -1073,14 +1332,10 @@ appearance_settings_install_theme_cb (GtkButton *widget, GtkBuilder *builder)
     window = gtk_widget_get_toplevel (GTK_WIDGET (widget));
     g_object_get (G_OBJECT (widget), "name", &theme, NULL);
     title = g_strdup_printf (_("Install %s theme"), theme);
-    dialog = gtk_file_chooser_dialog_new (title,
-                                          GTK_WINDOW (window),
-                                          action,
-                                          _("_Cancel"),
-                                          GTK_RESPONSE_CANCEL,
-                                          _("_Open"),
-                                          GTK_RESPONSE_ACCEPT,
-                                          NULL);
+    dialog = gtk_file_chooser_dialog_new (title, GTK_WINDOW (window),
+                                          action, _("_Cancel"),
+                                          GTK_RESPONSE_CANCEL, _("_Open"),
+                                          GTK_RESPONSE_ACCEPT, NULL);
     filter = gtk_file_filter_new ();
     gtk_file_filter_add_pattern (filter, "*.tar*");
     gtk_file_filter_add_pattern (filter, "*.zip");
@@ -1106,16 +1361,17 @@ appearance_settings_install_theme_cb (GtkButton *widget, GtkBuilder *builder)
     g_free (theme);
 }
 
+#ifdef ENABLE_X11
 static cairo_surface_t *
 appearance_settings_draw_subpixel_icon (gboolean is_rgb,
                                         gboolean is_vertical,
-                                        gint     size,
-                                        gint     scale_factor)
+                                        gint size,
+                                        gint scale_factor)
 {
     cairo_surface_t *surface;
-    cairo_t         *cr;
-    gint             color_width;
-    double           colors[3][3] = { { 0.0, }, };
+    cairo_t *cr;
+    gint color_width;
+    double colors[3][3] = { { 0.0 } };
 
     surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, size * scale_factor, size * scale_factor);
     cairo_surface_set_device_scale (surface, scale_factor, scale_factor);
@@ -1125,15 +1381,15 @@ appearance_settings_draw_subpixel_icon (gboolean is_rgb,
 
     if (is_rgb)
     {
-        colors[0][0] = 1.0;  // red
-        colors[1][1] = 1.0;  // green
-        colors[2][2] = 1.0;  // blue
+        colors[0][0] = 1.0; // red
+        colors[1][1] = 1.0; // green
+        colors[2][2] = 1.0; // blue
     }
     else
     {
-        colors[0][2] = 1.0;  // blue
-        colors[1][1] = 1.0;  // green
-        colors[2][0] = 1.0;  // red
+        colors[0][2] = 1.0; // blue
+        colors[1][1] = 1.0; // green
+        colors[2][0] = 1.0; // red
     }
 
     color_width = (size * scale_factor) / 3;
@@ -1155,20 +1411,19 @@ appearance_settings_draw_subpixel_icon (gboolean is_rgb,
 
     return surface;
 }
+#endif
 
 static void
 appearance_settings_dialog_configure_widgets (GtkBuilder *builder)
 {
-    GObject           *object, *object2;
-    GtkListStore      *list_store;
-    GtkCellRenderer   *renderer;
-    cairo_surface_t   *surface;
-    GtkTreeSelection  *selection;
+    GObject *object;
+    GtkListStore *list_store;
+    GtkCellRenderer *renderer;
+    GtkTreeSelection *selection;
     GtkTreeViewColumn *column;
-    preview_data      *pd;
-    gchar             *path;
-    gint               menu_icon_size;
-    gint               scale_factor;
+    icon_theme_preview_data *itpd;
+    preview_data *pd;
+    gchar *path;
 
     /* Icon themes list */
     object = gtk_builder_get_object (builder, "install_icon_theme");
@@ -1176,8 +1431,6 @@ appearance_settings_dialog_configure_widgets (GtkBuilder *builder)
     g_signal_connect (G_OBJECT (object), "clicked", G_CALLBACK (appearance_settings_install_theme_cb), builder);
 
     object = gtk_builder_get_object (builder, "icon_theme_treeview");
-    scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (object));
-
     list_store = gtk_list_store_new (N_THEME_COLUMNS, CAIRO_GOBJECT_TYPE_SURFACE, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_BOOLEAN);
     gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (list_store), COLUMN_THEME_DISPLAY_NAME, GTK_SORT_ASCENDING);
     gtk_tree_view_set_model (GTK_TREE_VIEW (object), GTK_TREE_MODEL (list_store));
@@ -1204,12 +1457,12 @@ appearance_settings_dialog_configure_widgets (GtkBuilder *builder)
     gtk_tree_view_column_set_attributes (column, renderer, "visible", COLUMN_THEME_WARNING, NULL);
     g_object_set (G_OBJECT (renderer), "icon-name", "dialog-warning", NULL);
 
-    pd = preview_data_new (GTK_LIST_STORE (list_store), GTK_TREE_VIEW (object));
-    if (pd)
+    itpd = icon_theme_preview_data_new (GTK_LIST_STORE (list_store), GTK_TREE_VIEW (object));
+    if (itpd)
         g_idle_add_full (G_PRIORITY_DEFAULT_IDLE,
                          appearance_settings_load_icon_themes,
-                         pd,
-                         (GDestroyNotify) preview_data_free);
+                         itpd,
+                         (GDestroyNotify) icon_theme_preview_data_unref);
 
     g_object_unref (G_OBJECT (list_store));
 
@@ -1286,36 +1539,6 @@ appearance_settings_dialog_configure_widgets (GtkBuilder *builder)
     }
     g_free (path);
 
-    /* Subpixel (rgba) hinting Combo */
-    object = gtk_builder_get_object (builder, "xft_rgba_store");
-
-    gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, &menu_icon_size, &menu_icon_size);
-
-    surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, menu_icon_size * scale_factor, menu_icon_size * scale_factor);
-    cairo_surface_set_device_scale (surface, scale_factor, scale_factor);
-    gtk_list_store_insert_with_values (GTK_LIST_STORE (object), NULL, 0, 0, surface, 1, _("None"), -1);
-    cairo_surface_destroy (surface);
-
-    surface = appearance_settings_draw_subpixel_icon (TRUE, FALSE, menu_icon_size, scale_factor);
-    gtk_list_store_insert_with_values (GTK_LIST_STORE (object), NULL, 1, 0, surface, 1, _("RGB"), -1);
-    cairo_surface_destroy (surface);
-
-    surface = appearance_settings_draw_subpixel_icon (FALSE, FALSE, menu_icon_size, scale_factor);
-    gtk_list_store_insert_with_values (GTK_LIST_STORE (object), NULL, 2, 0, surface, 1, _("BGR"), -1);
-    cairo_surface_destroy (surface);
-
-    surface = appearance_settings_draw_subpixel_icon (TRUE, TRUE, menu_icon_size, scale_factor);
-    gtk_list_store_insert_with_values (GTK_LIST_STORE (object), NULL, 3, 0, surface, 1, _("Vertical RGB"), -1);
-    cairo_surface_destroy (surface);
-
-    surface = appearance_settings_draw_subpixel_icon (FALSE, TRUE, menu_icon_size, scale_factor);
-    gtk_list_store_insert_with_values (GTK_LIST_STORE (object), NULL, 4, 0, surface, 1, _("Vertical BGR"), -1);
-    cairo_surface_destroy (surface);
-
-    object = gtk_builder_get_object (builder, "xft_rgba_combo_box");
-    appearance_settings_dialog_channel_property_changed (xsettings_channel, "/Xft/RGBA", NULL, builder);
-    g_signal_connect (G_OBJECT (object), "changed", G_CALLBACK (cb_rgba_style_combo_changed), NULL);
-
     /* Enable buttons in native GTK dialog headers */
     object = gtk_builder_get_object (builder, "gtk_dialog_button_header_check_button");
     xfconf_g_property_bind (xsettings_channel, "/Gtk/DialogsUseHeader", G_TYPE_BOOLEAN,
@@ -1338,45 +1561,81 @@ appearance_settings_dialog_configure_widgets (GtkBuilder *builder)
 
     /* Font name */
     object = gtk_builder_get_object (builder, "gtk_fontname_button");
-    xfconf_g_property_bind (xsettings_channel,  "/Gtk/FontName", G_TYPE_STRING,
+    xfconf_g_property_bind (xsettings_channel, "/Gtk/FontName", G_TYPE_STRING,
                             G_OBJECT (object), "font-name");
 
     /* Monospace font name */
     object = gtk_builder_get_object (builder, "gtk_monospace_fontname_button");
-    xfconf_g_property_bind (xsettings_channel,  "/Gtk/MonospaceFontName", G_TYPE_STRING,
+    xfconf_g_property_bind (xsettings_channel, "/Gtk/MonospaceFontName", G_TYPE_STRING,
                             G_OBJECT (object), "font-name");
 
-    /* Hinting style */
-    object = gtk_builder_get_object (builder, "xft_hinting_style_combo_box");
-    appearance_settings_dialog_channel_property_changed (xsettings_channel, "/Xft/HintStyle", NULL, builder);
-    g_signal_connect (G_OBJECT (object), "changed", G_CALLBACK (cb_hinting_style_combo_changed), NULL);
-
-    /* Hinting */
-    object = gtk_builder_get_object (builder, "xft_antialias_check_button");
-    appearance_settings_dialog_channel_property_changed (xsettings_channel, "/Xft/Antialias", NULL, builder);
-    g_signal_connect (G_OBJECT (object), "toggled", G_CALLBACK (cb_antialias_check_button_toggled), NULL);
-
-    /* DPI */
-    object = gtk_builder_get_object (builder, "xft_custom_dpi_check_button");
-    object2 = gtk_builder_get_object (builder, "xft_custom_dpi_spin_button");
-    appearance_settings_dialog_channel_property_changed (xsettings_channel, "/Xft/DPI", NULL, builder);
-    gtk_widget_set_sensitive (GTK_WIDGET (object2), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (object)));
-    g_signal_connect (G_OBJECT (object), "toggled", G_CALLBACK (cb_custom_dpi_check_button_toggled), object2);
-    g_signal_connect (G_OBJECT (object2), "value-changed", G_CALLBACK (cb_custom_dpi_spin_button_changed), object);
-
-    /* Window scaling factor */
 #ifdef ENABLE_X11
     if (GDK_IS_X11_DISPLAY (gdk_display_get_default ()))
     {
+        GObject *object2;
+        cairo_surface_t *surface;
+        gint menu_icon_size;
+        gint scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (gtk_builder_get_object (builder, "icon_theme_treeview")));
+
+        /* Hinting style */
+        object = gtk_builder_get_object (builder, "xft_hinting_style_combo_box");
+        appearance_settings_dialog_channel_property_changed (xsettings_channel, "/Xft/HintStyle", NULL, builder);
+        g_signal_connect (G_OBJECT (object), "changed", G_CALLBACK (cb_hinting_style_combo_changed), NULL);
+
+        /* Hinting */
+        object = gtk_builder_get_object (builder, "xft_antialias_check_button");
+        appearance_settings_dialog_channel_property_changed (xsettings_channel, "/Xft/Antialias", NULL, builder);
+        g_signal_connect (G_OBJECT (object), "toggled", G_CALLBACK (cb_antialias_check_button_toggled), NULL);
+
+        /* Subpixel (rgba) hinting Combo */
+        object = gtk_builder_get_object (builder, "xft_rgba_store");
+
+        gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, &menu_icon_size, &menu_icon_size);
+
+        surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, menu_icon_size * scale_factor, menu_icon_size * scale_factor);
+        cairo_surface_set_device_scale (surface, scale_factor, scale_factor);
+        gtk_list_store_insert_with_values (GTK_LIST_STORE (object), NULL, 0, 0, surface, 1, _("None"), -1);
+        cairo_surface_destroy (surface);
+
+        surface = appearance_settings_draw_subpixel_icon (TRUE, FALSE, menu_icon_size, scale_factor);
+        gtk_list_store_insert_with_values (GTK_LIST_STORE (object), NULL, 1, 0, surface, 1, _("RGB"), -1);
+        cairo_surface_destroy (surface);
+
+        surface = appearance_settings_draw_subpixel_icon (FALSE, FALSE, menu_icon_size, scale_factor);
+        gtk_list_store_insert_with_values (GTK_LIST_STORE (object), NULL, 2, 0, surface, 1, _("BGR"), -1);
+        cairo_surface_destroy (surface);
+
+        surface = appearance_settings_draw_subpixel_icon (TRUE, TRUE, menu_icon_size, scale_factor);
+        gtk_list_store_insert_with_values (GTK_LIST_STORE (object), NULL, 3, 0, surface, 1, _("Vertical RGB"), -1);
+        cairo_surface_destroy (surface);
+
+        surface = appearance_settings_draw_subpixel_icon (FALSE, TRUE, menu_icon_size, scale_factor);
+        gtk_list_store_insert_with_values (GTK_LIST_STORE (object), NULL, 4, 0, surface, 1, _("Vertical BGR"), -1);
+        cairo_surface_destroy (surface);
+
+        object = gtk_builder_get_object (builder, "xft_rgba_combo_box");
+        appearance_settings_dialog_channel_property_changed (xsettings_channel, "/Xft/RGBA", NULL, builder);
+        g_signal_connect (G_OBJECT (object), "changed", G_CALLBACK (cb_rgba_style_combo_changed), NULL);
+
+        /* DPI */
+        object = gtk_builder_get_object (builder, "xft_custom_dpi_check_button");
+        object2 = gtk_builder_get_object (builder, "xft_custom_dpi_spin_button");
+        appearance_settings_dialog_channel_property_changed (xsettings_channel, "/Xft/DPI", NULL, builder);
+        gtk_widget_set_sensitive (GTK_WIDGET (object2), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (object)));
+        g_signal_connect (G_OBJECT (object), "toggled", G_CALLBACK (cb_custom_dpi_check_button_toggled), object2);
+        g_signal_connect (G_OBJECT (object2), "value-changed", G_CALLBACK (cb_custom_dpi_spin_button_changed), object);
+
+        /* Window scaling factor */
         object = gtk_builder_get_object (builder, "gdk_window_scaling_factor_combo_box");
         appearance_settings_dialog_channel_property_changed (xsettings_channel, "/Gdk/WindowScalingFactor", NULL, builder);
-        g_signal_connect (G_OBJECT (object), "changed", G_CALLBACK(cb_window_scaling_factor_combo_changed), NULL);
+        g_signal_connect (G_OBJECT (object), "changed", G_CALLBACK (cb_window_scaling_factor_combo_changed), NULL);
     }
     else
 #endif
     {
-        object = gtk_builder_get_object (builder, "frame6");
-        gtk_widget_hide (GTK_WIDGET (object));
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "frame4")));
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "frame5")));
+        gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (builder, "frame6")));
     }
 
 #ifdef ENABLE_SOUND_SETTINGS
@@ -1385,7 +1644,7 @@ appearance_settings_dialog_configure_widgets (GtkBuilder *builder)
     gtk_widget_show (GTK_WIDGET (object));
 
     object = gtk_builder_get_object (builder, "enable_event_sounds_check_button");
-    object2  = gtk_builder_get_object (builder, "enable_input_feedback_sounds_button");
+    GObject *object2 = gtk_builder_get_object (builder, "enable_input_feedback_sounds_button");
 
     g_signal_connect (G_OBJECT (object), "toggled",
                       G_CALLBACK (cb_enable_event_sounds_check_button_toggled), object2);
@@ -1401,7 +1660,7 @@ appearance_settings_dialog_configure_widgets (GtkBuilder *builder)
 
 static void
 appearance_settings_dialog_response (GtkWidget *dialog,
-                                     gint       response_id)
+                                     gint response_id)
 {
     if (response_id == GTK_RESPONSE_HELP)
         xfce_dialog_show_help_with_version (GTK_WINDOW (dialog), "xfce4-settings", "appearance",
@@ -1411,11 +1670,12 @@ appearance_settings_dialog_response (GtkWidget *dialog,
 }
 
 gint
-main (gint argc, gchar **argv)
+main (gint argc,
+      gchar **argv)
 {
-    GObject    *dialog;
+    GObject *dialog;
     GtkBuilder *builder;
-    GError     *error = NULL;
+    GError *error = NULL;
 
     /* setup translation domain */
     xfce_textdomain (GETTEXT_PACKAGE, LOCALEDIR, "UTF-8");
@@ -1445,7 +1705,7 @@ main (gint argc, gchar **argv)
     if (G_UNLIKELY (opt_version))
     {
         g_print ("%s %s (Xfce %s)\n\n", G_LOG_DOMAIN, PACKAGE_VERSION, xfce_version_string ());
-        g_print ("%s\n", "Copyright (c) 2008-2023");
+        g_print ("%s\n", "Copyright (c) 2008-2024");
         g_print ("\t%s\n\n", _("The Xfce development team. All rights reserved."));
         g_print (_("Please report bugs to <%s>."), PACKAGE_BUGREPORT);
         g_print ("\n");
@@ -1476,23 +1736,22 @@ main (gint argc, gchar **argv)
         /* to synchronize some properties with GSettings */
         source = g_settings_schema_source_get_default ();
         if (source != NULL)
-          {
+        {
             GSettingsSchema *schema = g_settings_schema_source_lookup (source, "org.gnome.desktop.interface", TRUE);
             if (schema != NULL)
-              {
+            {
                 desktop_interface_gsettings = g_settings_new ("org.gnome.desktop.interface");
                 g_settings_schema_unref (schema);
-              }
-          }
+            }
+        }
 
         /* load the gtk user interface file*/
         builder = gtk_builder_new ();
-        if (gtk_builder_add_from_string (builder, appearance_dialog_ui,
-                                         appearance_dialog_ui_length, &error) != 0)
-          {
+        if (gtk_builder_add_from_string (builder, appearance_dialog_ui, appearance_dialog_ui_length, &error) != 0)
+        {
             /* connect signal to monitor the channel */
             g_signal_connect (G_OBJECT (xsettings_channel), "property-changed",
-                G_CALLBACK (appearance_settings_dialog_channel_property_changed), builder);
+                              G_CALLBACK (appearance_settings_dialog_channel_property_changed), builder);
 
             appearance_settings_dialog_configure_widgets (builder);
 
@@ -1528,7 +1787,7 @@ main (gint argc, gchar **argv)
                 dialog = gtk_builder_get_object (builder, "dialog");
 
                 g_signal_connect (dialog, "response",
-                    G_CALLBACK (appearance_settings_dialog_response), NULL);
+                                  G_CALLBACK (appearance_settings_dialog_response), NULL);
                 gtk_window_present (GTK_WINDOW (dialog));
 #ifdef ENABLE_X11
                 /* To prevent the settings dialog to be saved in the session */
@@ -1550,7 +1809,7 @@ main (gint argc, gchar **argv)
         /* release the channel */
         g_object_unref (G_OBJECT (xsettings_channel));
         if (desktop_interface_gsettings != NULL)
-          g_object_unref (desktop_interface_gsettings);
+            g_object_unref (desktop_interface_gsettings);
     }
 
     /* shutdown xfconf */
