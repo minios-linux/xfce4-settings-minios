@@ -1,4 +1,4 @@
-xfce4-settings (4.19.3-1) UNRELEASED; urgency=medium
+xfce4-settings (4.19.3-1) experimental; urgency=medium
 
   * Team upload.
 
@@ -8,7 +8,7 @@ xfce4-settings (4.19.3-1) UNRELEASED; urgency=medium
   [ Mateusz Łukasik ]
   * New upstream version 4.19.3
 
- -- Yves-Alexis Perez <corsac@debian.org>  Sun, 28 Jul 2024 10:48:23 +0200
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Fri, 08 Nov 2024 18:46:13 +0100
 
 xfce4-settings (4.19.2-1) experimental; urgency=medium
 
