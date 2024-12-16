@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce4-settings\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2024-10-14 00:48+0200\n"
+"POT-Creation-Date: 2024-11-02 00:53+0100\n"
 "PO-Revision-Date: 2013-07-02 20:47+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>, 2019-2024\n"
 "Language-Team: Portuguese (http://app.transifex.com/xfce/xfce4-settings/language/pt/)\n"
@@ -1845,7 +1845,7 @@ msgid "_Internet"
 msgstr "_Internet"
 
 #: dialogs/mime-settings/xfce-mime-window.c:228
-#: dialogs/mime-settings/xfce4-web-browser.desktop.in:13
+#: dialogs/mime-settings/xfce4-web-browser.desktop.in:14
 msgid "Web Browser"
 msgstr "Navegador web"
 
@@ -1856,7 +1856,7 @@ msgid ""
 msgstr "O Navegador de Internet preferido será utilizado para abrir ligações e mostrar o conteúdo das ajudas."
 
 #: dialogs/mime-settings/xfce-mime-window.c:254
-#: dialogs/mime-settings/xfce4-mail-reader.desktop.in:13
+#: dialogs/mime-settings/xfce4-mail-reader.desktop.in:14
 msgid "Mail Reader"
 msgstr "Leitor de correio eletrónico"
 
@@ -1872,7 +1872,7 @@ msgid "_Utilities"
 msgstr "_Utilitários"
 
 #: dialogs/mime-settings/xfce-mime-window.c:289
-#: dialogs/mime-settings/xfce4-file-manager.desktop.in:13
+#: dialogs/mime-settings/xfce4-file-manager.desktop.in:14
 msgid "File Manager"
 msgstr "Gestor de ficheiros"
 
@@ -1882,7 +1882,7 @@ msgid ""
 msgstr "O Gestor de Ficheiros preferido será utilizado para explorar o conteúdo das pastas."
 
 #: dialogs/mime-settings/xfce-mime-window.c:315
-#: dialogs/mime-settings/xfce4-terminal-emulator.desktop.in:12
+#: dialogs/mime-settings/xfce4-terminal-emulator.desktop.in:13
 msgid "Terminal Emulator"
 msgstr "Emulador de terminal"
 
@@ -1989,19 +1989,35 @@ msgid ""
 "manager;terminal emulator;"
 msgstr "ficheiro;tipo;extensão;associação;abrir com;navegador web;leitor correio eletónico;gestor de ficheiros;emulador de terminal;"
 
-#: dialogs/mime-settings/xfce4-file-manager.desktop.in:14
+#: dialogs/mime-settings/xfce4-file-manager.desktop.in:10
+msgid "file;manager;explorer;browse;filesystem;directory;folder;xfce;"
+msgstr "ficheiro;gestor;explorador;navegador;sistema de ficheiros;diretório;pasta;xfce;"
+
+#: dialogs/mime-settings/xfce4-file-manager.desktop.in:15
 msgid "Browse the file system"
 msgstr "Explorar sistema de ficheiros"
 
-#: dialogs/mime-settings/xfce4-mail-reader.desktop.in:14
+#: dialogs/mime-settings/xfce4-mail-reader.desktop.in:10
+msgid "email;mail;inbox;message;communication;"
+msgstr "e-mail;correio;caixa de entrada;mensagem;comunicação;"
+
+#: dialogs/mime-settings/xfce4-mail-reader.desktop.in:15
 msgid "Read your email"
 msgstr "Ler o correio eletrónico"
 
-#: dialogs/mime-settings/xfce4-terminal-emulator.desktop.in:13
+#: dialogs/mime-settings/xfce4-terminal-emulator.desktop.in:10
+msgid "terminal;command line;shell;console;xfce;"
+msgstr "terminal;linha de comandos;shell;consola;xfce;"
+
+#: dialogs/mime-settings/xfce4-terminal-emulator.desktop.in:14
 msgid "Use the command line"
 msgstr "Utilizar a linha de comandos"
 
-#: dialogs/mime-settings/xfce4-web-browser.desktop.in:14
+#: dialogs/mime-settings/xfce4-web-browser.desktop.in:10
+msgid "internet;web;browser;surf;explore;xfce;"
+msgstr "internet;web;navegador;surfar;explorador;xfce;"
+
+#: dialogs/mime-settings/xfce4-web-browser.desktop.in:15
 msgid "Browse the web"
 msgstr "Navegar na web"
 
@@ -2051,7 +2067,7 @@ msgstr "Navegador web Epiphany"
 
 #: dialogs/mime-settings/helpers/eterm.desktop.in.in:6
 msgid "Enlightened Terminal Emulator"
-msgstr "Emulador de terminal Enlightened "
+msgstr "Emulador de terminal iluminado"
 
 #: dialogs/mime-settings/helpers/evolution.desktop.in.in:6
 msgid "Evolution"
@@ -2376,7 +2392,7 @@ msgid ""
 "Toggles between adaptive and flat acceleration profile. Adaptive takes the "
 "current speed of the device into account when deciding on acceleration. "
 "Custom acceleration profile is not supported via xfce4-settings."
-msgstr "Alterna entre o perfil de aceleração adaptativo e plano. O perfil adaptativo tem em conta a velocidade atual do dispositivo ao decidir sobre a aceleração. O perfil de aceleração personalizado não é suportado através do xfce4-settings"
+msgstr "Alterna entre o perfil de aceleração adaptativo e plano. O perfil adaptativo tem em conta a velocidade atual do dispositivo ao decidir sobre a aceleração. O perfil de aceleração personalizado não é suportado através do xfce4-settings."
 
 #: dialogs/mouse-settings/mouse-dialog.glade:525
 msgid "Pointer Speed"
@@ -2805,3 +2821,7 @@ msgstr "Serviço de definições do Xfce"
 #: xfsettingsd/xfsettingsd.desktop.in:5
 msgid "The Xfce Settings Daemon"
 msgstr "Serviço de definições do Xfce"
+
+#: xfsettingsd/xfsettingsd.desktop.in:13
+msgid "settings;daemon;xfce;configuration;preferences;system;manage;"
+msgstr "definições;daemon;serviço;xfce;configuração;preferências;sistema:gerir;"

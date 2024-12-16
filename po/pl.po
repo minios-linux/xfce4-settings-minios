@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce4-settings\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2024-10-14 00:48+0200\n"
+"POT-Creation-Date: 2024-11-02 00:53+0100\n"
 "PO-Revision-Date: 2013-07-02 20:47+0000\n"
 "Last-Translator: Marek Adamski, 2022-2024\n"
 "Language-Team: Polish (http://app.transifex.com/xfce/xfce4-settings/language/pl/)\n"
@@ -259,7 +259,7 @@ msgstr "Określa maksymalną prędkość ruchu kursora myszy po przyspieszeniu"
 
 #: dialogs/accessibility-settings/accessibility-dialog.glade:978
 msgid "pixels/sec"
-msgstr "pikseli/s"
+msgstr "px/s"
 
 #: dialogs/accessibility-settings/accessibility-dialog.glade:990
 msgid "Acceleration _profile:"
@@ -305,7 +305,7 @@ msgstr "Określa gniazdo menedżera ustawień"
 #: dialogs/mime-settings/main.c:40 dialogs/mouse-settings/main.c:86
 #: xfce4-settings-editor/main.c:44
 msgid "SOCKET ID"
-msgstr "ID_GNIAZDA"
+msgstr "ID GNIAZDA"
 
 #: dialogs/accessibility-settings/main.c:39
 #: dialogs/appearance-settings/main.c:89 dialogs/color-settings/main.c:42
@@ -444,7 +444,7 @@ msgstr "_Domyślna"
 msgid ""
 "This font will be used as the default monospace font, for example by "
 "terminal emulators."
-msgstr "Ta czcionka będzie używana jako domyślna czcionka o stałej szerokości znaków, np. w emulatorach terminala."
+msgstr "Określa domyślną czcionkę o stałej szerokości znaków używaną m.in. w emulatorach terminala"
 
 #: dialogs/appearance-settings/appearance-dialog.glade:433
 msgid "Select a default monospace font"
@@ -471,7 +471,7 @@ msgstr "_Przyciąganie do siatki:"
 msgid ""
 "Many fonts contain information that provides extra hints as to how best draw"
 " the font; pick whichever looks best according to personal preference"
-msgstr "Określa metodę przyciągania krawędzi czcionek do siatki (np. pikseli matrycy ekranu), umożliwiającą poprawienie ich wyglądu na ekranie"
+msgstr "Określa metodę przyciągania krawędzi czcionek do siatki (np. pikseli matrycy ekranu), która umożliwia poprawienie ich wyglądu na ekranie"
 
 #: dialogs/appearance-settings/appearance-dialog.glade:541
 msgid "Sub-_pixel order:"
@@ -591,7 +591,7 @@ msgstr "Nie udało się wyświetlić ustawień Xfwm4"
 msgid ""
 "Warning: this icon theme has no cache file. You can create this by running "
 "<i>gtk-update-icon-cache -f -t %s/</i> in a terminal emulator."
-msgstr "Ostrzeżenie: ten styl ikon nie posiada pliku pamięci podręcznej. Można utworzyć go za pomocą polecenia <i>gtk-update-icon-cache -f -t %s/</i> w emulatorze terminala."
+msgstr "Ostrzeżenie: ten styl ikon nie ma pliku pamięci podręcznej. Można utworzyć go za pomocą polecenia <i>gtk-update-icon-cache -f -t %s/</i> w emulatorze terminala."
 
 #. If the theme is known to be incomplete (does not follow fd.org standards),
 #. mention this in the tooltip
@@ -604,7 +604,7 @@ msgstr "Ostrzeżenie: ten styl ikon jest niekompletny. Brakuje niektórych ikon.
 msgid ""
 "Warning: this icon theme is incomplete. It only provides a base set of icons"
 " from which other themes can inherit."
-msgstr "Ostrzeżenie: ten styl ikon jest niekompletny. Zapewnia tylko podstawowy zestaw ikon, z którego mogą dziedziczyć inne style."
+msgstr "Ostrzeżenie: ten styl ikon jest niekompletny. Zapewnia tylko podstawowy zestaw ikon, z którego mogą dziedziczyć inne style."
 
 #: dialogs/appearance-settings/main.c:1248
 msgid "File is too large, installation aborted"
@@ -767,7 +767,7 @@ msgstr "Usuń aktualnie wybrany profil"
 #: dialogs/color-settings/color-dialog.glade:409
 #: dialogs/color-settings/color-dialog.glade:617
 msgid "Show detailed information about the selected profile"
-msgstr "Pokazuj szczegółowe informacje o wybranym profilu"
+msgstr "Pokazuj szczegółowe informacje o wybranym profilu"
 
 #: dialogs/color-settings/color-dialog.glade:432
 msgid "Enable"
@@ -928,7 +928,7 @@ msgstr "<b><big>Zachować bieżącą konfigurację?</big></b>"
 msgid ""
 "The previous configuration will be restored in <b>10 seconds</b> if you do "
 "not reply to this question."
-msgstr "Poprzednia konfiguracja zostanie przywrócona w przeciągu <b>10 sekund</b>."
+msgstr "Poprzednia konfiguracja zostanie przywrócona w ciągu <b>10 sekund</b>, jeśli nie odpowiesz na to pytanie."
 
 #: dialogs/display-settings/confirmation-dialog.glade:29
 msgid "Keep this configuration"
@@ -1165,7 +1165,7 @@ msgstr "Tylko %s (2)"
 
 #: dialogs/display-settings/main.c:87
 msgid "Left"
-msgstr "Lewo"
+msgstr "Lewa"
 
 #: dialogs/display-settings/main.c:88
 msgid "Inverted"
@@ -1173,19 +1173,19 @@ msgstr "Odwrócona"
 
 #: dialogs/display-settings/main.c:89
 msgid "Right"
-msgstr "Prawo"
+msgstr "Prawa"
 
 #: dialogs/display-settings/main.c:95
 msgid "Horizontal"
-msgstr "Poziomo"
+msgstr "Poziome"
 
 #: dialogs/display-settings/main.c:96
 msgid "Vertical"
-msgstr "Pionowo"
+msgstr "Pionowe"
 
 #: dialogs/display-settings/main.c:97
 msgid "Horizontal and Vertical"
-msgstr "Poziomo i pionowo"
+msgstr "Poziome i pionowe"
 
 #: dialogs/display-settings/main.c:109
 msgid "Minimal interface to set up an external output"
@@ -1196,7 +1196,7 @@ msgstr "Otwiera okno uproszczonej konfiguracji ekranów"
 msgid ""
 "The previous configuration will be restored in <b>%i seconds</b> if you do "
 "not reply to this question."
-msgstr "Poprzednia konfiguracja zostanie przywrócona w przeciągu <b>%i sekund</b>."
+msgstr "Poprzednia konfiguracja zostanie przywrócona w ciągu <b>%i sekund</b>, jeśli nie odpowiesz na to pytanie."
 
 #. Insert the mode
 #: dialogs/display-settings/main.c:644
@@ -1261,7 +1261,7 @@ msgstr[3] "%d paneli Xfce"
 msgid ""
 "Select a monitor to change its properties; drag it to rearrange its "
 "placement."
-msgstr "Proszę wybrać ekran, aby zmienić jego właściwości; przenieść, aby zmienić jego położenie."
+msgstr "Wybierz ekran, aby zmienić jego właściwości; przeciągnij go, aby zmienić jego położenie."
 
 #: dialogs/display-settings/main.c:2649 dialogs/display-settings/main.c:2682
 #, c-format
@@ -1294,7 +1294,7 @@ msgstr "Nie można uruchomić ustawień sterownika własnościowego"
 
 #: dialogs/display-settings/xfce-display-settings.desktop.in:5
 msgid "Configure screen settings and layout"
-msgstr "Konfiguruje ustawienia i układ ekranu"
+msgstr "Konfiguruje ustawienia i układ ekranu"
 
 #: dialogs/display-settings/xfce-display-settings.desktop.in:6
 msgid ""
@@ -1321,7 +1321,7 @@ msgstr "Dodawanie skrótu"
 
 #: dialogs/keyboard-settings/command-dialog.c:139
 msgid "Enter the command you want to trigger with a shortcut."
-msgstr "Proszę wprowadzić polecenie wykonywane za pomocą skrótu."
+msgstr "Wprowadź polecenie wykonywane za pomocą skrótu."
 
 #. We are editing an existing shortcut
 #: dialogs/keyboard-settings/command-dialog.c:157
@@ -1334,7 +1334,7 @@ msgstr "_Polecenie:"
 
 #: dialogs/keyboard-settings/command-dialog.c:207
 msgid "Use _startup notification"
-msgstr "_Powiadamianie o uruchomieniu"
+msgstr "_Powiadamianie o uruchomieniu"
 
 #: dialogs/keyboard-settings/command-dialog.c:253
 msgid "The command may not be empty."
@@ -1423,7 +1423,7 @@ msgstr "P_rędkość:"
 
 #: dialogs/keyboard-settings/keyboard-dialog.glade:377
 msgid "The rate at which keystrokes are generated while a key is pressed"
-msgstr "Określa prędkość, z jaką będą wprowadzane znaki po wciśnięciu i przytrzymaniu klawisza"
+msgstr "Określa prędkość, z jaką będą wprowadzane znaki po wciśnięciu i przytrzymaniu klawisza"
 
 #: dialogs/keyboard-settings/keyboard-dialog.glade:405
 msgid "Typing Settings"
@@ -1493,11 +1493,11 @@ msgstr "Klawisz _składania znaków"
 
 #: dialogs/keyboard-settings/keyboard-dialog.glade:1043
 msgid "Move currently selected item up by one row"
-msgstr "Przemieszcza wybrany element o jeden wiersz w górę"
+msgstr "Przemieszcza wybrany element o jeden wiersz w górę"
 
 #: dialogs/keyboard-settings/keyboard-dialog.glade:1063
 msgid "Move currently selected item down by one row"
-msgstr "Przemieszcza wybrany element o jeden wiersz w dół"
+msgstr "Przemieszcza wybrany element o jeden wiersz w dół"
 
 #: dialogs/keyboard-settings/keyboard-dialog.glade:1096
 msgid "Key_board layout"
@@ -1616,7 +1616,7 @@ msgstr "Inne programy"
 #: dialogs/mime-settings/xfce-mime-chooser.c:614
 #, c-format
 msgid "Open <i>%s</i> and other files of type \"%s\" with:"
-msgstr "Otwieranie pliku <i>%s</i> i innych plików typu „%s” za pomocą:"
+msgstr "Otwieranie pliku <i>%s</i> i innych plików typu „%s” za pomocą:"
 
 #: dialogs/mime-settings/xfce-mime-chooser.c:619
 #, c-format
@@ -1626,10 +1626,10 @@ msgid ""
 msgid_plural ""
 "Open <i>%s</i>, other files of type \"%s\", and %d other selected MIME types"
 " with:"
-msgstr[0] "Otwórz <i>%s</i>, inne pliki typu „%s” i %d inny wybrany typ MIME za pomocą:"
-msgstr[1] "Otwórz <i>%s</i>, inne pliki typu „%s” i %d inne wybrane typy MIME za pomocą:"
-msgstr[2] "Otwórz <i>%s</i>, inne pliki typu „%s” i %d innych wybranych typów MIME za pomocą:"
-msgstr[3] "Otwórz <i>%s</i>, inne pliki typu „%s” i %d innych wybranych typów MIME za pomocą:"
+msgstr[0] "Otwórz <i>%s</i>, inne pliki typu „%s” i %d inny wybrany typ MIME za pomocą:"
+msgstr[1] "Otwórz <i>%s</i>, inne pliki typu „%s” i %d inne wybrane typy MIME za pomocą:"
+msgstr[2] "Otwórz <i>%s</i>, inne pliki typu „%s” i %d innych wybranych typów MIME za pomocą:"
+msgstr[3] "Otwórz <i>%s</i>, inne pliki typu „%s” i %d innych wybranych typów MIME za pomocą:"
 
 #: dialogs/mime-settings/xfce-mime-chooser.c:659
 #, c-format
@@ -1779,7 +1779,7 @@ msgstr "Wypisuje informacje o wersji i kończy"
 msgid ""
 "Launch the default helper of TYPE with the optional PARAMETER, where TYPE is"
 " one of the following values."
-msgstr "Uruchamia domyślny program określonego typu z opcjonalnymi parametrami"
+msgstr "Uruchamia domyślny program określonego typu z opcjonalnymi parametrami"
 
 #: dialogs/mime-settings/xfce-mime-helper-main.c:106
 #: dialogs/mime-settings/xfce-mime-helper-main.c:107
@@ -1789,7 +1789,7 @@ msgstr "TYP [PARAMETR...]"
 #: dialogs/mime-settings/xfce-mime-helper-main.c:107
 msgid ""
 "Query the default helper of TYPE, where TYPE is one of the following values."
-msgstr "Wysyła zapytanie do domyślnego pomocnika TYP, gdzie TYP jest jedną z poniższych wartości."
+msgstr "Wysyła zapytanie do domyślnego pomocnika TYP, gdzie TYP jest jedną z poniższych wartości."
 
 #: dialogs/mime-settings/xfce-mime-helper-main.c:137
 msgid ""
@@ -1799,7 +1799,7 @@ msgid ""
 "  MailReader       - The preferred Mail Reader.\n"
 "  FileManager      - The preferred File Manager.\n"
 "  TerminalEmulator - The preferred Terminal Emulator."
-msgstr "Następujące TYPY są obłsugiwane w poleceniach --launch oraz --query:\n\n  WebBrowser       – Preferowana przeglądarka internetowa.\n  MailReader       – Preferowany program pocztowy.\n  FileManager      – Preferowany menedżer plików.\n  TerminalEmulator – Preferowany emulator terminala."
+msgstr "Następujące TYPY są obłsugiwane w poleceniach --launch oraz --query:\n\n  WebBrowser       – Preferowana przeglądarka internetowa.\n  MailReader       – Preferowany program pocztowy.\n  FileManager      – Preferowany menedżer plików.\n  TerminalEmulator – Preferowany emulator terminala."
 
 #: dialogs/mime-settings/xfce-mime-helper-main.c:176
 #: dialogs/mime-settings/xfce-mime-helper-main.c:251
@@ -1850,7 +1850,7 @@ msgid "_Internet"
 msgstr "_Internet"
 
 #: dialogs/mime-settings/xfce-mime-window.c:228
-#: dialogs/mime-settings/xfce4-web-browser.desktop.in:13
+#: dialogs/mime-settings/xfce4-web-browser.desktop.in:14
 msgid "Web Browser"
 msgstr "Przeglądarka internetowa"
 
@@ -1858,10 +1858,10 @@ msgstr "Przeglądarka internetowa"
 msgid ""
 "The default Web Browser will be used to open hyperlinks and display help "
 "contents."
-msgstr "Domyślna przeglądarka internetowa będzie używana do otwierania hiperłączy i wyświetlania treści pomocy."
+msgstr "Domyślna przeglądarka internetowa będzie używana do otwierania hiperłączy i wyświetlania treści pomocy."
 
 #: dialogs/mime-settings/xfce-mime-window.c:254
-#: dialogs/mime-settings/xfce4-mail-reader.desktop.in:13
+#: dialogs/mime-settings/xfce4-mail-reader.desktop.in:14
 msgid "Mail Reader"
 msgstr "Czytnik poczty"
 
@@ -1877,7 +1877,7 @@ msgid "_Utilities"
 msgstr "_Narzędzia"
 
 #: dialogs/mime-settings/xfce-mime-window.c:289
-#: dialogs/mime-settings/xfce4-file-manager.desktop.in:13
+#: dialogs/mime-settings/xfce4-file-manager.desktop.in:14
 msgid "File Manager"
 msgstr "Menedżer plików"
 
@@ -1887,7 +1887,7 @@ msgid ""
 msgstr "Domyślny menedżer plików będzie używany do przeglądania zawartości katalogów."
 
 #: dialogs/mime-settings/xfce-mime-window.c:315
-#: dialogs/mime-settings/xfce4-terminal-emulator.desktop.in:12
+#: dialogs/mime-settings/xfce4-terminal-emulator.desktop.in:13
 msgid "Terminal Emulator"
 msgstr "Emulator terminala"
 
@@ -1996,19 +1996,35 @@ msgid ""
 "manager;terminal emulator;"
 msgstr "plik;typ;rozszerzenie;skojarzenie;otwieranie przy użyciu;przeglądarka internetowa;czytnik poczty;menedżer plików;emulator terminala;"
 
-#: dialogs/mime-settings/xfce4-file-manager.desktop.in:14
+#: dialogs/mime-settings/xfce4-file-manager.desktop.in:10
+msgid "file;manager;explorer;browse;filesystem;directory;folder;xfce;"
+msgstr "plik;menedżer;eksplorator;przeglądaj;system plików;katalog;folder;xfce;"
+
+#: dialogs/mime-settings/xfce4-file-manager.desktop.in:15
 msgid "Browse the file system"
 msgstr "Przegląda system plików i zarządza jego zawartością"
 
-#: dialogs/mime-settings/xfce4-mail-reader.desktop.in:14
+#: dialogs/mime-settings/xfce4-mail-reader.desktop.in:10
+msgid "email;mail;inbox;message;communication;"
+msgstr "e-mail;poczta;skrzynka odbiorcza;wiadomość;komunikacja;"
+
+#: dialogs/mime-settings/xfce4-mail-reader.desktop.in:15
 msgid "Read your email"
 msgstr "Odbiera i wysyła pocztę elektroniczną"
 
-#: dialogs/mime-settings/xfce4-terminal-emulator.desktop.in:13
+#: dialogs/mime-settings/xfce4-terminal-emulator.desktop.in:10
+msgid "terminal;command line;shell;console;xfce;"
+msgstr "terminal;wiersz poleceń;powłoka;konsola;xfce;"
+
+#: dialogs/mime-settings/xfce4-terminal-emulator.desktop.in:14
 msgid "Use the command line"
 msgstr "Wprowadza i wykonuje wiersze poleceń"
 
-#: dialogs/mime-settings/xfce4-web-browser.desktop.in:14
+#: dialogs/mime-settings/xfce4-web-browser.desktop.in:10
+msgid "internet;web;browser;surf;explore;xfce;"
+msgstr "internet;sieć;przeglądarka;surfowanie;eksplorowanie;xfce;"
+
+#: dialogs/mime-settings/xfce4-web-browser.desktop.in:15
 msgid "Browse the web"
 msgstr "Przegląda zawartość sieci internetowej"
 
@@ -2244,13 +2260,13 @@ msgstr "NAZWA URZĄDZENIA"
 #: dialogs/mouse-settings/main.c:167
 #, c-format
 msgid "%g px"
-msgstr "%g pikseli"
+msgstr "%g px"
 
 #. miliseconds value for some of the scales in the dialog
 #: dialogs/mouse-settings/main.c:177
 #, c-format
 msgid "%g ms"
-msgstr "%g milisekund"
+msgstr "%g ms"
 
 #. seconds value for some of the scales in the dialog
 #: dialogs/mouse-settings/main.c:188
@@ -2309,7 +2325,7 @@ msgstr "Przeciwnie do ruchu wskazówek zegara"
 #: dialogs/mouse-settings/mouse-dialog.glade:162
 #: dialogs/mouse-settings/xfce-mouse-settings.desktop.in:4
 msgid "Mouse and Touchpad"
-msgstr "Mysz i panel dotykowy"
+msgstr "Mysz i panel dotykowy"
 
 #: dialogs/mouse-settings/mouse-dialog.glade:237
 msgid "De_vice:"
@@ -2383,7 +2399,7 @@ msgid ""
 "Toggles between adaptive and flat acceleration profile. Adaptive takes the "
 "current speed of the device into account when deciding on acceleration. "
 "Custom acceleration profile is not supported via xfce4-settings."
-msgstr "Przełącza między adaptacyjnym a płaskim profilem przyspieszenia. Adaptacyjny przy podejmowaniu decyzji o przyspieszeniu bierze pod uwagę aktualną prędkość urządzenia. Niestandardowy profil przyspieszenia nie jest obsługiwany przez xfce4-settings."
+msgstr "Przełącza między adaptacyjnym a płaskim profilem przyspieszenia. Adaptacyjny przy podejmowaniu decyzji o przyspieszeniu bierze pod uwagę aktualną prędkość urządzenia. Niestandardowy profil przyspieszenia nie jest obsługiwany przez xfce4-settings."
 
 #: dialogs/mouse-settings/mouse-dialog.glade:525
 msgid "Pointer Speed"
@@ -2812,3 +2828,7 @@ msgstr "Demon ustawień Xfce"
 #: xfsettingsd/xfsettingsd.desktop.in:5
 msgid "The Xfce Settings Daemon"
 msgstr "Demon ustawień Xfce"
+
+#: xfsettingsd/xfsettingsd.desktop.in:13
+msgid "settings;daemon;xfce;configuration;preferences;system;manage;"
+msgstr "ustawienia;demon;xfce;konfiguracja;preferencje;system;zarządzaj;"
