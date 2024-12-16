@@ -1,3 +1,9 @@
+xfce4-settings (4.20.0-1) UNRELEASED; urgency=medium
+
+  * New upstream version 4.20.0
+
+ -- Yves-Alexis Perez <corsac@debian.org>  Mon, 16 Dec 2024 22:36:27 +0100
+
 xfce4-settings (4.19.3-1) experimental; urgency=medium
 
   * Team upload.
