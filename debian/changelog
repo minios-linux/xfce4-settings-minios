@@ -1,3 +1,11 @@
+xfce4-settings (4.20.0-2) unstable; urgency=medium
+
+  * Team upload.
+  * d/control: Correct B-D, libgarcon-1-0-dev → libgarcon-1-dev.
+    (Closes: #1092157)
+
+ -- Unit 193 <unit193@debian.org>  Sun, 12 Jan 2025 22:56:27 -0500
+
 xfce4-settings (4.20.0-1) unstable; urgency=medium
 
   * New upstream version 4.20.0
