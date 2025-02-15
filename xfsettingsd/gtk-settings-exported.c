@@ -960,7 +960,11 @@ xfce_gtk_settings_helper_exported_skeleton_dbus_interface_get_properties (GDBusI
 
   GVariantBuilder builder;
   guint n;
-  g_variant_builder_init (&builder, G_VARIANT_TYPE ("a{sv}"));
+#if GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_84
+  g_variant_builder_init_static (&builder, G_VARIANT_TYPE ("a{sv}"));
+#else
+  g_variant_builder_init(&builder, G_VARIANT_TYPE ("a{sv}"));
+#endif
   if (_xfce_gtk_settings_helper_exported_interface_info.parent_struct.properties == NULL)
     goto out;
   for (n = 0; _xfce_gtk_settings_helper_exported_interface_info.parent_struct.properties[n] != NULL; n++)
@@ -1053,8 +1057,13 @@ _xfce_gtk_settings_helper_exported_emit_changed (gpointer user_data)
   guint num_changes;
 
   g_mutex_lock (&skeleton->priv->lock);
+#if GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_84
+  g_variant_builder_init_static (&builder, G_VARIANT_TYPE ("a{sv}"));
+  g_variant_builder_init_static (&invalidated_builder, G_VARIANT_TYPE ("as"));
+#else
   g_variant_builder_init (&builder, G_VARIANT_TYPE ("a{sv}"));
   g_variant_builder_init (&invalidated_builder, G_VARIANT_TYPE ("as"));
+#endif
   for (l = skeleton->priv->changed_properties, num_changes = 0; l != NULL; l = l->next)
     {
       ChangedProperty *cp = l->data;

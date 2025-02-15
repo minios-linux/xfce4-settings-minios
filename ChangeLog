@@ -1,3 +1,293 @@
+commit ebaebbc917d2c88fc8642d79940ea48e42d0b009
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Sun Feb 9 06:34:17 2025 +0100
+
+    Updates for release
+
+commit 055788498b412b000126e46df04134cf4cb28c3a
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Sun Feb 9 06:29:07 2025 +0100
+
+    Update copyright year
+    
+    (cherry picked from commit 35c3c91c07fcd167a5d4dfa75ecc29f4e132cb5e)
+
+commit a1b27c09b0113eafdecc3825707d52220e209135
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Mon Feb 3 10:10:03 2025 +0100
+
+    build: Add missing dep flags
+    
+    (cherry picked from commit a6ad064fbf4dbf46a78f9ef6ec7561a0b317e3b7)
+
+commit fe69cff195ffe75db94b796622041093cba99f2b
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Mon Feb 3 08:08:54 2025 +0100
+
+    scan-build: Fix core.uninitialized.Assign
+
+commit c2d8db09e1bc06f2eaa600eec280568e285f7f06
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Sun Feb 2 16:57:51 2025 +0100
+
+    build: Install missing helper opera-mailer.desktop
+
+commit 19f30c21825cd68a0abfaad53527d7910b94296b
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Fri Jan 31 15:22:02 2025 +0100
+
+    build: Make gio-unix mandatory
+    
+    It doesn't make much sense to make this optional, we don't usually do it
+    in other components. In addition, the mime-settings directory was
+    improperly skipped, even though most of the code can be compiled without
+    this dependency.
+
+commit 5e5aea59cb2fe1c98fb3c4771f6aa3f8b3141cf0
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Fri Jan 31 10:40:46 2025 +0100
+
+    build: Simplify libxklavier version management
+    
+    Libxklavier 5 has been available everywhere for some time now.
+
+commit a9060bcf7b7c22d0f002b2736f75da0053b07305
+Author: Anonymous <noreply@xfce.org>
+Date:   Mon Jan 20 00:47:41 2025 +0100
+
+    I18n: Update translation eu (100%).
+    
+    599 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit b01e0c64ebe50775e6f430339d584a457d3a552d
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Sat Jan 18 15:33:22 2025 +0100
+
+    Bump xfconf min version
+    
+    To include this fix: xfce/xfconf@573e01d304e00eafc5c47fcb969b210630a1591a
+    
+    Fixes: #581
+
+commit 4099e120cd0645026d668c565934bd1f5b6f255c
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Sat Jan 11 19:54:20 2025 +0100
+
+    x11: displays: Delay RRScreenChangeNotify handling when DPMSModeOff
+    
+    Completes: 61a03cb59a111b31ce0eb2f4ba385126b8713a14
+    Fixes: #573
+
+commit 6e2e52bb587fe589159a108f23df3dfa80c54d15
+Author: Anonymous <noreply@xfce.org>
+Date:   Sat Jan 11 00:48:46 2025 +0100
+
+    I18n: Update translation ca (100%).
+    
+    599 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 82082dd2733d3ee8472e9bab9b6103d33b4e3f2e
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Fri Jan 10 15:54:57 2025 +0100
+
+    build: Fix -Wmaybe-uninitialized
+    
+    This warning appears when building with the default makepkg environment
+    on arch linux, but I was unable to reproduce this behavior by setting
+    the flags appearing in makepkg.conf, so I don't know exactly what it's
+    due to. Anyway, it's a small fix that makes sense, so let's get on with
+    it.
+    
+    Fixes: #575
+
+commit d7c9df0a6ecbc59456c70abcbdd57f982ca4b7c1
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Thu Jan 9 16:32:06 2025 +0100
+
+    xfsettingsd: Fix error handling in main()
+    
+    * Write on stderr
+    * Don't use g_error unnecessarily
+    * Remove dead code
+
+commit 02f4e7ed6ccf3538606d5c1dc4a99b799a1543ac
+Author: Anonymous <noreply@xfce.org>
+Date:   Wed Jan 8 12:48:53 2025 +0100
+
+    I18n: Update translation uk (100%).
+    
+    599 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 0e10405e5625dcfccea25a2e2a115b24629d6afa
+Author: Anonymous <noreply@xfce.org>
+Date:   Mon Jan 6 12:48:18 2025 +0100
+
+    I18n: Update translation sk (100%).
+    
+    599 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit b330384b28f4c04d50a9fdc17be3716fe7f6a0dd
+Author: Anonymous <noreply@xfce.org>
+Date:   Sun Jan 5 00:48:46 2025 +0100
+
+    I18n: Update translation ru (99%).
+    
+    598 translated messages, 1 untranslated message.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit b1b854458c03248480b9cda5668113210d92d0a7
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Sat Jan 4 10:35:27 2025 +0100
+
+    xfsettingsd: Don't disable DPI setting by default
+    
+    Use 96 instead, as in xfsettingsd/xsettings.c and
+    dialogs/appearance-settings/main.c
+    
+    Fixes: d1a04d48c1a78805faa530e453e3c0733944d025
+    Related: #572
+
+commit 34f1376888e3e54d5dcc05a6665ad60667829cc4
+Author: Anonymous <noreply@xfce.org>
+Date:   Sat Jan 4 00:48:06 2025 +0100
+
+    I18n: Update translation uk (99%).
+    
+    597 translated messages, 2 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit daa9398421377c0d054f01a34c78002065d9ae64
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Tue Dec 31 16:15:31 2024 +0100
+
+    wayland: common: Add missing struct member initialization
+    
+    Fixes: #570
+
+commit 016da5cb14ba7516d80f49ce82828cd9fc3bd056
+Author: Anonymous <noreply@xfce.org>
+Date:   Tue Dec 31 00:49:58 2024 +0100
+
+    I18n: Update translation sq (98%).
+    
+    591 translated messages, 8 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 2f496a187b573f4bc41c5b99e7c32c603ac8d701
+Author: Anonymous <noreply@xfce.org>
+Date:   Tue Dec 24 00:48:23 2024 +0100
+
+    I18n: Update translation es (100%).
+    
+    599 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit efc075c36553569864f9809555c422bccae0f3f3
+Author: Anonymous <noreply@xfce.org>
+Date:   Sun Dec 22 00:48:13 2024 +0100
+
+    I18n: Update translation hu (98%).
+    
+    593 translated messages, 6 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 5093b1a426f399d635e1d67de9247c3c056848c6
+Author: Gaël Bonithon <gael@xfce.org>
+Date:   Sat Dec 21 08:38:22 2024 +0100
+
+    displays: Always enable first output
+    
+    It doesn't seem to make much sense to activate no output, when all have
+    been disconnected, and one is reconnected. The "do nothing when a
+    display is connected" option should probably have an exception in this
+    case in general.
+    
+    In the case of X11, this remedies yet another instance of xrandr
+    disconnecting an output when it goes to sleep: when there is only one
+    output and no default profile has yet been defined (in the case of a new
+    installation).
+    
+    Fixes: #567
+
+commit 9d4f1157242886dd79ce3945622c80aa1c5a31bb
+Author: Anonymous <noreply@xfce.org>
+Date:   Thu Dec 19 12:48:38 2024 +0100
+
+    I18n: Update translation ro (100%).
+    
+    599 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit dc48728277d35fe2f75cc571760dc0d4fd2e820b
+Author: Anonymous <noreply@xfce.org>
+Date:   Thu Dec 19 00:47:53 2024 +0100
+
+    I18n: Update translation ro (89%).
+    
+    534 translated messages, 65 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 106044dc50483cd23c12269b8c00fa1cbb1c7c95
+Author: Anonymous <noreply@xfce.org>
+Date:   Wed Dec 18 00:49:20 2024 +0100
+
+    I18n: Update translation da (100%).
+    
+    599 translated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit d17179eb8560b43a6c12a729875bdb8d5ac8702b
+Author: Anonymous <noreply@xfce.org>
+Date:   Tue Dec 17 00:48:10 2024 +0100
+
+    I18n: Update translation hu (98%).
+    
+    592 translated messages, 7 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit efe107a94e04b455277a9b09fbdfa3e88ab4fe72
+Author: Anonymous <noreply@xfce.org>
+Date:   Tue Dec 17 00:48:10 2024 +0100
+
+    I18n: Update translation da (99%).
+    
+    594 translated messages, 5 untranslated messages.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 57a39a37b95f41f7d7ecd580a98a097b8032c5a6
+Author: Anonymous <noreply@xfce.org>
+Date:   Mon Dec 16 12:49:20 2024 +0100
+
+    I18n: Update translation eu (99%).
+    
+    598 translated messages, 1 untranslated message.
+    
+    Transifex (https://explore.transifex.com/xfce/).
+
+commit 66589b721713991b70f847b493fad7ed9d590c43
+Author: Alexander Schwinn <alexxcons@xfce.org>
+Date:   Sun Dec 15 10:32:12 2024 +0100
+
+    Back to development
+
 commit 380bf9b084fd1cafbcf14b08ca94645c48984afe
 Author: Alexander Schwinn <alexxcons@xfce.org>
 Date:   Sun Dec 15 10:30:06 2024 +0100

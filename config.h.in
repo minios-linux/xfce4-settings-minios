@@ -45,7 +45,7 @@
 /* Define if colord >= colord_min_version present */
 #undef HAVE_COLORD
 
-/* Define to 1 if you have the `daemon' function. */
+/* Define to 1 if you have the 'daemon' function. */
 #undef HAVE_DAEMON
 
 /* Define if the GNU dcgettext() function is already present or preinstalled.
@@ -69,9 +69,6 @@
 
 /* Define if the GNU gettext() function is already present or preinstalled. */
 #undef HAVE_GETTEXT
-
-/* Define if gio-unix-2.0 >= glib_min_version present */
-#undef HAVE_GIO_UNIX
 
 /* Define if gtk-layer-shell-0 >= gtk_layer_shell_min_version present */
 #undef HAVE_GTK_LAYER_SHELL
@@ -97,17 +94,14 @@
 /* Define if x11 >= libx11_min_version present */
 #undef HAVE_LIBX11
 
+/* Define if xext >= libxext_min_version present */
+#undef HAVE_LIBXEXT
+
 /* Define if libxfce4kbd-private-3 >= libxfce4ui_min_version present */
 #undef HAVE_LIBXFCE4KBD_PRIVATE
 
 /* Define if libxklavier >= libxklavier_min_version present */
 #undef HAVE_LIBXKLAVIER
-
-/* Define if libxklavier >= libxklavier4_min_version present */
-#undef HAVE_LIBXKLAVIER4
-
-/* Define if libxklavier >= libxklavier5_min_version present */
-#undef HAVE_LIBXKLAVIER5
 
 /* Define to 1 if you have the <math.h> header file. */
 #undef HAVE_MATH_H
@@ -118,7 +112,7 @@
 /* Define to 1 if you have the <minix/config.h> header file. */
 #undef HAVE_MINIX_CONFIG_H
 
-/* Define to 1 if you have the `setsid' function. */
+/* Define to 1 if you have the 'setsid' function. */
 #undef HAVE_SETSID
 
 /* Define to 1 if you have the <signal.h> header file. */
@@ -199,12 +193,12 @@
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
-/* Define to 1 if all of the C90 standard headers exist (not just the ones
+/* Define to 1 if all of the C89 standard headers exist (not just the ones
    required in a freestanding environment). This macro is provided for
    backward compatibility; new code need not use it. */
 #undef STDC_HEADERS
 
-/* Enable extensions on AIX 3, Interix.  */
+/* Enable extensions on AIX, Interix, z/OS.  */
 #ifndef _ALL_SOURCE
 # undef _ALL_SOURCE
 #endif
@@ -265,11 +259,15 @@
 #ifndef __STDC_WANT_IEC_60559_DFP_EXT__
 # undef __STDC_WANT_IEC_60559_DFP_EXT__
 #endif
+/* Enable extensions specified by C23 Annex F.  */
+#ifndef __STDC_WANT_IEC_60559_EXT__
+# undef __STDC_WANT_IEC_60559_EXT__
+#endif
 /* Enable extensions specified by ISO/IEC TS 18661-4:2015.  */
 #ifndef __STDC_WANT_IEC_60559_FUNCS_EXT__
 # undef __STDC_WANT_IEC_60559_FUNCS_EXT__
 #endif
-/* Enable extensions specified by ISO/IEC TS 18661-3:2015.  */
+/* Enable extensions specified by C23 Annex H and ISO/IEC TS 18661-3:2015.  */
 #ifndef __STDC_WANT_IEC_60559_TYPES_EXT__
 # undef __STDC_WANT_IEC_60559_TYPES_EXT__
 #endif
