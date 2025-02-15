@@ -1,9 +1,9 @@
-xfce4-settings (4.20.1-1) UNRELEASED; urgency=medium
+xfce4-settings (4.20.1-1) unstable; urgency=medium
 
   * New upstream version 4.20.1
   * d/control: add version on xfconf b-dep following upstream
 
- -- Yves-Alexis Perez <corsac@debian.org>  Sat, 15 Feb 2025 11:33:08 +0100
+ -- Yves-Alexis Perez <corsac@debian.org>  Sat, 15 Feb 2025 11:36:40 +0100
 
 xfce4-settings (4.20.0-2) unstable; urgency=medium
 
