@@ -1,5 +1,5 @@
 dnl
-dnl Copyright (c) 2006 - 2024
+dnl Copyright (c) 2006 - 2025
 dnl         The Xfce development team. All rights reserved.
 dnl
 dnl Originally written for Xfce by Benedikt Meurer <benny@xfce.org>
@@ -9,7 +9,7 @@ dnl
 dnl ***************************
 dnl *** Version information ***
 dnl ***************************
-XDT_VERSION_INIT([4.20.0])
+XDT_VERSION_INIT([4.20.1])
 
 dnl minimum required versions
 m4_define([glib_min_version], [2.72.0])
@@ -18,9 +18,10 @@ m4_define([garcon_min_version], [0.1.10])
 m4_define([exo_min_version], [0.11.0])
 m4_define([libxfce4util_min_version], [4.17.2])
 m4_define([libxfce4ui_min_version], [4.19.5])
-m4_define([xfconf_min_version], [4.13.0])
+m4_define([xfconf_min_version], [4.19.3])
 
 m4_define([libx11_min_version], [1.6.7])
+m4_define([libxext_min_version], [1.0.0])
 m4_define([fontconfig_min_version], [2.6.0])
 m4_define([xi_min_version], [1.2.0])
 m4_define([inputproto_min_version], [1.4.0])
@@ -30,9 +31,7 @@ m4_define([libnotify_min_version], [0.7.8])
 m4_define([colord_min_version], [1.0.2])
 m4_define([xcursor_min_version], [1.1.0])
 m4_define([xorg_libinput_min_version], [0.6.0])
-m4_define([libxklavier_min_version], [0.3.0])
-m4_define([libxklavier4_min_version], [4.0])
-m4_define([libxklavier5_min_version], [5.0])
+m4_define([libxklavier_min_version], [5.0])
 
 m4_define([wayland_min_version], [1.20])
 
@@ -50,7 +49,7 @@ m4_append([xfce4_settings_version_short], ["])
 dnl ***************************
 dnl *** Initialize autoconf ***
 dnl ***************************
-AC_COPYRIGHT([Copyright (c) 2008-2024
+AC_COPYRIGHT([Copyright (c) 2008-2025
         The Xfce development team. All rights reserved.])
 AC_INIT([xfce4-settings], [xdt_version], [https://gitlab.xfce.org/xfce/xfce4-settings])
 AC_PREREQ([2.69])
@@ -119,6 +118,7 @@ dnl ***********************************
 XDT_CHECK_PACKAGE([GTK], [gtk+-3.0], [gtk_min_version])
 XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [glib_min_version])
 XDT_CHECK_PACKAGE([GIO], [gio-2.0], [glib_min_version])
+XDT_CHECK_PACKAGE([GIO_UNIX], [gio-unix-2.0], [glib_min_version])
 XDT_CHECK_PACKAGE([GMODULE], [gmodule-2.0], [glib_min_version])
 XDT_CHECK_PACKAGE([GTHREAD], [gthread-2.0], [glib_min_version])
 XDT_CHECK_PACKAGE([GARCON], [garcon-1], [garcon_min_version])
@@ -134,6 +134,7 @@ XDT_CHECK_OPTIONAL_FEATURE([X11],
                            [x11],
                            [
                              XDT_FEATURE_DEPENDENCY([LIBX11], [x11], [libx11_min_version])
+                             XDT_FEATURE_DEPENDENCY([LIBXEXT], [xext], [libxext_min_version])
                              XDT_FEATURE_DEPENDENCY([GDK_X11], [gdk-x11-3.0], [gtk_min_version])
                              XDT_FEATURE_DEPENDENCY([GTK_X11], [gtk+-x11-3.0], [gtk_min_version])
                              XDT_FEATURE_DEPENDENCY([LIBXFCE4KBD_PRIVATE], [libxfce4kbd-private-3], [libxfce4ui_min_version])
@@ -166,8 +167,6 @@ XDT_CHECK_OPTIONAL_PACKAGE([XRANDR], [xrandr], [xrandr_min_version], [xrandr], [
 XDT_CHECK_OPTIONAL_PACKAGE([XCURSOR], [xcursor], [xcursor_min_version], [xcursor], [Cursor themes support])
 XDT_CHECK_OPTIONAL_PACKAGE([LIBINPUT], [xorg-libinput], [xorg_libinput_min_version], [xorg-libinput], [libinput Xorg driver support])
 XDT_CHECK_OPTIONAL_PACKAGE([LIBXKLAVIER], [libxklavier], [libxklavier_min_version], [libxklavier], [Keyboard layout selection])
-XDT_CHECK_OPTIONAL_PACKAGE([LIBXKLAVIER4], [libxklavier], [libxklavier4_min_version], [libxklavier], [Keyboard layout selection])
-XDT_CHECK_OPTIONAL_PACKAGE([LIBXKLAVIER5], [libxklavier], [libxklavier5_min_version], [libxklavier], [Keyboard layout selection])
 XDT_CHECK_OPTIONAL_PACKAGE([LIBNOTIFY], [libnotify], [libnotify_min_version], [libnotify], [Notification support])
 
 if test x"$ENABLE_WAYLAND" = x"yes"; then
@@ -212,12 +211,6 @@ dnl *** Optional support for colord ***
 dnl **************************************
 XDT_CHECK_OPTIONAL_PACKAGE([COLORD], [colord], [colord_min_version],
                            [colord], [colord support])
-
-dnl *********************
-dnl *** Mime settings ***
-dnl *********************
-XDT_CHECK_OPTIONAL_PACKAGE([GIO_UNIX], [gio-unix-2.0], [glib_min_version],
-                           [gio-unix], [Mime settings])
 
 dnl ****************************************
 dnl *** Optional support for Libcanberra ***
@@ -317,6 +310,5 @@ if test x"$ENABLE_DISPLAY_SETTINGS" = x"yes"; then
 echo "* UPower support:                   ${UPOWERGLIB_FOUND:-no}"
 fi
 echo "* Colord support:                   ${COLORD_FOUND:-no}"
-echo "* Mime settings (gio-unix) support: ${GIO_UNIX_FOUND:-no}"
 echo "* Sounds settings support:          $enable_sound_settings"
 echo

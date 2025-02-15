@@ -238,9 +238,9 @@ main (gint argc,
     /* parse options */
     if (!g_option_context_parse (context, &argc, &argv, &error))
     {
-        g_print ("%s: %s.\n", G_LOG_DOMAIN, error->message);
-        g_print (_("Type '%s --help' for usage."), G_LOG_DOMAIN);
-        g_print ("\n");
+        g_printerr ("%s: %s.\n", G_LOG_DOMAIN, error->message);
+        g_printerr (_("Type '%s --help' for usage."), G_LOG_DOMAIN);
+        g_printerr ("\n");
 
         g_error_free (error);
         g_option_context_free (context);
@@ -254,7 +254,7 @@ main (gint argc,
     if (G_UNLIKELY (opt_version))
     {
         g_print ("%s %s (Xfce %s)\n\n", G_LOG_DOMAIN, PACKAGE_VERSION, xfce_version_string ());
-        g_print ("%s\n", "Copyright (c) 2008-2024");
+        g_print ("%s\n", "Copyright (c) 2008-2025");
         g_print ("\t%s\n\n", _("The Xfce development team. All rights reserved."));
         g_print (_("Please report bugs to <%s>."), PACKAGE_BUGREPORT);
         g_print ("\n");
@@ -274,18 +274,7 @@ main (gint argc,
 
     if (!gtk_init_check (&argc, &argv))
     {
-        if (G_LIKELY (error))
-        {
-            g_printerr ("%s: %s.\n", G_LOG_DOMAIN, error->message);
-            g_printerr (_("Type '%s --help' for usage."), G_LOG_DOMAIN);
-            g_printerr ("\n");
-            g_error_free (error);
-        }
-        else
-        {
-            g_error ("Unable to open display.");
-        }
-
+        g_printerr ("%s: %s.\n", G_LOG_DOMAIN, "Unable to open display");
         return EXIT_FAILURE;
     }
 
@@ -339,16 +328,14 @@ main (gint argc,
     else
     {
         g_printerr ("%s: %s.\n", G_LOG_DOMAIN, error->message);
-        g_error ("Failed to connect to the dbus session bus.");
         g_error_free (error);
         return EXIT_FAILURE;
     }
 
     if (!xfconf_init (&error))
     {
-        g_error ("Failed to connect to xfconf daemon: %s.", error->message);
+        g_printerr ("%s: %s.\n", G_LOG_DOMAIN, error->message);
         g_error_free (error);
-
         return EXIT_FAILURE;
     }
 
