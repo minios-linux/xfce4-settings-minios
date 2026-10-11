@@ -174,7 +174,7 @@ libxfsettingsd_gtk_settings_sync_la_LIBADD = \
 	$(XFCONF_LIBS)
 
 settingsdir = $(sysconfdir)/xdg/xfce4/xfconf/xfce-perchannel-xml
-settings_DATA = xsettings.xml
+settings_DATA = xsettings.xml displays.xml
 
 autostartdir = $(sysconfdir)/xdg/autostart
 autostart_in_files = xfsettingsd.desktop.in
@@ -185,7 +185,7 @@ autostart_DATA = $(autostart_in_files:.desktop.in=.desktop)
 
 # Needed for XfceGtkSettingsHelper to translate GtkSettings property names into
 # Xfconf property names
-xsettings-properties.h: $(settings_DATA)
+xsettings-properties.h: xsettings.xml
 	$(AM_V_GEN) \
 	printf '%s\n' \
 		'#if G_GNUC_CHECK_VERSION (4, 6)' \

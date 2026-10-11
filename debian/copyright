@@ -6,6 +6,13 @@ Files: *
 Copyright: Xfce development team
 License: GPL-2+
 
+Files: common/global-scale.h common/global-scale-x11.h debian/tests/global-scale-policy.c
+ debian/tests/global-scale-transactions.c debian/tests/global-scale-generations.c
+ debian/tests/live-scale.py debian/tests/qt-scale-probe.cpp
+ debian/tests/gtk4-scale-probe.c
+Copyright: 2026, MiniOS Linux
+License: GPL-2+
+
 Files: dialogs/appearance-settings/appearance-install-theme
  dialogs/mime-settings/main.c
  dialogs/mime-settings/xfce-mime-chooser.c

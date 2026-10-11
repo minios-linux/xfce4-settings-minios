@@ -30,6 +30,7 @@
 #include "scrollarea.h"
 
 #include "common/display-profiles.h"
+#include "common/global-scale.h"
 
 #include <gtk/gtk.h>
 #include <libxfce4ui/libxfce4ui.h>
@@ -37,6 +38,7 @@
 #include <xfconf/xfconf.h>
 
 #ifdef HAVE_XRANDR
+#include "display-settings-x11.h"
 #include <gdk/gdkx.h>
 #include <gtk/gtkx.h>
 #define WINDOWING_IS_X11() GDK_IS_X11_DISPLAY (gdk_display_get_default ())
@@ -211,6 +213,7 @@ initialize_connected_outputs_at_zero (XfceDisplaySettings *settings)
 static void
 display_settings_changed (XfceDisplaySettings *settings)
 {
+    g_object_set_data (G_OBJECT (settings), "display-outputs-dirty", GINT_TO_POINTER (1));
     foo_scroll_area_invalidate (FOO_SCROLL_AREA (xfce_display_settings_get_scroll_area (settings)));
     gtk_widget_set_sensitive (GTK_WIDGET (apply_button), TRUE);
 }
@@ -257,6 +260,7 @@ typedef struct _ConfirmationDialog
     GtkBuilder *builder;
     gint count;
     guint source_id;
+    gboolean global_scale;
 } ConfirmationDialog;
 
 static gboolean
@@ -282,6 +286,15 @@ display_settings_update_time_label (gpointer user_data)
         label_string = g_strdup_printf (_("The previous configuration will be restored in <b>%i"
                                           " seconds</b> if you do not reply to this question."),
                                         confirmation_dialog->count);
+        if (confirmation_dialog->global_scale)
+        {
+            const gchar *restart = g_strcmp0 (g_getenv ("QT_ENABLE_HIGHDPI_SCALING"), "1") == 0
+                ? _("Some applications must be restarted to use the new scale.")
+                : _("Sign out and sign in again to enable scaling for Qt applications in this session.");
+            gchar *combined = g_strdup_printf ("%s\n\n%s", label_string, restart);
+            g_free (label_string);
+            label_string = combined;
+        }
 
         gtk_message_dialog_format_secondary_markup (GTK_MESSAGE_DIALOG (dialog), "%s", label_string);
         g_free (label_string);
@@ -315,6 +328,7 @@ display_setting_timed_confirmation (XfceDisplaySettings *settings)
         confirmation_dialog = g_new0 (ConfirmationDialog, 1);
         confirmation_dialog->builder = builder;
         confirmation_dialog->count = 10;
+        confirmation_dialog->global_scale = g_object_get_data (G_OBJECT (settings), "global-scale-own-preview") != NULL;
 
         dialog = gtk_builder_get_object (builder, "dialog1");
 
@@ -336,6 +350,202 @@ display_setting_timed_confirmation (XfceDisplaySettings *settings)
     }
 
     return response_id == 2;
+}
+
+static gint
+global_scale_ui_choice (XfceDisplaySettings *settings)
+{
+    GtkComboBox *combo = g_object_get_data (G_OBJECT (settings), "global-scale-combo");
+    gint index = combo != NULL ? gtk_combo_box_get_active (combo) : -1;
+    return index < 0 || index == 6 ? -1 : index == 0 ? 0 : 100 + (index - 1) * 25;
+}
+
+static gboolean
+global_scale_ui_is_changed (XfceDisplaySettings *settings)
+{
+    XfconfChannel *channel = xfce_display_settings_get_channel (settings);
+    return xfce_global_scale_choice_changed (global_scale_ui_choice (settings),
+        xfconf_channel_has_property (channel, GLOBAL_SCALE_PROP),
+        xfconf_channel_get_int (channel, GLOBAL_SCALE_PROP, 100));
+}
+
+static void
+global_scale_combo_changed (GtkComboBox *combo, XfceDisplaySettings *settings)
+{
+    if (g_object_get_data (G_OBJECT (settings), "global-scale-resetting") != NULL)
+        return;
+    gboolean changed = global_scale_ui_is_changed (settings);
+    gtk_widget_set_sensitive (apply_button, changed
+        || g_object_get_data (G_OBJECT (settings), "display-outputs-dirty") != NULL);
+}
+
+static void
+global_scale_ui_changed (XfconfChannel *channel, const gchar *name,
+                         const GValue *value, XfceDisplaySettings *settings)
+{
+    GtkWidget *combo = g_object_get_data (G_OBJECT (settings), "global-scale-combo");
+    GtkWidget *button = apply_button;
+    if (combo == NULL)
+        return;
+    if (g_strcmp0 (name, GLOBAL_SCALE_EFFECTIVE) == 0)
+    {
+        if (!xfconf_channel_has_property (channel, GLOBAL_SCALE_PROP))
+        {
+            gtk_widget_set_tooltip_text (combo, _("Default"));
+            return;
+        }
+        gchar *text = g_strdup_printf (_("Current interface scale: %d%%"),
+            value != NULL && G_VALUE_HOLDS_INT (value) ? g_value_get_int (value)
+            : xfconf_channel_get_int (channel, GLOBAL_SCALE_EFFECTIVE, 100));
+        gtk_widget_set_tooltip_text (combo, text);
+        g_free (text);
+    }
+    if (g_strcmp0 (name, GLOBAL_SCALE_PENDING) == 0 && G_VALUE_HOLDS_BOOLEAN (value))
+    {
+        if (g_value_get_boolean (value)
+            && g_object_get_data (G_OBJECT (settings), "global-scale-own-preview") != NULL)
+        {
+            gboolean keep = display_setting_timed_confirmation (settings);
+            /* The daemon may already have timed out while the modal dialog
+             * was running. Never save a reverted generation as confirmation. */
+            if (!xfconf_channel_get_bool (channel, GLOBAL_SCALE_PENDING, FALSE))
+                return;
+#ifdef HAVE_XRANDR
+            if (keep)
+                keep = xfce_display_settings_x11_refresh (settings);
+#endif
+            if (g_object_get_data (G_OBJECT (settings), "global-scale-output-transaction") != NULL)
+            {
+                /* The daemon commits completed live geometry after accepting
+                 * Confirm. Saving here could persist a preview which expires
+                 * or fails Automatic revalidation before the daemon accepts. */
+                g_object_set_data (G_OBJECT (settings), "global-scale-output-transaction", NULL);
+                g_object_set_data (G_OBJECT (settings), "display-outputs-dirty", NULL);
+            }
+            const gchar *command = keep ? GLOBAL_SCALE_CONFIRM : GLOBAL_SCALE_CANCEL;
+            xfconf_channel_reset_property (channel, command, FALSE);
+            xfconf_channel_set_bool (channel, command, TRUE);
+        }
+        else
+        {
+            if (g_value_get_boolean (value))
+                return;
+            g_object_set_data (G_OBJECT (settings), "global-scale-own-preview", NULL);
+            gint choice = xfconf_channel_get_int (channel, GLOBAL_SCALE_PROP, 100);
+            gboolean managed = xfconf_channel_has_property (channel, GLOBAL_SCALE_PROP);
+            g_object_set_data (G_OBJECT (settings), "global-scale-resetting", GINT_TO_POINTER (1));
+            if (managed && g_object_get_data (G_OBJECT (settings), "global-scale-legacy-row") != NULL)
+            {
+                gtk_combo_box_text_remove (GTK_COMBO_BOX_TEXT (combo), 6);
+                g_object_set_data (G_OBJECT (settings), "global-scale-legacy-row", NULL);
+            }
+            gtk_combo_box_set_active (GTK_COMBO_BOX (combo), !managed ? 6 : choice == 0 ? 0 : (choice - 100) / 25 + 1);
+            g_object_set_data (G_OBJECT (settings), "global-scale-resetting", NULL);
+            g_object_set_data (G_OBJECT (settings), "global-scale-output-transaction", NULL);
+            gtk_widget_set_sensitive (button, FALSE);
+        }
+    }
+    else if (g_strcmp0 (name, GLOBAL_SCALE_ERROR) == 0 && G_VALUE_HOLDS_STRING (value)
+             && g_strcmp0 (g_value_get_string (value), "") != 0)
+    {
+        g_object_set_data (G_OBJECT (settings), "global-scale-own-preview", NULL);
+        gtk_widget_set_sensitive (button, TRUE);
+        if (g_object_get_data (G_OBJECT (settings), "global-scale-output-transaction") != NULL)
+        {
+            g_object_set_data (G_OBJECT (settings), "global-scale-output-transaction", NULL);
+        }
+        xfce_dialog_show_error (GTK_WINDOW (gtk_builder_get_object (
+            xfce_display_settings_get_builder (settings), "display-dialog")), NULL, "%s",
+            g_strcmp0 (g_value_get_string (value), "rollback-failed") == 0
+            ? _("The previous display configuration could not be restored.")
+            : _("The display driver could not apply this scale. The previous scale was restored."));
+    }
+}
+
+static gboolean
+global_scale_ui_ack_timeout (gpointer data)
+{
+    XfceDisplaySettings *settings = data;
+    XfconfChannel *channel = xfce_display_settings_get_channel (settings);
+    if (g_object_get_data (G_OBJECT (settings), "global-scale-own-preview") != NULL
+        && !xfconf_channel_get_bool (channel, GLOBAL_SCALE_PENDING, FALSE))
+    {
+        gtk_widget_set_sensitive (apply_button, TRUE);
+        if (g_object_get_data (G_OBJECT (settings), "global-scale-output-transaction") != NULL)
+        {
+            xfconf_channel_reset_property (channel, GLOBAL_SCALE_CANCEL, FALSE);
+            xfconf_channel_set_bool (channel, GLOBAL_SCALE_CANCEL, TRUE);
+            g_object_set_data (G_OBJECT (settings), "global-scale-output-transaction", NULL);
+        }
+        xfce_dialog_show_error (GTK_WINDOW (gtk_builder_get_object (
+            xfce_display_settings_get_builder (settings), "display-dialog")), NULL, "%s",
+            _("The settings service did not start a scale preview."));
+        g_object_set_data (G_OBJECT (settings), "global-scale-own-preview", NULL);
+    }
+    return G_SOURCE_REMOVE;
+}
+
+static void
+global_scale_ui_request (XfceDisplaySettings *settings)
+{
+    XfconfChannel *channel = xfce_display_settings_get_channel (settings);
+    GtkComboBox *combo = g_object_get_data (G_OBJECT (settings), "global-scale-combo");
+    gint index = gtk_combo_box_get_active (combo);
+    if (index < 0 || index == 6)
+        return;
+    gtk_widget_set_sensitive (apply_button, FALSE);
+    g_object_set_data (G_OBJECT (settings), "global-scale-own-preview", GINT_TO_POINTER (1));
+    xfconf_channel_reset_property (channel, GLOBAL_SCALE_REQUEST, FALSE);
+    xfconf_channel_set_int (channel, GLOBAL_SCALE_REQUEST, index == 0 ? 0 : 100 + (index - 1) * 25);
+    g_timeout_add_seconds_full (G_PRIORITY_DEFAULT, 3, global_scale_ui_ack_timeout,
+                                g_object_ref (settings), g_object_unref);
+}
+
+static void
+global_scale_ui_new (XfceDisplaySettings *settings)
+{
+    GtkBuilder *builder = xfce_display_settings_get_builder (settings);
+    XfconfChannel *channel = xfce_display_settings_get_channel (settings);
+    GtkWidget *label = gtk_label_new_with_mnemonic (_("Interface _scale:"));
+    GtkWidget *combo = gtk_combo_box_text_new ();
+    const gchar *percentages[] = { "100%", "125%", "150%", "175%", "200%" };
+    gint choice = xfconf_channel_get_int (channel, GLOBAL_SCALE_PROP, 100);
+    if (!xfce_global_scale_valid (choice))
+        choice = 100;
+
+    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo), _("Automatic"));
+    for (guint n = 0; n < G_N_ELEMENTS (percentages); n++)
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo), percentages[n]);
+    gboolean managed = xfconf_channel_has_property (channel, GLOBAL_SCALE_PROP);
+    if (!managed)
+    {
+        gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo), _("Default"));
+        g_object_set_data (G_OBJECT (settings), "global-scale-legacy-row", GINT_TO_POINTER (1));
+    }
+    gtk_combo_box_set_active (GTK_COMBO_BOX (combo), !managed ? 6 : choice == 0 ? 0 : (choice - 100) / 25 + 1);
+    gtk_label_set_mnemonic_widget (GTK_LABEL (label), combo);
+    GtkGrid *grid = GTK_GRID (gtk_builder_get_object (builder, "table1"));
+    gtk_grid_insert_row (grid, 4);
+    gtk_widget_set_halign (label, GTK_ALIGN_START);
+    gtk_label_set_xalign (GTK_LABEL (label), 0);
+    gtk_widget_set_margin_start (combo, 9);
+    gtk_widget_set_margin_bottom (label, 3);
+    gtk_widget_set_margin_bottom (combo, 3);
+    gtk_grid_attach (grid, label, 1, 4, 1, 1);
+    gtk_grid_attach (grid, combo, 2, 4, 1, 1);
+    g_object_set_data (G_OBJECT (settings), "global-scale-combo", combo);
+    g_signal_connect_object (combo, "changed", G_CALLBACK (global_scale_combo_changed), settings, 0);
+    g_signal_connect_object (channel, "property-changed", G_CALLBACK (global_scale_ui_changed), settings, 0);
+    gtk_widget_show (label);
+    gtk_widget_show (combo);
+    global_scale_ui_changed (channel, GLOBAL_SCALE_EFFECTIVE, NULL, settings);
+    gchar *error = xfconf_channel_get_string (channel, GLOBAL_SCALE_ERROR, "");
+    if (error != NULL && *error != '\0')
+        gtk_widget_set_tooltip_text (combo, _("The display driver could not apply this scale. The previous scale was restored."));
+    g_free (error);
+
+    /* The old X11 control changes output pixels, not toolkit metrics. */
+    gtk_label_set_text (GTK_LABEL (gtk_builder_get_object (builder, "label-scale")), _("Output pixel scale:"));
 }
 
 static void
@@ -1385,6 +1595,7 @@ show_confirmation_dialog (gpointer data)
 
     /* Delete temporary profile */
     xfconf_channel_reset_property (channel, "/Temp", TRUE);
+    g_object_set_data (G_OBJECT (settings), "display-outputs-dirty", NULL);
 
     return FALSE;
 }
@@ -1393,6 +1604,16 @@ static void
 display_setting_apply (GtkWidget *widget,
                        XfceDisplaySettings *settings)
 {
+    XfconfChannel *channel = xfce_display_settings_get_channel (settings);
+    gboolean scale_changed = WINDOWING_IS_X11 ()
+        && g_object_get_data (G_OBJECT (settings), "global-scale-combo") != NULL
+        && global_scale_ui_is_changed (settings);
+    gboolean outputs_changed = g_object_get_data (G_OBJECT (settings), "display-outputs-dirty") != NULL;
+    if (scale_changed && !outputs_changed)
+    {
+        global_scale_ui_request (settings);
+        return;
+    }
     /* Put disabled outputs on the right before applying changes */
     guint n_outputs = xfce_display_settings_get_n_outputs (settings);
     for (guint n = 0; n < n_outputs; n++)
@@ -1427,10 +1648,18 @@ display_setting_apply (GtkWidget *widget,
 
     /* Apply changes via a temporary profile */
     xfce_display_settings_save (settings, "Temp");
+    if (scale_changed)
+        xfconf_channel_set_bool (channel, GLOBAL_SCALE_RESTORE_PROFILE, TRUE);
     xfconf_channel_set_string (xfce_display_settings_get_channel (settings), "/Schemes/Apply", "Temp");
 
     /* Run dialog after this signal handler to avoid random freeze */
-    g_idle_add (show_confirmation_dialog, settings);
+    if (scale_changed)
+    {
+        g_object_set_data (G_OBJECT (settings), "global-scale-output-transaction", GINT_TO_POINTER (1));
+        global_scale_ui_request (settings);
+    }
+    else
+        g_idle_add (show_confirmation_dialog, settings);
 
     gtk_widget_set_sensitive (widget, FALSE);
 }
@@ -1948,6 +2177,9 @@ display_settings_dialog_new (XfceDisplaySettings *settings)
     xfce_display_settings_populate_combobox (settings);
     display_settings_profile_list_init (settings);
     xfce_display_settings_populate_profile_list (settings);
+
+    if (WINDOWING_IS_X11 ())
+        global_scale_ui_new (settings);
 
     return GTK_WIDGET (gtk_builder_get_object (builder, "display-dialog"));
 }

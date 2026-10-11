@@ -40,6 +40,7 @@
 #endif
 
 #include "common/display-profiles.h"
+#include "common/global-scale.h"
 
 #include <libxfce4util/libxfce4util.h>
 
@@ -423,6 +424,28 @@ popup_draw (GtkWidget *popup,
     return FALSE;
 }
 
+static void
+popup_position_x11 (GtkWidget *popup, GParamSpec *pspec, XfceDisplaySettings *settings)
+{
+    gpointer id = g_object_get_data (G_OBJECT (popup), "global-scale-output-id");
+    GdkRectangle geom;
+    gint width, height;
+    XfconfChannel *channel = xfce_display_settings_get_channel (settings);
+    gint toolkit = xfconf_channel_get_int (channel, GLOBAL_SCALE_TOOLKIT, 0);
+    gint percent = xfconf_channel_get_int (channel, GLOBAL_SCALE_EFFECTIVE, 100);
+    gdouble factor;
+
+    if (!WINDOWING_IS_X11 () || id == NULL)
+        return;
+    xfce_display_settings_get_geometry (settings, GPOINTER_TO_INT (id) - 1, &geom);
+    gtk_window_get_size (GTK_WINDOW (popup), &width, &height);
+    factor = toolkit > 0 && percent > 0 ? 100.0 * toolkit / percent : 1.0;
+    factor /= gtk_widget_get_scale_factor (popup);
+    gtk_window_move (GTK_WINDOW (popup),
+                     round (factor * (geom.x + geom.width / 2.0) - width / 2.0),
+                     round (factor * (geom.y + geom.height) - height));
+}
+
 static GtkWidget *
 popup_get (XfceDisplaySettings *settings,
            gint output_id)
@@ -438,6 +461,8 @@ popup_get (XfceDisplaySettings *settings,
     if (gtk_builder_add_from_string (priv->builder, identity_popup_ui, identity_popup_ui_length, NULL) != 0)
     {
         popup = GTK_WIDGET (gtk_builder_get_object (priv->builder, "popup"));
+        g_object_set_data (G_OBJECT (popup), "global-scale-output-id", GINT_TO_POINTER (output_id + 1));
+        g_signal_connect_object (popup, "notify::scale-factor", G_CALLBACK (popup_position_x11), settings, 0);
         gtk_widget_set_name (popup, "XfceDisplayDialogPopup");
 
         gtk_widget_set_app_paintable (popup, TRUE);
@@ -500,6 +525,7 @@ popup_get (XfceDisplaySettings *settings,
             gtk_window_move (GTK_WINDOW (popup),
                              geom.x + (geom.width - window_width) / 2,
                              geom.y + geom.height - window_height);
+            popup_position_x11 (popup, NULL, settings);
             gtk_window_present (GTK_WINDOW (popup));
         }
     }

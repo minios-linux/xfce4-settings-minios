@@ -1,8 +1,8 @@
 Source: xfce4-settings
 Section: xfce
 Priority: optional
-Maintainer: Debian Xfce Maintainers <debian-xfce@lists.debian.org>
-Uploaders: Yves-Alexis Perez <corsac@debian.org>
+Maintainer: crims0n <crims0n@minios.dev>
+XSBC-Original-Maintainer: Debian Xfce Maintainers <debian-xfce@lists.debian.org>
 Build-Depends: debhelper-compat (= 13),
                gettext,
                libcolord-dev,
@@ -24,8 +24,6 @@ Build-Depends: debhelper-compat (= 13),
 Rules-Requires-Root: no
 Standards-Version: 4.7.0
 Homepage: https://docs.xfce.org/xfce/xfce4-settings/start
-Vcs-Git: https://salsa.debian.org/xfce-team/desktop/xfce4-settings.git
-Vcs-Browser: https://salsa.debian.org/xfce-team/desktop/xfce4-settings
 
 Package: xfce4-settings
 Architecture: any

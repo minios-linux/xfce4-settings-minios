@@ -28,8 +28,11 @@
 #include "common/display-profiles.h"
 #include "common/edid.h"
 #include "common/xfce-randr.h"
+#include "common/global-scale.h"
+#include "common/global-scale-x11.h"
 
 #include <X11/extensions/Xrandr.h>
+#include <X11/Xatom.h>
 #include <X11/extensions/dpms.h>
 #include <gdk/gdkx.h>
 #include <libxfce4ui/libxfce4ui.h>
@@ -111,6 +114,29 @@ xfce_displays_helper_x11_set_outputs (XfceRRCrtc *crtc,
                                       XfceRROutput *output);
 static void
 xfce_displays_helper_x11_apply_all (XfceDisplaysHelperX11 *helper);
+static void
+xfce_displays_helper_x11_constructed (GObject *object);
+static gboolean
+global_scale_apply (XfceDisplaysHelperX11 *helper, gint percent);
+static gint
+global_scale_resolve (XfceDisplaysHelperX11 *helper, gint choice);
+static void
+global_scale_property_changed (XfconfChannel *channel, const gchar *name,
+                               const GValue *value, XfceDisplaysHelperX11 *helper);
+static void
+global_scale_snapshot (XfceDisplaysHelperX11 *helper);
+static void
+global_scale_snapshot_clear (XfceDisplaysHelperX11 *helper);
+static gboolean
+global_scale_restore (XfceDisplaysHelperX11 *helper);
+static gboolean
+global_scale_revert (gpointer data);
+static void
+global_scale_publish (XfceDisplaysHelperX11 *helper);
+static void
+global_scale_publish_geometry (XfceDisplaysHelperX11 *helper);
+static GPtrArray *
+global_scale_copy_crtcs (GPtrArray *crtcs);
 
 
 
@@ -118,7 +144,7 @@ struct _XfceDisplaysHelperX11
 {
     XfceDisplaysHelper __parent__;
 
-    gint primary;
+    RROutput primary;
 
     GdkDisplay *display;
     GdkWindow *root_window;
@@ -141,6 +167,28 @@ struct _XfceDisplaysHelperX11
     /* used to normalize positions */
     gint min_x;
     gint min_y;
+
+    gdouble compensation;
+    gboolean scale_initialized;
+    gint scale_percent;
+    gint preview_choice;
+    gint preview_previous;
+    gboolean managed_scale;
+    gboolean preview_previous_managed;
+    gboolean preview_restore_profile;
+    guint scale_timeout;
+    gboolean apply_failed;
+    gboolean initializing;
+    gboolean primary_changed;
+    unsigned long geometry_generation;
+    GPtrArray *preview_crtcs;
+    RROutput preview_primary;
+    gdouble preview_compensation;
+    gchar *preview_profile;
+    gboolean preview_failed;
+    gboolean preview_staged;
+    GPtrArray *staged_crtcs;
+    RROutput staged_primary;
 };
 
 struct _XfceRRCrtc
@@ -155,6 +203,10 @@ struct _XfceRRCrtc
     gint y;
     gdouble scalex;
     gdouble scaley;
+    /* Canonical uncompensated output transforms. Zero means that a freshly
+     * loaded live cache still needs to recover them from the server value. */
+    gdouble output_scalex;
+    gdouble output_scaley;
     gint noutput;
     RROutput *outputs;
     gint npossible;
@@ -182,6 +234,7 @@ xfce_displays_helper_x11_class_init (XfceDisplaysHelperX11Class *klass)
     XfceDisplaysHelperClass *helper_class = XFCE_DISPLAYS_HELPER_CLASS (klass);
 
     gobject_class->dispose = xfce_displays_helper_x11_dispose;
+    gobject_class->constructed = xfce_displays_helper_x11_constructed;
     gobject_class->finalize = xfce_displays_helper_x11_finalize;
 
     helper_class->get_outputs = xfce_displays_helper_x11_get_outputs;
@@ -200,6 +253,8 @@ xfce_displays_helper_x11_init (XfceDisplaysHelperX11 *helper)
     helper->resources = NULL;
     helper->outputs = NULL;
     helper->crtcs = NULL;
+    helper->compensation = 1.0;
+    helper->scale_percent = 100;
 
     /* get the default display */
     helper->display = gdk_display_get_default ();
@@ -227,6 +282,8 @@ xfce_displays_helper_x11_init (XfceDisplaysHelperX11 *helper)
         }
 
         /* get all existing CRTCs and connected outputs */
+        helper->compensation = xfce_global_scale_x11_compensation (helper->xdisplay,
+                                                                  GDK_WINDOW_XID (helper->root_window));
         helper->crtcs = xfce_displays_helper_x11_list_crtcs (helper);
         helper->outputs = xfce_displays_helper_x11_list_outputs (helper);
 
@@ -254,6 +311,13 @@ static void
 xfce_displays_helper_x11_dispose (GObject *object)
 {
     XfceDisplaysHelperX11 *helper = XFCE_DISPLAYS_HELPER_X11 (object);
+
+    if (helper->scale_timeout != 0)
+    {
+        g_source_remove (helper->scale_timeout);
+        global_scale_revert (helper);
+    }
+    global_scale_snapshot_clear (helper);
 
     gdk_window_remove_filter (helper->root_window,
                               xfce_displays_helper_x11_screen_on_event,
@@ -417,6 +481,8 @@ xfce_displays_helper_x11_toggle_internal (gpointer *power,
                 }
             }
             xfce_displays_helper_x11_set_outputs (crtc, lvds);
+            crtc->scalex = crtc->scaley = helper->compensation;
+            crtc->output_scalex = crtc->output_scaley = 1.0;
             crtc->changed = TRUE;
         }
         xfsettings_dbg (XFSD_DEBUG_DISPLAYS, DEBUG_MESSAGE_ENABLING_INTERNAL, lvds->info->name);
@@ -452,9 +518,28 @@ xfce_displays_helper_x11_channel_apply (XfceDisplaysHelper *_helper,
     guint n, nactive;
     GHashTable *saved_outputs = NULL;
 
+    RROutput previous_primary = helper->primary;
+    gboolean staging = FALSE;
+
+    /* The frontend marks a combined transaction BEFORE submitting Temp.
+     * Capture live state before profile loading mutates any CRTC. */
+    if (g_strcmp0 (scheme, "Temp") == 0
+        && xfconf_channel_get_bool (channel, GLOBAL_SCALE_RESTORE_PROFILE, FALSE)
+        && helper->scale_timeout == 0 && helper->preview_crtcs == NULL)
+    {
+        global_scale_snapshot (helper);
+        helper->preview_restore_profile = TRUE;
+        xfconf_channel_reset_property (channel, GLOBAL_SCALE_RESTORE_PROFILE, FALSE);
+        helper->preview_staged = TRUE;
+        staging = TRUE;
+        /* Also cover a frontend which dies between Temp and Request. */
+        helper->scale_timeout = g_timeout_add_seconds (15, global_scale_revert, helper);
+    }
+
     helper->primary = None;
 
-    xfconf_channel_set_string (channel, ACTIVE_PROFILE, scheme);
+    if (!staging)
+        xfconf_channel_set_string (channel, ACTIVE_PROFILE, scheme);
 
     /* finally the list of saved outputs from xfconf */
     g_snprintf (property, sizeof (property), "/%s", scheme);
@@ -462,7 +547,11 @@ xfce_displays_helper_x11_channel_apply (XfceDisplaysHelper *_helper,
 
     /* nothing saved, nothing to do */
     if (saved_outputs == NULL)
+    {
+        if (staging)
+            helper->preview_failed = TRUE;
         goto err_cleanup;
+    }
 
     /* first loop, loads all the outputs, and gets the number of active ones */
     nactive = 0;
@@ -479,13 +568,48 @@ xfce_displays_helper_x11_channel_apply (XfceDisplaysHelper *_helper,
     if (nactive == 0)
     {
         g_warning (WARNING_MESSAGE_ALL_DISABLED);
+        if (staging)
+            helper->preview_failed = TRUE;
         goto err_cleanup;
     }
+    helper->primary_changed |= helper->primary != previous_primary;
+
+    /* Do not apply a combined layout at the old scale. Only Request supplies
+     * the final compensation against which the staged layout can be validated. */
+    if (staging)
+        goto err_cleanup;
 
     /* apply settings */
-    xfce_displays_helper_x11_apply_all (helper);
+    /* Profiles contain uncompensated output geometry, not UI scaling. */
+    if (helper->scale_initialized && !helper->initializing)
+    {
+        if (helper->scale_timeout == 0
+            && xfconf_channel_get_int (channel, GLOBAL_SCALE_PROP, 100) == 0)
+            helper->scale_percent = global_scale_resolve (helper, 0);
+        if (!global_scale_apply (helper, helper->scale_percent))
+        {
+            if (helper->preview_crtcs != NULL)
+            {
+                helper->preview_failed = TRUE;
+            }
+            else
+                xfconf_channel_set_string (channel, GLOBAL_SCALE_ERROR, "unsupported-transform");
+        }
+    }
+    else
+    {
+        xfce_displays_helper_x11_apply_all (helper);
+    }
 
 err_cleanup:
+    if (staging)
+    {
+        helper->staged_crtcs = helper->crtcs;
+        helper->staged_primary = helper->primary;
+        helper->crtcs = global_scale_copy_crtcs (helper->preview_crtcs);
+        helper->primary = previous_primary;
+        helper->primary_changed = FALSE;
+    }
     /* Free the xfconf properties */
     if (saved_outputs)
         g_hash_table_destroy (saved_outputs);
@@ -505,7 +629,7 @@ xfce_displays_helper_x11_reload (XfceDisplaysHelperX11 *helper)
 
     /* Free the caches */
     g_ptr_array_unref (helper->outputs);
-    g_ptr_array_unref (helper->crtcs);
+    GPtrArray *old_crtcs = helper->crtcs;
 
     gdk_x11_display_error_trap_push (helper->display);
 
@@ -525,7 +649,9 @@ xfce_displays_helper_x11_reload (XfceDisplaysHelperX11 *helper)
 
     /* recreate the caches */
     helper->crtcs = xfce_displays_helper_x11_list_crtcs (helper);
+    g_ptr_array_unref (old_crtcs);
     helper->outputs = xfce_displays_helper_x11_list_outputs (helper);
+    helper->primary = XRRGetOutputPrimary (helper->xdisplay, GDK_WINDOW_XID (helper->root_window));
 }
 
 static gboolean
@@ -694,6 +820,8 @@ screen_on_event (gpointer data)
                                 }
                             }
                             xfce_displays_helper_x11_set_outputs (crtc, output);
+                            crtc->scalex = crtc->scaley = helper->compensation;
+                            crtc->output_scalex = crtc->output_scaley = 1.0;
                             crtc->changed = TRUE;
                         }
                     }
@@ -716,6 +844,10 @@ screen_on_event (gpointer data)
         }
     }
     g_ptr_array_unref (old_outputs);
+
+    if (helper->scale_timeout == 0
+        && xfconf_channel_get_int (channel, GLOBAL_SCALE_PROP, 100) == 0)
+        global_scale_apply (helper, global_scale_resolve (helper, 0));
 
     return FALSE;
 }
@@ -931,13 +1063,6 @@ xfce_displays_helper_x11_load_from_xfconf (XfceDisplaysHelperX11 *helper,
     if (scale <= 0.0)
         scale = 1.0;
 
-    if (crtc->scalex != scale || crtc->scaley != scale)
-    {
-        crtc->scalex = scale;
-        crtc->scaley = scale;
-        crtc->changed = TRUE;
-    }
-
     /* check mode validity */
     valid_mode = None;
     for (n = 0; n < output->info->nmode; ++n)
@@ -1016,6 +1141,23 @@ xfce_displays_helper_x11_load_from_xfconf (XfceDisplaysHelperX11 *helper,
         y = g_value_get_int (value);
     else
         y = 0;
+
+    /* Saved profiles are physical output geometry. Compose UI compensation
+     * here so profile changes, lid handling and monitor activation all use
+     * the same path, without rescaling untouched outputs a second time. */
+    crtc->output_scalex = crtc->output_scaley = scale;
+    if (helper->scale_initialized)
+    {
+        scale *= helper->compensation;
+        x = round (x * helper->compensation);
+        y = round (y * helper->compensation);
+    }
+    if (crtc->scalex != scale || crtc->scaley != scale)
+    {
+        crtc->scalex = scale;
+        crtc->scaley = scale;
+        crtc->changed = TRUE;
+    }
 
     /* update CRTC position */
     if (crtc->x != x || crtc->y != y)
@@ -1172,12 +1314,29 @@ xfce_displays_helper_x11_list_crtcs (XfceDisplaysHelperX11 *helper)
         crtc->rotations = crtc_info->rotations;
         crtc->width = crtc_info->width;
         crtc->height = crtc_info->height;
+        /* RandR CRTC info reports the transformed bounding box. Keep physical
+         * mode dimensions in this cache, or a cache reload applies the UI
+         * compensation again when calculating the next framebuffer size. */
+        for (gint m = 0; m < helper->resources->nmode; m++)
+        {
+            if (helper->resources->modes[m].id == crtc->mode)
+            {
+                gboolean rotated = crtc->rotation & (RR_Rotate_90 | RR_Rotate_270);
+                crtc->width = rotated ? helper->resources->modes[m].height : helper->resources->modes[m].width;
+                crtc->height = rotated ? helper->resources->modes[m].width : helper->resources->modes[m].height;
+                break;
+            }
+        }
         crtc->x = crtc_info->x;
         crtc->y = crtc_info->y;
         if (XRRGetCrtcTransform (helper->xdisplay, helper->resources->crtcs[n], &attr) && attr)
         {
             crtc->scalex = XFixedToDouble (attr->currentTransform.matrix[0][0]);
             crtc->scaley = XFixedToDouble (attr->currentTransform.matrix[1][1]);
+            xfce_global_scale_crtc_read (helper->xdisplay, GDK_WINDOW_XID (helper->root_window),
+                                         crtc->id, crtc_info, &attr->currentTransform,
+                                         helper->compensation, &crtc->output_scalex,
+                                         &crtc->output_scaley);
             XFree (attr);
         }
         else
@@ -1329,8 +1488,8 @@ xfce_displays_helper_x11_normalize_crtc (XfceRRCrtc *crtc,
                     crtc->id, crtc->width, crtc->height, crtc->x, crtc->y);
 
     /* calculate the total screen size */
-    helper->width = MAX (helper->width, crtc->x + round (crtc->width * crtc->scalex));
-    helper->height = MAX (helper->height, crtc->y + round (crtc->height * crtc->scaley));
+    helper->width = MAX (helper->width, crtc->x + ceil (crtc->width * crtc->scalex));
+    helper->height = MAX (helper->height, crtc->y + ceil (crtc->height * crtc->scaley));
 
     /* The 'physical size' of an X screen is meaningless if that screen
      * can consist of many monitors. So just pick a size that make the
@@ -1414,6 +1573,7 @@ xfce_displays_helper_x11_apply_crtc_transform (XfceRRCrtc *crtc,
     XRRSetCrtcTransform (helper->xdisplay, crtc->id, &transform, filter, NULL, 0);
     if (gdk_x11_display_error_trap_pop (helper->display) != 0)
     {
+        helper->apply_failed = TRUE;
         g_warning ("Failed to apply the scale, maybe the CRTC does not support transforms");
     }
 }
@@ -1451,7 +1611,10 @@ xfce_displays_helper_x11_apply_crtc (XfceRRCrtc *crtc,
         if (ret == RRSetConfigSuccess)
             crtc->changed = FALSE;
         else
+        {
+            helper->apply_failed = TRUE;
             g_warning ("Failed to configure CRTC %lu.", crtc->id);
+        }
     }
 }
 
@@ -1498,6 +1661,8 @@ xfce_displays_helper_x11_apply_all (XfceDisplaysHelperX11 *helper)
 {
     g_assert (XFCE_IS_DISPLAYS_HELPER (helper) && helper->crtcs);
 
+    helper->apply_failed = FALSE;
+
     helper->mm_width = helper->mm_height = helper->width = helper->height = 0;
     helper->min_x = helper->min_y = 32768;
 
@@ -1510,6 +1675,14 @@ xfce_displays_helper_x11_apply_all (XfceDisplaysHelperX11 *helper)
     /* grab server to prevent clients from thinking no output is enabled */
     gdk_x11_display_grab (helper->display);
 
+    /* Odd generations are in flight. Readers keep their previous cache until
+     * an even completion notification arrives, including on failed previews. */
+    helper->geometry_generation = (helper->geometry_generation + 1) | 1;
+    XChangeProperty (helper->xdisplay, GDK_WINDOW_XID (helper->root_window),
+                     XInternAtom (helper->xdisplay, GLOBAL_SCALE_GENERATION_ATOM, False),
+                     XA_CARDINAL, 32, PropModeReplace,
+                     (unsigned char *) &helper->geometry_generation, 1);
+
     /* disable CRTCs that won't fit in the new screen */
     g_ptr_array_foreach (helper->crtcs, (GFunc) xfce_displays_helper_x11_workaround_crtc_size, helper);
 
@@ -1521,11 +1694,521 @@ xfce_displays_helper_x11_apply_all (XfceDisplaysHelperX11 *helper)
 
     XRRSetOutputPrimary (helper->xdisplay, GDK_WINDOW_XID (helper->root_window), helper->primary);
 
-    /* release the grab, changes are done */
-    gdk_display_sync (helper->display);
-    gdk_x11_display_ungrab (helper->display);
+    /* XSync only services this Xlib connection; unlike gdk_display_sync it
+     * does not run toolkit screen handling which can use another connection.
+     * Check all requests before publishing a completed geometry generation. */
+    XSync (helper->xdisplay, False);
     if (gdk_x11_display_error_trap_pop (helper->display) != 0)
+        helper->apply_failed = TRUE;
+    if (!helper->apply_failed)
     {
+        helper->primary_changed = FALSE;
+        global_scale_publish_geometry (helper);
+    }
+
+    /* release the grab, changes are done */
+    xfsettings_dbg (XFSD_DEBUG_DISPLAYS, "Releasing display grab");
+    gdk_x11_display_ungrab (helper->display);
+    gdk_display_flush (helper->display);
+    /* Flush UngrabServer before synchronizing: toolkit screen-change handling
+     * may query X through another connection. All configuration requests are
+     * ordered before the ungrab on this connection. */
+    xfsettings_dbg (XFSD_DEBUG_DISPLAYS, "Synchronizing display changes");
+    gdk_display_sync (helper->display);
+    if (helper->apply_failed)
         g_warning ("Failed to apply display settings");
+}
+
+static XfceRRCrtc *
+global_scale_active_crtc (XfceDisplaysHelperX11 *helper, RROutput id)
+{
+    /* Profile loading updates CRTC assignments immediately. XRROutputInfo
+     * still describes the old topology until the delayed RandR reload. */
+    for (guint c = 0; c < helper->crtcs->len; c++)
+    {
+        XfceRRCrtc *crtc = g_ptr_array_index (helper->crtcs, c);
+        if (crtc->mode == None)
+            continue;
+        for (gint o = 0; o < crtc->noutput; o++)
+            if (crtc->outputs[o] == id)
+                return crtc;
+    }
+    return NULL;
+}
+
+/* This backend is the sole owner of both display profiles and UI compensation.
+ * No xrandr subprocess, environment-scale script or second RandR manager. */
+static gint
+global_scale_resolve (XfceDisplaysHelperX11 *helper, gint choice)
+{
+    RROutput primary;
+    XfceRROutput *candidate = NULL;
+
+    if (choice != 0)
+        return choice;
+    primary = helper->primary;
+    for (guint n = 0; n < helper->outputs->len; n++)
+    {
+        XfceRROutput *output = g_ptr_array_index (helper->outputs, n);
+        XfceRRCrtc *crtc = global_scale_active_crtc (helper, output->id);
+        if (crtc == NULL)
+            continue;
+        if (candidate == NULL || output->id == primary)
+            candidate = output;
+        if (output->id == primary)
+            break;
+    }
+    if (candidate != NULL)
+    {
+        XfceRRCrtc *crtc = global_scale_active_crtc (helper, candidate->id);
+        if (crtc != NULL && !g_str_has_prefix (candidate->info->name, "Virtual")
+            && !g_str_has_prefix (candidate->info->name, "VNC")
+            && !g_str_has_prefix (candidate->info->name, "XWAYLAND"))
+        {
+            /* CRTC dimensions are rotated; EDID physical dimensions are not. */
+            gint width = crtc->width, height = crtc->height;
+            if (crtc->rotation & (RR_Rotate_90 | RR_Rotate_270))
+            {
+                width = crtc->height;
+                height = crtc->width;
+            }
+            return xfce_global_scale_automatic (width, height,
+                                                 candidate->info->mm_width, candidate->info->mm_height,
+                                                 display_name_is_laptop_name (candidate->info->name));
+        }
+    }
+    return 100;
+}
+
+static void
+global_scale_publish_geometry (XfceDisplaysHelperX11 *helper)
+{
+    unsigned long fixed = XDoubleToFixed (helper->compensation);
+    for (guint n = 0; n < helper->crtcs->len; n++)
+    {
+        XfceRRCrtc *crtc = g_ptr_array_index (helper->crtcs, n);
+        XTransform transform = { .matrix = {
+            { XDoubleToFixed (crtc->scalex), 0, 0 },
+            { 0, XDoubleToFixed (crtc->scaley), 0 },
+            { 0, 0, XDoubleToFixed (1.0) } } };
+        if (crtc->mode == None)
+            continue;
+        xfce_global_scale_crtc_publish (helper->xdisplay, GDK_WINDOW_XID (helper->root_window),
+                                        crtc->id, crtc->mode, crtc->rotation,
+                                        crtc->noutput, crtc->outputs, &transform,
+                                        helper->compensation,
+                                        crtc->output_scalex > 0 ? crtc->output_scalex : crtc->scalex / helper->compensation,
+                                        crtc->output_scaley > 0 ? crtc->output_scaley : crtc->scaley / helper->compensation);
+    }
+    XChangeProperty (helper->xdisplay, GDK_WINDOW_XID (helper->root_window),
+                     XInternAtom (helper->xdisplay, GLOBAL_SCALE_ATOM, False), XA_CARDINAL,
+                     32, PropModeReplace, (unsigned char *) &fixed, 1);
+    helper->geometry_generation = (helper->geometry_generation + 2) & ~1UL;
+    XChangeProperty (helper->xdisplay, GDK_WINDOW_XID (helper->root_window),
+                     XInternAtom (helper->xdisplay, GLOBAL_SCALE_GENERATION_ATOM, False),
+                     XA_CARDINAL, 32, PropModeReplace,
+                     (unsigned char *) &helper->geometry_generation, 1);
+}
+
+static void
+global_scale_publish (XfceDisplaysHelperX11 *helper)
+{
+    XfconfChannel *channel = xfce_displays_helper_get_channel (XFCE_DISPLAYS_HELPER (helper));
+    xfsettings_dbg (XFSD_DEBUG_DISPLAYS, "Publishing effective scale");
+    xfconf_channel_set_int (channel, GLOBAL_SCALE_EFFECTIVE, helper->scale_percent);
+    xfsettings_dbg (XFSD_DEBUG_DISPLAYS, "Publishing toolkit scale");
+    xfconf_channel_set_int (channel, GLOBAL_SCALE_TOOLKIT,
+                            helper->managed_scale ? xfce_global_scale_toolkit (helper->scale_percent) : 0);
+    xfsettings_dbg (XFSD_DEBUG_DISPLAYS, "Global scale published");
+}
+
+static gboolean
+global_scale_qxl_output (XfceDisplaysHelperX11 *helper)
+{
+    GDir *dir;
+    const gchar *name;
+    gboolean qxl = FALSE;
+
+    /* Reproduced on MiniOS kernel 6.12.111: modesetting on QXL faults in
+     * qxl_image_init when a transformed scanout dirties the enlarged FB.
+     * The QXL DDX rejects transforms instead. Do not risk the live X server
+     * for a preview on this driver; native 100/200% remain available. */
+    for (guint n = 0; n < helper->outputs->len; n++)
+    {
+        XfceRROutput *output = g_ptr_array_index (helper->outputs, n);
+        if (output->active && !g_str_has_prefix (output->info->name, "Virtual"))
+            return FALSE;
+    }
+    dir = g_dir_open ("/sys/class/drm", 0, NULL);
+    if (dir == NULL)
+        return FALSE;
+    while ((name = g_dir_read_name (dir)) != NULL)
+    {
+        gchar *path = g_build_filename ("/sys/class/drm", name, "device/driver", NULL);
+        gchar *link = g_file_read_link (path, NULL);
+        if (link != NULL)
+        {
+            gchar *driver = g_path_get_basename (link);
+            qxl |= g_strcmp0 (driver, "qxl") == 0;
+            g_free (driver);
+        }
+        g_free (link);
+        g_free (path);
+    }
+    g_dir_close (dir);
+    return qxl;
+}
+
+static gboolean
+global_scale_apply (XfceDisplaysHelperX11 *helper, gint percent)
+{
+    /* Track the actual 16.16 server value, including after cache reloads.
+     * Otherwise repeated 175% -> 100% transitions can leave a near-identity
+     * bilinear transform instead of returning to an exact identity. */
+    gdouble target = XFixedToDouble (XDoubleToFixed (xfce_global_scale_compensation (percent)));
+    gdouble ratio = target / helper->compensation;
+    gint width = 0, height = 0, minw, minh, maxw, maxh;
+    gint min_x = G_MAXINT, min_y = G_MAXINT;
+    GPtrArray *target_crtcs;
+
+    if (target != 1.0 && global_scale_qxl_output (helper))
+        return FALSE;
+
+    /* Build exactly the rounded target we will apply, then normalize and
+     * validate that complete framebuffer. Never validate old/negative origins
+     * or mutate the live cache on a preflight failure. */
+    target_crtcs = g_ptr_array_new_with_free_func ((GDestroyNotify) xfce_displays_helper_x11_free_crtc);
+    for (guint n = 0; n < helper->crtcs->len; n++)
+    {
+        XfceRRCrtc *old = g_ptr_array_index (helper->crtcs, n);
+        XfceRRCrtc *crtc = g_memdup2 (old, sizeof (*old));
+        crtc->outputs = g_memdup2 (old->outputs, old->noutput * sizeof (RROutput));
+        crtc->possible = g_memdup2 (old->possible, old->npossible * sizeof (RROutput));
+        g_ptr_array_add (target_crtcs, crtc);
+        if (crtc->mode == None)
+            continue;
+        if (crtc->output_scalex == 0.0)
+        {
+            crtc->output_scalex = crtc->scalex / helper->compensation;
+            crtc->output_scaley = crtc->scaley / helper->compensation;
+            /* No rounding heuristic: a mismatching proof can represent a
+             * genuine external transform, even just one fixed-point unit. */
+        }
+        if (target != helper->compensation)
+        {
+            crtc->x = round (round (crtc->x / helper->compensation) * target);
+            crtc->y = round (round (crtc->y / helper->compensation) * target);
+            /* Compose from the canonical output transform each time. Scaling
+             * an already-quantized value by ratios loses fixed-point units on
+             * x87/i386 and can drift on long fractional-scale sequences. */
+            crtc->scalex = crtc->output_scalex * target;
+            crtc->scaley = crtc->output_scaley * target;
+            crtc->scalex = XFixedToDouble (XDoubleToFixed (crtc->scalex));
+            crtc->scaley = XFixedToDouble (XDoubleToFixed (crtc->scaley));
+            crtc->changed = TRUE;
+        }
+        min_x = MIN (min_x, crtc->x);
+        min_y = MIN (min_y, crtc->y);
+    }
+    for (guint n = 0; n < target_crtcs->len; n++)
+    {
+        XfceRRCrtc *crtc = g_ptr_array_index (target_crtcs, n);
+        if (crtc->mode == None)
+            continue;
+        crtc->x -= min_x;
+        crtc->y -= min_y;
+        crtc->changed |= min_x != 0 || min_y != 0;
+        width = MAX (width, crtc->x + ceil (crtc->width * crtc->scalex));
+        height = MAX (height, crtc->y + ceil (crtc->height * crtc->scaley));
+    }
+    if (!XRRGetScreenSizeRange (helper->xdisplay, GDK_WINDOW_XID (helper->root_window),
+                               &minw, &minh, &maxw, &maxh)
+        || width < minw || height < minh || width > maxw || height > maxh)
+    {
+        g_ptr_array_unref (target_crtcs);
+        return FALSE;
+    }
+    g_ptr_array_unref (helper->crtcs);
+    helper->crtcs = target_crtcs;
+    helper->compensation = target;
+    if (fabs (ratio - 1.0) > 0.00001)
+        xfce_displays_helper_x11_apply_all (helper);
+    else
+    {
+        gboolean changed = helper->primary_changed || (helper->geometry_generation & 1);
+        for (guint n = 0; n < helper->crtcs->len; n++)
+            changed |= ((XfceRRCrtc *) g_ptr_array_index (helper->crtcs, n))->changed;
+        if (changed)
+            xfce_displays_helper_x11_apply_all (helper);
+        else
+        {
+            helper->apply_failed = FALSE;
+            helper->width = width;
+            helper->height = height;
+            /* Establish a completion atom even for a toolkit-only change. */
+            gdk_x11_display_grab (helper->display);
+            global_scale_publish_geometry (helper);
+            gdk_x11_display_ungrab (helper->display);
+            gdk_display_flush (helper->display);
+        }
+    }
+    if (helper->apply_failed)
+        return FALSE;
+    helper->scale_percent = percent;
+    global_scale_publish (helper);
+    return TRUE;
+}
+
+static void
+global_scale_snapshot_clear (XfceDisplaysHelperX11 *helper)
+{
+    g_clear_pointer (&helper->staged_crtcs, g_ptr_array_unref);
+    g_clear_pointer (&helper->preview_crtcs, g_ptr_array_unref);
+    g_clear_pointer (&helper->preview_profile, g_free);
+    helper->preview_failed = FALSE;
+    helper->preview_staged = FALSE;
+}
+
+static GPtrArray *
+global_scale_copy_crtcs (GPtrArray *crtcs)
+{
+    GPtrArray *copies = g_ptr_array_new_with_free_func ((GDestroyNotify) xfce_displays_helper_x11_free_crtc);
+    for (guint n = 0; n < crtcs->len; n++)
+    {
+        XfceRRCrtc *old = g_ptr_array_index (crtcs, n);
+        XfceRRCrtc *copy = g_memdup2 (old, sizeof (*old));
+        copy->outputs = g_memdup2 (old->outputs, old->noutput * sizeof (RROutput));
+        copy->possible = g_memdup2 (old->possible, old->npossible * sizeof (RROutput));
+        g_ptr_array_add (copies, copy);
+    }
+    return copies;
+}
+
+static void
+global_scale_snapshot (XfceDisplaysHelperX11 *helper)
+{
+    XfconfChannel *channel = xfce_displays_helper_get_channel (XFCE_DISPLAYS_HELPER (helper));
+    helper->preview_crtcs = global_scale_copy_crtcs (helper->crtcs);
+    helper->preview_primary = helper->primary;
+    helper->preview_compensation = helper->compensation;
+    helper->preview_previous = helper->scale_percent;
+    helper->preview_previous_managed = helper->managed_scale;
+    helper->preview_profile = xfconf_channel_get_string (channel, ACTIVE_PROFILE, DEFAULT_SCHEME_NAME);
+}
+
+static gboolean
+global_scale_restore (XfceDisplaysHelperX11 *helper)
+{
+    XfconfChannel *channel = xfce_displays_helper_get_channel (XFCE_DISPLAYS_HELPER (helper));
+    GPtrArray *current;
+    gboolean success;
+    if (helper->preview_crtcs == NULL)
+        return FALSE;
+    if (helper->preview_staged)
+    {
+        /* Temp has not touched the server. Do not roll back independent live
+         * hotplug changes merely because its frontend exited before Request. */
+        return TRUE;
+    }
+    /* Swap in the complete old layout and scale BEFORE validation/application.
+     * No intermediate old-scale/new-layout framebuffer is ever attempted. */
+    current = helper->crtcs;
+    helper->crtcs = helper->preview_crtcs;
+    helper->preview_crtcs = current;
+    helper->compensation = helper->preview_compensation;
+    helper->scale_percent = helper->preview_previous;
+    helper->managed_scale = helper->preview_previous_managed;
+    helper->primary = helper->preview_primary;
+    helper->primary_changed = TRUE;
+    for (guint n = 0; n < helper->crtcs->len; n++)
+        ((XfceRRCrtc *) g_ptr_array_index (helper->crtcs, n))->changed = TRUE;
+    success = global_scale_apply (helper, helper->preview_previous);
+    if (success)
+        xfconf_channel_set_string (channel, ACTIVE_PROFILE, helper->preview_profile);
+    else
+        xfconf_channel_set_string (channel, GLOBAL_SCALE_ERROR, "rollback-failed");
+    return success;
+}
+
+static gboolean
+global_scale_revert (gpointer data)
+{
+    XfceDisplaysHelperX11 *helper = data;
+    XfconfChannel *channel = xfce_displays_helper_get_channel (XFCE_DISPLAYS_HELPER (helper));
+    gboolean failed_preview = helper->preview_failed;
+    helper->scale_timeout = 0;
+    gboolean restored = global_scale_restore (helper);
+    if (helper->preview_restore_profile)
+    {
+        helper->preview_restore_profile = FALSE;
+        xfconf_channel_reset_property (channel, "/Temp", TRUE);
+    }
+    global_scale_snapshot_clear (helper);
+    if (restored && failed_preview)
+        xfconf_channel_set_string (channel, GLOBAL_SCALE_ERROR, "unsupported-transform");
+    xfconf_channel_set_bool (channel, GLOBAL_SCALE_PENDING, FALSE);
+    return G_SOURCE_REMOVE;
+}
+
+static void
+global_scale_property_changed (XfconfChannel *channel, const gchar *name,
+                               const GValue *value, XfceDisplaysHelperX11 *helper)
+{
+    if (g_strcmp0 (name, GLOBAL_SCALE_REQUEST) == 0 && G_VALUE_HOLDS_INT (value))
+    {
+        gint choice = g_value_get_int (value);
+        if (!xfce_global_scale_valid (choice)
+            || (helper->scale_timeout != 0 && !helper->preview_staged))
+            return;
+        if (helper->preview_staged)
+        {
+            g_source_remove (helper->scale_timeout);
+            helper->scale_timeout = 0;
+            g_ptr_array_unref (helper->crtcs);
+            helper->crtcs = g_steal_pointer (&helper->staged_crtcs);
+            helper->primary_changed |= helper->primary != helper->staged_primary;
+            helper->primary = helper->staged_primary;
+            helper->preview_staged = FALSE;
+        }
+        helper->preview_choice = choice;
+        if (helper->preview_crtcs == NULL)
+            global_scale_snapshot (helper);
+        helper->preview_restore_profile |= xfconf_channel_get_bool (channel, GLOBAL_SCALE_RESTORE_PROFILE, FALSE);
+        xfconf_channel_reset_property (channel, GLOBAL_SCALE_RESTORE_PROFILE, FALSE);
+        helper->managed_scale = TRUE;
+        xfconf_channel_set_string (channel, GLOBAL_SCALE_ERROR, "");
+        if (helper->preview_failed || !global_scale_apply (helper, global_scale_resolve (helper, choice)))
+        {
+            gboolean restored = global_scale_restore (helper);
+            if (helper->preview_restore_profile)
+            {
+                helper->preview_restore_profile = FALSE;
+                xfconf_channel_reset_property (channel, "/Temp", TRUE);
+            }
+            global_scale_snapshot_clear (helper);
+            xfconf_channel_set_string (channel, GLOBAL_SCALE_ERROR,
+                                      restored ? "unsupported-transform" : "rollback-failed");
+            return;
+        }
+        helper->scale_timeout = g_timeout_add_seconds (15, global_scale_revert, helper);
+        if (helper->preview_restore_profile)
+            xfconf_channel_set_string (channel, ACTIVE_PROFILE, "Temp");
+        xfconf_channel_set_bool (channel, GLOBAL_SCALE_PENDING, TRUE);
+    }
+    else if (helper->scale_timeout != 0 && G_VALUE_HOLDS_BOOLEAN (value)
+             && g_value_get_boolean (value))
+    {
+        if (g_strcmp0 (name, GLOBAL_SCALE_CONFIRM) == 0)
+        {
+            if (helper->preview_staged)
+                return;
+            g_source_remove (helper->scale_timeout);
+            helper->scale_timeout = 0;
+            /* Hotplug/lid events during the preview may have changed the
+             * active topology since Automatic was initially resolved. */
+            if (helper->preview_choice == 0
+                && !global_scale_apply (helper, global_scale_resolve (helper, 0)))
+            {
+                helper->preview_failed = TRUE;
+                global_scale_revert (helper);
+                return;
+            }
+            if (helper->preview_restore_profile)
+            {
+                /* Commit from the completed server generation, not Temp or a
+                 * frontend cache. A timeout/failure before accepting Confirm
+                 * must not have overwritten the previous persistent profile. */
+                if (!xfce_randr_reload (helper->randr))
+                {
+                    helper->preview_failed = TRUE;
+                    global_scale_revert (helper);
+                    return;
+                }
+                for (guint n = 0; n < helper->randr->noutput; n++)
+                    xfce_randr_save_output (helper->randr, DEFAULT_SCHEME_NAME, channel, n);
+                xfconf_channel_set_string (channel, ACTIVE_PROFILE, DEFAULT_SCHEME_NAME);
+                xfconf_channel_reset_property (channel, "/Temp", TRUE);
+            }
+            helper->preview_restore_profile = FALSE;
+            global_scale_snapshot_clear (helper);
+            xfconf_channel_set_int (channel, GLOBAL_SCALE_PROP, helper->preview_choice);
+            xfconf_channel_set_bool (channel, GLOBAL_SCALE_PENDING, FALSE);
+        }
+        else if (g_strcmp0 (name, GLOBAL_SCALE_CANCEL) == 0)
+        {
+            g_source_remove (helper->scale_timeout);
+            global_scale_revert (helper);
+        }
+    }
+    else if (helper->preview_crtcs != NULL && g_strcmp0 (name, GLOBAL_SCALE_CANCEL) == 0
+             && G_VALUE_HOLDS_BOOLEAN (value) && g_value_get_boolean (value))
+        global_scale_revert (helper);
+}
+
+static void
+xfce_displays_helper_x11_constructed (GObject *object)
+{
+    XfceDisplaysHelperX11 *helper = XFCE_DISPLAYS_HELPER_X11 (object);
+    XfconfChannel *channel;
+    Atom type;
+    int format;
+    unsigned long count, remaining;
+    unsigned char *property = NULL;
+
+    if (helper->crtcs != NULL
+        && XGetWindowProperty (helper->xdisplay, GDK_WINDOW_XID (helper->root_window),
+                               XInternAtom (helper->xdisplay, GLOBAL_SCALE_ATOM, False),
+                               0, 1, False, XA_CARDINAL, &type, &format, &count,
+                               &remaining, &property) == Success
+        && type == XA_CARDINAL && format == 32 && count == 1)
+        helper->compensation = XFixedToDouble (*(unsigned long *) property);
+    if (property != NULL)
+        XFree (property);
+    if (helper->compensation < 1 || helper->compensation > 2)
+        helper->compensation = 1;
+
+    if (helper->crtcs == NULL)
+    {
+        G_OBJECT_CLASS (xfce_displays_helper_x11_parent_class)->constructed (object);
+        return;
+    }
+
+    /* All live CRTCs are already in the compensation read above. Load partial
+     * profiles into that SAME space, leaving unmatched outputs untouched. */
+    helper->scale_initialized = TRUE;
+    helper->initializing = TRUE;
+    helper->primary = XRRGetOutputPrimary (helper->xdisplay, GDK_WINDOW_XID (helper->root_window));
+    /* Preserve monotonic generations across daemon replacement. */
+    property = NULL;
+    if (XGetWindowProperty (helper->xdisplay, GDK_WINDOW_XID (helper->root_window),
+                           XInternAtom (helper->xdisplay, GLOBAL_SCALE_GENERATION_ATOM, False),
+                           0, 1, False, XA_CARDINAL, &type, &format, &count,
+                           &remaining, &property) == Success
+        && type == XA_CARDINAL && format == 32 && count == 1)
+        helper->geometry_generation = *(unsigned long *) property;
+    if (property != NULL)
+        XFree (property);
+    G_OBJECT_CLASS (xfce_displays_helper_x11_parent_class)->constructed (object);
+    helper->initializing = FALSE;
+    channel = xfce_displays_helper_get_channel (XFCE_DISPLAYS_HELPER (helper));
+    if (channel == NULL || helper->crtcs == NULL)
+        return;
+    helper->scale_initialized = TRUE;
+    helper->managed_scale = xfconf_channel_has_property (channel, GLOBAL_SCALE_PROP);
+    xfconf_channel_reset_property (channel, GLOBAL_SCALE_REQUEST, FALSE);
+    xfconf_channel_reset_property (channel, GLOBAL_SCALE_CONFIRM, FALSE);
+    xfconf_channel_reset_property (channel, GLOBAL_SCALE_CANCEL, FALSE);
+    xfconf_channel_reset_property (channel, GLOBAL_SCALE_RESTORE_PROFILE, FALSE);
+    xfconf_channel_set_bool (channel, GLOBAL_SCALE_PENDING, FALSE);
+    g_signal_connect_object (channel, "property-changed",
+                             G_CALLBACK (global_scale_property_changed), helper, 0);
+    gint choice = xfconf_channel_get_int (channel, GLOBAL_SCALE_PROP, 100);
+    if (!xfce_global_scale_valid (choice))
+        choice = 100;
+    if (!global_scale_apply (helper, global_scale_resolve (helper, choice)))
+    {
+        global_scale_apply (helper, 100);
+        xfconf_channel_set_string (channel, GLOBAL_SCALE_ERROR, "unsupported-transform");
+        g_warning ("Cannot restore global interface scale");
     }
 }

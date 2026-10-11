@@ -28,6 +28,8 @@ G_DECLARE_FINAL_TYPE (XfceDisplaySettingsX11, xfce_display_settings_x11, XFCE, D
 
 XfceDisplaySettings *
 xfce_display_settings_x11_new (GError **error);
+gboolean
+xfce_display_settings_x11_refresh (XfceDisplaySettings *settings);
 
 G_END_DECLS
 

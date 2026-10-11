@@ -26,6 +26,8 @@
 #include "config.h"
 #endif
 
+#include "common/global-scale.h"
+
 #include "xsettings.h"
 
 #include "common/debug.h"
@@ -51,6 +53,7 @@
 
 #define FC_TIMEOUT_SEC 2 /* timeout before xsettings notify */
 #define FC_PROPERTY "/Fontconfig/Timestamp"
+#define CURSOR_DEFAULT_SIZE_ATOM "_XFCE_CURSOR_DEFAULT_SIZE"
 
 
 
@@ -96,6 +99,9 @@ struct _XfceXSettingsHelper
     GObject __parent__;
 
     XfconfChannel *channel;
+    XfconfChannel *displays_channel;
+    gint cursor_default_size;
+    gboolean cursor_size_overridden;
 
     /* list of XfceXSettingsScreen we handle */
     GSList *screens;
@@ -131,6 +137,9 @@ struct _XfceXSettingsNotify
     gsize buf_len;
     gint n_settings;
     gsize dpi_offset;
+    gint toolkit_scale;
+    gboolean fractional;
+    gint cursor_size;
 };
 
 struct _XfceXSettingsScreen
@@ -151,6 +160,22 @@ struct _XfceTimestamp
 
 G_DEFINE_TYPE (XfceXSettingsHelper, xfce_xsettings_helper, G_TYPE_OBJECT);
 
+static gboolean
+xfce_xsettings_helper_notify_xft_idle (gpointer data);
+
+static void
+xfce_xsettings_global_scale_changed (XfconfChannel *channel, const gchar *name,
+                                     const GValue *value, XfceXSettingsHelper *helper)
+{
+    if (g_strcmp0 (name, GLOBAL_SCALE_TOOLKIT) != 0
+        && g_strcmp0 (name, GLOBAL_SCALE_EFFECTIVE) != 0)
+        return;
+    if (helper->notify_idle_id == 0)
+        helper->notify_idle_id = g_idle_add (xfce_xsettings_helper_notify_idle, helper);
+    if (helper->notify_xft_idle_id == 0)
+        helper->notify_xft_idle_id = g_idle_add (xfce_xsettings_helper_notify_xft_idle, helper);
+}
+
 
 
 static void
@@ -168,11 +193,50 @@ static void
 xfce_xsettings_helper_init (XfceXSettingsHelper *helper)
 {
     helper->channel = xfconf_channel_new ("xsettings");
+    helper->displays_channel = xfconf_channel_new ("displays");
+    g_signal_connect (helper->displays_channel, "property-changed",
+                      G_CALLBACK (xfce_xsettings_global_scale_changed), helper);
 
     helper->settings = g_hash_table_new_full (g_str_hash, g_str_equal,
                                               g_free, xfce_xsettings_helper_setting_free);
 
     xfce_xsettings_helper_load (helper);
+
+    /* A managed session has already normalized DPI; do not use its published
+     * cursor size as another logical baseline during daemon replacement.
+     * GTK's nominal default is 24. Capture the real legacy fallback only while
+     * the display is still unmanaged. */
+    helper->cursor_default_size = 24;
+    gint cursor_scale = xfconf_channel_get_int (helper->displays_channel, GLOBAL_SCALE_TOOLKIT, 0);
+    helper->cursor_size_overridden = cursor_scale == 1 || cursor_scale == 2;
+    if (cursor_scale == 0)
+    {
+        guint size = gdk_display_get_default_cursor_size (gdk_display_get_default ());
+        if (size > 0 && size <= G_MAXINT)
+            helper->cursor_default_size = size;
+    }
+    else if (helper->cursor_size_overridden)
+    {
+        /* Carry the original automatic fallback across manager replacement,
+         * independently of the scaled Xcursor.size in RESOURCE_MANAGER. */
+        Display *display = GDK_DISPLAY_XDISPLAY (gdk_display_get_default ());
+        Atom type;
+        gint format;
+        gulong count, remaining;
+        guchar *data = NULL;
+        if (XGetWindowProperty (display, DefaultRootWindow (display),
+                                XInternAtom (display, CURSOR_DEFAULT_SIZE_ATOM, False),
+                                0, 1, False, XA_INTEGER, &type, &format, &count,
+                                &remaining, &data) == Success
+            && type == XA_INTEGER && format == 32 && count == 1)
+        {
+            glong size = *(glong *) data;
+            if (size > 0 && size <= G_MAXINT)
+                helper->cursor_default_size = size;
+        }
+        if (data != NULL)
+            XFree (data);
+    }
 
     g_signal_connect (G_OBJECT (helper->channel), "property-changed",
                       G_CALLBACK (xfce_xsettings_helper_prop_changed), helper);
@@ -197,6 +261,7 @@ xfce_xsettings_helper_finalize (GObject *object)
         g_source_remove (helper->notify_xft_idle_id);
 
     g_object_unref (G_OBJECT (helper->channel));
+    g_object_unref (helper->displays_channel);
 
     /* remove screens */
     for (li = helper->screens; li != NULL; li = li->next)
@@ -643,6 +708,31 @@ xfce_xsettings_helper_notify_xft_update (GString *resource,
 
 
 
+static gint
+xfce_xsettings_helper_cursor_size (XfceXSettingsHelper *helper, gint toolkit_scale)
+{
+    XfceXSetting *setting = g_hash_table_lookup (helper->settings, "/Gtk/CursorThemeSize");
+    gint size = setting != NULL && G_VALUE_HOLDS_INT (setting->value)
+        ? g_value_get_int (setting->value) : 0;
+
+    if (toolkit_scale == 1 || toolkit_scale == 2)
+    {
+        helper->cursor_size_overridden = TRUE;
+        Display *display = GDK_DISPLAY_XDISPLAY (gdk_display_get_default ());
+        glong fallback = helper->cursor_default_size;
+        XChangeProperty (display, DefaultRootWindow (display),
+                         XInternAtom (display, CURSOR_DEFAULT_SIZE_ATOM, False),
+                         XA_INTEGER, 32, PropModeReplace, (guchar *) &fallback, 1);
+    }
+    if (!helper->cursor_size_overridden)
+        return -1;
+
+    /* Publishing zero on rollback would leave GTK/Xcursor's last scaled size
+     * in place: gdk_x11_display_set_cursor_theme(size=0) means "keep size".
+     * Publish the resolved unscaled baseline while retaining xfconf's zero. */
+    return xfce_global_scale_cursor_size (size, toolkit_scale, helper->cursor_default_size);
+}
+
 static void
 xfce_xsettings_helper_notify_xft (XfceXSettingsHelper *helper)
 {
@@ -684,6 +774,37 @@ xfce_xsettings_helper_notify_xft (XfceXSettingsHelper *helper)
         {
             xfce_xsettings_helper_notify_xft_update (resource, props[i][1],
                                                      setting->value);
+        }
+    }
+
+    /* Qt5/Qt6's XCB backend consumes logical Xft DPI at application startup.
+     * The GTK scale and UnscaledDPI below describe the same integer render
+     * scale. Never also set QT_SCALE_FACTOR or multiply GTK font DPI twice. */
+    gint toolkit_scale = xfconf_channel_get_int (helper->displays_channel, GLOBAL_SCALE_TOOLKIT, 0);
+    gint cursor_size = xfce_xsettings_helper_cursor_size (helper, toolkit_scale);
+    if (cursor_size >= 0)
+    {
+        GValue value = G_VALUE_INIT;
+        g_value_init (&value, G_TYPE_INT);
+        g_value_set_int (&value, cursor_size);
+        xfce_xsettings_helper_notify_xft_update (resource, "Xcursor.size:", &value);
+        g_value_unset (&value);
+    }
+    if (toolkit_scale == 1 || toolkit_scale == 2)
+    {
+        GValue dpi = G_VALUE_INIT;
+        g_value_init (&dpi, G_TYPE_INT);
+        g_value_set_int (&dpi, 96 * toolkit_scale);
+        xfce_xsettings_helper_notify_xft_update (resource, "Xft.dpi:", &dpi);
+        g_value_unset (&dpi);
+        gint percent = xfconf_channel_get_int (helper->displays_channel, GLOBAL_SCALE_EFFECTIVE, 100);
+        if (percent > 100 && percent < 200)
+        {
+            GValue rgba = G_VALUE_INIT;
+            g_value_init (&rgba, G_TYPE_STRING);
+            g_value_set_string (&rgba, "none");
+            xfce_xsettings_helper_notify_xft_update (resource, "Xft.rgba:", &rgba);
+            g_value_unset (&rgba);
         }
     }
 
@@ -729,6 +850,16 @@ xfce_xsettings_helper_setting_append (const gchar *name,
     guchar *needle;
     guchar type = 0;
     gint num;
+
+    if (notify->toolkit_scale > 0
+        && (strcmp (name, "/Xft/DPI") == 0
+            || strcmp (name, "/Gdk/WindowScalingFactor") == 0
+            || strcmp (name, "/Gdk/UnscaledDPI") == 0))
+        return;
+    if (notify->fractional && strcmp (name, "/Xft/RGBA") == 0)
+        return;
+    if (notify->cursor_size >= 0 && strcmp (name, "/Gtk/CursorThemeSize") == 0)
+        return;
 
     name_len = strlen (name) - 1 /* -1 for the xfconf slash */;
     name_len_pad = XSETTINGS_PAD (name_len, 4);
@@ -907,6 +1038,10 @@ xfce_xsettings_helper_notify (XfceXSettingsHelper *helper)
     g_return_if_fail (XFCE_IS_XSETTINGS_HELPER (helper));
 
     notify = g_slice_new0 (XfceXSettingsNotify);
+    notify->toolkit_scale = xfconf_channel_get_int (helper->displays_channel, GLOBAL_SCALE_TOOLKIT, 0);
+    notify->cursor_size = xfce_xsettings_helper_cursor_size (helper, notify->toolkit_scale);
+    gint percent = xfconf_channel_get_int (helper->displays_channel, GLOBAL_SCALE_EFFECTIVE, 100);
+    notify->fractional = notify->toolkit_scale > 0 && percent > 100 && percent < 200;
     notify->buf = g_new0 (guchar, 12);
     if (G_UNLIKELY (notify->buf == NULL))
         goto errnomem;
@@ -930,6 +1065,43 @@ xfce_xsettings_helper_notify (XfceXSettingsHelper *helper)
 
     /* add all the settings */
     g_hash_table_foreach (helper->settings, (GHFunc) xfce_xsettings_helper_setting_append, notify);
+
+    if (notify->toolkit_scale == 1 || notify->toolkit_scale == 2)
+    {
+        GValue value = G_VALUE_INIT;
+        XfceXSetting setting = { &value, helper->serial - 1 };
+        gint scale = notify->toolkit_scale;
+        notify->toolkit_scale = 0;
+        g_value_init (&value, G_TYPE_INT);
+        g_value_set_int (&value, scale);
+        xfce_xsettings_helper_setting_append ("/Gdk/WindowScalingFactor", &setting, notify);
+        g_value_set_int (&value, 96 * 1024);
+        xfce_xsettings_helper_setting_append ("/Gdk/UnscaledDPI", &setting, notify);
+        g_value_set_int (&value, 96 * scale);
+        xfce_xsettings_helper_setting_append ("/Xft/DPI", &setting, notify);
+        g_value_unset (&value);
+    }
+    if (notify->cursor_size >= 0)
+    {
+        GValue value = G_VALUE_INIT;
+        XfceXSetting setting = { &value, helper->serial - 1 };
+        gint size = notify->cursor_size;
+        notify->cursor_size = -1;
+        g_value_init (&value, G_TYPE_INT);
+        g_value_set_int (&value, size);
+        xfce_xsettings_helper_setting_append ("/Gtk/CursorThemeSize", &setting, notify);
+        g_value_unset (&value);
+    }
+    if (notify->fractional)
+    {
+        GValue value = G_VALUE_INIT;
+        XfceXSetting setting = { &value, helper->serial - 1 };
+        notify->fractional = FALSE;
+        g_value_init (&value, G_TYPE_STRING);
+        g_value_set_string (&value, "none");
+        xfce_xsettings_helper_setting_append ("/Xft/RGBA", &setting, notify);
+        g_value_unset (&value);
+    }
 
     if (G_UNLIKELY (notify->buf == NULL))
         goto errnomem;

@@ -1,0 +1,10 @@
+# Qt5's XCB backend reads logical Xft DPI at application startup. Qt6 already
+# opts into HiDPI. No frozen QT_SCALE_FACTOR and no competing RandR manager.
+case ":${XDG_CURRENT_DESKTOP:-}:${DESKTOP_SESSION:-}:${STARTUP:-}:" in
+    *XFCE*|*xfce*)
+        if [ -z "${QT_ENABLE_HIGHDPI_SCALING+x}" ]; then
+            QT_ENABLE_HIGHDPI_SCALING=1
+            export QT_ENABLE_HIGHDPI_SCALING
+        fi
+        ;;
+esac

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<channel name="displays" version="1.0">
+  <!-- System default only: saved per-user scale choices take precedence. -->
+  <property name="GlobalScale" type="int" value="0"/>
+</channel>

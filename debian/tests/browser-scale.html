@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>HiDPI browser probe</title>
+<h1>HiDPI browser probe</h1>
+<p id="dpr"></p>
+<p>Text, buttons, input fields and a vector icon should scale together.</p>
+<button>Interface scale</button> <input value="Crisp text at integer scales">
+<p><svg width="64" height="64" viewBox="0 0 64 64" aria-label="vector icon">
+<rect x="2" y="2" width="60" height="60" fill="#eee" stroke="#111" stroke-width="2"/>
+<path d="M10 32h44M32 10v44M10 10l44 44M10 54l44-44" stroke="#111" fill="none"/>
+</svg></p>
+<script>
+function update() {
+  document.getElementById('dpr').textContent = 'Browser DPR: ' + window.devicePixelRatio;
+}
+update(); setInterval(update, 500);
+</script>
+</html>

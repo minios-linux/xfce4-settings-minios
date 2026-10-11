@@ -21,6 +21,8 @@
 #include "config.h"
 #endif
 
+#include "common/global-scale.h"
+
 #include "appearance-dialog_ui.h"
 
 #include <cairo-gobject.h>
@@ -47,6 +49,17 @@
 
 /* Increase this number if new gtk settings have been added */
 #define INITIALIZE_UINT (1)
+
+static void
+open_global_scale_settings (GtkButton *button, gpointer data)
+{
+    GError *error = NULL;
+    if (!g_spawn_command_line_async ("xfce4-display-settings", &error))
+    {
+        xfce_dialog_show_error (NULL, error, "%s", _("Failed to open Display settings"));
+        g_error_free (error);
+    }
+}
 
 enum
 {
@@ -416,6 +429,9 @@ cb_custom_dpi_check_button_toggled (GtkToggleButton *custom_dpi_toggle,
 {
     gint dpi;
 
+    if (!gtk_widget_get_sensitive (GTK_WIDGET (custom_dpi_toggle)))
+        return;
+
     if (gtk_toggle_button_get_active (custom_dpi_toggle))
     {
         /* Custom DPI is activated, so restore the last custom DPI we know about */
@@ -449,6 +465,9 @@ cb_custom_dpi_spin_button_changed (GtkSpinButton *custom_dpi_spin,
                                    GtkToggleButton *custom_dpi_toggle)
 {
     gint dpi = gtk_spin_button_get_value_as_int (custom_dpi_spin);
+
+    if (!gtk_widget_get_sensitive (GTK_WIDGET (custom_dpi_spin)))
+        return;
 
     if (gtk_widget_is_sensitive (GTK_WIDGET (custom_dpi_spin)) && gtk_toggle_button_get_active (custom_dpi_toggle))
     {
@@ -1633,6 +1652,19 @@ appearance_settings_dialog_configure_widgets (GtkBuilder *builder)
         object = gtk_builder_get_object (builder, "gdk_window_scaling_factor_combo_box");
         appearance_settings_dialog_channel_property_changed (xsettings_channel, "/Gdk/WindowScalingFactor", NULL, builder);
         g_signal_connect (G_OBJECT (object), "changed", G_CALLBACK (cb_window_scaling_factor_combo_changed), NULL);
+
+        /* One graphical scale owner for X11. Preserve the saved legacy values
+         * for compatibility, but direct users to the global Display control. */
+        GtkWidget *legacy = GTK_WIDGET (gtk_builder_get_object (builder, "frame6"));
+        GtkWidget *scale_button = gtk_button_new_with_mnemonic (_("Configure interface scale in _Display settings"));
+        gtk_box_pack_start (GTK_BOX (gtk_widget_get_parent (legacy)), scale_button, FALSE, FALSE, 0);
+        gtk_widget_hide (legacy);
+        gtk_widget_show (scale_button);
+        g_signal_connect (scale_button, "clicked", G_CALLBACK (open_global_scale_settings), NULL);
+        gtk_widget_set_sensitive (GTK_WIDGET (gtk_builder_get_object (builder, "xft_custom_dpi_check_button")), FALSE);
+        gtk_widget_set_sensitive (GTK_WIDGET (gtk_builder_get_object (builder, "xft_custom_dpi_spin_button")), FALSE);
+        gtk_widget_set_tooltip_text (GTK_WIDGET (gtk_builder_get_object (builder, "xft_custom_dpi_check_button")),
+                                     _("Interface scale is configured in Display settings. Change font sizes with the font selectors."));
     }
     else
 #endif

@@ -15,6 +15,8 @@ libxfce4_settings_la_SOURCES = \
 	display-profiles.c \
 	display-profiles.h \
 	edid-parse.c \
+	global-scale.h \
+	global-scale-x11.h \
 	edid.h
 
 libxfce4_settings_la_CFLAGS = \

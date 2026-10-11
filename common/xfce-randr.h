@@ -82,7 +82,7 @@ xfce_randr_new (GdkDisplay *display,
 void
 xfce_randr_free (XfceRandr *randr);
 
-void
+gboolean
 xfce_randr_reload (XfceRandr *randr);
 
 void

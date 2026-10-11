@@ -24,6 +24,7 @@
 #include "scrollarea.h"
 
 #include "common/xfce-randr.h"
+#include "common/global-scale.h"
 
 #include <X11/Xlib.h>
 #include <X11/extensions/Xrandr.h>
@@ -194,10 +195,14 @@ screen_on_event (GdkXEvent *gdk_xevent,
     if (xevent == NULL)
         return GDK_FILTER_CONTINUE;
 
-    if (xevent->type - xsettings->event_base != RRScreenChangeNotify)
+    if (xevent->type - xsettings->event_base != RRScreenChangeNotify
+        && !(xevent->type == PropertyNotify
+             && xevent->xproperty.atom == XInternAtom (gdk_x11_get_default_xdisplay (),
+                                                       GLOBAL_SCALE_GENERATION_ATOM, False)))
         return GDK_FILTER_CONTINUE;
 
-    xfce_randr_reload (xsettings->randr);
+    if (!xfce_randr_reload (xsettings->randr))
+        return GDK_FILTER_CONTINUE;
     xfce_display_settings_reload (settings);
     g_signal_emit_by_name (G_OBJECT (settings), "outputs-changed");
 
@@ -572,7 +577,7 @@ xfce_display_settings_x11_is_clonable (XfceDisplaySettings *settings)
 
 static void
 xfce_display_settings_x11_save (XfceDisplaySettings *settings,
-                                const gchar *scheme)
+                                 const gchar *scheme)
 {
     XfceRandr *randr = XFCE_DISPLAY_SETTINGS_X11 (settings)->randr;
     XfconfChannel *channel = xfce_display_settings_get_channel (settings);
@@ -580,6 +585,18 @@ xfce_display_settings_x11_save (XfceDisplaySettings *settings,
     {
         xfce_randr_save_output (randr, scheme, channel, n);
     }
+}
+
+/* Confirmation must save the completed live generation, rather than a cache
+ * populated by an earlier screen notification. Ordinary saves still preserve
+ * the user's un-applied edits. */
+gboolean
+xfce_display_settings_x11_refresh (XfceDisplaySettings *settings)
+{
+    if (!xfce_randr_reload (XFCE_DISPLAY_SETTINGS_X11 (settings)->randr))
+        return FALSE;
+    xfce_display_settings_reload (settings);
+    return TRUE;
 }
 
 
@@ -717,6 +734,12 @@ xfce_display_settings_x11_new (GError **error)
                     RRScreenChangeNotifyMask);
     gdk_x11_register_standard_event_type (gdk_display_get_default (), event_base, RRNotify + 1);
     gdk_window_add_filter (gdk_get_default_root_window (), screen_on_event, settings);
+    /* GDK already selects root PropertyChangeMask; retain its other masks. */
+    XWindowAttributes attributes;
+    XGetWindowAttributes (gdk_x11_get_default_xdisplay (),
+                          GDK_WINDOW_XID (gdk_get_default_root_window ()), &attributes);
+    XSelectInput (gdk_x11_get_default_xdisplay (), GDK_WINDOW_XID (gdk_get_default_root_window ()),
+                  attributes.your_event_mask | PropertyChangeMask);
 
     return XFCE_DISPLAY_SETTINGS (settings);
 }

@@ -1,3 +1,39 @@
+xfce4-settings (4.20.1-1minios3) unstable; urgency=medium
+
+  * Enable Automatic interface scaling by default through the system displays
+    Xfconf configuration, while retaining saved per-user scale choices.
+  * Check fresh startup, explicit 100%/200% overrides and reset to Automatic
+    against the installed package defaults in an isolated X11 session.
+
+ -- crims0n <crims0n@minios.dev>  Sun, 11 Oct 2026 02:49:32 +0300
+
+xfce4-settings (4.20.1-1minios2) unstable; urgency=medium
+
+  * Scale themed X11 cursors together with the interface, publishing coherent
+    XSettings and Xcursor sizes without changing the user's logical preference.
+  * Restore unscaled cursor sizes on rollback and resolve automatic cursor size
+    without retaining or repeatedly multiplying a previously scaled size.
+
+ -- crims0n <crims0n@minios.dev>  Sat, 10 Oct 2026 21:52:50 +0300
+
+xfce4-settings (4.20.1-1minios1) unstable; urgency=medium
+
+  * Add global X11 interface scaling in Display settings, with 100% to 200%
+    choices in 25% steps; direct Appearance scaling controls there.
+  * Add Automatic scaling for the active primary display, using density,
+    display type and available workspace; fall back to 100% for virtual
+    displays or implausible physical sizes and re-evaluate topology changes.
+  * Coordinate GTK and Qt scaling with RandR compensation, publishing coherent
+    display geometry while keeping output pixel scale and profiles independent
+    of interface scale.
+  * Preview interface scale and monitor changes with one 15-second confirmation;
+    save only accepted settings and restore the complete previous configuration
+    on cancellation, timeout or apply failure, reporting rollback failures.
+  * Preserve legacy scaling until an explicit choice is applied, distinguishing
+    Default from 100% and restoring legacy settings when a preview is cancelled.
+
+ -- crims0n <crims0n@minios.dev>  Fri, 09 Oct 2026 23:57:10 +0300
+
 xfce4-settings (4.20.1-1) unstable; urgency=medium
 
   * New upstream version 4.20.1

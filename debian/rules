@@ -17,6 +17,7 @@ override_dh_auto_configure:
 		--with-helper-path-prefix=/usr/share
 
 execute_after_dh_auto_install:
+	install -D -m 644 debian/90xfce-global-scale debian/tmp/etc/X11/Xsession.d/90xfce-global-scale
 	# Debianise helpers
 	sed -i -e 's/^WebBrowser=.*/WebBrowser=debian-sensible-browser/' \
 		-e 's/TerminalEmulator=.*/TerminalEmulator=debian-x-terminal-emulator/' \
@@ -37,3 +38,17 @@ override_dh_installchangelogs:
 
 override_dh_installman:
 	dh_installman debian/*.1
+
+override_dh_auto_test:
+	dh_auto_test
+	$(CC) $(CPPFLAGS) $(CFLAGS) -I. $$(pkg-config --cflags glib-2.0) debian/tests/global-scale-policy.c -o debian/global-scale-policy $$(pkg-config --libs glib-2.0) -lm
+	debian/global-scale-policy
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DHAVE_CONFIG_H -ffunction-sections -fdata-sections -I. $$(pkg-config --cflags gtk+-3.0 libxfce4ui-2 libxfce4util-1.0 libxfconf-0 xrandr) debian/tests/global-scale-transactions.c common/.libs/libxfce4-settings.a -o debian/global-scale-transactions -Wl,--gc-sections $$(pkg-config --libs gtk+-3.0 libxfce4ui-2 libxfce4util-1.0 libxfconf-0 xrandr) -lX11 -lXext -lm
+	debian/global-scale-transactions
+
+# Optional real-X11 gate. Xvfb is a development test dependency, not a runtime
+# or release build requirement. Invoke explicitly in the persistent container.
+.PHONY: check-global-scale-x11
+check-global-scale-x11:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DHAVE_CONFIG_H -I. $$(pkg-config --cflags gtk+-3.0 libxfconf-0) debian/tests/global-scale-generations.c common/.libs/libxfce4-settings.a -o debian/global-scale-generations $$(pkg-config --libs gtk+-3.0 libxfce4util-1.0 libxfconf-0 xrandr) -lX11 -lm
+	NO_AT_BRIDGE=1 XDG_RUNTIME_DIR=$$(mktemp -d "$${TMPDIR:-/tmp}/xfce-scale-run.XXXXXX") XDG_CONFIG_HOME=$$(mktemp -d "$${TMPDIR:-/tmp}/xfce-scale-config.XXXXXX") dbus-run-session -- xvfb-run -a -s '-screen 0 1920x1080x24' debian/global-scale-generations

@@ -23,6 +23,8 @@
 
 #include "edid.h"
 #include "xfce-randr.h"
+#include "global-scale.h"
+#include "global-scale-x11.h"
 
 #include <X11/Xatom.h>
 #include <gdk/gdkx.h>
@@ -165,6 +167,24 @@ xfce_randr_populate (XfceRandr *randr,
     gint n;
     guint m, connected;
     guint *output_ids = NULL;
+    gdouble compensation = 1.0;
+    Atom actual_type;
+    int format;
+    unsigned long count, remaining;
+    unsigned char *property = NULL;
+
+    /* Read live server state, not stale xfconf-derived values from an old X
+     * session. Profiles and the output-scale control use physical geometry. */
+    if (XGetWindowProperty (xdisplay, GDK_WINDOW_XID (root_window),
+                            XInternAtom (xdisplay, GLOBAL_SCALE_ATOM, False),
+                            0, 1, False, XA_CARDINAL, &actual_type, &format,
+                            &count, &remaining, &property) == Success
+        && actual_type == XA_CARDINAL && format == 32 && count == 1)
+        compensation = XFixedToDouble (*(unsigned long *) property);
+    if (property != NULL)
+        XFree (property);
+    if (compensation < 1.0 || compensation > 2.0)
+        compensation = 1.0;
 
     g_return_if_fail (randr != NULL);
     g_return_if_fail (randr->priv != NULL);
@@ -235,15 +255,19 @@ xfce_randr_populate (XfceRandr *randr,
             randr->mode[m] = crtc_info->mode;
             randr->rotation[m] = crtc_info->rotation;
             randr->rotations[m] = crtc_info->rotations;
-            randr->position[m].x = crtc_info->x;
-            randr->position[m].y = crtc_info->y;
-            XRRFreeCrtcInfo (crtc_info);
+            randr->position[m].x = round (crtc_info->x / compensation);
+            randr->position[m].y = round (crtc_info->y / compensation);
             if (XRRGetCrtcTransform (xdisplay, randr->priv->output_info[m]->crtc, &attr) && attr)
             {
-                randr->scalex[m] = XFixedToDouble (attr->currentTransform.matrix[0][0]);
-                randr->scaley[m] = XFixedToDouble (attr->currentTransform.matrix[1][1]);
+                randr->scalex[m] = XFixedToDouble (attr->currentTransform.matrix[0][0]) / compensation;
+                randr->scaley[m] = XFixedToDouble (attr->currentTransform.matrix[1][1]) / compensation;
+                xfce_global_scale_crtc_read (xdisplay, GDK_WINDOW_XID (root_window),
+                                             randr->priv->output_info[m]->crtc, crtc_info,
+                                             &attr->currentTransform, compensation,
+                                             &randr->scalex[m], &randr->scaley[m]);
                 XFree (attr);
             }
+            XRRFreeCrtcInfo (crtc_info);
         }
         else
         {
@@ -269,6 +293,25 @@ xfce_randr_populate (XfceRandr *randr,
 }
 
 
+
+static gboolean
+xfce_randr_geometry_complete (Display *display, GdkWindow *root)
+{
+    Atom type;
+    int format;
+    unsigned long count, remaining;
+    unsigned char *data = NULL;
+    gboolean complete = TRUE;
+    if (XGetWindowProperty (display, GDK_WINDOW_XID (root),
+                           XInternAtom (display, GLOBAL_SCALE_GENERATION_ATOM, False),
+                           0, 1, False, XA_CARDINAL, &type, &format, &count,
+                           &remaining, &data) == Success
+        && type == XA_CARDINAL && format == 32 && count == 1)
+        complete = (*(unsigned long *) data & 1) == 0;
+    if (data != NULL)
+        XFree (data);
+    return complete;
+}
 
 XfceRandr *
 xfce_randr_new (GdkDisplay *display,
@@ -302,10 +345,26 @@ xfce_randr_new (GdkDisplay *display,
     /* get the root window */
     root_window = gdk_get_default_root_window ();
 
+    /* Snapshot resources, compensation and all CRTCs under one server grab.
+     * These are Xlib-only queries: no toolkit/cross-connection synchronization
+     * is allowed until after UngrabServer has been flushed. */
+    XGrabServer (xdisplay);
+    if (!xfce_randr_geometry_complete (xdisplay, root_window))
+    {
+        XUngrabServer (xdisplay);
+        XFlush (xdisplay);
+        g_slice_free (XfceRandrPrivate, randr->priv);
+        g_slice_free (XfceRandr, randr);
+        g_set_error (error, g_quark_from_static_string ("xfce-randr-error"), 0,
+                     _("A display configuration change is still in progress."));
+        return NULL;
+    }
     /* get the screen resource */
     randr->priv->resources = XRRGetScreenResources (xdisplay, GDK_WINDOW_XID (root_window));
 
     xfce_randr_populate (randr, xdisplay, root_window);
+    XUngrabServer (xdisplay);
+    XFlush (xdisplay);
 
     return randr;
 }
@@ -362,19 +421,26 @@ xfce_randr_free (XfceRandr *randr)
 
 
 
-void
+gboolean
 xfce_randr_reload (XfceRandr *randr)
 {
     Display *xdisplay;
     GdkWindow *root_window;
-
-    xfce_randr_cleanup (randr);
 
     /* get the x display */
     xdisplay = gdk_x11_display_get_xdisplay (randr->priv->display);
 
     /* get the root window */
     root_window = gdk_get_default_root_window ();
+
+    XGrabServer (xdisplay);
+    if (!xfce_randr_geometry_complete (xdisplay, root_window))
+    {
+        XUngrabServer (xdisplay);
+        XFlush (xdisplay);
+        return FALSE;
+    }
+    xfce_randr_cleanup (randr);
 
     /* get the screen resource */
     /* xfce_randr_reload() is only called after a xrandr notification, which
@@ -384,6 +450,9 @@ xfce_randr_reload (XfceRandr *randr)
 
     /* repopulate */
     xfce_randr_populate (randr, xdisplay, root_window);
+    XUngrabServer (xdisplay);
+    XFlush (xdisplay);
+    return TRUE;
 }
 
 

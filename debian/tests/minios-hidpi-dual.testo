@@ -1,0 +1,25 @@
+machine miniosdual {
+    cpus: 2
+    ram: 8Gb
+    iso: { source: "${ISO}" }
+    disk main: { size: 8Gb }
+    disk payload: { source: "${PAYLOAD}" }
+    video main: { adapter_type: "virtio" }
+    video auxiliary: { adapter_type: "virtio" }
+}
+
+test hidpi_dual_probe {
+    miniosdual {
+        start
+        wait "Start MiniOS" timeout 30s
+        press Enter
+        wait "Toolbox" timeout 5m
+        press LeftCtrl+LeftAlt+t
+        wait "live@" timeout 30s
+        press F11
+        type "sudo mkdir -p /mnt/hidpi && sudo mount $(sudo blkid -L HIDPITEST) /mnt/hidpi && sudo chmod 777 /mnt/hidpi; xrandr --listproviders >/mnt/hidpi/providers.log; xrandr --verbose >/mnt/hidpi/dual-initial.log; sync; printf 'HIDPI_DUAL_%s\\n' READY" interval 80ms
+        press Enter
+        wait "HIDPI_DUAL_READY" timeout 30s
+        screenshot "${SCREENSHOT}"
+    }
+}
